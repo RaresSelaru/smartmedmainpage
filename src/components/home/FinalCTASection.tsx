@@ -1,0 +1,53 @@
+import Image from "next/image";
+
+import { Reveal } from "@/components/animations/reveal";
+import { PremiumButton } from "@/components/ui/PremiumButton";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { generatedAssets } from "@/lib/site-config";
+
+export function FinalCTASection() {
+  return (
+    <section className="relative isolate overflow-hidden bg-smart-cream px-5 py-20 text-smart-ink sm:px-7 lg:px-8">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 mx-auto h-px max-w-3xl bg-gradient-to-r from-transparent via-smart-gold/45 to-transparent"
+      />
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.9fr_0.8fr_0.9fr]">
+        <Reveal>
+          <blockquote className="max-w-md font-serif text-2xl italic leading-9 text-smart-ink/82 sm:text-3xl">
+            Succesul nu vine din ceea ce faci din când în când, ci din ceea ce
+            faci în mod constant.
+          </blockquote>
+          <p className="mt-6 font-serif text-3xl italic text-smart-teal">
+            SmartMed Academy
+          </p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="relative mx-auto aspect-[4/3] w-full max-w-sm">
+            <Image
+              alt="Inimă medicală cu stetoscop"
+              className="object-contain drop-shadow-[0_24px_44px_rgba(3,17,28,0.18)]"
+              fill
+              sizes="(max-width: 1024px) 80vw, 360px"
+              src={generatedAssets.ctaHeart}
+            />
+          </div>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <div className="text-left lg:text-center">
+            <SectionLabel tone="cream">Pregătire cu medici</SectionLabel>
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.025em] sm:text-6xl">
+              Admiterea 2026
+            </h2>
+            <p className="mt-4 text-sm font-bold uppercase tracking-[0.18em] text-smart-ink/72">
+              Pregătire cu medici
+            </p>
+            <div className="mt-8 flex lg:justify-center">
+              <PremiumButton href="/cont">Începe acum pregătirea</PremiumButton>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
