@@ -145,10 +145,10 @@ export function PathChoiceSectionGroup2() {
   return (
     <PathChoiceGroup
       cards={pathChoiceGroup2}
-      eyebrow="Resurse esențiale"
-      heading="Pregătirea ta, completă"
-      description="De la ateliere și grile la simulări și noutăți — totul aliniat cu ritmul tău."
-      layout="4"
+      eyebrow="Antrenament aplicat"
+      heading="Exersează cu sens"
+      description="Grile structurate și simulări realiste, calibrate pentru pregătirea ta de admitere."
+      layout="2"
     />
   );
 }

@@ -34,7 +34,7 @@ export function WaveSeparator({
         preserveAspectRatio="none"
         viewBox="0 0 1440 180"
       >
-        <path d="M0 88C152 154 320 174 488 134C656 94 824 26 992 42C1160 58 1304 130 1440 110V180H0V88Z" />
+        <path d="M0 90 C 320 90, 400 20, 720 20 C 1040 20, 1120 130, 1440 130 L 1440 180 L 0 180 Z" />
       </svg>
       <svg
         aria-hidden="true"
@@ -42,7 +42,7 @@ export function WaveSeparator({
         preserveAspectRatio="none"
         viewBox="0 0 1440 180"
       >
-        <path d="M0 130C168 168 336 156 504 130C672 104 840 64 1008 78C1176 92 1296 138 1440 152V180H0V130Z" />
+        <path d="M0 140 C 320 140, 400 70, 720 70 C 1040 70, 1120 170, 1440 170 L 1440 180 L 0 180 Z" />
       </svg>
     </div>
   );

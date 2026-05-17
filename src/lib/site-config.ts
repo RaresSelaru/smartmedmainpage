@@ -33,6 +33,7 @@ export type PageKey =
   | "simulari-smart"
   | "blog"
   | "shop"
+  | "pentru-parinti"
   | "despre"
   | "contact"
   | "cont"
@@ -144,19 +145,6 @@ export const pathChoiceGroup1 = [
 
 export const pathChoiceGroup2 = [
   {
-    label: "Ateliere intensive",
-    title: "Lecții Speciale",
-    href: "/lectii-speciale",
-    image: generatedAssets.featureLessons,
-    cta: "Vezi lecțiile speciale",
-    benefits: [
-      "Capitole grele explicate clar",
-      "Workshopuri tematice live",
-      "Materiale premium descărcabile",
-      "Replay și acces flexibil",
-    ],
-  },
-  {
     label: "Antrenament focus",
     title: "Grile SmartMed",
     href: "/grile",
@@ -167,19 +155,6 @@ export const pathChoiceGroup2 = [
       "Antrenament structurat zilnic",
       "Explicații după fiecare grilă",
       "Filtre pe capitole și dificultate",
-    ],
-  },
-  {
-    label: "Actualizări importante",
-    title: "SmartMed News",
-    href: "/news",
-    image: generatedAssets.featureContact,
-    cta: "Citește noutățile",
-    benefits: [
-      "Anunțuri oficiale SmartMed",
-      "Calendar admitere actualizat",
-      "Modificări de program și examen",
-      "Newsletter cu informații cheie",
     ],
   },
   {
@@ -196,6 +171,117 @@ export const pathChoiceGroup2 = [
     ],
   },
 ] satisfies PathChoiceCard[];
+
+export type CarouselItem = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: AppRoute;
+  accent: "aqua" | "gold" | "teal" | "cream";
+  icon: IconName;
+};
+
+export const lectiiSpecialeCarousel = [
+  {
+    eyebrow: "Biologie · Capitole grele",
+    title: "Genetica explicată simplu",
+    description: "Atelier intensiv pentru codul genetic, mutații și moștenire — cu hărți vizuale și exerciții pe tipuri de probleme.",
+    href: "/lectii-speciale",
+    accent: "aqua",
+    icon: "sparkles",
+  },
+  {
+    eyebrow: "Chimie organică",
+    title: "Reacții cheie pentru admitere",
+    description: "Mecanisme de reacție explicate pas cu pas, cu pattern-uri pentru a recunoaște tipul de exercițiu rapid.",
+    href: "/lectii-speciale",
+    accent: "gold",
+    icon: "book-open",
+  },
+  {
+    eyebrow: "Anatomie funcțională",
+    title: "Sistemul nervos central",
+    description: "Recapitulare completă a SNC cu scheme clare, conexiuni clinice și aplicații pe grile reprezentative.",
+    href: "/lectii-speciale",
+    accent: "cream",
+    icon: "stethoscope",
+  },
+  {
+    eyebrow: "Strategie de examen",
+    title: "Tehnica de rezolvare grile",
+    description: "Cum citești enunțul, cum elimini variantele și cum gestionezi timpul în ultimele 30 de minute.",
+    href: "/lectii-speciale",
+    accent: "teal",
+    icon: "clipboard",
+  },
+  {
+    eyebrow: "Biochimie aplicată",
+    title: "Metabolism integrat",
+    description: "Legăturile dintre glucide, lipide și proteine, prezentate într-un singur cadru ușor de reținut.",
+    href: "/lectii-speciale",
+    accent: "aqua",
+    icon: "pen-tool",
+  },
+  {
+    eyebrow: "Recapitulare finală",
+    title: "Sprint pre-admitere",
+    description: "Sesiune de recapitulare densă cu cele 30 de teme cu probabilitate mare la examen.",
+    href: "/lectii-speciale",
+    accent: "gold",
+    icon: "timer",
+  },
+] satisfies CarouselItem[];
+
+export const newsCarousel = [
+  {
+    eyebrow: "Admitere 2026",
+    title: "Calendar oficial publicat",
+    description: "Datele exacte pentru înscrieri, examen, contestații și afișarea rezultatelor — totul într-un singur loc.",
+    href: "/news",
+    accent: "aqua",
+    icon: "calendar",
+  },
+  {
+    eyebrow: "SmartMed Update",
+    title: "Sesiune nouă de simulări",
+    description: "Lansăm o nouă serie de simulări cu regim de examen, pentru ultimele luni de pregătire.",
+    href: "/news",
+    accent: "gold",
+    icon: "timer",
+  },
+  {
+    eyebrow: "Programe speciale",
+    title: "Lecții bonus pentru olimpici",
+    description: "Sesiuni dedicate pentru elevii cu rezultate la olimpiade, focus pe capitole avansate.",
+    href: "/news",
+    accent: "teal",
+    icon: "sparkles",
+  },
+  {
+    eyebrow: "Universități",
+    title: "Modificări la criteriile UMF",
+    description: "Sumar al ajustărilor recente anunțate de universitățile de Medicină — ce să urmărești.",
+    href: "/news",
+    accent: "cream",
+    icon: "newspaper",
+  },
+  {
+    eyebrow: "Resurse libere",
+    title: "Bibliotecă deschisă de grile",
+    description: "Am publicat un set extins de grile cu explicații, accesibile gratuit pe platformă.",
+    href: "/news",
+    accent: "aqua",
+    icon: "book-open",
+  },
+  {
+    eyebrow: "Comunitate",
+    title: "Întâlnire cu medici rezidenți",
+    description: "Eveniment online cu medici tineri care răspund întrebărilor despre drumul după admitere.",
+    href: "/news",
+    accent: "gold",
+    icon: "heart-pulse",
+  },
+] satisfies CarouselItem[];
 
 export const pathChoiceGroup3 = [
   {
@@ -581,6 +667,36 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
       "Catalog produse cu stoc și categorii",
       "Checkout cu cardul și facturare",
       "Emailuri automate pentru comandă și livrare",
+    ],
+  },
+  "pentru-parinti": {
+    eyebrow: "Ghid pentru familie",
+    title: "Pentru părinți",
+    description:
+      "O pagină pregătită pentru părinții care vor să înțeleagă parcursul SmartMed, ritmul de pregătire și felul în care își pot susține copilul fără presiune inutilă.",
+    primaryCta: { label: "Contactează echipa", href: "/contact" },
+    secondaryCta: { label: "Vezi centrul SmartMed", href: "/" },
+    highlights: [
+      {
+        title: "Ritm clar",
+        description: "Structură pentru program, obiective și progres urmărit în timp.",
+        icon: "calendar",
+      },
+      {
+        title: "Sprijin echilibrat",
+        description: "Cadru pentru comunicare, feedback și susținere fără haos.",
+        icon: "heart-pulse",
+      },
+      {
+        title: "Transparență",
+        description: "Loc pentru explicații despre module, simulări, rezultate și pașii următori.",
+        icon: "shield",
+      },
+    ],
+    roadmap: [
+      "Ghid pentru alegerea formatului potrivit",
+      "Întrebări frecvente despre progres și simulări",
+      "Canal dedicat pentru comunicarea cu echipa SmartMed",
     ],
   },
   despre: {

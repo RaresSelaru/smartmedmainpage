@@ -51,10 +51,15 @@
 }
 
 html {
+  color-scheme: dark;
   min-height: 100%;
   position: relative;
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 body {
@@ -64,6 +69,12 @@ body {
   background: var(--smart-dark);
   color: var(--foreground);
   font-family: "Manrope", "Manrope Fallback", ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 420ms ease, color 420ms ease;
+}
+
+html[data-theme="light"] body {
+  background: #f8f4ec;
+  color: #0a1520;
 }
 
 body::before {
@@ -80,6 +91,15 @@ body::before {
     linear-gradient(90deg, rgba(248, 244, 236, 0.026) 1px, transparent 1px);
   background-size: auto, auto, 56px 56px, 56px 56px;
   mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+html[data-theme="light"] body::before {
+  opacity: 0.2;
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(31, 111, 120, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 6%, rgba(200, 168, 117, 0.16), transparent 24%),
+    linear-gradient(rgba(3, 17, 28, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(3, 17, 28, 0.026) 1px, transparent 1px);
 }
 
 ::selection {
@@ -122,22 +142,26 @@ body::before {
 
 .hero-media-image-mask {
   position: absolute;
-  inset: 0 0 0 auto;
-  width: min(78vw, 1180px);
-  opacity: 0.9;
-  -webkit-mask-image: radial-gradient(
-    108% 112% at 80% 24%,
-    black 0%,
-    black 48%,
-    rgba(0, 0, 0, 0.76) 63%,
-    transparent 91%
+  bottom: clamp(3.5rem, 7svh, 5.5rem);
+  left: clamp(32rem, 42vw, 54rem);
+  top: 0;
+  width: clamp(1240px, 78vw, 1600px);
+  opacity: 0.92;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.52) 17%,
+    black 32%,
+    black 83%,
+    transparent 100%
   );
-  mask-image: radial-gradient(
-    108% 112% at 80% 24%,
-    black 0%,
-    black 48%,
-    rgba(0, 0, 0, 0.76) 63%,
-    transparent 91%
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.52) 17%,
+    black 32%,
+    black 83%,
+    transparent 100%
   );
 }
 
@@ -147,8 +171,8 @@ body::before {
   inset: 0;
   z-index: 3;
   background:
-    linear-gradient(90deg, rgba(3, 17, 28, 0.96) 0%, rgba(6, 22, 34, 0.76) 30%, rgba(6, 22, 34, 0.24) 54%, transparent 76%),
-    radial-gradient(62% 92% at 28% 47%, rgba(3, 17, 28, 0.98) 0%, rgba(6, 22, 34, 0.92) 45%, rgba(6, 22, 34, 0.48) 63%, transparent 84%),
+    linear-gradient(90deg, rgba(3, 17, 28, 0.96) 0%, rgba(6, 22, 34, 0.76) 28%, rgba(6, 22, 34, 0.24) 52%, transparent 78%),
+    radial-gradient(66% 96% at 28% 47%, rgba(3, 17, 28, 0.98) 0%, rgba(6, 22, 34, 0.92) 45%, rgba(6, 22, 34, 0.48) 64%, transparent 86%),
     linear-gradient(to bottom, rgba(3, 17, 28, 0.1) 0%, transparent 48%, rgba(6, 22, 34, 0.94) 100%);
 }
 
@@ -163,7 +187,8 @@ body::before {
 }
 
 .hero-media-play {
-  right: max(1.5rem, calc(100vw - 22.5rem));
+  left: calc(100vw - 6rem);
+  right: auto;
   top: 40rem;
 }
 
@@ -176,21 +201,21 @@ body::before {
 
 @media (min-width: 640px) {
   .hero-media-play {
-    right: 18%;
+    left: 70%;
     top: 67%;
   }
 }
 
 @media (min-width: 768px) {
   .hero-media-play {
-    right: 17%;
+    left: 70%;
     top: 55%;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-media-play {
-    right: 21%;
+    left: clamp(60rem, 77vw, 101rem);
     top: 48%;
   }
 }
@@ -212,15 +237,210 @@ canvas {
   margin-inline: auto;
 }
 
+.smart-nav-container {
+  width: min(1580px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.theme-infinity-toggle {
+  --toggle-cutout-fill: rgba(6, 22, 34, 0.88);
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 3rem;
+  color: rgba(248, 244, 236, 0.78);
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  isolation: isolate;
+  transition:
+    color 360ms ease,
+    filter 360ms ease,
+    transform 300ms ease;
+}
+
+.theme-infinity-toggle:hover {
+  color: var(--smart-aqua);
+  transform: translateY(-1px);
+}
+
+.theme-infinity-toggle__track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 8px 16px rgba(3, 17, 28, 0.2));
+}
+
+.theme-infinity-toggle__track-base,
+.theme-infinity-toggle__track-weight {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    opacity 360ms ease,
+    stroke-width 360ms ease;
+}
+
+.theme-infinity-toggle__track-base {
+  stroke-width: 1.18;
+  opacity: 0.78;
+}
+
+.theme-infinity-toggle__track-weight {
+  stroke-dasharray: 31 42 17 46 24 38;
+  stroke-dashoffset: 8;
+  stroke-width: 1.72;
+  opacity: 0.34;
+  transition:
+    opacity 360ms ease,
+    stroke-width 360ms ease;
+}
+
+.theme-infinity-toggle__orb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  width: 1.34rem;
+  height: 1.34rem;
+  border-radius: 999px;
+  offset-anchor: center;
+  offset-path: path("M12 24C18.8 8.5 35.6 8.5 48 24C60.4 39.5 77.2 39.5 84 24C77.2 8.5 60.4 8.5 48 24C35.6 39.5 18.8 39.5 12 24Z");
+  offset-rotate: 0deg;
+  place-items: center;
+  transition:
+    color 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    offset-distance 760ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-infinity-toggle__orb::before {
+  position: absolute;
+  inset: -0.26rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, var(--toggle-cutout-fill) 0 63%, rgba(6, 22, 34, 0) 75%);
+  content: "";
+  opacity: 0.98;
+}
+
+.theme-infinity-toggle__orb svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 1.1rem;
+  height: 1.1rem;
+  transform-origin: center;
+  transition: transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-infinity-toggle__sun {
+  color: var(--smart-gold-light);
+  filter: drop-shadow(0 0 10px rgba(200, 168, 117, 0.28));
+  offset-distance: 12%;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.theme-infinity-toggle__sun-mark path {
+  opacity: 0.82;
+}
+
+.theme-infinity-toggle__moon {
+  color: var(--smart-white);
+  filter: drop-shadow(0 0 12px rgba(156, 206, 208, 0.36));
+  offset-distance: 38%;
+  opacity: 1;
+  transform: scale(0.98);
+}
+
+.theme-infinity-toggle--light .theme-infinity-toggle__track-base {
+  opacity: 0.9;
+}
+
+.theme-infinity-toggle--light .theme-infinity-toggle__track-weight {
+  opacity: 0.42;
+}
+
+.theme-infinity-toggle--light .theme-infinity-toggle__sun {
+  filter: drop-shadow(0 0 14px rgba(200, 168, 117, 0.42));
+  offset-distance: 38%;
+  transform: scale(1.04);
+}
+
+.theme-infinity-toggle--light .theme-infinity-toggle__sun-mark {
+  transform: rotate(34deg);
+}
+
+.theme-infinity-toggle--light .theme-infinity-toggle__moon {
+  color: #071b29;
+  filter: drop-shadow(0 0 8px rgba(7, 27, 41, 0.12));
+  offset-distance: 12%;
+  opacity: 0.92;
+  transform: scale(0.94);
+}
+
+html[data-theme="light"] .theme-infinity-toggle {
+  --toggle-cutout-fill: rgba(248, 244, 236, 0.86);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-infinity-toggle__orb {
+    transition:
+      color 200ms ease,
+      filter 200ms ease,
+      opacity 200ms ease,
+      offset-distance 1ms linear,
+      transform 1ms linear;
+  }
+}
+
+html[data-theme="light"] [data-smart-header="true"] nav {
+  border-color: rgba(7, 27, 41, 0.14);
+  background: rgba(248, 244, 236, 0.78);
+  box-shadow: 0 18px 50px rgba(7, 27, 41, 0.12);
+}
+
+html[data-theme="light"] [data-smart-header="true"] nav a,
+html[data-theme="light"] [data-smart-header="true"] nav button {
+  color: rgba(7, 27, 41, 0.78);
+}
+
+html[data-theme="light"] [data-smart-header="true"] nav a:hover,
+html[data-theme="light"] [data-smart-header="true"] nav button:hover {
+  color: #071b29;
+}
+
+html[data-theme="light"] #navbar-search {
+  color: #071b29;
+}
+
+html[data-theme="light"] #navbar-search::placeholder {
+  color: rgba(7, 27, 41, 0.5);
+}
+
 @media (min-width: 640px) {
   .smart-container {
     width: min(1380px, calc(100% - 3rem));
+  }
+
+  .smart-nav-container {
+    width: min(1580px, calc(100% - 3rem));
   }
 }
 
 @media (min-width: 1024px) {
   .smart-container {
     width: min(1380px, calc(100% - 4rem));
+  }
+
+  .smart-nav-container {
+    width: min(1580px, calc(100% - 4rem));
   }
 }
 

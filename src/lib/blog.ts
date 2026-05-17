@@ -86,8 +86,7 @@ export const blogSecondaryNavItems = [
   { label: "Simulări", href: "/simulari-smart", priority: 4 },
   { label: "Shop", href: "/shop", priority: 5 },
   { label: "Blog", href: "/blog", priority: 0, isBlog: true },
-  // TODO: Replace with /pentru-parinti when that route exists.
-  { label: "Pentru părinți", href: "/contact", priority: 6 },
+  { label: "Pentru părinți", href: "/pentru-parinti", priority: 6 },
   { label: "Contact", href: "/contact", priority: 7 },
 ] satisfies BlogNavItem[];
 

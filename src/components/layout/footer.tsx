@@ -10,8 +10,7 @@ const siteLinks = [
   { label: "Simulări", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
   { label: "Blog", href: "/blog" },
-  // TODO: Replace with /pentru-parinti when that route exists.
-  { label: "Pentru părinți", href: "/contact" },
+  { label: "Pentru părinți", href: "/pentru-parinti" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
 ] as const;

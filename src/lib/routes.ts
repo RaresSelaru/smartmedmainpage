@@ -8,6 +8,7 @@ export type AppRoute =
   | "/simulari-smart"
   | "/blog"
   | "/shop"
+  | "/pentru-parinti"
   | "/despre"
   | "/contact"
   | "/cont"
@@ -22,14 +23,13 @@ export type RouteItem = {
 };
 
 export const navbarRoutes: RouteItem[] = [
-  { label: "Acasă", href: "/" },
-  { label: "Centru online", href: "/centru-online" },
-  { label: "Centru fizic", href: "/centru-fizic" },
-  { label: "Lecții Smart", href: "/lectii-speciale" },
+  { label: "Centrul SmartMed", href: "/" },
+  { label: "Module speciale", href: "/lectii-speciale" },
   { label: "Grile", href: "/grile" },
   { label: "Simulări Smart", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
   { label: "Blog", href: "/blog" },
+  { label: "Pentru părinți", href: "/pentru-parinti" },
   { label: "Contact", href: "/contact" },
 ];
 
