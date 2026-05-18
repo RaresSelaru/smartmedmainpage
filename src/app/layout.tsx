@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Kaushan_Script, Manrope } from "next/font/google";
+import { Barlow_Condensed, Cormorant_Garamond, Kaushan_Script, Manrope } from "next/font/google";
 
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
@@ -27,6 +27,13 @@ const kaushanScript = Kaushan_Script({
   display: "swap",
 });
 
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-display",
+  subsets: ["latin", "latin-ext"],
+  weight: ["700", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: `${siteConfig.name} | Pregătire pentru Medicină`,
@@ -50,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="ro"
-      className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} h-full`}
+      className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
         <Navbar />

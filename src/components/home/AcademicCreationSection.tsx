@@ -12,9 +12,10 @@ export function AcademicCreationSection() {
       <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
           <div className="mx-auto max-w-5xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.50em] max-w-[1300px] text-smart-gold sm:text-[18px] lg:text-[18px]">
-            O admitere reușită la buget 
-            începe cu o pregătire potrivită la
+            <p className="relative left-1/2 w-[calc(100vw-2.5rem)] -translate-x-1/2 text-center sm:w-[calc(100vw-3.5rem)] lg:w-[calc(100vw-4rem)]">
+              <span className="inline-block whitespace-nowrap text-xs font-bold uppercase tracking-[0.22em] text-smart-gold mr-[-0.22em] sm:text-[18px] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:tracking-[0.50em] lg:mr-[-0.5em]">
+                O admitere reușită la buget începe cu o pregătire potrivită la
+              </span>
             </p>
             <h2
               className="mt-4 inline-flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-[42px] leading-none text-smart-ink sm:text-6xl lg:text-7xl"
@@ -51,7 +52,7 @@ export function AcademicCreationSection() {
 
         <Reveal delay={0.14}>
           <div className="mx-auto mt-8 max-w-4xl text-center sm:mt-10">
-            <p className="font-serif text-[42px] font-semibold italic leading-none tracking-[0.04em] text-smart-ink sm:text-6xl lg:text-7xl">
+            <p className="font-serif text-[86px] font-semibold italic leading-none tracking-[0.04em] text-smart-ink sm:text-8xl lg:text-[8rem]">
               Admiterea 2027
             </p>
             <p className="mt-4 text-base font-extrabold uppercase tracking-[0.24em] text-smart-teal sm:text-2xl">

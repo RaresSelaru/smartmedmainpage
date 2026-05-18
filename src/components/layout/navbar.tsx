@@ -207,24 +207,70 @@ export function Navbar() {
               fill="none"
               viewBox="0 0 96 48"
             >
+              <defs>
+                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-soft" x1="12" x2="84" y1="24" y2="24">
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="18%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="36%" stopColor="currentColor" stopOpacity="0.34" />
+                  <stop offset="50%" stopColor="currentColor" stopOpacity="0" />
+                  <stop offset="64%" stopColor="currentColor" stopOpacity="0.34" />
+                  <stop offset="82%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-mid" x1="12" x2="84" y1="24" y2="24">
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="20%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="33%" stopColor="currentColor" stopOpacity="0.42" />
+                  <stop offset="46%" stopColor="currentColor" stopOpacity="0" />
+                  <stop offset="54%" stopColor="currentColor" stopOpacity="0" />
+                  <stop offset="67%" stopColor="currentColor" stopOpacity="0.42" />
+                  <stop offset="80%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-core" x1="12" x2="84" y1="24" y2="24">
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="17%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="28%" stopColor="currentColor" stopOpacity="0.72" />
+                  <stop offset="40%" stopColor="currentColor" stopOpacity="0" />
+                  <stop offset="60%" stopColor="currentColor" stopOpacity="0" />
+                  <stop offset="72%" stopColor="currentColor" stopOpacity="0.72" />
+                  <stop offset="83%" stopColor="currentColor" stopOpacity="1" />
+                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
+                </linearGradient>
+              </defs>
               <path
                 className="theme-infinity-toggle__track-base"
-                d="M12 24C18.8 8.5 35.6 8.5 48 24C60.4 39.5 77.2 39.5 84 24C77.2 8.5 60.4 8.5 48 24C35.6 39.5 18.8 39.5 12 24Z"
+                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
                 pathLength="1"
+                vectorEffect="non-scaling-stroke"
               />
               <path
-                className="theme-infinity-toggle__track-weight"
-                d="M12 24C18.8 8.5 35.6 8.5 48 24C60.4 39.5 77.2 39.5 84 24C77.2 8.5 60.4 8.5 48 24C35.6 39.5 18.8 39.5 12 24Z"
+                className="theme-infinity-toggle__track-loop-soft"
+                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
+                stroke="url(#theme-infinity-taper-soft)"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path
+                className="theme-infinity-toggle__track-loop-mid"
+                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
+                stroke="url(#theme-infinity-taper-mid)"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path
+                className="theme-infinity-toggle__track-loop-core"
+                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
+                stroke="url(#theme-infinity-taper-core)"
+                vectorEffect="non-scaling-stroke"
               />
             </svg>
             <span aria-hidden="true" className="theme-infinity-toggle__orb theme-infinity-toggle__sun">
               <svg className="theme-infinity-toggle__sun-mark" fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" fill="currentColor" r="4.7" />
+                <circle cx="12" cy="12" fill="currentColor" r="5.05" />
                 <path
                   d="M12 2.2V4.7M18.9 5.1L17.1 6.9M21.8 12H19.3M18.9 18.9L17.1 17.1M12 21.8V19.3M5.1 18.9L6.9 17.1M2.2 12H4.7M5.1 5.1L6.9 6.9"
                   stroke="currentColor"
                   strokeLinecap="round"
-                  strokeWidth="1.55"
+                  strokeWidth="1.86"
                 />
               </svg>
             </span>
