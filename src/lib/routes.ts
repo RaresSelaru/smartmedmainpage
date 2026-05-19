@@ -12,6 +12,7 @@ export type AppRoute =
   | "/despre"
   | "/contact"
   | "/cont"
+  | "/cautare"
   | "/termeni"
   | "/confidentialitate"
   | "/ajutor";

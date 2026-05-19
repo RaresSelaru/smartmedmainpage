@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
+import { ArrowRight, GraduationCap, Landmark, Laptop } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -8,7 +8,6 @@ import { SmartIcon } from "@/components/ui/SmartIcon";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import {
   type PathChoiceCard,
-  pathChoiceGroup1,
   pathChoiceGroup2,
   pathChoiceGroup3,
 } from "@/lib/site-config";
@@ -24,6 +23,59 @@ type PathChoiceGroupProps = {
   withSeparator?: boolean;
   spacing?: "default" | "tight";
 };
+
+const smartMedCenterChoices = [
+  {
+    title: "Centru online",
+    subtitle: "Flexibilitate totală.\nPerformanță fără limite.",
+    href: "/centru-online",
+    icon: Laptop,
+    tone: "online",
+    benefits: [
+      "Cursuri live interactive",
+      "Acces 24/7 la platformă",
+      "Materiale și teste dedicate",
+      "Răspunsuri rapide la întrebări",
+    ],
+  },
+  {
+    title: "Centru fizic",
+    subtitle: "Interacțiune reală.\nMotivație la fiecare pas.",
+    href: "/centru-fizic",
+    icon: Landmark,
+    tone: "physical",
+    benefits: [
+      "Interacțiune directă cu medicii",
+      "Atmosferă de studiu dedicată",
+      "Comunitate și motivație",
+      "Simulări și feedback constant",
+    ],
+  },
+] as const;
+
+const centerVisualTransform =
+  "matrix(1.032596, 0, 0, 1.032147, -136.244243, -38.086202)";
+
+const centerLungImageLayers = {
+  online: {
+    href: "/assets/generated/smartmed-center-online-laptop.png",
+    mask: "url(#smartmed-left-lung-mask)",
+    preserveAspectRatio: "xMidYMid slice",
+    x: 28,
+    y: 24,
+    width: 540,
+    height: 660,
+  },
+  physical: {
+    href: "/assets/generated/smartmed-center-physical-class.png",
+    mask: "url(#smartmed-right-lung-mask)",
+    preserveAspectRatio: "xMidYMid slice",
+    x: 890,
+    y: 24,
+    width: 540,
+    height: 660,
+  },
+} as const;
 
 export function PathChoiceGroup({
   cards,
@@ -130,14 +182,263 @@ export function PathChoiceGroup({
 
 export function PathChoiceSection() {
   return (
-    <PathChoiceGroup
-      cards={pathChoiceGroup1}
-      eyebrow="Alege formatul care ți se potrivește"
-      heading="Alege drumul tău"
-      description="Investește în viitorul tău, alege formatul care îți susține ritmul."
-      layout="2"
-      showBadge
-    />
+    <section
+      className="smartmed-center-choice relative isolate overflow-hidden bg-smart-cream px-5 pb-40 pt-12 text-smart-ink sm:px-7 sm:pb-44 sm:pt-16 lg:px-8"
+      id="centrul-smartmed"
+    >
+      <div className="relative z-10 mx-auto max-w-[1620px]">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionLabel tone="cream">Centrul SmartMed</SectionLabel>
+          </div>
+        </Reveal>
+
+        <div className="mt-7 xl:grid xl:grid-cols-[minmax(170px,0.5fr)_minmax(760px,2.1fr)_minmax(170px,0.5fr)] xl:items-center xl:gap-5 2xl:gap-8">
+          <Reveal className="hidden xl:block" delay={0.05}>
+            <CenterChoiceCopy align="left" choice={smartMedCenterChoices[0]} />
+          </Reveal>
+
+          <Reveal className="relative mx-auto w-full max-w-[1040px] 2xl:max-w-[1140px]" delay={0.02} y={16}>
+            <div className="pointer-events-none absolute inset-x-[10%] bottom-[8%] top-[12%] rounded-full bg-smart-gold/12 blur-3xl" />
+            <CenterLungsVisual />
+          </Reveal>
+
+          <Reveal className="hidden xl:block" delay={0.05}>
+            <CenterChoiceCopy align="right" choice={smartMedCenterChoices[1]} />
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.08}>
+          <div className="mx-auto mt-6 max-w-3xl text-center sm:mt-8 xl:-mt-2">
+            <h2 className="font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+              Alege drumul tău
+            </h2>
+            <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+              <CenterChoiceButton choice={smartMedCenterChoices[0]} />
+              <CenterChoiceButton choice={smartMedCenterChoices[1]} />
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="mx-auto mt-12 grid max-w-4xl gap-10 md:grid-cols-2 xl:hidden">
+          <Reveal delay={0.04}>
+            <CenterChoiceCopy align="left" choice={smartMedCenterChoices[0]} />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <CenterChoiceCopy align="right" choice={smartMedCenterChoices[1]} />
+          </Reveal>
+        </div>
+      </div>
+
+      <WaveSeparator className="translate-y-8 sm:translate-y-10" fill="teal" />
+    </section>
+  );
+}
+
+type CenterChoice = (typeof smartMedCenterChoices)[number];
+
+function CenterLungsVisual() {
+  return (
+    <svg
+      aria-label="Centru online și centru fizic conectate prin Centrul SmartMed"
+      className="smartmed-lungs-visual relative z-10 mx-auto h-auto w-full"
+      focusable="false"
+      role="img"
+      viewBox="0 0 1440 720"
+    >
+      <defs>
+        <mask
+          height="1040"
+          id="smartmed-left-lung-mask"
+          maskUnits="userSpaceOnUse"
+          width="1800"
+          x="-180"
+          y="-120"
+        >
+          <image
+            height="941"
+            href="/assets/generated/smartmed-center-left-lung-mask.png"
+            preserveAspectRatio="xMidYMid meet"
+            transform={centerVisualTransform}
+            width="1672"
+            x="0"
+            y="0"
+          />
+        </mask>
+        <mask
+          height="1040"
+          id="smartmed-right-lung-mask"
+          maskUnits="userSpaceOnUse"
+          width="1800"
+          x="-180"
+          y="-120"
+        >
+          <image
+            height="941"
+            href="/assets/generated/smartmed-center-right-lung-mask.png"
+            preserveAspectRatio="xMidYMid meet"
+            transform={centerVisualTransform}
+            width="1672"
+            x="0"
+            y="0"
+          />
+        </mask>
+      </defs>
+
+      <g aria-hidden="true" focusable="false" transform={centerVisualTransform}>
+        <path
+          className="smartmed-lung-edge-glow smartmed-lung-online-glow"
+          d="M154 671C118 545 145 372 214 244C290 102 450 20 542 74C603 110 608 242 640 309C681 396 632 526 555 568C488 604 371 612 270 666C215 695 174 704 154 671Z"
+        />
+        <path
+          className="smartmed-lung-edge-glow smartmed-lung-physical-glow"
+          d="M1491 671C1522 547 1485 368 1417 238C1337 85 1180 21 1086 75C1022 112 1021 252 990 324C952 411 995 532 1072 568C1165 612 1305 609 1404 668C1454 698 1482 700 1491 671Z"
+        />
+      </g>
+
+      <g mask={centerLungImageLayers.online.mask}>
+        <g className="smartmed-lung-photo smartmed-lung-online-photo">
+          <image
+            height={centerLungImageLayers.online.height}
+            href={centerLungImageLayers.online.href}
+            preserveAspectRatio={centerLungImageLayers.online.preserveAspectRatio}
+            width={centerLungImageLayers.online.width}
+            x={centerLungImageLayers.online.x}
+            y={centerLungImageLayers.online.y}
+          />
+        </g>
+      </g>
+      <g mask={centerLungImageLayers.physical.mask}>
+        <g className="smartmed-lung-photo smartmed-lung-physical-photo">
+          <image
+            height={centerLungImageLayers.physical.height}
+            href={centerLungImageLayers.physical.href}
+            preserveAspectRatio={centerLungImageLayers.physical.preserveAspectRatio}
+            width={centerLungImageLayers.physical.width}
+            x={centerLungImageLayers.physical.x}
+            y={centerLungImageLayers.physical.y}
+          />
+        </g>
+      </g>
+
+      <image
+        aria-hidden="true"
+        className="smartmed-lung-overlay"
+        height="941"
+        href="/assets/generated/smartmed-center-frame-overlay.png"
+        preserveAspectRatio="xMidYMid meet"
+        transform={centerVisualTransform}
+        width="1672"
+        x="0"
+        y="0"
+      />
+
+      <g aria-hidden="true" focusable="false" transform={centerVisualTransform}>
+        <path
+          className="smartmed-choice-online-trigger smartmed-lung-hit-area"
+          d="M154 671C118 545 145 372 214 244C290 102 450 20 542 74C603 110 608 242 640 309C681 396 632 526 555 568C488 604 371 612 270 666C215 695 174 704 154 671Z"
+        />
+        <path
+          className="smartmed-choice-physical-trigger smartmed-lung-hit-area"
+          d="M1491 671C1522 547 1485 368 1417 238C1337 85 1180 21 1086 75C1022 112 1021 252 990 324C952 411 995 532 1072 568C1165 612 1305 609 1404 668C1454 698 1482 700 1491 671Z"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function CenterChoiceCopy({
+  choice,
+  align,
+}: {
+  choice: CenterChoice;
+  align: "left" | "right";
+}) {
+  const Icon = choice.icon;
+  const isOnline = choice.tone === "online";
+
+  return (
+    <div
+      className={cn(
+        "smartmed-choice-copy mx-auto max-w-[17rem] text-center text-smart-ink 2xl:max-w-[19rem]",
+        align === "right" ? "xl:ml-auto" : "xl:mr-auto",
+        isOnline
+          ? "smartmed-choice-online-copy smartmed-choice-online-trigger"
+          : "smartmed-choice-physical-copy smartmed-choice-physical-trigger",
+      )}
+    >
+      <span
+        className={cn(
+          "mx-auto flex size-14 items-center justify-center rounded-full border bg-smart-cream/70 shadow-[0_14px_36px_rgba(79,55,22,0.10)]",
+          isOnline
+            ? "border-smart-teal/22 text-smart-teal"
+            : "border-smart-gold/44 text-smart-gold",
+        )}
+      >
+        <Icon aria-hidden="true" className="size-7" strokeWidth={1.55} />
+      </span>
+      <h3
+        className={cn(
+          "smartmed-choice-title mt-5 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          isOnline ? "smartmed-choice-online-title" : "smartmed-choice-physical-title",
+        )}
+      >
+        {choice.title}
+      </h3>
+      <div
+        className={cn(
+          "mx-auto mt-5 h-px w-16",
+          isOnline ? "bg-smart-teal/45" : "bg-smart-gold/64",
+        )}
+      />
+      <p className="mx-auto mt-5 whitespace-pre-line text-base leading-7 text-smart-ink/72 sm:text-lg">
+        {choice.subtitle}
+      </p>
+      <ul className="mt-7 grid gap-3 text-left text-sm leading-6 text-smart-ink/76 sm:text-base">
+        {choice.benefits.map((benefit) => (
+          <li className="flex gap-3" key={benefit}>
+            <span
+              className={cn(
+                "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border",
+                isOnline
+                  ? "border-smart-teal/32 bg-smart-teal/8 text-smart-teal"
+                  : "border-smart-gold/48 bg-smart-gold/10 text-smart-gold",
+              )}
+            >
+              <SmartIcon className="size-3.5" name="check" />
+            </span>
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CenterChoiceButton({ choice }: { choice: CenterChoice }) {
+  const Icon = choice.icon;
+  const isOnline = choice.tone === "online";
+
+  return (
+    <Link
+      className={cn(
+        "smartmed-choice-button group inline-grid h-[68px] w-full max-w-[300px] grid-cols-[2rem_1fr_1.75rem] items-center gap-5 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.5rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-[#d2b783] hover:bg-[#fff9ef] hover:shadow-[0_20px_46px_rgba(80,58,26,0.17),inset_0_1px_0_rgba(255,255,255,0.90)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[300px]",
+        isOnline ? "smartmed-choice-online-trigger" : "smartmed-choice-physical-trigger",
+      )}
+      href={choice.href}
+    >
+      <Icon
+        aria-hidden="true"
+        className="size-8 shrink-0 text-smart-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        strokeWidth={1.55}
+      />
+      <span className="min-w-0 whitespace-nowrap text-left">{choice.title}</span>
+      <ArrowRight
+        aria-hidden="true"
+        className="size-7 shrink-0 text-smart-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
+        strokeWidth={1.7}
+      />
+    </Link>
   );
 }
 

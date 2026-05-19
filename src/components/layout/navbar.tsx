@@ -18,7 +18,7 @@ function isActive(pathname: string, href: string) {
 }
 
 const navActionClass =
-  "group/action relative hidden h-11 w-10 shrink-0 items-center justify-center text-smart-white/78 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:inline-flex";
+  "group/action relative hidden h-12 w-11 shrink-0 items-center justify-center text-smart-white/78 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:inline-flex";
 
 type ThemeMode = "dark" | "light";
 
@@ -102,13 +102,7 @@ export function Navbar() {
     event.preventDefault();
     const query = searchValue.trim();
 
-    // TODO: Replace this with global search when the site-wide search index exists.
-    if (!query) {
-      router.push("/blog#articole");
-      return;
-    }
-
-    router.push(`/blog?cautare=${encodeURIComponent(query)}#articole`);
+    router.push(query ? `/cautare?q=${encodeURIComponent(query)}` : "/cautare");
     setSearchOpen(false);
     setOpen(false);
   }
@@ -285,15 +279,15 @@ export function Navbar() {
           </button>
           <form
             className={cn(
-              "group/search hidden h-10 items-center overflow-hidden rounded-full transition-all duration-500 ease-out lg:flex",
+              "group/search hidden h-11 items-center overflow-hidden rounded-full transition-all duration-500 ease-out lg:flex",
               searchExpanded
                 ? "w-52 border border-white/10 bg-white/[0.045] pl-4 pr-1 focus-within:border-smart-aqua/45 focus-within:bg-white/[0.08] focus-within:shadow-[0_12px_30px_rgba(156,206,208,0.16)] 2xl:w-60"
-                : "w-10 border border-transparent bg-transparent px-0",
+                : "w-11 border border-transparent bg-transparent px-0",
             )}
             onSubmit={submitSearch}
           >
             <label className="sr-only" htmlFor="navbar-search">
-              Caută în blog
+              Caută în site
             </label>
             <input
               className={cn(
@@ -302,15 +296,15 @@ export function Navbar() {
               )}
               id="navbar-search"
               onChange={(event) => setSearchValue(event.target.value)}
-              placeholder="Caută în blog"
+              placeholder="Caută în site"
               ref={desktopSearchInputRef}
               tabIndex={searchExpanded ? undefined : -1}
               type="search"
               value={searchValue}
             />
             <button
-              aria-label="Caută în blog"
-              className="flex size-10 shrink-0 items-center justify-center text-smart-white/78 transition duration-300 hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
+              aria-label="Caută în site"
+              className="flex size-11 shrink-0 items-center justify-center text-smart-white/78 transition duration-300 hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
               onClick={() => {
                 if (!searchExpanded) {
                   setSearchOpen(true);
@@ -318,25 +312,25 @@ export function Navbar() {
               }}
               type={searchExpanded ? "submit" : "button"}
             >
-              <Search aria-hidden="true" className="size-[18px]" strokeWidth={1.75} />
+              <Search aria-hidden="true" className="size-[21px]" strokeWidth={1.75} />
             </button>
           </form>
           <button
             aria-label="Deschide căutarea"
-            className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-smart-white/78 transition duration-300 hover:-translate-y-0.5 hover:border-smart-aqua/45 hover:bg-white/[0.08] hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua lg:hidden"
+            className="inline-flex size-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-smart-white/78 transition duration-300 hover:-translate-y-0.5 hover:border-smart-aqua/45 hover:bg-white/[0.08] hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua lg:hidden"
             onClick={() => {
               setSearchOpen(true);
               setOpen(true);
             }}
             type="button"
           >
-            <Search aria-hidden="true" className="size-[18px]" strokeWidth={1.75} />
+            <Search aria-hidden="true" className="size-[21px]" strokeWidth={1.75} />
           </button>
           <Link aria-label="Mergi la shop" className={navActionClass} href="/shop">
-            <ShoppingCart aria-hidden="true" className="size-[21px]" strokeWidth={1.75} />
+            <ShoppingCart aria-hidden="true" className="size-[24px]" strokeWidth={1.75} />
           </Link>
           <Link aria-label="Mergi la contul tău" className={navActionClass} href="/cont">
-            <UserRoundCheck aria-hidden="true" className="size-[22px]" strokeWidth={1.7} />
+            <UserRoundCheck aria-hidden="true" className="size-[25px]" strokeWidth={1.7} />
           </Link>
           <button
             aria-expanded={open}
@@ -373,13 +367,13 @@ export function Navbar() {
               onSubmit={submitSearch}
             >
               <label className="sr-only" htmlFor="navbar-mobile-search">
-                Caută în blog
+                Caută în site
               </label>
               <input
                 className="min-w-0 flex-1 bg-transparent px-4 text-sm text-smart-white outline-none placeholder:text-smart-muted"
                 id="navbar-mobile-search"
                 onChange={(event) => setSearchValue(event.target.value)}
-                placeholder="Caută în blog"
+                placeholder="Caută în site"
                 type="search"
                 value={searchValue}
               />

@@ -168,6 +168,51 @@ html:not([data-theme="light"]) :where(.bg-smart-cream, .bg-smart-cream\/78, .bg-
   mix-blend-mode: soft-light;
 }
 
+.hero-neural-layer {
+  opacity: 0;
+  transform: translate3d(1rem, 0, 0) scale(1.01);
+  transform-origin: 78% 44%;
+  animation: hero-neural-layer-in 1.08s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+
+.hero-neural-layer img {
+  opacity: 1;
+  transform-origin: 72% 36%;
+  transform: translateZ(0);
+}
+
+.hero-neural-overlay {
+  opacity: 0;
+  animation: hero-neural-overlay-in 0.9s ease-out 0.22s both;
+  background:
+    radial-gradient(circle at 70% 24%, rgba(156, 206, 208, 0.16), transparent 32%),
+    linear-gradient(90deg, rgba(3, 17, 28, 0.70) 0%, rgba(6, 22, 34, 0.22) 44%, rgba(6, 22, 34, 0.02) 100%);
+}
+
+@keyframes hero-neural-layer-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(1rem, 0, 0) scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-neural-overlay-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .hero-media-field::after {
   pointer-events: none;
   content: "";
@@ -545,6 +590,101 @@ html[data-theme="light"] #navbar-search::placeholder {
 .prose-smart li {
   border-left: 2px solid rgba(31, 111, 120, 0.32);
   padding-left: 1rem;
+}
+
+.smartmed-lungs-visual {
+  overflow: visible;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.smartmed-lung-overlay,
+.smartmed-lung-photo,
+.smartmed-lung-edge-glow {
+  pointer-events: none;
+}
+
+.smartmed-lung-photo {
+  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-box: fill-box;
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.smartmed-lung-edge-glow {
+  fill: none;
+  filter: blur(15px);
+  opacity: 0;
+  stroke: rgba(156, 206, 208, 0.92);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 34px;
+  transition:
+    opacity 540ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 540ms cubic-bezier(0.16, 1, 0.3, 1),
+    stroke-width 540ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, filter, stroke-width;
+}
+
+.smartmed-lung-hit-area {
+  cursor: pointer;
+  fill: transparent;
+  pointer-events: all;
+}
+
+.smartmed-choice-copy {
+  transition:
+    filter 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+
+.smartmed-choice-title {
+  transition: color 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-lung-online-photo {
+  transform: scale(1.065);
+}
+
+.smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-lung-physical-photo {
+  transform: scale(1.065);
+}
+
+.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-lung-online-glow {
+  filter: blur(20px);
+  opacity: 0.42;
+  stroke-width: 42px;
+}
+
+.smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-lung-physical-glow {
+  filter: blur(20px);
+  opacity: 0.38;
+  stroke-width: 42px;
+}
+
+.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-choice-online-copy,
+.smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-choice-physical-copy {
+  filter: drop-shadow(0 14px 26px rgba(79, 55, 22, 0.08));
+  transform: translateY(-2px);
+}
+
+.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-choice-online-title {
+  color: var(--smart-teal);
+}
+
+.smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-choice-physical-title {
+  color: var(--smart-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smartmed-lung-photo,
+  .smartmed-lung-edge-glow,
+  .smartmed-choice-copy,
+  .smartmed-choice-title {
+    transition: none;
+  }
 }
 
 @media (max-width: 1023px) {
