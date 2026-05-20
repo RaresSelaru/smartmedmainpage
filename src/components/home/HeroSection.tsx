@@ -6,7 +6,10 @@ import { generatedAssets } from "@/lib/site-config";
 
 export function HeroSection() {
   return (
-    <section className="relative isolate min-h-[780px] overflow-hidden bg-smart-dark px-5 pb-36 pt-28 text-smart-white sm:min-h-[820px] sm:px-7 sm:pb-44 sm:pt-32 lg:px-8">
+    <section
+      className="relative isolate min-h-[780px] overflow-hidden bg-smart-dark px-5 pb-36 pt-28 text-smart-white sm:min-h-[820px] sm:px-7 sm:pb-44 sm:pt-32 lg:px-8"
+      data-home-hero="true"
+    >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_18%,rgba(156,206,208,0.20),transparent_38%),radial-gradient(circle_at_12%_28%,rgba(200,168,117,0.10),transparent_30%),linear-gradient(135deg,#03111c_0%,#071b29_48%,#061622_100%)]" />
       <div className="hero-neural-layer pointer-events-none absolute inset-0 z-[2] hidden lg:block">
         <Image

@@ -1,6 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, GraduationCap, Landmark, Laptop } from "lucide-react";
+import {
+  ArrowRight,
+  ClipboardCheck,
+  GraduationCap,
+  Grid2X2,
+  Landmark,
+  Laptop,
+  MonitorCheck,
+} from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -50,6 +58,27 @@ const smartMedCenterChoices = [
       "Comunitate și motivație",
       "Simulări și feedback constant",
     ],
+  },
+] as const;
+
+const smartTrainingChoices = [
+  {
+    title: pathChoiceGroup2[0].title,
+    href: pathChoiceGroup2[0].href,
+    cta: pathChoiceGroup2[0].cta,
+    benefits: pathChoiceGroup2[0].benefits,
+    icon: Grid2X2,
+    badgeIcon: ClipboardCheck,
+    tone: "grile",
+  },
+  {
+    title: pathChoiceGroup2[1].title,
+    href: pathChoiceGroup2[1].href,
+    cta: pathChoiceGroup2[1].cta,
+    benefits: pathChoiceGroup2[1].benefits,
+    icon: MonitorCheck,
+    badgeIcon: MonitorCheck,
+    tone: "simulari",
   },
 ] as const;
 
@@ -236,6 +265,7 @@ export function PathChoiceSection() {
 }
 
 type CenterChoice = (typeof smartMedCenterChoices)[number];
+type SmartTrainingChoice = (typeof smartTrainingChoices)[number];
 
 function CenterLungsVisual() {
   return (
@@ -283,16 +313,70 @@ function CenterLungsVisual() {
             y="0"
           />
         </mask>
+        <filter
+          colorInterpolationFilters="sRGB"
+          height="150%"
+          id="smartmed-lung-outer-glow"
+          width="150%"
+          x="-25%"
+          y="-25%"
+        >
+          <feMorphology
+            in="SourceAlpha"
+            operator="dilate"
+            radius="13"
+            result="haloGrow"
+          />
+          <feGaussianBlur in="haloGrow" result="haloBlur" stdDeviation="18" />
+          <feFlood floodColor="#8fcfd6" floodOpacity="0.98" result="haloColor" />
+          <feComposite in="haloColor" in2="haloBlur" operator="in" result="halo" />
+          <feMorphology
+            in="SourceAlpha"
+            operator="dilate"
+            radius="4"
+            result="rimGrow"
+          />
+          <feGaussianBlur in="rimGrow" result="rimBlur" stdDeviation="5" />
+          <feFlood floodColor="#e8ffff" floodOpacity="0.72" result="rimColor" />
+          <feComposite in="rimColor" in2="rimBlur" operator="in" result="rim" />
+          <feMerge result="mergedGlow">
+            <feMergeNode in="halo" />
+            <feMergeNode in="rim" />
+          </feMerge>
+          <feComposite
+            in="mergedGlow"
+            in2="SourceAlpha"
+            operator="out"
+            result="outerGlow"
+          />
+          <feMerge>
+            <feMergeNode in="outerGlow" />
+          </feMerge>
+        </filter>
       </defs>
 
-      <g aria-hidden="true" focusable="false" transform={centerVisualTransform}>
-        <path
-          className="smartmed-lung-edge-glow smartmed-lung-online-glow"
-          d="M154 671C118 545 145 372 214 244C290 102 450 20 542 74C603 110 608 242 640 309C681 396 632 526 555 568C488 604 371 612 270 666C215 695 174 704 154 671Z"
+      <g aria-hidden="true" focusable="false">
+        <image
+          className="smartmed-lung-mask-glow smartmed-lung-online-glow"
+          filter="url(#smartmed-lung-outer-glow)"
+          height="941"
+          href="/assets/generated/smartmed-center-left-lung-mask.png"
+          preserveAspectRatio="xMidYMid meet"
+          transform={centerVisualTransform}
+          width="1672"
+          x="0"
+          y="0"
         />
-        <path
-          className="smartmed-lung-edge-glow smartmed-lung-physical-glow"
-          d="M1491 671C1522 547 1485 368 1417 238C1337 85 1180 21 1086 75C1022 112 1021 252 990 324C952 411 995 532 1072 568C1165 612 1305 609 1404 668C1454 698 1482 700 1491 671Z"
+        <image
+          className="smartmed-lung-mask-glow smartmed-lung-physical-glow"
+          filter="url(#smartmed-lung-outer-glow)"
+          height="941"
+          href="/assets/generated/smartmed-center-right-lung-mask.png"
+          preserveAspectRatio="xMidYMid meet"
+          transform={centerVisualTransform}
+          width="1672"
+          x="0"
+          y="0"
         />
       </g>
 
@@ -422,20 +506,225 @@ function CenterChoiceButton({ choice }: { choice: CenterChoice }) {
   return (
     <Link
       className={cn(
-        "smartmed-choice-button group inline-grid h-[68px] w-full max-w-[300px] grid-cols-[2rem_1fr_1.75rem] items-center gap-5 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.5rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-[#d2b783] hover:bg-[#fff9ef] hover:shadow-[0_20px_46px_rgba(80,58,26,0.17),inset_0_1px_0_rgba(255,255,255,0.90)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[300px]",
+        "smartmed-choice-button group inline-grid h-[68px] w-full max-w-[300px] grid-cols-[2rem_1fr_1.75rem] items-center gap-5 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.5rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[300px]",
         isOnline ? "smartmed-choice-online-trigger" : "smartmed-choice-physical-trigger",
       )}
       href={choice.href}
     >
       <Icon
         aria-hidden="true"
-        className="size-8 shrink-0 text-smart-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        className="size-8 shrink-0 text-smart-gold"
         strokeWidth={1.55}
       />
       <span className="min-w-0 whitespace-nowrap text-left">{choice.title}</span>
       <ArrowRight
         aria-hidden="true"
-        className="size-7 shrink-0 text-smart-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
+        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
+        strokeWidth={1.7}
+      />
+    </Link>
+  );
+}
+
+function SmartTrainingSection() {
+  const grileChoice = smartTrainingChoices[0];
+  const simulationChoice = smartTrainingChoices[1];
+
+  return (
+    <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-24 text-smart-ink sm:px-7 sm:pb-40 sm:pt-28 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_at_top,rgba(200,168,117,0.14),transparent_66%)]" />
+      <div className="relative z-10 mx-auto max-w-[1620px]">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionLabel tone="cream">Antrenament aplicat</SectionLabel>
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+              Exersează cu sens
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
+              Grile structurate și simulări realiste, calibrate pentru pregătirea ta de admitere.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-9 xl:grid xl:grid-cols-[minmax(190px,0.58fr)_minmax(560px,1.45fr)_minmax(190px,0.58fr)] xl:items-center xl:gap-6 2xl:gap-10">
+          <Reveal className="hidden xl:block" delay={0.05}>
+            <TrainingChoiceCopy align="left" choice={grileChoice} />
+          </Reveal>
+
+          <Reveal className="relative mx-auto w-full max-w-[620px]" delay={0.02} y={16}>
+            <BrainTrainingVisual leftHref={grileChoice.href} rightHref={simulationChoice.href} />
+          </Reveal>
+
+          <Reveal className="hidden xl:block" delay={0.05}>
+            <TrainingChoiceCopy align="right" choice={simulationChoice} />
+          </Reveal>
+        </div>
+
+        <div className="mx-auto mt-8 grid max-w-4xl gap-10 md:grid-cols-2 xl:hidden">
+          <Reveal delay={0.04}>
+            <TrainingChoiceCopy align="left" choice={grileChoice} />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <TrainingChoiceCopy align="right" choice={simulationChoice} />
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.1}>
+          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6 xl:mt-4">
+            <TrainingChoiceButton choice={grileChoice} />
+            <TrainingChoiceButton choice={simulationChoice} />
+          </div>
+        </Reveal>
+      </div>
+
+      <WaveSeparator className="translate-y-8 sm:translate-y-10" fill="teal" />
+    </section>
+  );
+}
+
+function BrainTrainingVisual({
+  leftHref,
+  rightHref,
+}: {
+  leftHref: SmartTrainingChoice["href"];
+  rightHref: SmartTrainingChoice["href"];
+}) {
+  const brainSrc = "/assets/generated/smartmed-training-brain-cutout.svg";
+
+  return (
+    <div
+      aria-label="Grile SmartMed și Simulări Smart reprezentate prin două emisfere cerebrale"
+      className="smart-training-brain-visual relative isolate mx-auto aspect-square w-full"
+      role="img"
+    >
+      <span className="smart-training-brain-glow smart-training-brain-glow-left" />
+      <span className="smart-training-brain-glow smart-training-brain-glow-right" />
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="smart-training-brain-half smart-training-brain-half-left"
+        height={1440}
+        sizes="(max-width: 768px) 88vw, (max-width: 1280px) 50vw, 620px"
+        src={brainSrc}
+        width={1440}
+      />
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="smart-training-brain-half smart-training-brain-half-right"
+        height={1440}
+        sizes="(max-width: 768px) 88vw, (max-width: 1280px) 50vw, 620px"
+        src={brainSrc}
+        width={1440}
+      />
+      <Link
+        aria-label="Grile SmartMed"
+        className="smart-training-brain-hit smart-training-brain-hit-left smart-training-grile-trigger"
+        href={leftHref}
+        tabIndex={-1}
+      >
+        <span className="sr-only">Grile SmartMed</span>
+      </Link>
+      <Link
+        aria-label="Simulări Smart"
+        className="smart-training-brain-hit smart-training-brain-hit-right smart-training-simulari-trigger"
+        href={rightHref}
+        tabIndex={-1}
+      >
+        <span className="sr-only">Simulări Smart</span>
+      </Link>
+    </div>
+  );
+}
+
+function TrainingChoiceCopy({
+  choice,
+  align,
+}: {
+  choice: SmartTrainingChoice;
+  align: "left" | "right";
+}) {
+  const BadgeIcon = choice.badgeIcon;
+  const isGrile = choice.tone === "grile";
+
+  return (
+    <div
+      className={cn(
+        "smart-training-copy mx-auto max-w-[18rem] text-center text-smart-ink 2xl:max-w-[20rem]",
+        align === "right" ? "xl:ml-auto" : "xl:mr-auto",
+        isGrile
+          ? "smart-training-grile-copy smart-training-grile-trigger"
+          : "smart-training-simulari-copy smart-training-simulari-trigger",
+      )}
+    >
+      <span
+        className={cn(
+          "mx-auto flex size-16 items-center justify-center rounded-full border bg-smart-cream/72 shadow-[0_16px_38px_rgba(79,55,22,0.10)]",
+          isGrile
+            ? "border-smart-teal/24 text-smart-teal"
+            : "border-smart-gold/44 text-smart-gold",
+        )}
+      >
+        <BadgeIcon aria-hidden="true" className="size-8" strokeWidth={1.45} />
+      </span>
+      <h3
+        className={cn(
+          "smart-training-copy-title mt-6 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          isGrile ? "smart-training-grile-title" : "smart-training-simulari-title",
+        )}
+      >
+        {choice.title}
+      </h3>
+      <div
+        className={cn(
+          "mx-auto mt-6 h-px w-16",
+          isGrile ? "bg-smart-teal/45" : "bg-smart-gold/64",
+        )}
+      />
+      <ul className="mt-7 grid gap-3 text-left text-sm leading-6 text-smart-ink/76 sm:text-base">
+        {choice.benefits.map((benefit) => (
+          <li className="flex gap-3" key={benefit}>
+            <span
+              className={cn(
+                "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border",
+                isGrile
+                  ? "border-smart-teal/32 bg-smart-teal/8 text-smart-teal"
+                  : "border-smart-gold/48 bg-smart-gold/10 text-smart-gold",
+              )}
+            >
+              <SmartIcon className="size-3.5" name="check" />
+            </span>
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function TrainingChoiceButton({ choice }: { choice: SmartTrainingChoice }) {
+  const Icon = choice.icon;
+  const isGrile = choice.tone === "grile";
+
+  return (
+    <Link
+      className={cn(
+        "smart-training-button group inline-grid h-[68px] w-full max-w-[340px] grid-cols-[2rem_1fr_1.75rem] items-center gap-4 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.28rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[340px] sm:text-[1.38rem]",
+        isGrile
+          ? "smart-training-grile-button smart-training-grile-trigger"
+          : "smart-training-simulari-button smart-training-simulari-trigger",
+      )}
+      href={choice.href}
+    >
+      <Icon
+        aria-hidden="true"
+        className="size-8 shrink-0 text-smart-gold"
+        strokeWidth={1.55}
+      />
+      <span className="min-w-0 whitespace-nowrap text-left">{choice.cta}</span>
+      <ArrowRight
+        aria-hidden="true"
+        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
         strokeWidth={1.7}
       />
     </Link>
@@ -443,15 +732,7 @@ function CenterChoiceButton({ choice }: { choice: CenterChoice }) {
 }
 
 export function PathChoiceSectionGroup2() {
-  return (
-    <PathChoiceGroup
-      cards={pathChoiceGroup2}
-      eyebrow="Antrenament aplicat"
-      heading="Exersează cu sens"
-      description="Grile structurate și simulări realiste, calibrate pentru pregătirea ta de admitere."
-      layout="2"
-    />
-  );
+  return <SmartTrainingSection />;
 }
 
 export function PathChoiceSectionGroup3() {

@@ -528,6 +528,15 @@ html[data-theme="light"] #navbar-search::placeholder {
   color: rgba(248, 244, 236, 0.58);
 }
 
+.smart-header-shell {
+  transform: translate3d(0, 0, 0);
+  transition: transform 1180ms cubic-bezier(0.2, 0.86, 0.2, 1);
+}
+
+.smart-header-shell--hidden {
+  transform: translate3d(0, calc(-100% - 1.1rem), 0);
+}
+
 @media (min-width: 640px) {
   .smart-container {
     width: min(1380px, calc(100% - 3rem));
@@ -600,31 +609,23 @@ html[data-theme="light"] #navbar-search::placeholder {
 
 .smartmed-lung-overlay,
 .smartmed-lung-photo,
-.smartmed-lung-edge-glow {
+.smartmed-lung-mask-glow {
   pointer-events: none;
 }
 
 .smartmed-lung-photo {
-  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 850ms cubic-bezier(0.19, 1, 0.22, 1);
   transform-box: fill-box;
   transform-origin: center;
   backface-visibility: hidden;
   will-change: transform;
 }
 
-.smartmed-lung-edge-glow {
-  fill: none;
-  filter: blur(15px);
+.smartmed-lung-mask-glow {
+  mix-blend-mode: screen;
   opacity: 0;
-  stroke: rgba(156, 206, 208, 0.92);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 34px;
-  transition:
-    opacity 540ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 540ms cubic-bezier(0.16, 1, 0.3, 1),
-    stroke-width 540ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, filter, stroke-width;
+  transition: opacity 760ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: opacity;
 }
 
 .smartmed-lung-hit-area {
@@ -633,41 +634,21 @@ html[data-theme="light"] #navbar-search::placeholder {
   pointer-events: all;
 }
 
-.smartmed-choice-copy {
-  transition:
-    filter 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, filter;
-}
-
 .smartmed-choice-title {
-  transition: color 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 520ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-lung-online-photo {
-  transform: scale(1.065);
+  transform: scale(1.045);
 }
 
 .smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-lung-physical-photo {
-  transform: scale(1.065);
+  transform: scale(1.045);
 }
 
-.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-lung-online-glow {
-  filter: blur(20px);
-  opacity: 0.42;
-  stroke-width: 42px;
-}
-
+.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-lung-online-glow,
 .smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-lung-physical-glow {
-  filter: blur(20px);
-  opacity: 0.38;
-  stroke-width: 42px;
-}
-
-.smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-choice-online-copy,
-.smartmed-center-choice:has(.smartmed-choice-physical-trigger:hover) .smartmed-choice-physical-copy {
-  filter: drop-shadow(0 14px 26px rgba(79, 55, 22, 0.08));
-  transform: translateY(-2px);
+  opacity: 0.82;
 }
 
 .smartmed-center-choice:has(.smartmed-choice-online-trigger:hover) .smartmed-choice-online-title {
@@ -678,11 +659,171 @@ html[data-theme="light"] #navbar-search::placeholder {
   color: var(--smart-gold);
 }
 
+.smart-training-brain-visual {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.smart-training-brain-half,
+.smart-training-brain-glow {
+  pointer-events: none;
+}
+
+.smart-training-brain-half {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: transform 820ms cubic-bezier(0.19, 1, 0.22, 1);
+  user-select: none;
+  will-change: transform;
+}
+
+.smart-training-brain-half-left {
+  -webkit-clip-path: polygon(0 0, 50.1% 0, 50.1% 100%, 0 100%);
+  clip-path: polygon(0 0, 50.1% 0, 50.1% 100%, 0 100%);
+  transform-origin: 32% 53%;
+}
+
+.smart-training-brain-half-right {
+  -webkit-clip-path: polygon(49.9% 0, 100% 0, 100% 100%, 49.9% 100%);
+  clip-path: polygon(49.9% 0, 100% 0, 100% 100%, 49.9% 100%);
+  transform-origin: 68% 53%;
+}
+
+.smart-training-brain-glow {
+  position: absolute;
+  z-index: 0;
+  top: 16%;
+  height: 66%;
+  width: 38%;
+  border-radius: 999px;
+  filter: blur(30px);
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 760ms cubic-bezier(0.19, 1, 0.22, 1),
+    transform 820ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: opacity, transform;
+}
+
+.smart-training-brain-glow-left {
+  left: 12%;
+  background:
+    radial-gradient(ellipse at 52% 48%, rgba(143, 207, 214, 0.46), rgba(31, 111, 120, 0.22) 46%, transparent 72%);
+}
+
+.smart-training-brain-glow-right {
+  right: 12%;
+  background:
+    radial-gradient(ellipse at 48% 48%, rgba(226, 202, 151, 0.42), rgba(200, 168, 117, 0.24) 46%, transparent 72%);
+}
+
+.smart-training-brain-hit {
+  position: absolute;
+  z-index: 30;
+  top: 8%;
+  bottom: 8%;
+  cursor: pointer;
+}
+
+.smart-training-brain-hit-left {
+  left: 9%;
+  width: 40%;
+  border-radius: 54% 34% 34% 52%;
+}
+
+.smart-training-brain-hit-right {
+  right: 9%;
+  width: 40%;
+  border-radius: 34% 54% 52% 34%;
+}
+
+.smart-training-brain-hit:focus-visible {
+  outline: 2px solid rgba(200, 168, 117, 0.78);
+  outline-offset: 0.35rem;
+}
+
+.smart-training-copy {
+  transition:
+    filter 620ms cubic-bezier(0.19, 1, 0.22, 1),
+    transform 720ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, filter;
+}
+
+.smart-training-copy-title {
+  transition: color 560ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-brain-half-left,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-brain-half-left {
+  transform: translate3d(-0.1rem, -0.35rem, 0) scale(1.022);
+}
+
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-brain-half-right,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-brain-half-right {
+  transform: translate3d(0.1rem, -0.35rem, 0) scale(1.022);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-brain-glow-left,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-brain-glow-left,
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-brain-glow-right,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-brain-glow-right {
+  opacity: 0.86;
+  transform: scale(1.04);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-grile-copy,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-grile-copy,
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-simulari-copy,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-simulari-copy {
+  filter: drop-shadow(0 14px 26px rgba(79, 55, 22, 0.07));
+  transform: translateY(-2px);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-grile-title,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-grile-title {
+  color: var(--smart-teal);
+}
+
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-simulari-title,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-simulari-title {
+  color: var(--smart-gold);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-grile-button,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-grile-button,
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-simulari-button,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-simulari-button {
+  background-color: #fff8ee;
+  border-color: #d6bc8c;
+  box-shadow:
+    0 20px 42px rgba(80, 58, 26, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}
+
+.smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-grile-button svg:last-child,
+.smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-grile-button svg:last-child,
+.smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-simulari-button svg:last-child,
+.smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-simulari-button svg:last-child {
+  transform: translateX(0.125rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .smartmed-lung-photo,
-  .smartmed-lung-edge-glow,
-  .smartmed-choice-copy,
-  .smartmed-choice-title {
+  .smartmed-lung-mask-glow,
+  .smartmed-choice-title,
+  .smart-training-brain-half,
+  .smart-training-brain-glow,
+  .smart-training-copy,
+  .smart-training-copy-title,
+  .smart-training-button,
+  .smart-training-button svg {
     transition: none;
   }
 }

@@ -41,10 +41,14 @@ export function Navbar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [themeMode, setThemeMode] = useState<ThemeMode>(getInitialThemeMode);
   const desktopSearchInputRef = useRef<HTMLInputElement>(null);
+  const lastScrollYRef = useRef(0);
+  const upwardScrollRef = useRef(0);
+  const revealDelayRef = useRef<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<BlogCategorySlug>(defaultBlogCategory);
   const isBlog = pathname === "/blog" || pathname.startsWith("/blog/");
   const collected = useBlogNavCollection(isBlog, pathname);
@@ -57,6 +61,86 @@ export function Navbar() {
 
     return () => window.removeEventListener("scroll", update);
   }, []);
+
+  useEffect(() => {
+    const clearRevealDelay = () => {
+      if (revealDelayRef.current) {
+        window.clearTimeout(revealDelayRef.current);
+        revealDelayRef.current = null;
+      }
+    };
+
+    const revealNav = () => {
+      clearRevealDelay();
+      setNavHidden(false);
+    };
+
+    const getHideStartY = () => {
+      if (pathname === "/") {
+        const homeHero = document.querySelector<HTMLElement>("[data-home-hero='true']");
+
+        if (homeHero) {
+          const heroBottom = homeHero.getBoundingClientRect().bottom + window.scrollY;
+
+          return Math.max(140, heroBottom - 16);
+        }
+      }
+
+      return 180;
+    };
+
+    const updateVisibility = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollYRef.current;
+      lastScrollYRef.current = currentY;
+      const hideStartY = getHideStartY();
+
+      if (open || searchExpanded || currentY < hideStartY) {
+        upwardScrollRef.current = 0;
+        revealNav();
+        return;
+      }
+
+      if (delta > 8) {
+        upwardScrollRef.current = 0;
+        clearRevealDelay();
+        setNavHidden(true);
+        return;
+      }
+
+      if (delta < -6) {
+        upwardScrollRef.current += Math.abs(delta);
+
+        if (upwardScrollRef.current > 92 && !revealDelayRef.current) {
+          revealDelayRef.current = window.setTimeout(() => {
+            setNavHidden(false);
+            revealDelayRef.current = null;
+          }, 170);
+        }
+      }
+    };
+
+    const revealFromTopIntent = (event: PointerEvent) => {
+      if (event.clientY <= 34) {
+        upwardScrollRef.current = 0;
+        revealNav();
+      }
+    };
+
+    lastScrollYRef.current = window.scrollY;
+    updateVisibility();
+
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("pointermove", revealFromTopIntent, { passive: true });
+    window.addEventListener("resize", updateVisibility, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("pointermove", revealFromTopIntent);
+      window.removeEventListener("resize", updateVisibility);
+      clearRevealDelay();
+    };
+  }, [open, pathname, searchExpanded]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = themeMode;
@@ -114,7 +198,13 @@ export function Navbar() {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 pt-4 sm:pt-5" data-smart-header="true">
+    <header
+      className={cn(
+        "smart-header-shell fixed inset-x-0 top-0 z-50 pt-4 will-change-transform sm:pt-5",
+        navHidden && "smart-header-shell--hidden pointer-events-none",
+      )}
+      data-smart-header="true"
+    >
       <nav
         aria-label="Navigație principală"
         className={cn(
