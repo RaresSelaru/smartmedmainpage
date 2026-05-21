@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  BookOpen,
   ClipboardCheck,
   GraduationCap,
   Grid2X2,
   Landmark,
   Laptop,
   MonitorCheck,
+  ShoppingBag,
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
@@ -79,6 +81,29 @@ const smartTrainingChoices = [
     icon: MonitorCheck,
     badgeIcon: MonitorCheck,
     tone: "simulari",
+  },
+] as const;
+
+const smartEcosystemChoices = [
+  {
+    label: pathChoiceGroup3[0].label,
+    title: pathChoiceGroup3[0].title,
+    href: pathChoiceGroup3[0].href,
+    cta: "Explorează articolele",
+    description: "Ghiduri clare, strategii de învățare și răspunsuri scrise pentru ritmul tău de pregătire.",
+    benefits: pathChoiceGroup3[0].benefits,
+    icon: BookOpen,
+    tone: "blog",
+  },
+  {
+    label: pathChoiceGroup3[1].label,
+    title: pathChoiceGroup3[1].title,
+    href: pathChoiceGroup3[1].href,
+    cta: "Vezi produsele",
+    description: "Materiale premium, caiete și resurse alese pentru studiu aplicat și recapitulări eficiente.",
+    benefits: pathChoiceGroup3[1].benefits,
+    icon: ShoppingBag,
+    tone: "shop",
   },
 ] as const;
 
@@ -266,6 +291,7 @@ export function PathChoiceSection() {
 
 type CenterChoice = (typeof smartMedCenterChoices)[number];
 type SmartTrainingChoice = (typeof smartTrainingChoices)[number];
+type SmartEcosystemChoice = (typeof smartEcosystemChoices)[number];
 
 function CenterLungsVisual() {
   return (
@@ -731,19 +757,191 @@ function TrainingChoiceButton({ choice }: { choice: SmartTrainingChoice }) {
   );
 }
 
+function SmartEcosystemSection() {
+  const blogChoice = smartEcosystemChoices[0];
+  const shopChoice = smartEcosystemChoices[1];
+
+  return (
+    <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_at_top,rgba(200,168,117,0.13),transparent_68%)]" />
+      <div className="relative z-10 mx-auto max-w-[1900px]">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionLabel tone="cream">Citește, învață, comandă</SectionLabel>
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+              Ecosistemul SmartMed
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
+              Articole care clarifică și materiale care te susțin pe parcurs.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-10 xl:grid xl:grid-cols-[minmax(250px,0.58fr)_minmax(620px,1.34fr)_minmax(250px,0.58fr)] xl:items-center xl:gap-4 2xl:grid-cols-[minmax(320px,0.66fr)_minmax(980px,1.8fr)_minmax(320px,0.66fr)] 2xl:gap-6">
+          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-10 xl:block 2xl:-mt-12" delay={0.05}>
+            <EcosystemChoiceCopy align="left" choice={blogChoice} />
+          </Reveal>
+
+          <Reveal
+            className="relative z-10 mx-auto mt-6 w-full max-w-[980px] xl:col-start-2 xl:row-start-1 xl:max-w-none"
+            delay={0.04}
+            y={16}
+          >
+            <EcosystemEyesVisual blogChoice={blogChoice} shopChoice={shopChoice} />
+          </Reveal>
+
+          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-10 xl:block 2xl:-mt-12" delay={0.05}>
+            <EcosystemChoiceCopy align="right" choice={shopChoice} />
+          </Reveal>
+        </div>
+
+        <div className="mx-auto mt-10 grid max-w-5xl gap-10 md:grid-cols-2 xl:hidden">
+          <Reveal delay={0.04}>
+            <EcosystemChoiceCopy align="left" choice={blogChoice} showMobileButton />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <EcosystemChoiceCopy align="right" choice={shopChoice} showMobileButton />
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EcosystemEyesVisual({
+  blogChoice,
+  shopChoice,
+}: {
+  blogChoice: SmartEcosystemChoice;
+  shopChoice: SmartEcosystemChoice;
+}) {
+  return (
+    <div className="mx-auto w-full">
+      <div className="relative mx-auto">
+        <div className="pointer-events-none absolute inset-x-[12%] bottom-[4%] h-10 rounded-full bg-smart-ink/8 blur-2xl" />
+        <Image
+          alt="SmartMed Blog și SmartMed Shop reprezentate prin doi iriși uniți în forma infinitului"
+          className="relative z-10 h-auto w-full select-none object-contain"
+          height={902}
+          priority={false}
+          sizes="(max-width: 768px) 92vw, (max-width: 1280px) 940px, (max-width: 1536px) 64vw, 1480px"
+          src="/assets/generated/smartmed-eyes-infinity.svg"
+          unoptimized
+          width={1920}
+        />
+      </div>
+      <div className="mx-auto mt-20 hidden max-w-[760px] grid-cols-2 gap-5 md:grid">
+        <EcosystemChoiceButton choice={blogChoice} />
+        <EcosystemChoiceButton choice={shopChoice} />
+      </div>
+    </div>
+  );
+}
+
+function EcosystemChoiceCopy({
+  choice,
+  align,
+  showMobileButton = false,
+}: {
+  choice: SmartEcosystemChoice;
+  align: "left" | "right";
+  showMobileButton?: boolean;
+}) {
+  const isBlog = choice.tone === "blog";
+  const titleSuffix = choice.title.replace(/^SmartMed\s+/, "");
+
+  return (
+    <div
+      className={cn(
+        "smart-ecosystem-copy mx-auto max-w-[21rem] text-center text-smart-ink xl:max-w-[19.5rem] 2xl:max-w-[21rem]",
+        align === "right" ? "xl:mr-auto" : "xl:ml-auto",
+        isBlog
+          ? "smart-ecosystem-blog-copy smart-ecosystem-blog-trigger"
+          : "smart-ecosystem-shop-copy smart-ecosystem-shop-trigger",
+      )}
+    >
+      <p
+        className={cn(
+          "text-[0.72rem] font-bold uppercase tracking-[0.28em]",
+          isBlog ? "text-smart-teal" : "text-smart-gold",
+        )}
+      >
+        {choice.label}
+      </p>
+      <h3
+        className={cn(
+          "smart-ecosystem-copy-title mt-4 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          isBlog ? "smart-ecosystem-blog-title" : "smart-ecosystem-shop-title",
+        )}
+      >
+        <span className="block">SmartMed</span>
+        <span className="block">{titleSuffix}</span>
+      </h3>
+      <div
+        className={cn(
+          "mx-auto mt-5 h-px w-16",
+          isBlog ? "bg-smart-teal/45" : "bg-smart-gold/64",
+        )}
+      />
+      <ul className="mx-auto mt-7 grid w-fit max-w-full gap-3 text-left text-sm leading-6 text-smart-ink/76 sm:text-base">
+        {choice.benefits.map((benefit) => (
+          <li className="flex gap-3" key={benefit}>
+            <span
+              className={cn(
+                "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border",
+                isBlog
+                  ? "border-smart-teal/32 bg-smart-teal/8 text-smart-teal"
+                  : "border-smart-gold/48 bg-smart-gold/10 text-smart-gold",
+              )}
+            >
+              <SmartIcon className="size-3.5" name="check" />
+            </span>
+            <span className="xl:whitespace-nowrap">{benefit}</span>
+          </li>
+        ))}
+      </ul>
+      {showMobileButton ? (
+        <div className="mt-7 md:hidden">
+          <EcosystemChoiceButton choice={choice} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function EcosystemChoiceButton({ choice }: { choice: SmartEcosystemChoice }) {
+  const Icon = choice.icon;
+  const isBlog = choice.tone === "blog";
+
+  return (
+    <Link
+      className={cn(
+        "smart-ecosystem-button group inline-grid h-[68px] w-full max-w-[340px] grid-cols-[2rem_1fr_1.75rem] items-center gap-4 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.28rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[340px] sm:text-[1.38rem]",
+        isBlog
+          ? "smart-ecosystem-blog-button smart-ecosystem-blog-trigger"
+          : "smart-ecosystem-shop-button smart-ecosystem-shop-trigger",
+      )}
+      href={choice.href}
+    >
+      <Icon
+        aria-hidden="true"
+        className="size-8 shrink-0 text-smart-gold"
+        strokeWidth={1.55}
+      />
+      <span className="min-w-0 whitespace-nowrap text-left">{choice.cta}</span>
+      <ArrowRight
+        aria-hidden="true"
+        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
+        strokeWidth={1.7}
+      />
+    </Link>
+  );
+}
+
 export function PathChoiceSectionGroup2() {
   return <SmartTrainingSection />;
 }
 
 export function PathChoiceSectionGroup3() {
-  return (
-    <PathChoiceGroup
-      cards={pathChoiceGroup3}
-      eyebrow="Citește, învață, comandă"
-      heading="Ecosistemul SmartMed"
-      description="Articole care clarifică și materiale care te susțin pe parcurs."
-      layout="2"
-      withSeparator={false}
-    />
-  );
+  return <SmartEcosystemSection />;
 }
