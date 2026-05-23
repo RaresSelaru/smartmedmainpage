@@ -777,8 +777,8 @@ function SmartEcosystemSection() {
           </div>
         </Reveal>
 
-        <div className="mt-10 xl:grid xl:grid-cols-[minmax(250px,0.58fr)_minmax(620px,1.34fr)_minmax(250px,0.58fr)] xl:items-center xl:gap-4 2xl:grid-cols-[minmax(320px,0.66fr)_minmax(980px,1.8fr)_minmax(320px,0.66fr)] 2xl:gap-6">
-          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-10 xl:block 2xl:-mt-12" delay={0.05}>
+        <div className="mt-10 xl:grid xl:grid-cols-[minmax(250px,0.58fr)_minmax(620px,1.34fr)_minmax(250px,0.58fr)] xl:items-center xl:gap-4 min-[1800px]:grid-cols-[minmax(320px,0.66fr)_minmax(980px,1.8fr)_minmax(320px,0.66fr)] min-[1800px]:gap-6">
+          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-10 xl:block min-[1800px]:-mt-12" delay={0.05}>
             <EcosystemChoiceCopy align="left" choice={blogChoice} />
           </Reveal>
 
@@ -790,7 +790,7 @@ function SmartEcosystemSection() {
             <EcosystemEyesVisual blogChoice={blogChoice} shopChoice={shopChoice} />
           </Reveal>
 
-          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-10 xl:block 2xl:-mt-12" delay={0.05}>
+          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-10 xl:block min-[1800px]:-mt-12" delay={0.05}>
             <EcosystemChoiceCopy align="right" choice={shopChoice} />
           </Reveal>
         </div>
@@ -879,7 +879,7 @@ function EcosystemChoiceCopy({
   return (
     <div
       className={cn(
-        "smart-ecosystem-copy mx-auto max-w-[21rem] text-center text-smart-ink xl:max-w-[19.5rem] 2xl:max-w-[21rem]",
+        "smart-ecosystem-copy mx-auto max-w-[21rem] text-center text-smart-ink xl:max-w-[19.5rem] min-[1800px]:max-w-[21rem]",
         align === "right" ? "xl:mr-auto" : "xl:ml-auto",
         isBlog
           ? "smart-ecosystem-blog-copy smart-ecosystem-blog-trigger"
