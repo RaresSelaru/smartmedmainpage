@@ -829,6 +829,32 @@ function EcosystemEyesVisual({
           unoptimized
           width={1920}
         />
+        <div
+          aria-hidden="true"
+          className="smart-ecosystem-pupil-icon smart-ecosystem-blog-pupil-icon pointer-events-none absolute left-[23.9%] top-[51.3%] z-20 w-[8.2%]"
+        >
+          <Image
+            alt=""
+            className="h-auto w-full select-none object-contain"
+            height={1022}
+            src="/assets/generated/smartmed-ecosystem-blog-icon.png"
+            unoptimized
+            width={937}
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          className="smart-ecosystem-pupil-icon smart-ecosystem-shop-pupil-icon pointer-events-none absolute left-[74.2%] top-[51.9%] z-20 w-[8%]"
+        >
+          <Image
+            alt=""
+            className="h-auto w-full select-none object-contain"
+            height={981}
+            src="/assets/generated/smartmed-ecosystem-shop-icon-clean.png"
+            unoptimized
+            width={765}
+          />
+        </div>
       </div>
       <div className="mx-auto mt-20 hidden max-w-[760px] grid-cols-2 gap-5 md:grid">
         <EcosystemChoiceButton choice={blogChoice} />
