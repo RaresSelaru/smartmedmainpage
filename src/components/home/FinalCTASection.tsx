@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Reveal } from "@/components/animations/reveal";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { generatedAssets } from "@/lib/site-config";
 
 export function FinalCTASection() {
   return (
@@ -23,27 +22,28 @@ export function FinalCTASection() {
           </p>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-sm">
+          <div className="relative mx-auto w-full max-w-md">
             <Image
-              alt="Inimă medicală cu stetoscop"
-              className="object-contain drop-shadow-[0_24px_44px_rgba(3,17,28,0.18)]"
-              fill
-              sizes="(max-width: 1024px) 80vw, 360px"
-              src={generatedAssets.ctaHeart}
+              alt="Student SmartMed creându-și contul în platformă"
+              className="h-auto w-full object-contain drop-shadow-[0_28px_52px_rgba(3,17,28,0.18)]"
+              height={1235}
+              sizes="(max-width: 1024px) 82vw, 420px"
+              src="/assets/generated/smartmed-account-statue.png"
+              width={1393}
             />
           </div>
         </Reveal>
         <Reveal delay={0.16}>
           <div className="text-left lg:text-center">
-            <SectionLabel tone="cream">Pregătire cu medici</SectionLabel>
+            <SectionLabel tone="cream">Cont SmartMed</SectionLabel>
             <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.025em] sm:text-6xl">
-              Admiterea 2026
+              Creează-ți contul SmartMed
             </h2>
-            <p className="mt-4 text-sm font-bold uppercase tracking-[0.18em] text-smart-ink/72">
-              Pregătire cu medici
+            <p className="mx-auto mt-4 max-w-md text-base font-semibold leading-8 text-smart-ink/70">
+              Intră în platformă, urmărește-ți progresul și începe pregătirea într-un singur loc.
             </p>
             <div className="mt-8 flex lg:justify-center">
-              <PremiumButton href="/cont">Începe acum pregătirea</PremiumButton>
+              <PremiumButton href="/cont">Creează cont</PremiumButton>
             </div>
           </div>
         </Reveal>

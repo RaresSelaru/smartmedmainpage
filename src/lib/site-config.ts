@@ -151,10 +151,10 @@ export const pathChoiceGroup2 = [
     image: generatedAssets.featureCourses,
     cta: "Exersează pe grile",
     benefits: [
-      "Bază amplă de grile pe materii",
-      "Antrenament structurat zilnic",
-      "Explicații după fiecare grilă",
-      "Filtre pe capitole și dificultate",
+      "Bază extinsă de grile organizate pe discipline",
+      "Antrenament zilnic structurat și progresiv",
+      "Explicații concise aferente fiecărei grile",
+      "Filtrare după capitole și nivel de dificultate",
     ],
   },
   {
@@ -164,10 +164,10 @@ export const pathChoiceGroup2 = [
     image: generatedAssets.ctaHeart,
     cta: "Pregătește simularea",
     benefits: [
-      "Sesiuni cu regim de examen",
-      "Scoruri urmărite în timp",
-      "Feedback pe capitole",
-      "Comparație cu colegii de cohortă",
+      "Simulări desfășurate în condiții de examen",
+      "Monitorizarea evoluției scorurilor în timp",
+      "Feedback structurat pe capitole",
+      "Analiză comparativă la nivel de grupă",
     ],
   },
 ] satisfies PathChoiceCard[];
@@ -291,10 +291,10 @@ export const pathChoiceGroup3 = [
     image: generatedAssets.featureBlog,
     cta: "Explorează articolele",
     benefits: [
+      "Informații despre admitere",
       "Strategii eficiente de învățare",
-      "Explicații pe capitole grele",
-      "Sfaturi de la medicii rezidenți",
-      "Povești și parcursuri reale",
+      "Pagina de psihologie",
+      "Mailul de luni",
     ],
   },
   {
@@ -304,10 +304,10 @@ export const pathChoiceGroup3 = [
     image: generatedAssets.heroNeural,
     cta: "Vezi produsele",
     benefits: [
-      "Caiete și materiale tipărite",
-      "Pachete digitale premium",
-      "Bundle-uri pentru capitole grele",
-      "Comenzi rapide și sigure",
+      "Materiale digitale",
+      "Oferte speciale",
+      "SmartMed Cards",
+      "Culegere de grile cu explicații",
     ],
   },
 ] satisfies PathChoiceCard[];

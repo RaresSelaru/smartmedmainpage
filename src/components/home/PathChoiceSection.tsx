@@ -676,7 +676,8 @@ function TrainingChoiceCopy({
   return (
     <div
       className={cn(
-        "smart-training-copy mx-auto max-w-[18rem] text-center text-smart-ink 2xl:max-w-[20rem]",
+        "smart-training-copy mx-auto max-w-[18rem] text-center text-smart-ink",
+        isGrile ? "xl:max-w-[30rem]" : "xl:max-w-[29rem] 2xl:max-w-[31rem]",
         align === "right" ? "xl:ml-auto" : "xl:mr-auto",
         isGrile
           ? "smart-training-grile-copy smart-training-grile-trigger"
@@ -720,7 +721,7 @@ function TrainingChoiceCopy({
             >
               <SmartIcon className="size-3.5" name="check" />
             </span>
-            <span>{benefit}</span>
+            <span className="xl:whitespace-nowrap">{benefit}</span>
           </li>
         ))}
       </ul>
@@ -778,7 +779,7 @@ function SmartEcosystemSection() {
         </Reveal>
 
         <div className="mt-10 xl:grid xl:grid-cols-[minmax(250px,0.58fr)_minmax(620px,1.34fr)_minmax(250px,0.58fr)] xl:items-center xl:gap-4 min-[1800px]:grid-cols-[minmax(320px,0.66fr)_minmax(980px,1.8fr)_minmax(320px,0.66fr)] min-[1800px]:gap-6">
-          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-10 xl:block min-[1800px]:-mt-12" delay={0.05}>
+          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-28 xl:block min-[1800px]:-mt-32" delay={0.05}>
             <EcosystemChoiceCopy align="left" choice={blogChoice} />
           </Reveal>
 
@@ -790,7 +791,7 @@ function SmartEcosystemSection() {
             <EcosystemEyesVisual blogChoice={blogChoice} shopChoice={shopChoice} />
           </Reveal>
 
-          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-10 xl:block min-[1800px]:-mt-12" delay={0.05}>
+          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-28 xl:block min-[1800px]:-mt-32" delay={0.05}>
             <EcosystemChoiceCopy align="right" choice={shopChoice} />
           </Reveal>
         </div>
@@ -831,7 +832,7 @@ function EcosystemEyesVisual({
         />
         <div
           aria-hidden="true"
-          className="smart-ecosystem-pupil-icon smart-ecosystem-blog-pupil-icon pointer-events-none absolute left-[23.9%] top-[51.3%] z-20 w-[8.2%]"
+          className="smart-ecosystem-pupil-icon smart-ecosystem-blog-pupil-icon pointer-events-none absolute left-[23.9%] top-[51.3%] z-20 w-[10.2%]"
         >
           <Image
             alt=""
@@ -844,7 +845,7 @@ function EcosystemEyesVisual({
         </div>
         <div
           aria-hidden="true"
-          className="smart-ecosystem-pupil-icon smart-ecosystem-shop-pupil-icon pointer-events-none absolute left-[74.2%] top-[51.9%] z-20 w-[8%]"
+          className="smart-ecosystem-pupil-icon smart-ecosystem-shop-pupil-icon pointer-events-none absolute left-[74.2%] top-[51.9%] z-20 w-[10%]"
         >
           <Image
             alt=""
