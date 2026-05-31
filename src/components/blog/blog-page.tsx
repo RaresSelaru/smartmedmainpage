@@ -5,7 +5,6 @@ import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { BlogNavZone } from "@/components/blog/blog-nav-zone";
 import {
-  blogHeroImage,
   formatBlogDate,
   getBlogCategory,
   type BlogCategorySlug,
@@ -47,27 +46,27 @@ function BlogHero() {
       <div className="grain-overlay" />
       <div className="smart-container relative z-10">
         <Reveal>
-          <div className="relative h-[300px] overflow-hidden rounded-[30px] border border-white/14 bg-smart-deep shadow-[0_32px_92px_rgba(0,0,0,0.34)] sm:h-[340px] lg:h-[370px] 2xl:h-[388px]">
-            <Image
-              alt="SmartMed Academy Blog - ghiduri pentru admiterea la Medicină"
-              className="object-cover object-[62%_center] sm:object-center"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1380px"
-              src={blogHeroImage}
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,17,28,0.98)_0%,rgba(6,22,34,0.92)_24%,rgba(6,22,34,0.50)_45%,rgba(6,22,34,0.12)_69%,rgba(6,22,34,0.03)_100%),radial-gradient(circle_at_20%_48%,rgba(31,111,120,0.34),transparent_38%),linear-gradient(to_bottom,rgba(3,17,28,0.08),rgba(3,17,28,0.26))]" />
-            <div className="absolute inset-y-0 left-0 flex w-full max-w-xl flex-col justify-center px-7 py-8 sm:px-10 lg:px-12">
-              <p className="text-xs font-bold uppercase tracking-[0.36em] text-smart-gold-light">
-                SmartMed Academy
-              </p>
-              <h1 className="mt-4 font-serif text-[72px] font-semibold italic leading-[0.78] text-smart-white drop-shadow-[0_8px_26px_rgba(0,0,0,0.35)] sm:text-[104px] lg:text-[124px]">
-                BLOG
-              </h1>
-              <p className="mt-6 max-w-md font-serif text-3xl font-semibold italic leading-[1.04] text-smart-cream sm:text-4xl">
-                Navighează cu succes prin hățișul admiterii
-              </p>
-              <div className="mt-7 h-px w-44 bg-gradient-to-r from-smart-gold-light via-smart-aqua to-transparent" />
+          <div className="overflow-hidden rounded-[30px] border border-white/14 bg-smart-deep shadow-[0_32px_92px_rgba(0,0,0,0.34)]">
+            <div className="flex flex-col items-center md:flex-row">
+              <div className="w-full overflow-hidden bg-smart-cream md:w-1/2">
+                <Image
+                  alt="SmartMed Academy Blog"
+                  className="my-[-20%] h-auto w-full mix-blend-multiply md:my-[-12%]"
+                  height={1080}
+                  priority
+                  src="/assets/blog/blog-hero-text.jpeg"
+                  width={1080}
+                />
+              </div>
+              <div className="relative z-10 -mt-[15%] w-full overflow-hidden bg-smart-cream md:z-auto md:mt-0 md:w-1/2">
+                <Image
+                  alt="Statui medicale"
+                  className="h-auto w-full mix-blend-multiply md:my-[-12%]"
+                  height={1080}
+                  src="/assets/blog/statui.jpeg"
+                  width={1080}
+                />
+              </div>
             </div>
           </div>
         </Reveal>

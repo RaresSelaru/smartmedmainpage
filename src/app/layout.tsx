@@ -3,6 +3,7 @@ import { Barlow_Condensed, Cormorant_Garamond, Kaushan_Script, Manrope } from "n
 
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
@@ -60,9 +61,11 @@ export default function RootLayout({
       className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <StyledComponentsRegistry>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
