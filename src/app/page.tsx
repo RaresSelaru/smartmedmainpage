@@ -17,10 +17,12 @@ export default function Home() {
       <PathChoiceSection />
       <HorizontalScrollSection
         bottomWave="cream"
-        description="Ateliere intensive, recapitulări tematice și sesiuni dedicate capitolelor cu cea mai mare miză la admitere."
+        cardWidth={280}
+        description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere."
         eyebrow="Resurse SmartMed"
-        heading="Lecții Speciale"
+        heading="Module speciale"
         items={lectiiSpecialeCarousel}
+        variant="specialModules"
       />
       <PathChoiceSectionGroup2 />
       <HorizontalScrollSection
