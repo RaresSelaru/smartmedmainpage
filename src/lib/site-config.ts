@@ -312,7 +312,7 @@ export const pathChoiceGroup3 = [
   {
     label: "Ghiduri și claritate",
     title: "SmartMed Blog",
-    href: "/blog",
+    href: "/blog-principal",
     image: generatedAssets.featureBlog,
     cta: "Explorează articolele",
     benefits: [
@@ -355,7 +355,7 @@ export const featureCards = [
   {
     title: "Blog",
     description: "Articole utile, sfaturi și noutăți din lumea pregătirii medicale.",
-    href: "/blog",
+    href: "/blog-principal",
     image: generatedAssets.featureBlog,
     icon: "pen-tool",
   },
@@ -425,7 +425,7 @@ export const destinationCards: DestinationCardConfig[] = [
   {
     title: "SmartMed Blog",
     subtitle: "Strategii de învățare, ghiduri și clarificări pentru admitere.",
-    href: "/blog",
+    href: "/blog-principal",
     image: "/assets/page-icons/blog.svg",
     fallbackIcon: "pen-tool",
   },
@@ -580,7 +580,7 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
     description:
       "Hub editorial pentru anunțuri, noutăți despre admitere, modificări de program și informații relevante pentru elevi.",
     primaryCta: { label: "Vezi noutățile", href: "/news" },
-    secondaryCta: { label: "Citește blogul", href: "/blog" },
+    secondaryCta: { label: "Citește blogul", href: "/blog-principal" },
     highlights: [
       {
         title: "Anunțuri SmartMed",
@@ -639,7 +639,7 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
     title: "SmartMed Blog",
     description:
       "Spațiu pentru articole educaționale, metode de învățare, explicații și povești utile pentru admiterea la Medicină.",
-    primaryCta: { label: "Explorează articole", href: "/blog" },
+    primaryCta: { label: "Explorează articole", href: "/blog-principal" },
     secondaryCta: { label: "Vezi news", href: "/news" },
     highlights: [
       {

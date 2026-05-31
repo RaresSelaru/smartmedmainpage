@@ -44,7 +44,7 @@ function BlogPrincipalCategories() {
             {blogCategories.map((category) => (
               <Link
                 className="rounded-full border border-smart-abyss/15 bg-white px-5 py-3 text-center text-sm font-bold uppercase tracking-[0.13em] text-smart-ink transition duration-300 hover:border-smart-teal hover:text-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
-                href={`/blog-principal/${category.slug}`}
+                href={`/blog?categorie=${category.slug}#articole`}
                 key={category.slug}
               >
                 {category.label}
