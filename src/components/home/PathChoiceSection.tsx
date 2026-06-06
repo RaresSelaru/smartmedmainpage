@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
+import { sectionEyebrowClassName } from "@/components/home/PreparationSystemSection";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { SmartIcon } from "@/components/ui/SmartIcon";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
@@ -237,13 +238,13 @@ export function PathChoiceGroup({
 export function PathChoiceSection() {
   return (
     <section
-      className="smartmed-center-choice relative isolate overflow-hidden bg-smart-cream px-5 pb-40 pt-12 text-smart-ink sm:px-7 sm:pb-44 sm:pt-16 lg:px-8"
+      className="smartmed-center-choice relative isolate overflow-visible bg-smart-cream px-5 pb-40 pt-12 text-smart-ink sm:px-7 sm:pb-44 sm:pt-16 lg:px-8"
       id="centrul-smartmed"
     >
       <div className="relative z-10 mx-auto max-w-[1620px]">
         <Reveal>
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel tone="cream">Centrul SmartMed</SectionLabel>
+          <div className="mx-auto mt-6 max-w-3xl text-center sm:mt-10">
+            <p className={sectionEyebrowClassName}>Centrul SmartMed</p>
           </div>
         </Reveal>
 
@@ -284,7 +285,10 @@ export function PathChoiceSection() {
         </div>
       </div>
 
-      <WaveSeparator className="translate-y-8 sm:translate-y-10" fill="teal" />
+      <WaveSeparator
+        className="translate-y-8 bg-smart-cream sm:translate-y-10"
+        fill="teal"
+      />
     </section>
   );
 }

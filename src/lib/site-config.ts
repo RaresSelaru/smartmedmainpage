@@ -179,6 +179,7 @@ export type CarouselItem = {
   href: AppRoute;
   accent: "aqua" | "gold" | "teal" | "cream";
   icon: IconName;
+  image?: string;
 };
 
 export const lectiiSpecialeCarousel = [

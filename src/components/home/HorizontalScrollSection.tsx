@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   animate,
   motion,
@@ -26,7 +26,6 @@ type HorizontalScrollSectionProps = {
   speedPxPerSecond?: number;
   cardWidth?: number;
   bottomWave?: "cream" | "teal";
-  variant?: "standard" | "specialModules";
 };
 
 const accentToCardBg: Record<CarouselItem["accent"], string> = {
@@ -51,7 +50,6 @@ export function HorizontalScrollSection({
   speedPxPerSecond = 32,
   cardWidth = 320,
   bottomWave = "cream",
-  variant = "standard",
 }: HorizontalScrollSectionProps) {
   const x = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -141,18 +139,14 @@ export function HorizontalScrollSection({
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-smart-teal to-transparent sm:w-28" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-smart-teal to-transparent sm:w-28" />
 
-        <div className={cn("overflow-hidden", variant === "specialModules" && "-my-8 py-8")}>
+        <div className="overflow-hidden">
           <motion.div
             className="flex items-stretch gap-6 will-change-transform"
             ref={trackRef}
             style={{ x }}
           >
             {duplicated.map((item, index) => (
-              variant === "specialModules" ? (
-                <SpecialModuleCard item={item} key={`${item.title}-${index}`} width={cardWidth} />
-              ) : (
-                <CarouselCard item={item} key={`${item.title}-${index}`} width={cardWidth} />
-              )
+              <CarouselCard item={item} key={`${item.title}-${index}`} width={cardWidth} />
             ))}
           </motion.div>
         </div>
@@ -222,39 +216,6 @@ function CarouselCard({ item, width }: CarouselCardProps) {
           {item.title}
         </h3>
         <p className="text-sm leading-7 text-smart-white/76">{item.description}</p>
-      </div>
-    </Link>
-  );
-}
-
-function SpecialModuleCard({ item, width }: CarouselCardProps) {
-  return (
-    <Link
-      aria-label={item.title}
-      className="group/card relative flex h-[420px] shrink-0 items-center justify-center overflow-hidden rounded-[24px] border border-white/12 bg-smart-teal text-smart-white shadow-none transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] [perspective:1000px] hover:scale-[1.035] hover:border-white/24 hover:shadow-none focus-visible:scale-[1.035] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua focus-visible:shadow-none"
-      data-special-module-card="true"
-      href={item.href}
-      style={{ width }}
-    >
-      <div
-        className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-[radial-gradient(100%_80%_at_50%_18%,rgba(156,206,208,0.20)_0%,transparent_52%),linear-gradient(160deg,rgba(31,111,120,0.96)_0%,rgba(7,27,41,0.94)_58%,rgba(3,17,28,0.97)_100%)] text-smart-aqua transition-[filter,transform,opacity] duration-[600ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] [transform:scale(1)] group-hover/card:brightness-[0.45] group-hover/card:blur-[10px] group-hover/card:[transform:scale(1.045)] group-focus-visible/card:brightness-[0.45] group-focus-visible/card:blur-[10px] group-focus-visible/card:[transform:scale(1.045)]"
-        data-special-module-placeholder="true"
-      >
-        <ImageIcon aria-hidden="true" className="size-16 drop-shadow-[0_8px_24px_rgba(156,206,208,0.18)]" strokeWidth={1.45} />
-      </div>
-      <div
-        className="absolute inset-0 z-20 flex h-full w-full flex-col justify-center rounded-[inherit] bg-transparent p-8 text-left text-smart-white transition-transform duration-[600ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] [backface-visibility:hidden] [transform:rotateX(-90deg)] [transform-origin:bottom] group-hover/card:[transform:rotateX(0deg)] group-focus-visible/card:[transform:rotateX(0deg)]"
-        data-special-module-panel="true"
-      >
-        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-smart-aqua/78">
-          {item.eyebrow}
-        </p>
-        <h3 className="mt-3 font-serif text-[2rem] font-semibold leading-[1.02] text-smart-white">
-          {item.title}
-        </h3>
-        <p className="mt-5 min-h-[120px] text-[13px] leading-6 text-smart-white/78">
-          {item.description}
-        </p>
       </div>
     </Link>
   );
