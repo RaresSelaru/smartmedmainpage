@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { Reveal } from "@/components/animations/reveal";
+import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import { cn } from "@/lib/utils";
 
 type StatueSpot = {
@@ -26,7 +27,7 @@ const STATUES: StatueSpot[] = [
   {
     id: "asklepios",
     name: "Ἀσκληπιός",
-    hotspot: { left: "8.5%", top: "73.5%", width: "20%", height: "8.5%" },
+    hotspot: { left: "11%", top: "62%", width: "20%", height: "9%" },
     align: "left",
     title: "ASCLEPIOS",
     subtitle: "Ἀσκληπιός",
@@ -36,7 +37,7 @@ const STATUES: StatueSpot[] = [
   {
     id: "hippokrates",
     name: "Ἱπποκράτης",
-    hotspot: { left: "71%", top: "74.5%", width: "21%", height: "8.5%" },
+    hotspot: { left: "77%", top: "62%", width: "19%", height: "9%" },
     align: "right",
     title: "HIPPOCRATES",
     subtitle: "Ἱπποκράτης",
@@ -47,48 +48,76 @@ const STATUES: StatueSpot[] = [
 
 export function BlogPrincipalHero() {
   return (
-    <section className="relative isolate z-30 bg-smart-abyss pb-4 pt-32 text-smart-white sm:pb-6 sm:pt-36">
+    <section className="relative isolate z-30 overflow-x-clip bg-smart-abyss pb-4 pt-32 text-smart-white sm:pb-6 sm:pt-36">
+      {/* Fundal bleumarin (navy), ca înainte de gradient */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_12%,rgba(156,206,208,0.18),transparent_32%),linear-gradient(135deg,#03111c_0%,#061622_48%,#082030_100%)]" />
       <div className="grain-overlay" />
-      <div className="smart-container relative z-10">
+      {/* z-40 ca să fie deasupra arcadei (WaveSeparator, z-20) — astfel casetele de hover
+          care se deschid peste arcadă vin deasupra ei. */}
+      <div className="smart-container relative z-40">
         <Reveal>
-          {/* overflow vizibil ca să nu taie casetele care se deschid sub nume;
-              colțurile rotunjite sunt aplicate pe fiecare jumătate de imagine */}
-          <div className="relative rounded-[30px] border border-white/14 bg-smart-deep shadow-[0_32px_92px_rgba(0,0,0,0.34)]">
+          {/* Imaginile/textul direct pe fundal; overflow vizibil ca să nu taie casetele
+              care se deschid sub numele statuilor. */}
+          <div className="relative">
             <div className="flex flex-col items-center md:flex-row">
-              <div className="w-full overflow-hidden rounded-tl-[30px] rounded-tr-[30px] bg-smart-cream md:w-1/2 md:rounded-bl-[30px] md:rounded-tr-none">
-                <Image
-                  alt="SmartMed Academy Blog"
-                  className="my-[-20%] h-auto w-full mix-blend-multiply md:my-[-12%]"
-                  height={1080}
-                  priority
-                  src="/assets/blog/blog-hero-text.jpeg"
-                  width={1080}
-                />
-              </div>
-              <div className="relative z-10 -mt-[15%] w-full bg-smart-cream md:z-auto md:mt-0 md:w-1/2">
-                {/* Decupajul imaginii + colțurile rotunjite rămân pe acest strat interior */}
-                <div className="overflow-hidden rounded-bl-[30px] rounded-br-[30px] md:rounded-bl-none md:rounded-tr-[30px]">
+              {/* STÂNGA: „BLOG" (text HTML auriu) + subtitlul alb dedesubt */}
+              <div className="flex w-full flex-col items-start justify-center px-4 py-10 md:-ml-4 md:w-1/2 md:-translate-x-[76px] md:pl-0">
+                {/* Wrapper îngust cât „BLOG", ca subtitlul să fie centrat exact sub el */}
+                <div className="flex w-fit flex-col items-center gap-1">
+                  <h1 className="font-[family-name:var(--font-script)] text-8xl font-normal leading-none text-smart-gold sm:text-9xl">
+                    BLOG
+                  </h1>
                   <Image
-                    alt="Statui medicale"
-                    className="h-auto w-full mix-blend-multiply md:my-[-12%]"
-                    height={1080}
-                    src="/assets/blog/statui.jpeg"
-                    width={1080}
+                    alt="Între un „nu mai pot” și un „încă o grilă” — Navighează cu succes prin hățișul admiterii"
+                    className="-mt-2 h-auto w-full"
+                    height={480}
+                    priority
+                    src="/assets/blog/blog-hero-text-white.png"
+                    width={1900}
                   />
                 </div>
-                {/* Stratul interactiv, aliniat exact pe boxul imaginii (square),
-                    inclusiv decupajul vertical de pe desktop (md:my-[-12%]). */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 z-20 aspect-square md:-mt-[12%]">
-                  {STATUES.map((statue) => (
-                    <StatueNameSpot key={statue.id} statue={statue} />
-                  ))}
+              </div>
+              {/* DREAPTA: textul „Centru acreditat” deasupra + statuile transparente.
+                  Cele două PNG-uri au conținutul în aceeași bandă centrală; le stivuim și
+                  folosim marginea negativă (peste padding-ul transparent) ca textul să stea
+                  deasupra statuilor, ca în poza originală. */}
+              <div className="flex w-full flex-col items-end md:-mr-4 md:w-1/2 md:-translate-y-[38px] md:translate-x-[76px] md:pr-0">
+                {/* Stack împins spre dreapta; statuile mai mari, textul de deasupra mai mic */}
+                <div className="w-[96%] max-w-[600px]">
+                  <Image
+                    alt="Centru acreditat — Exigență, Excelență și Experiență în pregătirea pentru Medicină — SmartMed Academy"
+                    className="pointer-events-none mx-auto h-auto w-[60%]"
+                    height={1280}
+                    sizes="(max-width: 768px) 50vw, 26vw"
+                    src="/assets/blog/centru-acreditat.png"
+                    width={1280}
+                  />
+                  <div className="relative -mt-[36%] w-full">
+                    <Image
+                      alt="Statuile lui Asclepios și Hipocrate"
+                      className="h-auto w-full"
+                      height={1280}
+                      priority
+                      sizes="(max-width: 768px) 80vw, 46vw"
+                      src="/assets/blog/Statui-transparent.png"
+                      width={1280}
+                    />
+                    {/* Stratul interactiv cu hotspot-urile pe numele statuilor (aliniat pe
+                        pătratul imaginii cu statui) */}
+                    <div className="pointer-events-none absolute inset-0 z-20">
+                      {STATUES.map((statue) => (
+                        <StatueNameSpot key={statue.id} statue={statue} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </Reveal>
       </div>
+      {/* Arcada: tranziție curbă spre secțiunea următoare (Categorii, crem) */}
+      <WaveSeparator fill="cream" />
     </section>
   );
 }
@@ -118,10 +147,13 @@ function StatueNameSpot({ statue }: { statue: StatueSpot }) {
       {visible ? (
         <div
           className={cn(
-            "absolute top-[calc(100%+0.4rem)] z-30 w-[min(86vw,340px)] rounded-2xl border border-smart-abyss/12 bg-[rgba(250,244,232,0.94)] p-4 text-smart-ink shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-md",
+            // Wrapper-bridge: lipit de hotspot (top-full) cu padding transparent în loc de gap,
+            // ca traseul nume→casetă să fie continuu (caseta nu mai dispare la trecere).
+            "absolute top-full z-30 w-[min(86vw,340px)] pt-[0.4rem]",
             statue.align === "right" ? "right-0" : "left-0",
           )}
         >
+          <div className="rounded-2xl border border-smart-abyss/12 bg-[rgba(250,244,232,0.94)] p-4 text-smart-ink shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-md">
           <h4 className="text-center font-serif text-lg font-semibold leading-tight text-smart-ink">
             {statue.title}
           </h4>
@@ -163,6 +195,7 @@ function StatueNameSpot({ statue }: { statue: StatueSpot }) {
               Vezi mai mult
             </button>
           )}
+          </div>
         </div>
       ) : null}
     </div>

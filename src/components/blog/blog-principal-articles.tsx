@@ -71,7 +71,7 @@ export function BlogPrincipalArticles() {
   );
 }
 
-function BlogPrincipalArticleCard({ post }: { post: BlogPost }) {
+export function BlogPrincipalArticleCard({ post }: { post: BlogPost }) {
   return (
     <Link
       className="group flex h-full flex-col rounded-[28px] border border-smart-abyss/10 bg-white p-6 shadow-[0_18px_54px_rgba(3,17,28,0.08)] transition duration-500 hover:shadow-[0_26px_76px_rgba(3,17,28,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal sm:p-7"
