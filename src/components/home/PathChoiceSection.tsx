@@ -285,10 +285,7 @@ export function PathChoiceSection() {
         </div>
       </div>
 
-      <WaveSeparator
-        className="translate-y-8 bg-smart-cream sm:translate-y-10"
-        fill="teal"
-      />
+      <WaveSeparator fill="teal" />
     </section>
   );
 }
@@ -562,7 +559,6 @@ function SmartTrainingSection() {
 
   return (
     <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-24 text-smart-ink sm:px-7 sm:pb-40 sm:pt-28 lg:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_at_top,rgba(200,168,117,0.14),transparent_66%)]" />
       <div className="relative z-10 mx-auto max-w-[1620px]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
@@ -607,7 +603,7 @@ function SmartTrainingSection() {
         </Reveal>
       </div>
 
-      <WaveSeparator className="translate-y-8 sm:translate-y-10" fill="teal" />
+      <WaveSeparator fill="teal" />
     </section>
   );
 }
@@ -768,7 +764,6 @@ function SmartEcosystemSection() {
 
   return (
     <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_at_top,rgba(200,168,117,0.13),transparent_68%)]" />
       <div className="relative z-10 mx-auto max-w-[1900px]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">

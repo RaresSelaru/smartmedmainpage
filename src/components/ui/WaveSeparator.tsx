@@ -23,7 +23,7 @@ export function WaveSeparator({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-x-0 z-20 h-32 overflow-hidden sm:h-44",
+        "pointer-events-none absolute inset-x-0 z-20 h-36 overflow-hidden sm:h-48",
         position === "top" ? "-top-px rotate-180" : "-bottom-px",
         className,
       )}
@@ -32,17 +32,17 @@ export function WaveSeparator({
         aria-hidden="true"
         className={cn("absolute bottom-0 h-full w-full", back)}
         preserveAspectRatio="none"
-        viewBox="0 0 1440 180"
+        viewBox="0 0 1440 200"
       >
-        <path d="M0 90 C 320 90, 400 20, 720 20 C 1040 20, 1120 138, 1440 118 L 1440 180 L 0 180 Z" />
+        <path d="M-120 98 C 250 98, 400 22, 720 22 C 1040 22, 1130 148, 1560 120 L 1560 200 L -120 200 Z" />
       </svg>
       <svg
         aria-hidden="true"
         className={cn("absolute bottom-0 h-full w-full", front)}
         preserveAspectRatio="none"
-        viewBox="0 0 1440 180"
+        viewBox="0 0 1440 200"
       >
-        <path d="M0 140 C 320 140, 400 70, 720 70 C 1040 70, 1120 174, 1440 150 L 1440 180 L 0 180 Z" />
+        <path d="M-120 150 C 260 150, 405 76, 720 76 C 1040 76, 1135 188, 1560 154 L 1560 200 L -120 200 Z" />
       </svg>
     </div>
   );

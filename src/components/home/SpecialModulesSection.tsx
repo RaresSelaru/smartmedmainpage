@@ -101,8 +101,6 @@ export function SpecialModulesSection({
 
   return (
     <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28">
-      <div className="grain-overlay" />
-
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
