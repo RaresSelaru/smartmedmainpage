@@ -187,7 +187,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Lecțiile SMART",
     description:
-      "Completarea materiei din manual cu noțiuni vitale pentru înțelegerea fiecărui capitol.",
+      "Completarea manualelor cu noțiuni vitale pentru înțelegerea fiecărui capitol, informațiile dificile devenind concepte ușor de înțeles.",
     href: "/lectii-speciale",
     accent: "aqua",
     icon: "book-open",
@@ -195,7 +195,7 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Sutura SMART",
-    description: "Corelații între noțiuni din capitole diferite.",
+    description: "Corelarea logică a noțiunilor din capitole diferite, fără învățare mecanică, conexiuni strategice care ajută la formarea unei gândiri medicale.",
     href: "/lectii-speciale",
     accent: "gold",
     icon: "sparkles",
@@ -203,7 +203,7 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Radiografia SMART",
-    description: "Analiza minuțioasă a desenelor din manualul de biologie.",
+    description: "Analiza minuțioasă a desenelor din manualul de biologie, surse dense de informații pe care mulți candidați le ignoră.",
     href: "/lectii-speciale",
     accent: "cream",
     icon: "stethoscope",
@@ -211,15 +211,15 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Disecția SMART",
-    description: "Detalierea corectă și completă a grilelor.",
+    description: "Analiza eficientă a grilelor te ajută să treci de la simpla memorare la înțelegerea profundă a mecanismelor.",
     href: "/lectii-speciale",
     accent: "teal",
     icon: "clipboard",
   },
   {
     eyebrow: "Modul special",
-    title: "SMARTmedskill",
-    description: "Capcanele materiei.",
+    title: "Diferențialul SMART",
+    description: "Analiza capcanelor materiei te ajută să înțelegi fiziologia unui proces, nu doar să-l memorezi mecanic.",
     href: "/lectii-speciale",
     accent: "aqua",
     icon: "shield",
@@ -227,7 +227,7 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Imagistica SMART",
-    description: "Schițe și desene personalizate fiecărui capitol.",
+    description: "Schițe și desene complementare necesare pentru stăpânirea fiecărui detaliu esențial la admitere.",
     href: "/lectii-speciale",
     accent: "gold",
     icon: "pen-tool",
@@ -235,7 +235,7 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Laboratorul SMART",
-    description: "Ce nu știi că nu știi din manualele de chimie.",
+    description: "Ce nu știi că nu știi din manualele de chimie: detaliile ascunse printre rânduri, în subsolul paginilor sau în culegeri.",
     href: "/lectii-speciale",
     accent: "teal",
     icon: "help",
@@ -243,7 +243,7 @@ export const lectiiSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Problema cu problemele",
-    description: "Toate tipurile de probleme întâlnite la examen.",
+    description: "Toate tipurile de probleme întâlnite la examen, analizate minuțios, care fac diferența între buget și taxă.",
     href: "/lectii-speciale",
     accent: "cream",
     icon: "timer",
