@@ -251,44 +251,53 @@ type SpecialModuleCardProps = {
 };
 
 function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
+  const imageSrc = item.imageSrc ?? item.imageUrl ?? item.image;
+
   return (
     <Link
       aria-label={`${item.title} - ${item.description}`}
-      className="group/card relative flex min-h-[500px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[25px] border border-smart-gold/32 bg-[linear-gradient(180deg,#fbf7ef_0%,#f5ecdc_100%)] text-smart-ink shadow-[0_8px_20px_rgba(3,17,28,0.06),inset_0_1px_0_rgba(255,255,255,0.82)] transition duration-500 ease-out hover:-translate-y-2 hover:border-smart-gold/72 hover:shadow-[0_16px_38px_rgba(3,17,28,0.14),0_0_18px_rgba(156,206,208,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[300px]"
+      className="group/card relative isolate flex min-h-[620px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[30px] bg-[#fbf6ec] text-smart-ink shadow-[0_18px_42px_rgba(3,17,28,0.14),0_4px_14px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.76)] transition duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_26px_58px_rgba(3,17,28,0.20),0_0_24px_rgba(215,190,138,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-h-[650px] sm:w-[300px]"
       data-special-module-card="true"
       href={item.href}
     >
-      <div className="relative h-[220px] overflow-hidden">
-        {item.image ? (
+      <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#fbf6ec] sm:h-[358px]">
+        {imageSrc ? (
           <Image
-            alt=""
-            className="object-cover transition duration-700 ease-out group-hover/card:scale-[1.045]"
+            alt={item.imageAlt ?? ""}
+            className="transition duration-700 ease-out group-hover/card:scale-[1.045]"
             fill
             sizes="(min-width: 1024px) 300px, 286px"
-            src={item.image}
+            src={imageSrc}
+            style={{
+              objectFit: item.imageFit ?? "cover",
+              objectPosition: item.imagePosition ?? "center top",
+            }}
           />
         ) : (
           <div
             aria-hidden="true"
-            className={cn(
-              "absolute inset-0 bg-gradient-to-br transition duration-700 ease-out group-hover/card:scale-[1.035]",
-              accentToImageGlow[item.accent],
-            )}
+            className="absolute inset-0 overflow-hidden bg-smart-cream transition duration-700 ease-out group-hover/card:scale-[1.035]"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.78),transparent_28%),radial-gradient(circle_at_78%_28%,rgba(31,111,120,0.14),transparent_34%),linear-gradient(135deg,rgba(200,168,117,0.15)_0%,transparent_42%)]" />
-            <div className="absolute inset-x-8 top-9 h-px bg-smart-gold/36" />
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-br",
+                accentToImageGlow[item.accent],
+              )}
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_16%,rgba(255,255,255,0.72),transparent_30%),radial-gradient(circle_at_78%_24%,rgba(31,111,120,0.13),transparent_36%),radial-gradient(circle_at_52%_72%,rgba(200,168,117,0.20),transparent_36%)]" />
           </div>
         )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] h-[46%] bg-[linear-gradient(180deg,rgba(251,246,236,0)_0%,rgba(251,246,236,0.08)_32%,rgba(251,246,236,0.28)_62%,rgba(251,246,236,0.68)_86%,#fbf6ec_100%)]" />
       </div>
 
-      <div className="relative flex flex-1 flex-col px-8 pb-8 pt-10 text-center">
-        <span className="absolute left-1/2 top-0 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#f5ecdc] bg-[linear-gradient(180deg,#dfc17e_0%,#bd9558_100%)] text-base font-extrabold text-white shadow-[0_12px_26px_rgba(153,111,43,0.26)]">
+      <div className="relative z-10 flex flex-1 flex-col items-center px-8 pb-9 pt-20 text-center sm:px-9 sm:pb-10 sm:pt-24">
+        <span className="absolute left-1/2 top-0 z-20 flex size-[3.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[4px] border-[#fbf6ec] bg-[linear-gradient(180deg,#e2c783_0%,#c69d5f_100%)] text-lg font-extrabold text-white shadow-[0_12px_24px_rgba(153,111,43,0.26),0_2px_6px_rgba(3,17,28,0.10)] sm:size-14">
           {moduleNumber}
         </span>
-        <h3 className="font-serif text-[2rem] font-semibold leading-[0.96] tracking-[-0.015em] text-smart-ink">
+        <h3 className="font-serif text-[2rem] font-semibold leading-[0.98] tracking-[-0.012em] text-smart-ink sm:text-[2.1rem]">
           {item.title}
         </h3>
-        <p className="mx-auto mt-5 max-w-[13.5rem] text-sm leading-7 text-smart-ink/72">
+        <p className="mx-auto mt-5 max-w-[14.25rem] text-sm leading-7 text-smart-ink/68">
           {item.description}
         </p>
       </div>

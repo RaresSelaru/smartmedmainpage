@@ -180,6 +180,11 @@ export type CarouselItem = {
   accent: "aqua" | "gold" | "teal" | "cream";
   icon: IconName;
   image?: string;
+  imageSrc?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageFit?: "cover" | "contain";
+  imagePosition?: string;
 };
 
 export const lectiiSpecialeCarousel = [
@@ -191,6 +196,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "aqua",
     icon: "book-open",
+    imageSrc: "/images/special-modules/cards/lectiile-smart.png",
+    imageAlt: "Manual medical deschis cu concepte și legături vizuale pentru Lecțiile SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -199,6 +207,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "gold",
     icon: "sparkles",
+    imageSrc: "/images/special-modules/cards/sutura-smart.png",
+    imageAlt: "Ilustrație medicală cu conexiuni logice pentru Sutura SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -207,6 +218,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "cream",
     icon: "stethoscope",
+    imageSrc: "/images/special-modules/cards/radiografia-smart.png",
+    imageAlt: "Ilustrație medicală academică pentru Radiografia SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -215,6 +229,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "teal",
     icon: "clipboard",
+    imageSrc: "/images/special-modules/cards/disectia-smart.png",
+    imageAlt: "Ilustrație medicală strat cu strat pentru Disecția SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -223,6 +240,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "aqua",
     icon: "shield",
+    imageSrc: "/images/special-modules/cards/diferentialul-smart.png",
+    imageAlt: "Ilustrație medicală cu analiză diferențială pentru Diferențialul SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -231,6 +251,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "gold",
     icon: "pen-tool",
+    imageSrc: "/images/special-modules/cards/imagistica-smart.png",
+    imageAlt: "Ilustrație cu schițe medicale și imagistică pentru Imagistica SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -239,6 +262,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "teal",
     icon: "help",
+    imageSrc: "/images/special-modules/cards/laboratorul-smart.png",
+    imageAlt: "Ilustrație de laborator academic pentru Laboratorul SMART",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
@@ -247,6 +273,9 @@ export const lectiiSpecialeCarousel = [
     href: "/lectii-speciale",
     accent: "cream",
     icon: "timer",
+    imageSrc: "/images/special-modules/cards/problema-cu-problemele.png",
+    imageAlt: "Ilustrație academică pentru analiza problemelor de examen",
+    imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
