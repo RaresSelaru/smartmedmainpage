@@ -238,7 +238,7 @@ export function PathChoiceGroup({
 export function PathChoiceSection() {
   return (
     <section
-      className="smartmed-center-choice relative isolate overflow-visible bg-smart-cream px-5 pb-40 pt-12 text-smart-ink sm:px-7 sm:pb-44 sm:pt-16 lg:px-8"
+      className="smartmed-center-choice relative isolate overflow-visible bg-smart-cream px-5 pb-52 pt-12 text-smart-ink sm:px-7 sm:pb-56 sm:pt-16 lg:px-8 xl:pb-60"
       id="centrul-smartmed"
     >
       <div className="relative z-10 mx-auto max-w-[1620px]">
@@ -285,7 +285,7 @@ export function PathChoiceSection() {
         </div>
       </div>
 
-      <WaveSeparator fill="teal" />
+      <WaveSeparator fill="teal" variant="relaxed" />
     </section>
   );
 }
@@ -558,7 +558,7 @@ function SmartTrainingSection() {
   const simulationChoice = smartTrainingChoices[1];
 
   return (
-    <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-24 text-smart-ink sm:px-7 sm:pb-40 sm:pt-28 lg:px-8">
+    <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-52 pt-24 text-smart-ink sm:px-7 sm:pb-56 sm:pt-28 lg:px-8 xl:pb-60">
       <div className="relative z-10 mx-auto max-w-[1620px]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
@@ -603,7 +603,7 @@ function SmartTrainingSection() {
         </Reveal>
       </div>
 
-      <WaveSeparator fill="teal" />
+      <WaveSeparator fill="teal" variant="relaxed" />
     </section>
   );
 }

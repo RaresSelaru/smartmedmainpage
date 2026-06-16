@@ -3,7 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -43,6 +50,31 @@ const accentToImageGlow: Record<CarouselItem["accent"], string> = {
   teal: "from-smart-teal/22 via-smart-cream/78 to-smart-cream-deep/92",
   cream: "from-smart-cream via-smart-cream/88 to-smart-cream-deep/92",
 };
+
+function getRailMaskStyle(
+  canScrollLeft: boolean,
+  canScrollRight: boolean,
+): CSSProperties | undefined {
+  if (!canScrollLeft && !canScrollRight) {
+    return undefined;
+  }
+
+  const fadeWidth = "52px";
+  let maskImage: string;
+
+  if (canScrollLeft && canScrollRight) {
+    maskImage = `linear-gradient(90deg, transparent 0, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent 100%)`;
+  } else if (canScrollLeft) {
+    maskImage = `linear-gradient(90deg, transparent 0, black ${fadeWidth}, black 100%)`;
+  } else {
+    maskImage = `linear-gradient(90deg, black 0, black calc(100% - ${fadeWidth}), transparent 100%)`;
+  }
+
+  return {
+    WebkitMaskImage: maskImage,
+    maskImage,
+  };
+}
 
 export function SpecialModulesSection({
   eyebrow,
@@ -122,22 +154,16 @@ export function SpecialModulesSection({
 
       <div className="relative z-10 mx-auto mt-14 max-w-[1600px] px-5 sm:mt-16 sm:px-7 lg:px-10 xl:px-12">
         <div className="grid items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
-          <Reveal className="min-w-0 lg:-mt-16 xl:-mt-20">
+          <Reveal className="min-w-0 lg:-mt-8 xl:-mt-9">
             <SignatureCard />
           </Reveal>
 
           <Reveal className="min-w-0" delay={0.08}>
             <div className="relative min-w-0">
               {canScrollLeft ? (
-                <div className="pointer-events-none absolute bottom-16 left-0 top-4 z-20 w-16 bg-gradient-to-r from-smart-teal/72 via-smart-teal/22 to-transparent sm:w-20" />
-              ) : null}
-              {canScrollRight ? (
-                <div className="pointer-events-none absolute bottom-16 right-0 top-4 z-20 w-16 bg-gradient-to-l from-smart-teal/72 via-smart-teal/22 to-transparent sm:w-20" />
-              ) : null}
-              {canScrollLeft ? (
                 <ScrollButton
                   ariaLabel="Module precedente"
-                  className="-left-3 sm:-left-4"
+                  className="-left-8 sm:-left-10 lg:-left-12"
                   direction="left"
                   onClick={() => scrollRail(-1)}
                 />
@@ -145,7 +171,7 @@ export function SpecialModulesSection({
               {canScrollRight ? (
                 <ScrollButton
                   ariaLabel="Module următoare"
-                  className="right-0 sm:right-2"
+                  className="right-1 sm:right-3"
                   direction="right"
                   onClick={() => scrollRail(1)}
                 />
@@ -155,6 +181,7 @@ export function SpecialModulesSection({
                 className="-my-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth scroll-pl-3 scroll-pr-32 py-6 pb-12 pl-3 pr-32 [scrollbar-width:none] sm:scroll-pl-4 sm:scroll-pr-40 sm:pl-4 sm:pr-40 [&::-webkit-scrollbar]:hidden"
                 onScroll={updateRailState}
                 ref={railRef}
+                style={getRailMaskStyle(canScrollLeft, canScrollRight)}
               >
                 {items.map((item, index) => (
                   <SpecialModuleCard item={item} key={item.title} moduleNumber={index + 1} />
@@ -256,7 +283,7 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
   return (
     <Link
       aria-label={`${item.title} - ${item.description}`}
-      className="group/card relative isolate flex min-h-[620px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[30px] bg-[#fbf6ec] text-smart-ink shadow-[0_18px_42px_rgba(3,17,28,0.14),0_4px_14px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.76)] transition duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_26px_58px_rgba(3,17,28,0.20),0_0_24px_rgba(215,190,138,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-h-[650px] sm:w-[300px]"
+      className="group/card relative isolate flex min-h-[590px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[30px] bg-[#fbf6ec] text-smart-ink shadow-[0_18px_42px_rgba(3,17,28,0.14),0_4px_14px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.76)] transition duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_26px_58px_rgba(3,17,28,0.20),0_0_24px_rgba(215,190,138,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-h-[620px] sm:w-[300px]"
       data-special-module-card="true"
       href={item.href}
     >
@@ -264,7 +291,7 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
         {imageSrc ? (
           <Image
             alt={item.imageAlt ?? ""}
-            className="transition duration-700 ease-out group-hover/card:scale-[1.045]"
+            className="transition duration-700 ease-out [backface-visibility:hidden] [transform:translateZ(0)] group-hover/card:scale-[1.045]"
             fill
             sizes="(min-width: 1024px) 300px, 286px"
             src={imageSrc}
@@ -276,7 +303,7 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
         ) : (
           <div
             aria-hidden="true"
-            className="absolute inset-0 overflow-hidden bg-smart-cream transition duration-700 ease-out group-hover/card:scale-[1.035]"
+            className="absolute inset-0 overflow-hidden bg-smart-cream transition duration-700 ease-out [backface-visibility:hidden] [transform:translateZ(0)] group-hover/card:scale-[1.035]"
           >
             <div
               className={cn(
@@ -287,17 +314,17 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_16%,rgba(255,255,255,0.72),transparent_30%),radial-gradient(circle_at_78%_24%,rgba(31,111,120,0.13),transparent_36%),radial-gradient(circle_at_52%_72%,rgba(200,168,117,0.20),transparent_36%)]" />
           </div>
         )}
-        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] h-[46%] bg-[linear-gradient(180deg,rgba(251,246,236,0)_0%,rgba(251,246,236,0.08)_32%,rgba(251,246,236,0.28)_62%,rgba(251,246,236,0.68)_86%,#fbf6ec_100%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-3px] z-10 h-[52%] bg-[linear-gradient(180deg,rgba(251,246,236,0)_0%,rgba(251,246,236,0.08)_32%,rgba(251,246,236,0.28)_62%,rgba(251,246,236,0.68)_86%,#fbf6ec_100%)]" />
       </div>
 
-      <div className="relative z-10 flex flex-1 flex-col items-center px-8 pb-9 pt-20 text-center sm:px-9 sm:pb-10 sm:pt-24">
+      <div className="relative z-20 -mt-px flex h-[260px] flex-col items-center bg-[#fbf6ec] px-8 pb-6 pt-[62px] text-center sm:h-[262px] sm:px-9 sm:pb-[26px] sm:pt-16">
         <span className="absolute left-1/2 top-0 z-20 flex size-[3.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[4px] border-[#fbf6ec] bg-[linear-gradient(180deg,#e2c783_0%,#c69d5f_100%)] text-lg font-extrabold text-white shadow-[0_12px_24px_rgba(153,111,43,0.26),0_2px_6px_rgba(3,17,28,0.10)] sm:size-14">
           {moduleNumber}
         </span>
-        <h3 className="font-serif text-[2rem] font-semibold leading-[0.98] tracking-[-0.012em] text-smart-ink sm:text-[2.1rem]">
+        <h3 className="font-serif text-[1.9rem] font-semibold leading-[0.96] tracking-[-0.012em] text-smart-ink sm:text-[2rem]">
           {item.title}
         </h3>
-        <p className="mx-auto mt-5 max-w-[14.25rem] text-sm leading-7 text-smart-ink/68">
+        <p className="mx-auto mt-3 max-w-[14.25rem] text-[13.25px] leading-[1.58] text-smart-ink/68 sm:text-[13.5px] sm:leading-[1.62]">
           {item.description}
         </p>
       </div>
@@ -319,13 +346,17 @@ function ScrollButton({ ariaLabel, className, direction, onClick }: ScrollButton
     <button
       aria-label={ariaLabel}
       className={cn(
-        "absolute top-[210px] z-30 inline-flex size-14 -translate-y-1/2 items-center justify-center rounded-full border border-smart-aqua/38 bg-smart-abyss/76 text-smart-white shadow-[0_16px_42px_rgba(3,17,28,0.36)] backdrop-blur-md transition duration-300 hover:border-smart-gold/70 hover:bg-smart-abyss hover:text-smart-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua",
+        "absolute top-[295px] z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-transparent text-smart-cream/80 transition duration-300 hover:bg-smart-cream/8 hover:text-smart-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:top-[310px]",
         className,
       )}
       onClick={onClick}
       type="button"
     >
-      <Icon aria-hidden="true" className="size-6" strokeWidth={1.8} />
+      <Icon
+        aria-hidden="true"
+        className="size-8 drop-shadow-[0_4px_10px_rgba(3,17,28,0.18)]"
+        strokeWidth={1.55}
+      />
     </button>
   );
 }
