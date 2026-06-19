@@ -1,203 +1,115 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+import { BookOpen, GraduationCap, Search } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import { cn } from "@/lib/utils";
-
-type StatueSpot = {
-  id: string;
-  name: string;
-  hotspot: { left: string; top: string; width: string; height: string };
-  align: "left" | "right";
-  title: string;
-  subtitle: string;
-  subtitle2: string;
-  body: string;
-};
-
-const PLACEHOLDER_BODY =
-  "Text placeholder. Aici va veni descrierea statuii — câteva rânduri introductive vizibile, " +
-  "iar restul conținutului rămâne ascuns până la apăsarea pe „Vezi mai mult”. " +
-  "Înlocuiește acest text cu informația reală despre personaj.";
-
-const STATUES: StatueSpot[] = [
-  {
-    id: "asklepios",
-    name: "Ἀσκληπιός",
-    hotspot: { left: "11%", top: "62%", width: "20%", height: "9%" },
-    align: "left",
-    title: "ASCLEPIOS",
-    subtitle: "Ἀσκληπιός",
-    subtitle2: "zeul medicinii în lumea greco-romană",
-    body: PLACEHOLDER_BODY,
-  },
-  {
-    id: "hippokrates",
-    name: "Ἱπποκράτης",
-    hotspot: { left: "77%", top: "62%", width: "19%", height: "9%" },
-    align: "right",
-    title: "HIPPOCRATES",
-    subtitle: "Ἱπποκράτης",
-    subtitle2: "părintele medicinii",
-    body: PLACEHOLDER_BODY,
-  },
-];
 
 export function BlogPrincipalHero() {
   return (
-    <section className="relative isolate z-30 overflow-x-clip bg-smart-abyss pb-4 pt-32 text-smart-white sm:pb-6 sm:pt-36">
-      {/* Fundal bleumarin (navy), ca înainte de gradient */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_12%,rgba(156,206,208,0.18),transparent_32%),linear-gradient(135deg,#03111c_0%,#061622_48%,#082030_100%)]" />
-      <div className="grain-overlay" />
-      {/* z-40 ca să fie deasupra arcadei (WaveSeparator, z-20) — astfel casetele de hover
-          care se deschid peste arcadă vin deasupra ei. */}
-      <div className="smart-container relative z-40">
-        <Reveal>
-          {/* Imaginile/textul direct pe fundal; overflow vizibil ca să nu taie casetele
-              care se deschid sub numele statuilor. */}
-          <div className="relative">
-            <div className="flex flex-col items-center md:flex-row">
-              {/* STÂNGA: „BLOG" (text HTML auriu) + subtitlul alb dedesubt */}
-              <div className="flex w-full flex-col items-start justify-center px-4 py-10 md:-ml-4 md:w-1/2 md:-translate-x-[76px] md:pl-0">
-                {/* Wrapper îngust cât „BLOG", ca subtitlul să fie centrat exact sub el */}
-                <div className="flex w-fit flex-col items-center gap-1">
-                  <h1 className="font-[family-name:var(--font-script)] text-8xl font-normal leading-none text-smart-gold sm:text-9xl">
-                    BLOG
-                  </h1>
-                  <Image
-                    alt="Între un „nu mai pot” și un „încă o grilă” — Navighează cu succes prin hățișul admiterii"
-                    className="-mt-2 h-auto w-full"
-                    height={480}
-                    priority
-                    src="/assets/blog/blog-hero-text-white.png"
-                    width={1900}
-                  />
-                </div>
-              </div>
-              {/* DREAPTA: textul „Centru acreditat” deasupra + statuile transparente.
-                  Cele două PNG-uri au conținutul în aceeași bandă centrală; le stivuim și
-                  folosim marginea negativă (peste padding-ul transparent) ca textul să stea
-                  deasupra statuilor, ca în poza originală. */}
-              <div className="flex w-full flex-col items-end md:-mr-4 md:w-1/2 md:-translate-y-[38px] md:translate-x-[76px] md:pr-0">
-                {/* Stack împins spre dreapta; statuile mai mari, textul de deasupra mai mic */}
-                <div className="w-[96%] max-w-[600px]">
-                  <Image
-                    alt="Centru acreditat — Exigență, Excelență și Experiență în pregătirea pentru Medicină — SmartMed Academy"
-                    className="pointer-events-none mx-auto h-auto w-[60%]"
-                    height={1280}
-                    sizes="(max-width: 768px) 50vw, 26vw"
-                    src="/assets/blog/centru-acreditat.png"
-                    width={1280}
-                  />
-                  <div className="relative -mt-[36%] w-full">
-                    <Image
-                      alt="Statuile lui Asclepios și Hipocrate"
-                      className="h-auto w-full"
-                      height={1280}
-                      priority
-                      sizes="(max-width: 768px) 80vw, 46vw"
-                      src="/assets/blog/Statui-transparent.png"
-                      width={1280}
-                    />
-                    {/* Stratul interactiv cu hotspot-urile pe numele statuilor (aliniat pe
-                        pătratul imaginii cu statui) */}
-                    <div className="pointer-events-none absolute inset-0 z-20">
-                      {STATUES.map((statue) => (
-                        <StatueNameSpot key={statue.id} statue={statue} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <section className="relative isolate z-30 min-h-[760px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[800px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[820px] lg:px-8">
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-20 object-cover object-[72%_center] opacity-78 sm:opacity-88 lg:object-center lg:opacity-100"
+        fill
+        priority
+        sizes="100vw"
+        src="/images/blog/blog-principal-hero-user-bg.png"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 -z-10 w-[88%] bg-[linear-gradient(90deg,rgba(3,17,28,0.94)_0%,rgba(3,17,28,0.82)_34%,rgba(3,17,28,0.42)_60%,rgba(3,17,28,0.08)_82%,transparent_100%)] sm:w-[76%] lg:w-[56%]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 -z-10 h-52 bg-gradient-to-t from-smart-abyss/66 via-smart-abyss/14 to-transparent"
+      />
+      <div className="grain-overlay z-[1] opacity-[0.08]" />
+
+      <Image
+        alt="Centru acreditat — Exigență, Excelență și Experiență în pregătirea pentru Medicină — SmartMed Academy"
+        className="pointer-events-none absolute right-[17%] top-[10.25rem] z-[3] hidden h-auto w-[clamp(220px,15vw,290px)] drop-shadow-[0_14px_34px_rgba(0,0,0,0.34)] xl:block"
+        height={1280}
+        priority
+        sizes="(max-width: 1024px) 230px, 16vw"
+        src="/assets/blog/centru-acreditat.png"
+        width={1280}
+      />
+
+      <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
+        <Reveal className="w-full min-w-0">
+          <div className="w-full min-w-0 max-w-[700px]">
+            <div className="inline-flex rounded-full border border-smart-gold-light/28 bg-smart-abyss/26 px-4 py-2 text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm">
+              <p className="text-[11px] font-bold uppercase tracking-normal sm:text-xs">
+                SMARTMED BLOG
+              </p>
+            </div>
+
+            <h1 className="mt-7 font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[64px] lg:text-[78px] xl:text-[86px] 2xl:text-[94px]">
+              <span className="block lg:whitespace-nowrap">Cunoaștere. Claritate.</span>
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
+                EXCELENȚĂ.
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
+              Articole esențiale, ghiduri practice și explicații clare pentru cei
+              care vor mai mult decât informație — pentru înțelegere și
+              performanță la admitere.
+            </p>
+
+            <form
+              action="/blog"
+              className="mt-7 flex h-[52px] w-full max-w-[630px] items-center rounded-[16px] border border-white/16 bg-smart-abyss/38 px-4 shadow-[0_18px_52px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition duration-300 focus-within:border-smart-gold-light/50 focus-within:bg-smart-abyss/54 focus-within:shadow-[0_20px_56px_rgba(200,168,117,0.12),inset_0_1px_0_rgba(255,255,255,0.12)] sm:h-14 sm:px-5"
+              method="get"
+            >
+              <label className="sr-only" htmlFor="blog-principal-search">
+                Caută articole, subiecte, strategii
+              </label>
+              <Search
+                aria-hidden="true"
+                className="mr-3 size-5 shrink-0 text-smart-white/74 sm:size-[22px]"
+                strokeWidth={1.8}
+              />
+              <input
+                className="min-w-0 flex-1 bg-transparent text-sm font-medium text-smart-white outline-none placeholder:text-smart-muted/82 sm:text-base"
+                id="blog-principal-search"
+                name="cautare"
+                placeholder="Caută articole, subiecte, strategii..."
+                type="search"
+              />
+            </form>
+
+            <div className="mt-6 flex w-full max-w-[630px] flex-col gap-3 sm:flex-row sm:gap-4">
+              <Link
+                className="group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-xl border border-smart-gold-light/60 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-5 py-3 text-[15px] font-extrabold text-smart-abyss shadow-[0_16px_38px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(213,173,107,0.30),inset_0_1px_0_rgba(255,255,255,0.68)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[280px]"
+                href="/blog#articole"
+              >
+                <BookOpen
+                  aria-hidden="true"
+                  className="size-5 shrink-0 transition duration-300 group-hover:-rotate-3"
+                  strokeWidth={1.85}
+                />
+                <span>Vezi ultimele articole</span>
+              </Link>
+              <Link
+                className="group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-xl border border-smart-gold-light/62 bg-smart-abyss/32 px-5 py-3 text-[15px] font-bold text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:bg-smart-gold/10 hover:text-smart-white hover:shadow-[0_16px_38px_rgba(213,173,107,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[294px]"
+                href="/blog?categorie=admitere#articole"
+              >
+                <GraduationCap
+                  aria-hidden="true"
+                  className="size-5 shrink-0 transition duration-300 group-hover:rotate-3"
+                  strokeWidth={1.85}
+                />
+                <span>Ghid complet pentru admitere</span>
+              </Link>
             </div>
           </div>
         </Reveal>
       </div>
-      {/* Arcada: tranziție curbă spre secțiunea următoare (Categorii, crem) */}
+
       <WaveSeparator fill="cream" />
     </section>
-  );
-}
-
-function StatueNameSpot({ statue }: { statue: StatueSpot }) {
-  const [hovered, setHovered] = useState(false);
-  const [pinned, setPinned] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-
-  const visible = hovered || pinned;
-
-  return (
-    <div
-      className="pointer-events-auto absolute"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={statue.hotspot}
-    >
-      <button
-        aria-expanded={visible}
-        aria-label={`Detalii despre ${statue.name}`}
-        className="size-full cursor-pointer rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-smart-aqua"
-        onClick={() => setPinned((value) => !value)}
-        type="button"
-      />
-
-      {visible ? (
-        <div
-          className={cn(
-            // Wrapper-bridge: lipit de hotspot (top-full) cu padding transparent în loc de gap,
-            // ca traseul nume→casetă să fie continuu (caseta nu mai dispare la trecere).
-            "absolute top-full z-30 w-[min(86vw,340px)] pt-[0.4rem]",
-            statue.align === "right" ? "right-0" : "left-0",
-          )}
-        >
-          <div className="rounded-2xl border border-smart-abyss/12 bg-[rgba(250,244,232,0.94)] p-4 text-smart-ink shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-md">
-          <h4 className="text-center font-serif text-lg font-semibold leading-tight text-smart-ink">
-            {statue.title}
-          </h4>
-          <p className="mt-1 text-center text-[11px] font-bold uppercase tracking-[0.16em] text-smart-teal">
-            {statue.subtitle}
-          </p>
-          <p className="mt-1 text-center text-sm leading-6 text-smart-ink/80">
-            {statue.subtitle2}
-          </p>
-          <p
-            className={cn(
-              "mt-3 text-sm leading-6 text-smart-ink/80",
-              expanded ? null : "line-clamp-3",
-            )}
-          >
-            {statue.body}
-          </p>
-
-          {expanded ? (
-            <button
-              className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-smart-teal transition hover:text-smart-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-smart-teal"
-              onClick={() => {
-                setExpanded(false);
-                setPinned(false);
-              }}
-              type="button"
-            >
-              Vezi mai puțin
-            </button>
-          ) : (
-            <button
-              className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-smart-teal transition hover:text-smart-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-smart-teal"
-              onClick={() => {
-                setExpanded(true);
-                setPinned(true);
-              }}
-              type="button"
-            >
-              Vezi mai mult
-            </button>
-          )}
-          </div>
-        </div>
-      ) : null}
-    </div>
   );
 }
