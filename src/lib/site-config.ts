@@ -99,6 +99,18 @@ export const generatedAssets = {
   featureContact: "/assets/generated/feature-contact.png",
 } as const;
 
+export const heroCopy = {
+  titleLead: "Intră la Medicină cu",
+  titleHighlight: "SMARTMED",
+  subtitle: [
+    "Pregătire completă pentru Admiterea la Medicină",
+    "Biologie, chimie, grile explicate, simulări și lecții speciale",
+  ],
+  primaryCta: "Programează o evaluare",
+  secondaryCta: "Vezi lecțiile speciale →",
+  academicTagline: "Educație medicală la standarde înalte",
+} as const;
+
 export const heroBenefits = [
   { label: "Pregătire cu medici", icon: "shield" },
   { label: "Plan personalizat", icon: "clipboard" },
@@ -515,7 +527,7 @@ export const onlineCenterModules = [
   {
     title: "Acces diferențiat",
     description:
-      "Bază pentru guest, user logat, premium și admin fără logică de auth activă încă.",
+      "Bază pentru guest, user logat, premium și admin, conectată la auth configurabil.",
     icon: "shield",
   },
 ] satisfies Array<{
@@ -818,29 +830,29 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
     eyebrow: "Profil și acces",
     title: "Contul tău SmartMed",
     description:
-      "Placeholder premium pentru autentificare, profil, progres, abonamente, cursuri salvate și acces diferențiat.",
+      "Autentificare, profil personal, recuperare parolă și structură pregătită pentru acces diferențiat.",
     primaryCta: { label: "Vezi centrul online", href: "/centru-online" },
     secondaryCta: { label: "Contact suport", href: "/contact" },
     highlights: [
       {
         title: "Autentificare",
-        description: "Pregătit pentru Supabase Auth și sesiuni securizate.",
+        description: "Fluxuri pentru conectare, creare cont, logout și resetare parolă.",
         icon: "user",
       },
       {
         title: "Roluri",
-        description: "Guest, user, premium și admin ca model de acces.",
+        description: "Guest, user, premium și admin ca model extensibil de acces.",
         icon: "shield",
       },
       {
         title: "Dashboard",
-        description: "Spațiu pentru progres, cursuri, comenzi și notificări.",
+        description: "Bază pentru progres, cursuri, comenzi și notificări personalizate.",
         icon: "calendar",
       },
     ],
     roadmap: [
-      "Supabase Auth și profil utilizator",
-      "Protejare rute premium cu middleware",
+      "Conectare cu email confirmat și sesiune persistentă",
+      "Protejare rute premium prin config centralizat",
       "Dashboard user și dashboard admin",
     ],
   },
