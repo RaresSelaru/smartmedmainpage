@@ -13,13 +13,15 @@ export function FinalCTASection() {
       />
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.9fr_0.8fr_0.9fr]">
         <Reveal>
-          <blockquote className="max-w-md font-serif text-2xl italic leading-9 text-smart-ink/82 sm:text-3xl">
-            Succesul nu vine din ceea ce faci din când în când, ci din ceea ce
-            faci în mod constant.
-          </blockquote>
-          <p className="mt-6 font-serif text-3xl italic text-smart-teal">
-            SmartMed Academy
-          </p>
+          <div className="mx-auto max-w-md text-center">
+            <blockquote className="font-serif text-2xl italic leading-9 text-smart-ink/82 sm:text-3xl">
+              &ldquo;Succesul nu vine din ceea ce faci din când în când, ci din ceea ce
+              faci în mod constant.&rdquo;
+            </blockquote>
+            <p className="mt-6 font-serif text-3xl italic text-smart-teal">
+              SmartMed Academy
+            </p>
+          </div>
         </Reveal>
         <Reveal delay={0.08}>
           <div className="relative mx-auto w-full max-w-md">

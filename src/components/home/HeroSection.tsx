@@ -10,7 +10,7 @@ import {
 
 import { Reveal } from "@/components/animations/reveal";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import { generatedAssets } from "@/lib/site-config";
+import { generatedAssets, heroCopy } from "@/lib/site-config";
 
 const proofItems = [
   { label: "Profesori medici", Icon: Stethoscope },
@@ -45,9 +45,9 @@ export function HeroSection() {
           <Reveal>
             <div>
               <h1 className="inline-block text-center font-serif text-[36px] font-semibold leading-[1.04] tracking-normal text-smart-white drop-shadow-[0_12px_34px_rgba(0,0,0,0.34)] sm:text-[50px] lg:text-[64px]">
-                Intră la Medicină cu
+                {heroCopy.titleLead}
                 <span className="mt-2 block whitespace-nowrap bg-[linear-gradient(180deg,#f2d99f_0%,#d5ad6b_48%,#b88643_100%)] bg-clip-text text-[60px] font-bold leading-[0.86] text-transparent drop-shadow-[0_8px_22px_rgba(0,0,0,0.26)] sm:mt-3 sm:text-[86px] lg:text-[128px]">
-                  SMARTMED
+                  {heroCopy.titleHighlight}
                 </span>
               </h1>
               <div
@@ -60,12 +60,11 @@ export function HeroSection() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mt-7 max-w-[720px] font-serif text-[22px] font-medium leading-[1.36] text-smart-white/92 drop-shadow-[0_10px_28px_rgba(0,0,0,0.34)] sm:text-[26px] lg:text-[28px]">
-              <span className="block">
-                Pregătire completă pentru Admiterea la Medicină 2027
-              </span>
-              <span className="block">
-                Biologie, chimie, grile explicate, simulări și lecții speciale
-              </span>
+              {heroCopy.subtitle.map((line) => (
+                <span className="block" key={line}>
+                  {line}
+                </span>
+              ))}
             </p>
           </Reveal>
           <Reveal delay={0.14}>
@@ -75,13 +74,13 @@ export function HeroSection() {
                 href="/contact"
               >
                 <CalendarDays aria-hidden="true" className="size-7 shrink-0" strokeWidth={2} />
-                <span>Programează o evaluare</span>
+                <span>{heroCopy.primaryCta}</span>
               </Link>
               <Link
                 className="inline-flex min-h-[60px] items-center justify-center rounded-xl border border-smart-gold-light/80 bg-smart-abyss/34 px-7 py-4 text-base font-bold text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:bg-smart-gold/10 hover:shadow-[0_18px_42px_rgba(213,173,107,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[320px] sm:text-lg"
                 href="/lectii-speciale"
               >
-                Vezi lecțiile speciale →
+                {heroCopy.secondaryCta}
               </Link>
             </div>
           </Reveal>
@@ -101,7 +100,7 @@ export function HeroSection() {
           <Reveal delay={0.26}>
             <div className="mt-9">
               <Image
-                alt="Educație medicală la standarde înalte"
+                alt={heroCopy.academicTagline}
                 className="h-auto w-[min(760px,88vw)] object-contain object-left drop-shadow-[0_8px_22px_rgba(0,0,0,0.28)]"
                 height={360}
                 src="/assets/brand/hero-medicina-academica.svg"
