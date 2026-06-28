@@ -4,12 +4,16 @@ import { ArrowLeft, ArrowRight, CalendarDays, Clock3, UserRound } from "lucide-r
 
 import { Reveal } from "@/components/animations/reveal";
 import { BlogNavZone } from "@/components/blog/blog-nav-zone";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
+import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import {
   formatBlogDate,
   getBlogCategory,
   type BlogBodyBlock,
   type BlogPost,
 } from "@/lib/blog";
+import { newsCarousel } from "@/lib/site-config";
 
 type BlogPostPageContentProps = {
   post: BlogPost;
@@ -120,6 +124,17 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
           </Reveal>
         </div>
       </section>
+      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
+      <HorizontalScrollSection
+        bottomWave="cream"
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+        eyebrow="Mereu la curent"
+        heading="SmartMed News"
+        items={newsCarousel}
+      />
+      <FinalCTASection />
     </>
   );
 }

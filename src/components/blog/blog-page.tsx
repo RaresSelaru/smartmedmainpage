@@ -4,12 +4,17 @@ import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { BlogNavZone } from "@/components/blog/blog-nav-zone";
+import { BlogPrincipalHero } from "@/components/blog/blog-principal-hero";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
+import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import {
   formatBlogDate,
   getBlogCategory,
   type BlogCategorySlug,
   type BlogPost,
 } from "@/lib/blog";
+import { newsCarousel } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 type BlogPageContentProps = {
@@ -27,7 +32,7 @@ export function BlogPageContent({
 }: BlogPageContentProps) {
   return (
     <>
-      <BlogHero />
+      <BlogPrincipalHero />
       <BlogNavZone activeCategory={activeCategory} />
       <BlogArticleSection
         activeCategory={activeCategory}
@@ -35,45 +40,21 @@ export function BlogPageContent({
         posts={posts}
         searchQuery={searchQuery}
       />
+      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
+      <HorizontalScrollSection
+        bottomWave="cream"
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+        eyebrow="Mereu la curent"
+        heading="SmartMed News"
+        items={newsCarousel}
+      />
+      <FinalCTASection />
     </>
   );
 }
 
-function BlogHero() {
-  return (
-    <section className="relative isolate overflow-hidden bg-smart-abyss pb-4 pt-32 text-smart-white sm:pb-6 sm:pt-36">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(156,206,208,0.18),transparent_32%),linear-gradient(135deg,#03111c_0%,#061622_48%,#082030_100%)]" />
-      <div className="grain-overlay" />
-      <div className="smart-container relative z-10">
-        <Reveal>
-          <div className="overflow-hidden rounded-[30px] border border-white/14 bg-smart-deep shadow-[0_32px_92px_rgba(0,0,0,0.34)]">
-            <div className="flex flex-col items-center md:flex-row">
-              <div className="w-full overflow-hidden bg-smart-cream md:w-1/2">
-                <Image
-                  alt="SmartMed Academy Blog"
-                  className="my-[-20%] h-auto w-full mix-blend-multiply md:my-[-12%]"
-                  height={1080}
-                  priority
-                  src="/assets/blog/blog-hero-text.jpeg"
-                  width={1080}
-                />
-              </div>
-              <div className="relative z-10 -mt-[15%] w-full overflow-hidden bg-smart-cream md:z-auto md:mt-0 md:w-1/2">
-                <Image
-                  alt="Statui medicale"
-                  className="h-auto w-full mix-blend-multiply md:my-[-12%]"
-                  height={1080}
-                  src="/assets/blog/statui.jpeg"
-                  width={1080}
-                />
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
 
 function BlogArticleSection({
   activeCategory,

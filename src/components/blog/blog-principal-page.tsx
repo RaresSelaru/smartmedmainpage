@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Reveal } from "@/components/animations/reveal";
 import { BlogPrincipalArticles } from "@/components/blog/blog-principal-articles";
 import { BlogPrincipalHero } from "@/components/blog/blog-principal-hero";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
+import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import { blogCategories } from "@/lib/blog";
 import { newsCarousel } from "@/lib/site-config";
 
@@ -13,6 +15,9 @@ export function BlogPrincipalPageContent() {
       <BlogPrincipalHero />
       <BlogPrincipalCategories />
       <BlogPrincipalArticles />
+      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
       <HorizontalScrollSection
         bottomWave="cream"
         description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
@@ -20,6 +25,7 @@ export function BlogPrincipalPageContent() {
         heading="SmartMed News"
         items={newsCarousel}
       />
+      <FinalCTASection />
     </>
   );
 }
@@ -43,7 +49,7 @@ function BlogPrincipalCategories() {
           <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {blogCategories.map((category) => (
               <Link
-                className="rounded-full border border-smart-abyss/15 bg-white px-5 py-3 text-center text-sm font-bold uppercase tracking-[0.13em] text-smart-ink transition duration-300 hover:border-smart-teal hover:text-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                className="rounded-full border border-smart-abyss/15 bg-smart-white px-5 py-3 text-center text-sm font-bold uppercase tracking-[0.13em] text-smart-ink transition duration-300 hover:border-smart-teal hover:text-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
                 href={`/blog?categorie=${category.slug}#articole`}
                 key={category.slug}
               >

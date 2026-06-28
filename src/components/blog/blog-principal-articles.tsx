@@ -58,7 +58,7 @@ export function BlogPrincipalArticles() {
         {showLoadMore ? (
           <div className="mt-14 flex justify-center">
             <button
-              className="rounded-full border border-smart-abyss/20 bg-white px-9 py-4 text-sm font-bold uppercase tracking-[0.18em] text-smart-ink transition duration-300 hover:border-smart-teal hover:text-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+              className="rounded-full border border-smart-abyss/20 bg-smart-white px-9 py-4 text-sm font-bold uppercase tracking-[0.18em] text-smart-ink transition duration-300 hover:border-smart-teal hover:text-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
               onClick={handleLoadMore}
               type="button"
             >
@@ -74,7 +74,7 @@ export function BlogPrincipalArticles() {
 export function BlogPrincipalArticleCard({ post }: { post: BlogPost }) {
   return (
     <Link
-      className="group flex h-full flex-col rounded-[28px] border border-smart-abyss/10 bg-white p-6 shadow-[0_18px_54px_rgba(3,17,28,0.08)] transition duration-500 hover:shadow-[0_26px_76px_rgba(3,17,28,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal sm:p-7"
+      className="group flex h-full flex-col rounded-[28px] border border-smart-abyss/10 bg-smart-white p-6 shadow-[0_18px_54px_rgba(3,17,28,0.08)] transition duration-500 hover:shadow-[0_26px_76px_rgba(3,17,28,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal sm:p-7"
       href={EXAMPLE_ARTICLE_HREF}
     >
       <div className="flex flex-1 flex-col items-center justify-center text-center">

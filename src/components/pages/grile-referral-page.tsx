@@ -1,9 +1,12 @@
 import { PageShell } from "@/components/layout/PageShell";
 import { Reveal } from "@/components/animations/reveal";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { SmartIcon } from "@/components/ui/SmartIcon";
-import { siteConfig, type PageScaffold } from "@/lib/site-config";
+import { WaveSeparator } from "@/components/ui/WaveSeparator";
+import { newsCarousel, siteConfig, type PageScaffold } from "@/lib/site-config";
 
 const grilePage = {
   eyebrow: "Platformă separată",
@@ -25,6 +28,7 @@ export function GrileReferralPage() {
     process.env.NEXT_PUBLIC_GRILE_URL ?? siteConfig.external.grileFallbackUrl;
 
   return (
+    <>
     <PageShell page={grilePage} variant="grile">
       <section className="relative overflow-hidden bg-smart-cream px-5 py-24 text-smart-ink sm:px-7 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2">
@@ -63,5 +67,17 @@ export function GrileReferralPage() {
         </div>
       </section>
     </PageShell>
+    <div className="relative bg-smart-cream pb-36 sm:pb-48">
+      <WaveSeparator fill="teal" variant="relaxed" />
+    </div>
+    <HorizontalScrollSection
+      bottomWave="cream"
+      description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+      eyebrow="Mereu la curent"
+      heading="SmartMed News"
+      items={newsCarousel}
+    />
+    <FinalCTASection />
+    </>
   );
 }

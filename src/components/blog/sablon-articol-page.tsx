@@ -10,6 +10,7 @@ import {
 
 import { Reveal } from "@/components/animations/reveal";
 import { BlogPrincipalArticleCard } from "@/components/blog/blog-principal-articles";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import { getBlogPosts } from "@/lib/blog";
@@ -207,6 +208,9 @@ export function SablonArticolPageContent() {
       </section>
 
       {/* 4. SmartMed News, ca în blog-principal */}
+      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
       <HorizontalScrollSection
         bottomWave="cream"
         description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
@@ -214,6 +218,7 @@ export function SablonArticolPageContent() {
         heading="SmartMed News"
         items={newsCarousel}
       />
+      <FinalCTASection />
     </>
   );
 }
