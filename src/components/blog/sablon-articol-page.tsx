@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { BlogPrincipalArticleCard } from "@/components/blog/blog-principal-articles";
+import { BlogArticleCard } from "@/components/blog/blog-article-card";
 import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
@@ -197,10 +197,21 @@ export function SablonArticolPageContent() {
             </div>
           </Reveal>
 
-          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
             {recommended.map((post, index) => (
-              <Reveal className="relative hover:z-30" delay={Math.min(index * 0.04, 0.18)} key={post.slug}>
-                <BlogPrincipalArticleCard post={post} />
+              <Reveal
+                className="relative mx-auto w-full max-w-[440px] hover:z-30"
+                delay={Math.min(index * 0.04, 0.18)}
+                key={post.slug}
+              >
+                <BlogArticleCard
+                  href={`/blog/${post.slug}`}
+                  imageAlt={post.coverAlt}
+                  imageSrc={post.coverImage}
+                  publishedAt={post.date}
+                  tags={post.tags}
+                  title={post.title}
+                />
               </Reveal>
             ))}
           </div>
