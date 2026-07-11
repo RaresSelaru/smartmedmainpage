@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/site-config";
 
 const siteLinks = [
   { label: "Centrul SmartMed", href: "/centru-online" },
-  { label: "Lecții speciale", href: "/lectii-speciale" },
+  { label: "Module speciale", href: "/module-speciale" },
   { label: "Grile", href: "/grile" },
   { label: "Simulări", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },

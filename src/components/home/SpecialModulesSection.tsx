@@ -216,7 +216,7 @@ function SignatureCard() {
     <Link
       aria-label="Module semnătură SmartMed"
       className="group/signature relative flex min-h-[560px] w-full flex-col overflow-hidden rounded-[28px] border border-smart-gold/38 bg-[linear-gradient(180deg,#fbf7ef_0%,#f3eadb_100%)] px-8 py-9 text-smart-ink shadow-[0_14px_32px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.82)] transition duration-500 ease-out hover:-translate-y-1 hover:border-smart-gold/70 hover:shadow-[0_20px_48px_rgba(3,17,28,0.14),0_0_24px_rgba(200,168,117,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold"
-      href="/lectii-speciale"
+      href="/module-speciale"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(200,168,117,0.18),transparent_34%),linear-gradient(135deg,rgba(31,111,120,0.04),transparent_42%)]" />
       <div className="relative flex flex-1 flex-col">

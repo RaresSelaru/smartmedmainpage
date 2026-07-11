@@ -24,9 +24,9 @@ Folosește `AskUserQuestion` (sau întrebări simple, dacă utilizatorul a dat d
 
 1. **Titlul** — text redat în font auriu script (ca „BLOG"). Doar string-ul.
 2. **Imaginea subtitlu** — numele fișierului din `public/assets/blog/`
-   (ex. `Subtitlu-lectii-speciale.png`) → referit ca `/assets/blog/<fișier>`. Cere și un `alt`
+   (ex. `Subtitlu-module-speciale.png`) → referit ca `/assets/blog/<fișier>`. Cere și un `alt`
    descriptiv. Înlocuiește `blog-hero-text-white.png`.
-3. **Imaginea cu statui** — numele fișierului (ex. `statui-lectii-speciale.png`) → `/assets/blog/<fișier>`.
+3. **Imaginea cu statui** — numele fișierului (ex. `statui-module-speciale.png`) → `/assets/blog/<fișier>`.
    Cere `alt` descriptiv. Înlocuiește `Statui-transparent.png`.
 4. **Pagina țintă** — în ce pagină/component se adaugă secțiunea (sus de tot). Implicit pagina pe
    care lucrează utilizatorul. **Nu crea fișier nou** decât dacă cere explicit.

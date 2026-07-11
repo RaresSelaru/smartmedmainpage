@@ -28,7 +28,7 @@ export type DestinationCardConfig = {
 
 export type PageKey =
   | "centru-fizic"
-  | "lectii-speciale"
+  | "module-speciale"
   | "news"
   | "simulari-smart"
   | "blog"
@@ -104,10 +104,10 @@ export const heroCopy = {
   titleHighlight: "SMARTMED",
   subtitle: [
     "Pregătire completă pentru Admiterea la Medicină",
-    "Biologie, chimie, grile explicate, simulări și lecții speciale",
+    "Biologie, chimie, grile explicate, simulări și module speciale",
   ],
   primaryCta: "Programează o evaluare",
-  secondaryCta: "Vezi lecțiile speciale →",
+  secondaryCta: "Vezi modulele speciale →",
   academicTagline: "Educație medicală la standarde înalte",
 } as const;
 
@@ -199,13 +199,13 @@ export type CarouselItem = {
   imagePosition?: string;
 };
 
-export const lectiiSpecialeCarousel = [
+export const moduleSpecialeCarousel = [
   {
     eyebrow: "Modul special",
     title: "Lecțiile SMART",
     description:
       "Completarea manualelor cu noțiuni vitale pentru înțelegerea fiecărui capitol, informațiile dificile devenind concepte ușor de înțeles.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "aqua",
     icon: "book-open",
     imageSrc: "/images/special-modules/cards/lectiile-smart.png",
@@ -216,7 +216,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Sutura SMART",
     description: "Corelarea logică a noțiunilor din capitole diferite, fără învățare mecanică, conexiuni strategice care ajută la formarea unei gândiri medicale.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "gold",
     icon: "sparkles",
     imageSrc: "/images/special-modules/cards/sutura-smart.png",
@@ -227,7 +227,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Radiografia SMART",
     description: "Analiza minuțioasă a desenelor din manualul de biologie, surse dense de informații pe care mulți candidați le ignoră.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "cream",
     icon: "stethoscope",
     imageSrc: "/images/special-modules/cards/radiografia-smart.png",
@@ -238,7 +238,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Disecția SMART",
     description: "Analiza eficientă a grilelor te ajută să treci de la simpla memorare la înțelegerea profundă a mecanismelor.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "teal",
     icon: "clipboard",
     imageSrc: "/images/special-modules/cards/disectia-smart.png",
@@ -249,7 +249,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Diferențialul SMART",
     description: "Analiza capcanelor materiei te ajută să înțelegi fiziologia unui proces, nu doar să-l memorezi mecanic.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "aqua",
     icon: "shield",
     imageSrc: "/images/special-modules/cards/diferentialul-smart.png",
@@ -260,7 +260,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Imagistica SMART",
     description: "Schițe și desene complementare necesare pentru stăpânirea fiecărui detaliu esențial la admitere.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "gold",
     icon: "pen-tool",
     imageSrc: "/images/special-modules/cards/imagistica-smart.png",
@@ -271,7 +271,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Laboratorul SMART",
     description: "Ce nu știi că nu știi din manualele de chimie: detaliile ascunse printre rânduri, în subsolul paginilor sau în culegeri.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "teal",
     icon: "help",
     imageSrc: "/images/special-modules/cards/laboratorul-smart.png",
@@ -282,7 +282,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Problema cu problemele",
     description: "Toate tipurile de probleme întâlnite la examen, analizate minuțios, care fac diferența între buget și taxă.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "cream",
     icon: "timer",
     imageSrc: "/images/special-modules/cards/problema-cu-problemele.png",
@@ -293,7 +293,7 @@ export const lectiiSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Descoperă-ți nivelul!",
     description: "Testări inițiale, dar și testări pe capitol pentru a nu pierde ritmul.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     accent: "aqua",
     icon: "graduation-cap",
   },
@@ -390,7 +390,7 @@ export const featureCards = [
   {
     title: "Lecții Smart",
     description: "Explicații clare, exemple relevante și metode moderne de învățare.",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     image: generatedAssets.featureLessons,
     icon: "sparkles",
   },
@@ -439,8 +439,8 @@ export const destinationCards: DestinationCardConfig[] = [
   {
     title: "Lecții SmartMed Speciale",
     subtitle: "Ateliere concentrate pentru capitole grele și recapitulări cu miză.",
-    href: "/lectii-speciale",
-    image: "/assets/page-icons/lectii-speciale.svg",
+    href: "/module-speciale",
+    image: "/assets/page-icons/module-speciale.svg",
     fallbackIcon: "sparkles",
   },
   {
@@ -586,7 +586,7 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
       "Conectare cu profilul elevului și progresul online",
     ],
   },
-  "lectii-speciale": {
+  "module-speciale": {
     eyebrow: "Ateliere intensive",
     title: "Lecții SmartMed Speciale",
     description:
@@ -611,7 +611,7 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
       },
     ],
     roadmap: [
-      "Catalog lecții speciale cu filtre pe materie",
+      "Catalog module speciale cu filtre pe materie",
       "Acces premium pentru workshopuri și replay-uri",
       "Emailuri automate pentru înscriere și reminder",
     ],

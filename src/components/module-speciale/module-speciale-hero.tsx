@@ -5,7 +5,7 @@ import { BookOpen, GraduationCap } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
-export function LectiiSpecialeHero() {
+export function ModuleSpecialeHero() {
   return (
     <section className="relative isolate z-30 min-h-[980px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[1020px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[1060px] lg:px-8">
       <Image
@@ -41,7 +41,7 @@ export function LectiiSpecialeHero() {
         <Reveal className="w-full min-w-0">
           <div className="w-full min-w-0 max-w-[700px]">
             <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[70px] xl:text-[82px] 2xl:text-[90px]">
-              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]">Claritate Strategie Performanță</span>
+              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]">Înțelegere | Strategie | Performanță</span>
               <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
                 <span className="inline-block">
                   <span className="block">MODULE</span>
