@@ -81,7 +81,7 @@ export const defaultBlogCategory: BlogCategorySlug = "admitere";
 
 export const blogSecondaryNavItems = [
   { label: "Centrul SmartMed", href: "/centru-online", priority: 1 },
-  { label: "Lecții speciale", href: "/lectii-speciale", priority: 2 },
+  { label: "Module speciale", href: "/module-speciale", priority: 2 },
   { label: "Grile", href: "/grile", priority: 3 },
   { label: "Simulări", href: "/simulari-smart", priority: 4 },
   { label: "Shop", href: "/shop", priority: 5 },
