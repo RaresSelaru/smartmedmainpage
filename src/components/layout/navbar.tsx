@@ -6,11 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { LogOut, Menu, Search, ShoppingCart, UserRoundCheck, X } from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
-import { BlogSecondaryNav } from "@/components/blog/blog-secondary-nav";
-import { useBlogNavCollection } from "@/components/blog/use-blog-nav-collection";
 import { logoutAction } from "@/lib/auth/actions";
 import type { SmartMedSession } from "@/lib/auth/session";
-import { blogCategories, defaultBlogCategory, type BlogCategorySlug } from "@/lib/blog";
 import { navbarRoutes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -51,10 +48,7 @@ export function Navbar() {
   const lastScrollYRef = useRef(0);
   const upwardScrollRef = useRef(0);
   const revealDelayRef = useRef<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState<BlogCategorySlug>(defaultBlogCategory);
   const [accountSession, setAccountSession] = useState<SmartMedSession | null>(null);
-  const isBlog = pathname === "/blog" || pathname.startsWith("/blog/");
-  const collected = useBlogNavCollection(isBlog, pathname);
   const searchExpanded = searchOpen || searchValue.length > 0;
   const accountInitial = accountSession?.fullName.trim().charAt(0).toUpperCase() ?? "";
 
@@ -186,26 +180,6 @@ export function Navbar() {
   }, [themeMode]);
 
   useEffect(() => {
-    if (!isBlog) {
-      return;
-    }
-
-    const updateCategory = () => {
-      const params = new URLSearchParams(window.location.search);
-      const category =
-        blogCategories.find((item) => item.slug === params.get("categorie"))?.slug ??
-        defaultBlogCategory;
-
-      setActiveCategory(category);
-    };
-
-    updateCategory();
-    window.addEventListener("popstate", updateCategory);
-
-    return () => window.removeEventListener("popstate", updateCategory);
-  }, [isBlog, pathname]);
-
-  useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       setOpen(false);
       setSearchOpen(false);
@@ -247,7 +221,7 @@ export function Navbar() {
         aria-label="Navigație principală"
         className={cn(
           "smart-nav-container flex min-h-[74px] items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-2xl transition-all duration-500 ease-out sm:px-4 xl:gap-5",
-          scrolled || collected
+          scrolled
             ? "border-white/14 bg-smart-dark/74 shadow-[0_20px_60px_rgba(3,17,28,0.34)]"
             : "border-white/10 bg-smart-dark/38 shadow-[0_12px_36px_rgba(3,17,28,0.22)]",
         )}
@@ -265,14 +239,7 @@ export function Navbar() {
             src="/assets/brand/smartmed-logo-mark.svg"
             width={65}
           />
-          <span
-            className={cn(
-              "hidden -ml-2.5 overflow-hidden whitespace-nowrap text-center leading-none transition-all duration-500 ease-out sm:block",
-              isBlog && collected
-                ? "max-w-0 -translate-x-2 opacity-0"
-                : "max-w-[170px] translate-x-0 opacity-100 2xl:max-w-[190px]",
-            )}
-          >
+          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block 2xl:max-w-[190px]">
             <span className="block font-serif text-xl font-semibold uppercase tracking-[0.16em]">
               {siteConfig.name}
             </span>
@@ -282,35 +249,26 @@ export function Navbar() {
           </span>
         </Link>
 
-        {isBlog ? (
-          <BlogSecondaryNav
-            activeCategory={activeCategory}
-            disabled={!collected}
-            mode="collected"
-            visible={collected}
-          />
-        ) : (
-          <div className="hidden min-w-0 items-center justify-center gap-1 xl:flex 2xl:gap-2">
-            {navbarRoutes.map((item) => {
-              const active = isActive(pathname, item.href);
+        <div className="hidden min-w-0 items-center justify-center gap-1 xl:flex 2xl:gap-2">
+          {navbarRoutes.map((item) => {
+            const active = isActive(pathname, item.href);
 
-              return (
-                <Link
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "relative whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
-                    "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
-                    active && "text-smart-white after:scale-x-100",
-                  )}
-                  href={item.href}
-                  key={`${item.label}-${item.href}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-        )}
+            return (
+              <Link
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
+                  "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
+                  active && "text-smart-white after:scale-x-100",
+                )}
+                href={item.href}
+                key={`${item.label}-${item.href}`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
 
         <div className="flex shrink-0 items-center gap-3">
           <button
@@ -506,11 +464,6 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            {isBlog ? (
-              <div className="mt-3 rounded-[24px] border border-white/10 bg-white/[0.045] p-2">
-                <BlogSecondaryNav activeCategory={activeCategory} mode="mobile" />
-              </div>
-            ) : null}
             <form
               className="mt-3 flex rounded-full border border-white/14 bg-white/8 p-1"
               onSubmit={submitSearch}

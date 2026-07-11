@@ -11,7 +11,7 @@ type ArticlePhotoProps = {
 
 /**
  * Poza articolului cu animație de tip „carte care se deschide” la hover.
- * Refolosibilă (blog-principal + ulterior categorii). Bazată pe efectul din
+ * Refolosibilă (Blog + ulterior categorii). Bazată pe efectul din
  * fostul `photo-animation.jsx`, adaptat: copertă = poza, iar la deschidere se
  * dezvăluie un panou cu CTA „Citește articolul”.
  */

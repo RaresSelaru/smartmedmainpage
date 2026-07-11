@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, UserRound } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { BlogNavZone } from "@/components/blog/blog-nav-zone";
 import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
@@ -83,8 +82,6 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
           </div>
         </div>
       </article>
-
-      <BlogNavZone activeCategory={post.category} />
 
       <section className="bg-smart-cream py-20 text-smart-ink">
         <div className="smart-container grid gap-10 lg:grid-cols-[minmax(0,800px)_340px] lg:items-start">

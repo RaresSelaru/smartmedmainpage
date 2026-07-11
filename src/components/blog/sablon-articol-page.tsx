@@ -185,7 +185,7 @@ export function SablonArticolPageContent() {
         </div>
       </section>
 
-      {/* 3. Poate te-ar interesa și... — articole recomandate (stil blog-principal) */}
+      {/* 3. Poate te-ar interesa și... — articole recomandate (stil Blog) */}
       <section className="bg-smart-cream pb-24 text-smart-ink">
         <div className="smart-container">
           <Reveal>
@@ -218,7 +218,7 @@ export function SablonArticolPageContent() {
         </div>
       </section>
 
-      {/* 4. SmartMed News, ca în blog-principal */}
+      {/* 4. SmartMed News, ca în Blog */}
       <div className="relative bg-smart-cream pb-36 sm:pb-48">
         <WaveSeparator fill="teal" variant="relaxed" />
       </div>

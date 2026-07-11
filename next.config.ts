@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/blog-principal",
+        destination: "/blog",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

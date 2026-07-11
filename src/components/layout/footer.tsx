@@ -9,7 +9,7 @@ const siteLinks = [
   { label: "Grile", href: "/grile" },
   { label: "Simulări", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
-  { label: "Blog", href: "/blog-principal" },
+  { label: "Blog", href: "/blog" },
   { label: "Pentru părinți", href: "/pentru-parinti" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },

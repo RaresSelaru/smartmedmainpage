@@ -50,13 +50,6 @@ export type BlogPost = {
   body: BlogBodyBlock[];
 };
 
-export type BlogNavItem = {
-  label: string;
-  href: string;
-  priority: number;
-  isBlog?: boolean;
-};
-
 export const blogHeroImage = "/assets/blog/hero.svg";
 
 export const blogCategories = [
@@ -78,17 +71,6 @@ export const blogCategories = [
 ] satisfies BlogCategory[];
 
 export const defaultBlogCategory: BlogCategorySlug = "admitere";
-
-export const blogSecondaryNavItems = [
-  { label: "Centrul SmartMed", href: "/centru-online", priority: 1 },
-  { label: "Lecții speciale", href: "/lectii-speciale", priority: 2 },
-  { label: "Grile", href: "/grile", priority: 3 },
-  { label: "Simulări", href: "/simulari-smart", priority: 4 },
-  { label: "Shop", href: "/shop", priority: 5 },
-  { label: "Blog", href: "/blog", priority: 0, isBlog: true },
-  { label: "Pentru părinți", href: "/pentru-parinti", priority: 6 },
-  { label: "Contact", href: "/contact", priority: 7 },
-] satisfies BlogNavItem[];
 
 export const blogPosts = [
   {

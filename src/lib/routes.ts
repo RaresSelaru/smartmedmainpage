@@ -7,7 +7,6 @@ export type AppRoute =
   | "/news"
   | "/simulari-smart"
   | "/blog"
-  | "/blog-principal"
   | "/shop"
   | "/pentru-parinti"
   | "/despre"
@@ -30,7 +29,7 @@ export const navbarRoutes: RouteItem[] = [
   { label: "Grile", href: "/grile" },
   { label: "Simulări Smart", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
-  { label: "Blog", href: "/blog-principal" },
+  { label: "Blog", href: "/blog" },
   { label: "Pentru părinți", href: "/pentru-parinti" },
   { label: "Contact", href: "/contact" },
 ];
@@ -63,7 +62,7 @@ export const primaryRoutes: RouteItem[] = [
   },
   {
     label: "Blog",
-    href: "/blog-principal",
+    href: "/blog",
     description: "Ghiduri și articole pentru admitere.",
   },
 ];

@@ -170,8 +170,8 @@ Rute detectate:
 | --- | --- | --- | --- |
 | `/` | Homepage | `src/app/page.tsx` | Funcțional, static/premium |
 | `/ajutor` | Standard page | `StandardPage` + `pageScaffolds` | Scaffold |
-| `/blog` | Blog list/category/search | `BlogPageContent` | Funcțional local |
-| `/blog-principal` | Blog landing | `BlogPrincipalPageContent` | Funcțional local |
+| `/blog` | Blog landing/list/category/search | `BlogPageContent` | Rută canonică, funcțională local |
+| `/blog-principal` | Redirect permanent | `next.config.ts` | Redirect 308 către `/blog` |
 | `/blog/[slug]` | Articol blog | `BlogPostPageContent` | Static params din `src/lib/blog.ts` |
 | `/cautare` | Căutare site | `src/lib/search.ts` | Funcțional static |
 | `/centru-fizic` | Standard page | `PageShell` | Scaffold |
@@ -602,7 +602,6 @@ Funcții importante:
 Rute blog:
 
 - `/blog`
-- `/blog-principal`
 - `/blog/[slug]`
 - `/sablon-articol`
 
@@ -924,7 +923,7 @@ Recomandări SEO:
 - metadata unică pentru paginile importante;
 - OG images coerente;
 - schema.org pentru organizație, articole, cursuri/educație;
-- canonical-uri dacă apar duplicate între `/blog` și `/blog-principal`;
+- păstrează `/blog` drept singura rută canonică pentru landing, categorii și căutare;
 - verificare titluri și descrieri reale înainte de producție.
 
 ## Accesibilitate
