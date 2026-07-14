@@ -58,6 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="ro"
+      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
