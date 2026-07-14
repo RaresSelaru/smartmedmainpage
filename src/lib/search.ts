@@ -33,7 +33,7 @@ type SearchDocument = SearchResult & {
 
 const pageKeyToRoute = {
   "centru-fizic": "/centru-fizic",
-  "lectii-speciale": "/lectii-speciale",
+  "module-speciale": "/module-speciale",
   news: "/news",
   "simulari-smart": "/simulari-smart",
   blog: "/blog",

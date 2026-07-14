@@ -2,7 +2,7 @@ export type AppRoute =
   | "/"
   | "/centru-online"
   | "/centru-fizic"
-  | "/lectii-speciale"
+  | "/module-speciale"
   | "/grile"
   | "/news"
   | "/simulari-smart"
@@ -26,7 +26,7 @@ export type RouteItem = {
 
 export const navbarRoutes: RouteItem[] = [
   { label: "Centrul SmartMed", href: "/" },
-  { label: "Module speciale", href: "/lectii-speciale" },
+  { label: "Module speciale", href: "/module-speciale" },
   { label: "Grile", href: "/grile" },
   { label: "Simulări Smart", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
@@ -48,7 +48,7 @@ export const primaryRoutes: RouteItem[] = [
   },
   {
     label: "Lecții Smart",
-    href: "/lectii-speciale",
+    href: "/module-speciale",
     description: "Ateliere intensive și teme țintite.",
   },
   {

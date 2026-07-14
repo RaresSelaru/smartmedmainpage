@@ -8,7 +8,7 @@ import {
   PathChoiceSectionGroup3,
 } from "@/components/home/PathChoiceSection";
 import { SpecialModulesSection } from "@/components/home/SpecialModulesSection";
-import { lectiiSpecialeCarousel, newsCarousel } from "@/lib/site-config";
+import { moduleSpecialeCarousel, newsCarousel } from "@/lib/site-config";
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
         description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere."
         eyebrow="Resurse SmartMed"
         heading="Module speciale"
-        items={lectiiSpecialeCarousel}
+        items={moduleSpecialeCarousel}
       />
       <PathChoiceSectionGroup2 />
       <HorizontalScrollSection

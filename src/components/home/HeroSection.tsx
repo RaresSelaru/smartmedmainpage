@@ -78,7 +78,7 @@ export function HeroSection() {
               </Link>
               <Link
                 className="inline-flex min-h-[60px] items-center justify-center rounded-xl border border-smart-gold-light/80 bg-smart-abyss/34 px-7 py-4 text-base font-bold text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:bg-smart-gold/10 hover:shadow-[0_18px_42px_rgba(213,173,107,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[320px] sm:text-lg"
-                href="/lectii-speciale"
+                href="/module-speciale"
               >
                 {heroCopy.secondaryCta}
               </Link>

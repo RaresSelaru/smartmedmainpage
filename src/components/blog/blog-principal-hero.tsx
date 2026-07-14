@@ -47,9 +47,9 @@ export function BlogPrincipalHero() {
             </div>
 
             <h1 className="mt-7 font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[64px] lg:text-[78px] xl:text-[86px] 2xl:text-[94px]">
-              <span className="block lg:whitespace-nowrap">Cunoaștere. Claritate.</span>
+              <span className="block lg:whitespace-nowrap">Cunoaștere  Claritate</span>
               <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
-                EXCELENȚĂ.
+                EXCELENȚĂ
               </span>
             </h1>
 
