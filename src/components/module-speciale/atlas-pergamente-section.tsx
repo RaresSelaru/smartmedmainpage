@@ -4,11 +4,19 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 const pergaments = [
+<<<<<<< HEAD
   { src: "/images/special-modules/pergament-module-speciale--1.png", w: 1092, h: 1095, pos: "left-1/2 top-[0%] -translate-x-1/2", size: "w-[22%] sm:w-[18%]" },
   { src: "/images/special-modules/pergament-module-speciale-2.png", w: 1092, h: 1095, pos: "left-[3%] top-[12%]", size: "w-[22%] sm:w-[18%]" },
   { src: "/images/special-modules/pergament-module-speciale-3.png", w: 1092, h: 1095, pos: "right-[3%] top-[12%]", size: "w-[22%] sm:w-[18%]" },
   { src: "/images/special-modules/pergament-module-speciale-4.png", w: 1092, h: 1095, pos: "left-[-28%] top-[20%]", size: "w-[22%] sm:w-[18%]" },
   { src: "/images/special-modules/pergament-module-speciale-5.png", w: 1087, h: 1080, pos: "right-[-28%] top-[20%]", size: "w-[22%] sm:w-[18%]" },
+=======
+  { src: "/images/special-modules/pergament-module-speciale-1.png", w: 1092, h: 1095, pos: "left-1/2 top-[0%] -translate-x-1/2", size: "w-[20%] sm:w-[18%]" },
+  { src: "/images/special-modules/pergament-module-speciale-2.png", w: 1092, h: 1095, pos: "left-[3%] top-[12%]", size: "w-[20%] sm:w-[18%]" },
+  { src: "/images/special-modules/pergament-module-speciale-3.png", w: 1092, h: 1095, pos: "right-[3%] top-[12%]", size: "w-[20%] sm:w-[18%]" },
+  { src: "/images/special-modules/pergament-module-speciale-4.png", w: 1092, h: 1095, pos: "left-[-4%] top-[40%]", size: "w-[20%] sm:w-[18%]" },
+  { src: "/images/special-modules/pergament-module-speciale-5.png", w: 1087, h: 1080, pos: "right-[-4%] top-[40%]", size: "w-[20%] sm:w-[18%]" },
+>>>>>>> 590208e79238ed5d1f0dbbb3e9cc35ddac2e17a2
 ] as const;
 
 export function AtlasPergamenteSection() {

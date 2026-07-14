@@ -1,24 +1,15 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
-
 import { Reveal } from "@/components/animations/reveal";
-import { BlogNavZone } from "@/components/blog/blog-nav-zone";
+import { BlogArticleCard } from "@/components/blog/blog-article-card";
+import { BlogCategoryFilter } from "@/components/blog/blog-category-filter";
 import { BlogPrincipalHero } from "@/components/blog/blog-principal-hero";
 import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import {
-  formatBlogDate,
-  getBlogCategory,
-  type BlogCategorySlug,
-  type BlogPost,
-} from "@/lib/blog";
+import { type BlogCategorySlug, type BlogPost } from "@/lib/blog";
 import { newsCarousel } from "@/lib/site-config";
-import { cn } from "@/lib/utils";
 
 type BlogPageContentProps = {
-  activeCategory: BlogCategorySlug;
+  activeCategory?: BlogCategorySlug;
   heading: string;
   posts: BlogPost[];
   searchQuery?: string;
@@ -33,13 +24,14 @@ export function BlogPageContent({
   return (
     <>
       <BlogPrincipalHero />
-      <BlogNavZone activeCategory={activeCategory} />
-      <BlogArticleSection
-        activeCategory={activeCategory}
-        heading={heading}
-        posts={posts}
-        searchQuery={searchQuery}
-      />
+      <section className="bg-smart-cream pb-7 pt-12 text-smart-ink sm:pb-9 sm:pt-14">
+        <div className="smart-container relative z-10">
+          <Reveal>
+            <BlogCategoryFilter activeCategory={searchQuery ? undefined : activeCategory} />
+          </Reveal>
+        </div>
+      </section>
+      <BlogArticleSection heading={heading} posts={posts} />
       <div className="relative bg-smart-cream pb-36 sm:pb-48">
         <WaveSeparator fill="teal" variant="relaxed" />
       </div>
@@ -55,27 +47,21 @@ export function BlogPageContent({
   );
 }
 
-
 function BlogArticleSection({
-  activeCategory,
   heading,
   posts,
-  searchQuery,
-}: BlogPageContentProps) {
-  const activeCategoryLabel = getBlogCategory(activeCategory)?.label ?? "Admitere";
-
+}: Pick<BlogPageContentProps, "heading" | "posts">) {
   return (
-    <section className="relative overflow-hidden bg-smart-cream py-20 text-smart-ink" id="articole">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-smart-gold/45 to-transparent" />
+    <section
+      className="relative scroll-mt-28 overflow-hidden bg-smart-cream pb-24 pt-8 text-smart-ink sm:pt-10"
+      id="articole"
+    >
       <div className="absolute right-[-14rem] top-24 h-[32rem] w-[32rem] rounded-full bg-smart-aqua/16 blur-3xl" />
       <div className="smart-container relative z-10">
         <Reveal>
           <div className="min-w-0">
-            <p className="text-xs font-bold uppercase tracking-[0.26em] text-smart-teal">
-              {searchQuery ? "Căutare în blog" : activeCategoryLabel}
-            </p>
-            <div className="mt-3 flex items-center gap-5">
-              <h2 className="font-serif text-5xl font-semibold italic leading-none tracking-[0.02em] sm:text-6xl">
+            <div className="flex items-center gap-5">
+              <h2 className="font-serif text-4xl font-semibold italic leading-none tracking-[0.02em] sm:text-5xl lg:text-6xl">
                 {heading}
               </h2>
               <span className="hidden h-px min-w-24 flex-1 bg-gradient-to-r from-smart-gold/58 via-smart-ink/14 to-transparent md:block" />
@@ -84,9 +70,22 @@ function BlogArticleSection({
         </Reveal>
 
         {posts.length ? (
-          <div className="mt-14 grid gap-16 lg:gap-20">
+          <div className="mt-10 grid grid-cols-1 gap-x-7 gap-y-12 sm:mt-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8 xl:gap-y-14">
             {posts.map((post, index) => (
-              <BlogArticleCard index={index} key={post.slug} post={post} />
+              <Reveal
+                className="relative mx-auto w-full max-w-[440px] hover:z-30"
+                delay={Math.min(index * 0.04, 0.18)}
+                key={post.slug}
+              >
+                <BlogArticleCard
+                  href={`/blog/${post.slug}`}
+                  imageAlt={post.coverAlt}
+                  imageSrc={post.coverImage}
+                  publishedAt={post.date}
+                  tags={post.tags}
+                  title={post.title}
+                />
+              </Reveal>
             ))}
           </div>
         ) : (
@@ -101,65 +100,5 @@ function BlogArticleSection({
         )}
       </div>
     </section>
-  );
-}
-
-function BlogArticleCard({ index, post }: { index: number; post: BlogPost }) {
-  const imageFirst = index % 2 === 1;
-  const categoryLabel = getBlogCategory(post.category)?.label ?? "Blog";
-
-  return (
-    <Reveal delay={Math.min(index * 0.04, 0.18)}>
-      <article className="group grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-        <Link
-          aria-label={`Citește articolul ${post.title}`}
-          className={cn(
-            "relative block aspect-[1.48] min-h-[260px] overflow-hidden rounded-[30px] border border-smart-abyss/10 bg-smart-deep shadow-[0_24px_70px_rgba(3,17,28,0.14)] transition duration-500 hover:shadow-[0_30px_88px_rgba(3,17,28,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal",
-            imageFirst ? "lg:order-1" : "lg:order-2",
-          )}
-          href={`/blog/${post.slug}`}
-        >
-          <Image
-            alt={post.coverAlt}
-            className="object-cover transition duration-700 group-hover:scale-[1.045]"
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            src={post.coverImage}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-smart-abyss/52 via-smart-abyss/6 to-transparent opacity-80" />
-        </Link>
-
-        <div className={cn("px-1 py-2 sm:px-3 lg:px-5", imageFirst ? "lg:order-2" : "lg:order-1")}>
-          <span className="text-xs font-bold uppercase tracking-[0.22em] text-smart-teal">
-            {categoryLabel}
-          </span>
-          <h3 className="mt-5 max-w-2xl origin-left font-serif text-4xl font-semibold leading-[0.98] text-smart-ink transition duration-300 group-hover:scale-[1.015] group-hover:text-smart-teal sm:text-5xl">
-            <Link className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal" href={`/blog/${post.slug}`}>
-              {post.title}
-            </Link>
-          </h3>
-          <p className="mt-5 max-w-xl text-sm leading-7 text-smart-ink/66 sm:text-base">
-            {post.excerpt}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-[0.11em] text-smart-ink/52">
-            <span className="inline-flex items-center gap-2">
-              <CalendarDays aria-hidden="true" className="size-4 text-smart-teal" />
-              {formatBlogDate(post.date)}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Clock3 aria-hidden="true" className="size-4 text-smart-teal" />
-              {post.readTime}
-            </span>
-          </div>
-          <Link
-            className="mt-7 inline-flex items-center gap-3 text-sm font-bold text-smart-teal transition duration-300 hover:text-smart-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
-            href={`/blog/${post.slug}`}
-          >
-            Citește articolul
-            <ArrowRight aria-hidden="true" className="size-4 transition group-hover:translate-x-1" />
-          </Link>
-        </div>
-      </article>
-    </Reveal>
   );
 }

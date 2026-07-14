@@ -1,32 +1,44 @@
 import Image from "next/image";
 
 import { Reveal } from "@/components/animations/reveal";
+import {
+  AdmissionParchmentCard,
+  type AdmissionParchmentCardProps,
+} from "@/components/home/admission-parchment-card";
 import { AnimatedAdmissionYear } from "@/components/home/animated-admission-year";
 import {
   PreparationSystemSection,
   sectionEyebrowClassName,
 } from "@/components/home/PreparationSystemSection";
 
-const admissionClassPlans = [
+import parchmentStyles from "./admission-parchment-card.module.css";
+
+const admissionPlans = [
   {
-    roman: "X",
-    label: "a X-a",
-    caption: "Începi devreme",
-    romanClassName: "text-[2.55rem] sm:text-[3.05rem] md:text-[2.65rem] lg:text-[3.05rem]",
+    grade: "Clasa a X-a",
+    title: "Începi devreme",
+    description:
+      "Începe din clasa a X-a și construiește fundația pentru performanță. Parcurgem împreună bazele solide ale materiei și formăm obiceiuri corecte de învățare care te vor susține în anii următori.",
+    ctaLabel: "Înscrie-te",
+    href: "/contact",
   },
   {
-    roman: "XI",
-    label: "a XI-a",
-    caption: "Accelerezi progresul",
-    romanClassName: "text-[2.42rem] sm:text-[2.9rem] md:text-[2.52rem] lg:text-[2.9rem]",
+    grade: "Clasa a XI-a",
+    title: "Accelerezi progresul",
+    description:
+      "În clasa a XI-a aprofundăm și consolidăm cunoștințele, dezvoltăm gândirea analitică și învățăm să organizăm eficient studiul pentru a face pasul spre performanță în mod constant.",
+    ctaLabel: "Înscrie-te",
+    href: "/contact",
   },
   {
-    roman: "XII",
-    label: "a XII-a",
-    caption: "Te pregătești pentru examen",
-    romanClassName: "text-[2.12rem] sm:text-[2.48rem] md:text-[2.24rem] lg:text-[2.48rem]",
+    grade: "Clasa a XII-a",
+    title: "Te pregătești pentru examen",
+    description:
+      "În clasa a XII-a ne concentrăm 100% pe obiectivul final. Îți oferim strategia, exercițiul și încrederea necesare pentru a aborda examenul cu claritate, calm și rezultate care te reprezintă.",
+    ctaLabel: "Înscrie-te",
+    href: "/contact",
   },
-] as const;
+] satisfies ReadonlyArray<AdmissionParchmentCardProps>;
 
 export function AcademicCreationSection() {
   return (
@@ -94,35 +106,9 @@ export function AcademicCreationSection() {
               ALEGE MOMENTUL POTRIVIT SĂ ÎNCEPI
             </p>
 
-            <div className="mx-auto mt-10 grid max-w-[64rem] gap-8 md:grid-cols-3 md:gap-5 lg:mt-12 lg:gap-6">
-              {admissionClassPlans.map(({ roman, label, caption, romanClassName }) => (
-                <div className="text-center" key={label}>
-                  <div className="mx-auto flex w-full max-w-[15rem] items-center justify-between gap-3 rounded-full border border-smart-gold/62 bg-[linear-gradient(180deg,#fffaf2_0%,#f5ecdd_100%)] py-2.5 pl-5 pr-2.5 shadow-[0_16px_38px_rgba(61,42,18,0.11),inset_0_1px_0_rgba(255,255,255,0.9)] sm:max-w-[15.25rem] md:max-w-[15rem] lg:max-w-[15.25rem]">
-                    <span className="font-serif text-[2.35rem] font-semibold leading-none tracking-[-0.025em] text-smart-ink sm:text-[2.75rem] md:text-[2.35rem] lg:text-[2.75rem]">
-                      Clasa
-                    </span>
-                    <span
-                      aria-label={`clasa ${label}`}
-                      className="relative flex size-20 shrink-0 items-center justify-center rounded-full border-[5px] border-smart-gold bg-smart-ink text-smart-gold-light shadow-[0_10px_24px_rgba(3,17,28,0.18),inset_0_0_0_2px_rgba(255,255,255,0.12),inset_0_0_28px_rgba(200,168,117,0.22)] sm:size-24 md:size-[5.25rem] lg:size-24"
-                    >
-                      <span aria-hidden="true" className="absolute left-[13%] top-1/2 -translate-y-[42%] font-serif text-[0.78rem] font-semibold italic leading-none sm:text-[0.95rem] md:text-[0.82rem] lg:text-[0.95rem]">
-                        a
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className={`font-serif font-semibold leading-none tracking-[-0.055em] ${romanClassName}`}
-                      >
-                        {roman}
-                      </span>
-                      <span aria-hidden="true" className="absolute right-[8%] top-1/2 -translate-y-[42%] font-serif text-[0.78rem] font-semibold italic leading-none sm:text-[0.95rem] md:text-[0.82rem] lg:text-[0.95rem]">
-                        -a
-                      </span>
-                    </span>
-                  </div>
-                  <p className="mt-5 font-serif text-[2rem] font-semibold leading-[0.95] tracking-normal text-smart-ink sm:text-[2.25rem]">
-                    {caption}
-                  </p>
-                </div>
+            <div className={`${parchmentStyles.grid} mt-10 lg:mt-12`}>
+              {admissionPlans.map((plan) => (
+                <AdmissionParchmentCard {...plan} key={plan.grade} />
               ))}
             </div>
 

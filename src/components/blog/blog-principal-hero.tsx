@@ -40,23 +40,26 @@ export function BlogPrincipalHero() {
       <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
         <Reveal className="w-full min-w-0">
           <div className="w-full min-w-0 max-w-[700px]">
-            <div className="inline-flex rounded-full border border-smart-gold-light/28 bg-smart-abyss/26 px-4 py-2 text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-normal sm:text-xs">
-                SMARTMED BLOG
-              </p>
-            </div>
-
-            <h1 className="mt-7 font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[64px] lg:text-[78px] xl:text-[86px] 2xl:text-[94px]">
-              <span className="block lg:whitespace-nowrap">Cunoaștere  Claritate</span>
+            <h1 className="inline-flex flex-col items-center font-serif font-semibold leading-[1.1] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)]">
+              <span className="text-center text-[30px] sm:text-[40px] lg:text-[48px] xl:text-[52px]">
+                Între un „nu mai pot”
+              </span>
+              <span className="mt-3 text-center text-[30px] sm:text-[40px] lg:text-[48px] xl:text-[52px] sm:mt-2">
+                și un „încă o grilă”
+              </span>
               <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
-                EXCELENȚĂ
+                SMARTMED
+              </span>
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
+                BLOG
               </span>
             </h1>
 
             <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
               Articole esențiale, ghiduri practice și explicații clare pentru cei
-              care vor mai mult decât informație — pentru înțelegere și
-              performanță la admitere.
+              care vor mai mult decât informație
+              <br />
+              Navighează cu succes prin hățișul admiterii
             </p>
 
             <form
@@ -64,7 +67,7 @@ export function BlogPrincipalHero() {
               className="mt-7 flex h-[52px] w-full max-w-[630px] items-center rounded-[16px] border border-white/16 bg-smart-abyss/38 px-4 shadow-[0_18px_52px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition duration-300 focus-within:border-smart-gold-light/50 focus-within:bg-smart-abyss/54 focus-within:shadow-[0_20px_56px_rgba(200,168,117,0.12),inset_0_1px_0_rgba(255,255,255,0.12)] sm:h-14 sm:px-5"
               method="get"
             >
-              <label className="sr-only" htmlFor="blog-principal-search">
+              <label className="sr-only" htmlFor="blog-search">
                 Caută articole, subiecte, strategii
               </label>
               <Search
@@ -74,7 +77,7 @@ export function BlogPrincipalHero() {
               />
               <input
                 className="min-w-0 flex-1 bg-transparent text-sm font-medium text-smart-white outline-none placeholder:text-smart-muted/82 sm:text-base"
-                id="blog-principal-search"
+                id="blog-search"
                 name="cautare"
                 placeholder="Caută articole, subiecte, strategii..."
                 type="search"
