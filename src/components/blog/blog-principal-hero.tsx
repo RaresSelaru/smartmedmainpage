@@ -40,7 +40,7 @@ export function BlogPrincipalHero() {
       <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
         <Reveal className="w-full min-w-0">
           <div className="w-full min-w-0 max-w-[700px]">
-            <h1 className="mt-7 inline-flex flex-col items-center font-serif font-semibold leading-[1.1] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)]">
+            <h1 className="inline-flex flex-col items-center font-serif font-semibold leading-[1.1] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)]">
               <span className="text-center text-[30px] sm:text-[40px] lg:text-[48px] xl:text-[52px]">
                 Între un „nu mai pot”
               </span>
@@ -51,14 +51,15 @@ export function BlogPrincipalHero() {
                 SMARTMED
               </span>
               <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
-                BLOG.
+                BLOG
               </span>
             </h1>
 
             <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
               Articole esențiale, ghiduri practice și explicații clare pentru cei
-              care vor mai mult decât informație — pentru înțelegere și
-              performanță la admitere.
+              care vor mai mult decât informație
+              <br />
+              Navighează cu succes prin hățișul admiterii
             </p>
 
             <form
