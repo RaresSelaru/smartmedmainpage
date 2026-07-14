@@ -3,11 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-<<<<<<< HEAD
-import { ChevronDown, Menu, Search, ShoppingCart, UserRoundCheck, X } from "lucide-react";
-=======
-import { LogOut, Menu, Search, ShoppingCart, UserRoundCheck, X } from "lucide-react";
->>>>>>> 590208e79238ed5d1f0dbbb3e9cc35ddac2e17a2
+import { ChevronDown, LogOut, Menu, Search, ShoppingCart, UserRoundCheck, X } from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
 import { logoutAction } from "@/lib/auth/actions";
@@ -257,61 +253,42 @@ export function Navbar() {
           {navbarRoutes.map((item) => {
             const active = isActive(pathname, item.href);
 
-<<<<<<< HEAD
-              if (item.children && item.children.length > 0) {
-                return (
-                  <div className="group/dropdown relative" key={`${item.label}-${item.href}`}>
-                    <Link
-                      aria-current={active ? "page" : undefined}
-                      className={cn(
-                        "relative flex items-center gap-1 whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
-                        "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
-                        active && "text-smart-white after:scale-x-100",
-                      )}
-                      href={item.href}
-                    >
-                      {item.label}
-                      <ChevronDown
-                        aria-hidden="true"
-                        className="size-3.5 shrink-0 transition duration-300 group-hover/dropdown:rotate-180"
-                        strokeWidth={2}
-                      />
-                    </Link>
-                    <div className="absolute left-0 top-full z-20 pt-3">
-                      <div className="invisible min-w-[210px] translate-y-1 rounded-2xl border border-white/12 bg-smart-dark/95 p-2 opacity-0 shadow-[0_20px_50px_rgba(3,17,28,0.34)] backdrop-blur-2xl transition duration-200 ease-out group-hover/dropdown:visible group-hover/dropdown:translate-y-0 group-hover/dropdown:opacity-100 group-focus-within/dropdown:visible group-focus-within/dropdown:translate-y-0 group-focus-within/dropdown:opacity-100">
-                        {item.children.map((child) => (
-                          <Link
-                            className="block whitespace-nowrap rounded-xl px-3 py-2.5 text-sm font-semibold text-smart-white/84 transition hover:bg-white/8 hover:text-smart-white"
-                            href={child.href}
-                            key={`${child.label}-${child.href}`}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
+            if (item.children && item.children.length > 0) {
+              return (
+                <div className="group/dropdown relative" key={`${item.label}-${item.href}`}>
+                  <Link
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative flex items-center gap-1 whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
+                      "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
+                      active && "text-smart-white after:scale-x-100",
+                    )}
+                    href={item.href}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="size-3.5 shrink-0 transition duration-300 group-hover/dropdown:rotate-180"
+                      strokeWidth={2}
+                    />
+                  </Link>
+                  <div className="absolute left-0 top-full z-20 pt-3">
+                    <div className="invisible min-w-[210px] translate-y-1 rounded-2xl border border-white/12 bg-smart-dark/95 p-2 opacity-0 shadow-[0_20px_50px_rgba(3,17,28,0.34)] backdrop-blur-2xl transition duration-200 ease-out group-hover/dropdown:visible group-hover/dropdown:translate-y-0 group-hover/dropdown:opacity-100 group-focus-within/dropdown:visible group-focus-within/dropdown:translate-y-0 group-focus-within/dropdown:opacity-100">
+                      {item.children.map((child) => (
+                        <Link
+                          className="block whitespace-nowrap rounded-xl px-3 py-2.5 text-sm font-semibold text-smart-white/84 transition hover:bg-white/8 hover:text-smart-white"
+                          href={child.href}
+                          key={`${child.label}-${child.href}`}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                );
-              }
-
-              return (
-                <Link
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "relative whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
-                    "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
-                    active && "text-smart-white after:scale-x-100",
-                  )}
-                  href={item.href}
-                  key={`${item.label}-${item.href}`}
-                >
-                  {item.label}
-                </Link>
+                </div>
               );
-            })}
-          </div>
-        )}
-=======
+            }
+
             return (
               <Link
                 aria-current={active ? "page" : undefined}
@@ -328,7 +305,6 @@ export function Navbar() {
             );
           })}
         </div>
->>>>>>> 590208e79238ed5d1f0dbbb3e9cc35ddac2e17a2
 
         <div className="flex shrink-0 items-center gap-3">
           <button
