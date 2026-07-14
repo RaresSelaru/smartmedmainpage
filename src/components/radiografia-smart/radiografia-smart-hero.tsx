@@ -5,17 +5,17 @@ import { BookOpen, GraduationCap } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
-export function ModuleSpecialeHero() {
+export function RadiografiaSmartHero() {
   return (
     <section className="relative isolate z-30 min-h-[980px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[1020px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[1060px] lg:px-8">
       <Image
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 translate-x-[6%] scale-[0.88] object-cover object-[72%_38%] opacity-78 sm:opacity-88 lg:object-[center_38%] lg:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-20 object-contain object-center opacity-78 sm:opacity-88 lg:opacity-100"
         fill
         priority
         sizes="100vw"
-        src="/assets/blog/statui-module-speciale.png"
+        src="/images/special-modules/radiografia-smart/3-radiografia-smart-3.png"
       />
       <div
         aria-hidden="true"
@@ -27,25 +27,15 @@ export function ModuleSpecialeHero() {
       />
       <div className="grain-overlay z-[1] opacity-[0.08]" />
 
-      <Image
-        alt="Centru acreditat — Exigență, Excelență și Experiență în pregătirea pentru Medicină — SmartMed Academy"
-        className="pointer-events-none absolute right-[17%] top-[10.25rem] z-[3] hidden h-auto w-[clamp(220px,15vw,290px)] drop-shadow-[0_14px_34px_rgba(0,0,0,0.34)] xl:block"
-        height={1280}
-        priority
-        sizes="(max-width: 1024px) 230px, 16vw"
-        src="/assets/blog/centru-acreditat.png"
-        width={1280}
-      />
-
       <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
         <Reveal className="w-full min-w-0">
           <div className="w-full min-w-0 max-w-[700px]">
             <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[70px] xl:text-[82px] 2xl:text-[90px]">
-              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]">Înțelegere | Strategie | Performanță</span>
-              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
-                <span className="inline-block">
-                  <span className="block">MODULE</span>
-                  <span className="block pl-[1em]">SPECIALE</span>
+              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]"></span>
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[clamp(1.75rem,7vw,5.625rem)] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)]">
+                <span className="inline-block break-words">
+                  <span className="block">RADIOGRAFIA</span>
+                  <span className="block pl-[1em]">SMART</span>
                   <div
                     aria-hidden="true"
                     className="relative mt-2 h-px w-full bg-gradient-to-r from-transparent via-smart-gold-light/70 to-transparent sm:mt-3"
@@ -57,11 +47,9 @@ export function ModuleSpecialeHero() {
             </h1>
 
             <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
-              Excelența se construiește capitol cu capitol<br></br>
-              Pregătirea care face diferența dintre canditat și student
+              Dincolo de imagine<br></br>
+              Descoperă informația ascunsă în fiecare desen
             </p>
-
-            
 
             <div className="mt-6 flex w-full max-w-[630px] flex-col gap-3 sm:flex-row sm:gap-4">
               <Link

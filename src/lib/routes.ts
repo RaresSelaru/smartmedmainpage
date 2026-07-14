@@ -3,6 +3,9 @@ export type AppRoute =
   | "/centru-online"
   | "/centru-fizic"
   | "/module-speciale"
+  | "/module-speciale/lectiile-smart"
+  | "/module-speciale/sutura-smart"
+  | "/module-speciale/radiografia-smart"
   | "/grile"
   | "/news"
   | "/simulari-smart"
@@ -22,11 +25,20 @@ export type RouteItem = {
   label: string;
   href: AppRoute;
   description?: string;
+  children?: RouteItem[];
 };
 
 export const navbarRoutes: RouteItem[] = [
   { label: "Centrul SmartMed", href: "/" },
-  { label: "Module speciale", href: "/module-speciale" },
+  {
+    label: "Module speciale",
+    href: "/module-speciale",
+    children: [
+      { label: "Lecțiile SMART", href: "/module-speciale/lectiile-smart" },
+      { label: "Sutura SMART", href: "/module-speciale/sutura-smart" },
+      { label: "Radiografia SMART", href: "/module-speciale/radiografia-smart" },
+    ],
+  },
   { label: "Grile", href: "/grile" },
   { label: "Simulări Smart", href: "/simulari-smart" },
   { label: "Shop", href: "/shop" },
@@ -47,7 +59,7 @@ export const primaryRoutes: RouteItem[] = [
     description: "Pregătire în sală și comunitate SmartMed.",
   },
   {
-    label: "Lecții Smart",
+    label: "Module Speciale",
     href: "/module-speciale",
     description: "Ateliere intensive și teme țintite.",
   },

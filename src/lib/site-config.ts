@@ -201,22 +201,22 @@ export type CarouselItem = {
 
 export const moduleSpecialeCarousel = [
   {
-    eyebrow: "Modul special",
-    title: "Lecțiile SMART",
+    eyebrow: "Module special",
+    title: "Module SMART",
     description:
       "Completarea manualelor cu noțiuni vitale pentru înțelegerea fiecărui capitol, informațiile dificile devenind concepte ușor de înțeles.",
     href: "/module-speciale",
     accent: "aqua",
     icon: "book-open",
     imageSrc: "/images/special-modules/cards/lectiile-smart.png",
-    imageAlt: "Manual medical deschis cu concepte și legături vizuale pentru Lecțiile SMART",
+    imageAlt: "Manual medical deschis cu concepte și legături vizuale pentru Modulele Speciale",
     imagePosition: "center top",
   },
   {
     eyebrow: "Modul special",
     title: "Sutura SMART",
     description: "Corelarea logică a noțiunilor din capitole diferite, fără învățare mecanică, conexiuni strategice care ajută la formarea unei gândiri medicale.",
-    href: "/module-speciale",
+    href: "/module-speciale/sutura-smart",
     accent: "gold",
     icon: "sparkles",
     imageSrc: "/images/special-modules/cards/sutura-smart.png",
@@ -227,7 +227,7 @@ export const moduleSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Radiografia SMART",
     description: "Analiza minuțioasă a desenelor din manualul de biologie, surse dense de informații pe care mulți candidați le ignoră.",
-    href: "/module-speciale",
+    href: "/module-speciale/radiografia-smart",
     accent: "cream",
     icon: "stethoscope",
     imageSrc: "/images/special-modules/cards/radiografia-smart.png",
@@ -388,7 +388,7 @@ export const featureCards = [
     icon: "book-open",
   },
   {
-    title: "Lecții Smart",
+    title: "Module Speciale",
     description: "Explicații clare, exemple relevante și metode moderne de învățare.",
     href: "/module-speciale",
     image: generatedAssets.featureLessons,
@@ -437,7 +437,7 @@ export const destinationCards: DestinationCardConfig[] = [
     fallbackIcon: "building",
   },
   {
-    title: "Lecții SmartMed Speciale",
+    title: "Module SmartMed Speciale",
     subtitle: "Ateliere concentrate pentru capitole grele și recapitulări cu miză.",
     href: "/module-speciale",
     image: "/assets/page-icons/module-speciale.svg",
@@ -588,10 +588,10 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
   },
   "module-speciale": {
     eyebrow: "Ateliere intensive",
-    title: "Lecții SmartMed Speciale",
+    title: "Module SmartMed Speciale",
     description:
       "O pagină pregătită pentru workshopuri tematice, recapitulări rapide, lecții premium și evenimente educaționale.",
-    primaryCta: { label: "Urmărește lecțiile", href: "/cont" },
+    primaryCta: { label: "Urmărește modulele", href: "/cont" },
     secondaryCta: { label: "Contact pentru program", href: "/contact" },
     highlights: [
       {
