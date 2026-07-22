@@ -260,7 +260,7 @@ export const moduleSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Imagistica SMART",
     description: "Schițe și desene complementare necesare pentru stăpânirea fiecărui detaliu esențial la admitere.",
-    href: "/module-speciale",
+    href: "/module-speciale/imagistica-smart",
     accent: "gold",
     icon: "pen-tool",
     imageSrc: "/images/special-modules/cards/imagistica-smart.png",

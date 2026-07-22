@@ -5,6 +5,7 @@ export type AppRoute =
   | "/module-speciale"
   | "/module-speciale/lectiile-smart"
   | "/module-speciale/sutura-smart"
+  | "/module-speciale/imagistica-smart"
   | "/module-speciale/radiografia-smart"
   | "/module-speciale/disectia-smart"
   | "/module-speciale/diferentialul-smart"
@@ -40,6 +41,7 @@ export const navbarRoutes: RouteItem[] = [
       { label: "Radiografia SMART", href: "/module-speciale/radiografia-smart" },
       { label: "Disecția SMART", href: "/module-speciale/disectia-smart" },
       { label: "Diferențialul SMART", href: "/module-speciale/diferentialul-smart" },
+      { label: "Imagistica SMART", href: "/module-speciale/imagistica-smart" },
     ],
   },
   { label: "Grile", href: "/grile" },
