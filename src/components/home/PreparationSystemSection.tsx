@@ -73,7 +73,7 @@ export function PreparationSystemSection() {
   return (
     <section
       aria-labelledby="preparation-system-heading"
-      className="relative overflow-hidden pb-14 pt-2 text-smart-ink sm:pb-16 lg:pb-20"
+      className="relative overflow-hidden pt-2 text-smart-ink"
     >
       <Reveal>
         <div className="mx-auto max-w-5xl text-center">

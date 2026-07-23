@@ -10,6 +10,7 @@ import {
   PreparationSystemSection,
   sectionEyebrowClassName,
 } from "@/components/home/PreparationSystemSection";
+import { OrnamentalDivider } from "@/components/ui/OrnamentalDivider";
 
 import parchmentStyles from "./admission-parchment-card.module.css";
 
@@ -44,14 +45,15 @@ export function AcademicCreationSection() {
   return (
     <section
       aria-labelledby="academic-creation-heading"
-      className="relative isolate overflow-hidden bg-smart-cream px-5 pb-20 pt-16 text-smart-ink sm:px-7 sm:pb-24 sm:pt-20 lg:px-8"
+      className="relative isolate overflow-hidden bg-smart-cream px-5 pb-14 pt-16 text-smart-ink sm:px-7 sm:pb-16 sm:pt-20 lg:px-8 lg:pb-18"
     >
       <div className="pointer-events-none absolute inset-0 opacity-55 [background-image:radial-gradient(circle_at_18%_18%,rgba(31,111,120,0.09),transparent_28%),radial-gradient(circle_at_84%_24%,rgba(200,168,117,0.14),transparent_30%)]" />
       <div className="relative z-10 mx-auto max-w-7xl">
         <PreparationSystemSection />
+        <OrnamentalDivider className="my-14 sm:my-16 lg:my-18" />
 
         <Reveal>
-          <div className="mx-auto mt-10 max-w-5xl text-center sm:mt-14">
+          <div className="mx-auto max-w-5xl text-center">
             <p className="relative left-1/2 w-[calc(100vw-2.5rem)] -translate-x-1/2 text-center sm:w-[calc(100vw-3.5rem)] lg:w-[calc(100vw-4rem)]">
               <span className={`${sectionEyebrowClassName} inline-block whitespace-nowrap`}>
                 O admitere reușită la buget începe cu o pregătire potrivită la
@@ -76,8 +78,10 @@ export function AcademicCreationSection() {
           </div>
         </Reveal>
 
+        <OrnamentalDivider className="my-14 sm:my-16 lg:my-18" />
+
         <Reveal delay={0.08}>
-          <div className="relative left-1/2 mt-14 w-screen -translate-x-1/2 sm:mt-16 lg:mt-20">
+          <div className="relative left-1/2 w-screen -translate-x-1/2">
             <Image
               alt="SmartMed Academy, succesul prin constanță, admiterea 2027, pregătire cu medici"
               className="h-auto w-full object-contain object-center"
@@ -91,18 +95,12 @@ export function AcademicCreationSection() {
           </div>
         </Reveal>
 
+        <OrnamentalDivider className="my-14 sm:my-16 lg:my-18" />
+
         <Reveal delay={0.14}>
-          <div className="mx-auto mt-8 max-w-6xl text-center sm:mt-10">
+          <div className="mx-auto max-w-6xl text-center">
             <AnimatedAdmissionYear className="font-serif text-[86px] font-semibold italic leading-none tracking-[0.04em] text-smart-ink sm:text-8xl lg:text-[8rem]" />
-            <div
-              aria-hidden="true"
-              className="mx-auto mt-8 flex w-full max-w-4xl items-center justify-center gap-4 text-smart-gold sm:mt-9 sm:gap-5"
-            >
-              <span className="h-px flex-1 bg-smart-gold/58" />
-              <span className="size-3 rotate-45 rounded-[2px] bg-smart-gold/78" />
-              <span className="h-px flex-1 bg-smart-gold/58" />
-            </div>
-            <p className="mt-7 text-base font-extrabold uppercase tracking-[0.32em] text-smart-ink sm:text-lg sm:tracking-[0.5em] lg:text-xl">
+            <p className="mt-5 text-base font-extrabold uppercase tracking-[0.32em] text-smart-ink sm:mt-6 sm:text-lg sm:tracking-[0.5em] lg:text-xl">
               ALEGE MOMENTUL POTRIVIT SĂ ÎNCEPI
             </p>
 
@@ -119,6 +117,8 @@ export function AcademicCreationSection() {
             </p>
           </div>
         </Reveal>
+
+        <OrnamentalDivider className="mt-14 sm:mt-16 lg:mt-18" />
       </div>
     </section>
   );

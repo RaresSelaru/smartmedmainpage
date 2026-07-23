@@ -1,0 +1,514 @@
+.scheduler {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+  overflow: hidden;
+  margin-top: 66px;
+  border: 1px solid rgba(238, 215, 164, 0.26);
+  border-radius: 30px;
+  background: #faf6ee;
+  box-shadow:
+    0 40px 110px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #0a1822;
+}
+
+.schedulerIntro {
+  position: relative;
+  padding: clamp(34px, 4vw, 56px);
+  border-right: 1px solid rgba(10, 24, 34, 0.1);
+  background:
+    radial-gradient(circle at 15% 12%, rgba(201, 166, 110, 0.16), transparent 23%),
+    #f4ebdd;
+}
+
+.schedulerIntro::before {
+  position: absolute;
+  right: 21px;
+  bottom: 21px;
+  width: 46px;
+  height: 46px;
+  border-right: 1px solid rgba(157, 117, 66, 0.38);
+  border-bottom: 1px solid rgba(157, 117, 66, 0.38);
+  content: "";
+}
+
+.introIcon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 1px solid rgba(157, 117, 66, 0.34);
+  border-radius: 17px;
+  background: rgba(250, 246, 238, 0.72);
+  color: #9d7542;
+}
+
+.introIcon svg {
+  width: 23px;
+  height: 23px;
+  stroke-width: 1.55;
+}
+
+.status {
+  margin: 28px 0 0;
+  color: #9d7542;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.schedulerIntro h3 {
+  margin: 14px 0 0;
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.15rem, 3.4vw, 3.5rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+  color: rgba(10, 24, 34, 0.7);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.duration svg {
+  width: 18px;
+  height: 18px;
+  color: #165966;
+  stroke-width: 1.7;
+}
+
+.introCopy {
+  margin: 22px 0 0;
+  color: rgba(10, 24, 34, 0.62);
+  font-size: 0.8rem;
+  line-height: 1.75;
+}
+
+.schedulerIntro ul {
+  display: grid;
+  gap: 11px;
+  margin: 26px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid rgba(157, 117, 66, 0.22);
+  list-style: none;
+}
+
+.schedulerIntro li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(10, 24, 34, 0.67);
+  font-size: 0.72rem;
+  line-height: 1.58;
+}
+
+.schedulerIntro li svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+  color: #287987;
+  stroke-width: 1.8;
+}
+
+.orientationNote {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  margin-top: 27px;
+  border: 1px solid rgba(10, 24, 34, 0.1);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(250, 246, 238, 0.56);
+}
+
+.orientationNote > svg {
+  width: 19px;
+  height: 19px;
+  color: #9d7542;
+  stroke-width: 1.55;
+}
+
+.orientationNote p {
+  margin: 0;
+  color: rgba(10, 24, 34, 0.57);
+  font-size: 0.66rem;
+  line-height: 1.55;
+}
+
+.orientationNote strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #0a1822;
+}
+
+.calendarPanel {
+  padding: clamp(30px, 4vw, 54px);
+  background:
+    radial-gradient(circle at 92% 6%, rgba(40, 121, 135, 0.09), transparent 25%),
+    #faf6ee;
+}
+
+.calendarTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.calendarTopline p,
+.timePicker > p {
+  margin: 0;
+  color: rgba(10, 24, 34, 0.48);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.calendarTopline h3 {
+  margin: 7px 0 0;
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.8rem, 2.6vw, 2.7rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.monthControls {
+  display: flex;
+  gap: 8px;
+}
+
+.monthControls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(10, 24, 34, 0.14);
+  border-radius: 50%;
+  background: transparent;
+  color: #0a1822;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    translate 180ms ease;
+}
+
+.monthControls button:hover:not(:disabled) {
+  translate: 0 -2px;
+  border-color: rgba(157, 117, 66, 0.4);
+  background: rgba(201, 166, 110, 0.1);
+}
+
+.monthControls button:disabled {
+  cursor: default;
+  opacity: 0.28;
+}
+
+.monthControls svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.8;
+}
+
+.weekDays,
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.weekDays {
+  margin-top: 35px;
+}
+
+.weekDays span {
+  display: grid;
+  height: 30px;
+  place-items: center;
+  color: rgba(10, 24, 34, 0.42);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.daysGrid button,
+.daysGrid > span {
+  min-width: 0;
+  aspect-ratio: 1;
+}
+
+.daysGrid button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  color: rgba(10, 24, 34, 0.36);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.daysGrid button:not(:disabled) {
+  border-color: rgba(40, 121, 135, 0.18);
+  background: rgba(40, 121, 135, 0.08);
+  color: #165966;
+  cursor: pointer;
+  transition:
+    translate 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.daysGrid button:not(:disabled)::after {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #287987;
+  content: "";
+}
+
+.daysGrid button:not(:disabled):hover {
+  translate: 0 -2px;
+  border-color: rgba(40, 121, 135, 0.42);
+  background: rgba(40, 121, 135, 0.13);
+}
+
+.daysGrid button.selectedDay:not(:disabled) {
+  border-color: #165966;
+  background: #165966;
+  color: #f8f4ec;
+  box-shadow: 0 12px 28px rgba(22, 89, 102, 0.25);
+}
+
+.daysGrid button.selectedDay:not(:disabled)::after {
+  background: #eed7a4;
+}
+
+.availabilityLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid rgba(10, 24, 34, 0.08);
+}
+
+.availabilityLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(10, 24, 34, 0.48);
+  font-size: 0.6rem;
+}
+
+.availableDot,
+.unavailableDot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.availableDot {
+  background: #287987;
+}
+
+.unavailableDot {
+  border: 1px solid rgba(10, 24, 34, 0.2);
+  background: transparent;
+}
+
+.timePicker {
+  margin-top: 27px;
+}
+
+.timePicker > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.timePicker button {
+  min-width: 88px;
+  min-height: 42px;
+  border: 1px solid rgba(10, 24, 34, 0.13);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(10, 24, 34, 0.68);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    translate 180ms ease;
+}
+
+.timePicker button:hover {
+  translate: 0 -2px;
+  border-color: rgba(157, 117, 66, 0.4);
+}
+
+.timePicker .selectedTime {
+  border-color: #c9a66e;
+  background: rgba(201, 166, 110, 0.18);
+  color: #6f4c22;
+}
+
+.selectionSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-top: 31px;
+  border: 1px solid rgba(10, 24, 34, 0.1);
+  border-radius: 18px;
+  padding: 14px 14px 14px 18px;
+  background: rgba(244, 235, 221, 0.72);
+}
+
+.selectionSummary span,
+.selectionSummary strong {
+  display: block;
+}
+
+.selectionSummary span {
+  color: rgba(10, 24, 34, 0.46);
+  font-size: 0.59rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.selectionSummary strong {
+  margin-top: 4px;
+  color: #0a1822;
+  font-size: 0.78rem;
+}
+
+.selectionSummary a {
+  display: inline-flex;
+  min-height: 46px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 999px;
+  padding: 11px 17px;
+  background: #071d2b;
+  color: #f8f4ec;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    translate 200ms ease,
+    background-color 200ms ease;
+}
+
+.selectionSummary a:hover {
+  translate: 0 -2px;
+  background: #165966;
+}
+
+.selectionSummary a svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+  transition: translate 180ms ease;
+}
+
+.selectionSummary a:hover svg {
+  translate: 3px 0;
+}
+
+.monthControls button:focus-visible,
+.daysGrid button:focus-visible,
+.timePicker button:focus-visible,
+.selectionSummary a:focus-visible {
+  outline: 2px solid #287987;
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .scheduler {
+    grid-template-columns: 1fr;
+  }
+
+  .schedulerIntro {
+    border-right: 0;
+    border-bottom: 1px solid rgba(10, 24, 34, 0.1);
+  }
+}
+
+@media (max-width: 560px) {
+  .scheduler {
+    margin-top: 46px;
+    border-radius: 22px;
+  }
+
+  .schedulerIntro,
+  .calendarPanel {
+    padding: 25px 18px;
+  }
+
+  .calendarTopline {
+    align-items: flex-end;
+  }
+
+  .weekDays,
+  .daysGrid {
+    gap: 4px;
+  }
+
+  .weekDays span {
+    font-size: 0.56rem;
+  }
+
+  .daysGrid button {
+    border-radius: 10px;
+    font-size: 0.67rem;
+  }
+
+  .daysGrid button:not(:disabled)::after {
+    right: 5px;
+    bottom: 5px;
+  }
+
+  .selectionSummary {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .selectionSummary a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monthControls button,
+  .daysGrid button,
+  .timePicker button,
+  .selectionSummary a,
+  .selectionSummary a svg {
+    transition: none;
+  }
+}
