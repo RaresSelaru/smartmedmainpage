@@ -51,24 +51,29 @@ const accentToImageGlow: Record<CarouselItem["accent"], string> = {
   cream: "from-smart-cream via-smart-cream/88 to-smart-cream-deep/92",
 };
 
+const EDGE_REVEAL_DISTANCE = 160;
+const RAIL_SHADOW_GUTTER = 64;
+const RAIL_EDGE_FADE_WIDTH = 80;
+
+function getEdgeStrength(distance: number) {
+  const progress = Math.min(1, Math.max(0, distance / EDGE_REVEAL_DISTANCE));
+  return progress * progress * (3 - 2 * progress);
+}
+
+function getScrollBehavior(): ScrollBehavior {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+}
+
 function getRailMaskStyle(
-  canScrollLeft: boolean,
-  canScrollRight: boolean,
-): CSSProperties | undefined {
-  if (!canScrollLeft && !canScrollRight) {
-    return undefined;
-  }
-
-  const fadeWidth = "52px";
-  let maskImage: string;
-
-  if (canScrollLeft && canScrollRight) {
-    maskImage = `linear-gradient(90deg, transparent 0, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent 100%)`;
-  } else if (canScrollLeft) {
-    maskImage = `linear-gradient(90deg, transparent 0, black ${fadeWidth}, black 100%)`;
-  } else {
-    maskImage = `linear-gradient(90deg, black 0, black calc(100% - ${fadeWidth}), transparent 100%)`;
-  }
+  leftStrength: number,
+  rightStrength: number,
+): CSSProperties {
+  const leftEdgeOpacity = 1 - leftStrength;
+  const rightEdgeOpacity = 1 - rightStrength;
+  const fadeEnd = RAIL_SHADOW_GUTTER + RAIL_EDGE_FADE_WIDTH;
+  const maskImage = `linear-gradient(90deg, rgba(0,0,0,${leftEdgeOpacity}) 0, rgba(0,0,0,${leftEdgeOpacity}) ${RAIL_SHADOW_GUTTER}px, black ${fadeEnd}px, black calc(100% - ${fadeEnd}px), rgba(0,0,0,${rightEdgeOpacity}) calc(100% - ${RAIL_SHADOW_GUTTER}px), rgba(0,0,0,${rightEdgeOpacity}) 100%)`;
 
   return {
     WebkitMaskImage: maskImage,
@@ -85,6 +90,8 @@ export function SpecialModulesSection({
   const railRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [leftEdgeStrength, setLeftEdgeStrength] = useState(0);
+  const [rightEdgeStrength, setRightEdgeStrength] = useState(0);
   const [progress, setProgress] = useState(0);
   const dotCount = useMemo(() => Math.min(5, Math.max(1, items.length)), [items.length]);
   const activeDot = Math.round(progress * (dotCount - 1));
@@ -94,10 +101,14 @@ export function SpecialModulesSection({
     if (!rail) return;
 
     const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    const nextProgress = maxScroll === 0 ? 0 : rail.scrollLeft / maxScroll;
+    const scrollOffset = Math.min(maxScroll, Math.max(0, rail.scrollLeft));
+    const remainingScroll = Math.max(0, maxScroll - scrollOffset);
+    const nextProgress = maxScroll === 0 ? 0 : scrollOffset / maxScroll;
 
-    setCanScrollLeft(rail.scrollLeft > 8);
-    setCanScrollRight(rail.scrollLeft < maxScroll - 8);
+    setCanScrollLeft(scrollOffset > 1);
+    setCanScrollRight(remainingScroll > 1);
+    setLeftEdgeStrength(getEdgeStrength(scrollOffset));
+    setRightEdgeStrength(getEdgeStrength(remainingScroll));
     setProgress(Math.min(1, Math.max(0, nextProgress)));
   }, []);
 
@@ -123,11 +134,24 @@ export function SpecialModulesSection({
 
     const firstCard = rail.querySelector<HTMLElement>("[data-special-module-card]");
     const cardWidth = firstCard?.offsetWidth ?? 296;
-    const gap = 24;
+    const gap = Number.parseFloat(window.getComputedStyle(rail).columnGap) || 20;
 
     rail.scrollBy({
       left: direction * (cardWidth + gap),
-      behavior: "smooth",
+      behavior: getScrollBehavior(),
+    });
+  }
+
+  function scrollToDot(index: number) {
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    const targetProgress = dotCount <= 1 ? 0 : index / (dotCount - 1);
+
+    rail.scrollTo({
+      left: maxScroll * targetProgress,
+      behavior: getScrollBehavior(),
     });
   }
 
@@ -152,53 +176,73 @@ export function SpecialModulesSection({
         </Reveal>
       </div>
 
-      <div className="relative z-10 mx-auto mt-14 max-w-[1600px] px-5 sm:mt-16 sm:px-7 lg:px-10 xl:px-12">
-        <div className="grid items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
+      <div className="relative z-10 mx-auto mt-14 max-w-[1600px] px-5 sm:mt-16 sm:px-7 lg:px-12">
+        <div className="grid items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16 xl:grid-cols-[360px_minmax(0,1fr)]">
           <Reveal className="min-w-0 lg:-mt-8 xl:-mt-9">
             <SignatureCard />
           </Reveal>
 
-          <Reveal className="min-w-0" delay={0.08}>
-            <div className="relative min-w-0">
-              {canScrollLeft ? (
-                <ScrollButton
-                  ariaLabel="Module precedente"
-                  className="-left-8 sm:-left-10 lg:-left-12"
-                  direction="left"
-                  onClick={() => scrollRail(-1)}
-                />
-              ) : null}
-              {canScrollRight ? (
-                <ScrollButton
-                  ariaLabel="Module următoare"
-                  className="right-1 sm:right-3"
-                  direction="right"
-                  onClick={() => scrollRail(1)}
-                />
-              ) : null}
+          <Reveal className="min-w-0 overflow-visible" delay={0.08}>
+            <div className="relative min-w-0 overflow-visible">
+              <div className="relative min-w-0 overflow-visible">
+                <div
+                  className="-mx-16 -mb-14 -mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth scroll-pl-[4.75rem] scroll-pr-36 py-6 pb-24 pl-[4.75rem] pr-36 [scrollbar-width:none] sm:scroll-pl-20 sm:scroll-pr-40 sm:pl-20 sm:pr-40 [&::-webkit-scrollbar]:hidden"
+                  id="special-modules-rail"
+                  onScroll={updateRailState}
+                  ref={railRef}
+                  style={getRailMaskStyle(leftEdgeStrength, rightEdgeStrength)}
+                >
+                  {items.map((item, index) => (
+                    <SpecialModuleCard item={item} key={item.title} moduleNumber={index + 1} />
+                  ))}
+                </div>
 
-              <div
-                className="-my-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth scroll-pl-3 scroll-pr-32 py-6 pb-12 pl-3 pr-32 [scrollbar-width:none] sm:scroll-pl-4 sm:scroll-pr-40 sm:pl-4 sm:pr-40 [&::-webkit-scrollbar]:hidden"
-                onScroll={updateRailState}
-                ref={railRef}
-                style={getRailMaskStyle(canScrollLeft, canScrollRight)}
-              >
-                {items.map((item, index) => (
-                  <SpecialModuleCard item={item} key={item.title} moduleNumber={index + 1} />
-                ))}
+                <RailEdgeFade side="left" strength={leftEdgeStrength} />
+                <RailEdgeFade side="right" strength={rightEdgeStrength} />
               </div>
 
-              <div className="flex justify-center gap-3 pt-3" aria-hidden="true">
+              <ScrollButton
+                ariaLabel="Module precedente"
+                className="left-0 hover:-translate-x-1 sm:left-1 lg:-left-14"
+                direction="left"
+                disabled={!canScrollLeft}
+                onClick={() => scrollRail(-1)}
+                strength={leftEdgeStrength}
+              />
+              <ScrollButton
+                ariaLabel="Module următoare"
+                className="right-0 hover:translate-x-1 sm:right-1 lg:-right-12"
+                direction="right"
+                disabled={!canScrollRight}
+                onClick={() => scrollRail(1)}
+                strength={rightEdgeStrength}
+              />
+
+              <div
+                aria-label="Navigare module speciale"
+                className="pointer-events-auto relative z-30 flex justify-center gap-0 pt-2"
+                role="group"
+              >
                 {Array.from({ length: dotCount }).map((_, index) => (
-                  <span
-                    className={cn(
-                      "size-2 rounded-full transition-all duration-300",
-                      index === activeDot
-                        ? "w-6 bg-smart-gold-light"
-                        : "bg-smart-white/58",
-                    )}
+                  <button
+                    aria-controls="special-modules-rail"
+                    aria-current={index === activeDot ? "true" : undefined}
+                    aria-label={`Mergi la poziția ${index + 1} din ${dotCount}`}
+                    className="group/dot inline-flex h-8 w-7 cursor-pointer appearance-none items-center justify-center border-0 bg-transparent p-0 focus-visible:outline-none"
                     key={index}
-                  />
+                    onClick={() => scrollToDot(index)}
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "h-1.5 rounded-full transition-[width,background-color,opacity,transform] duration-300 ease-out group-hover/dot:scale-110 group-focus-visible/dot:scale-125",
+                        index === activeDot
+                          ? "w-5 bg-smart-gold-light"
+                          : "w-1.5 bg-smart-white/55 group-hover/dot:bg-smart-white/78 group-focus-visible/dot:bg-smart-white/90",
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
@@ -208,6 +252,37 @@ export function SpecialModulesSection({
 
       <WaveSeparator fill="cream" />
     </section>
+  );
+}
+
+type RailEdgeFadeProps = {
+  side: "left" | "right";
+  strength: number;
+};
+
+function RailEdgeFade({ side, strength }: RailEdgeFadeProps) {
+  const fadeOuterEdge = RAIL_SHADOW_GUTTER + RAIL_EDGE_FADE_WIDTH;
+  const leftSoftStop =
+    RAIL_SHADOW_GUTTER + Math.round(RAIL_EDGE_FADE_WIDTH * 0.42);
+  const rightSoftStop = Math.round(RAIL_EDGE_FADE_WIDTH * 0.58);
+  const maskImage =
+    side === "left"
+      ? `linear-gradient(90deg, transparent 0, black ${RAIL_SHADOW_GUTTER}px, rgba(0,0,0,0.72) ${leftSoftStop}px, transparent ${fadeOuterEdge}px)`
+      : `linear-gradient(90deg, transparent 0, rgba(0,0,0,0.72) ${rightSoftStop}px, black ${RAIL_EDGE_FADE_WIDTH}px, transparent ${fadeOuterEdge}px)`;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-y-0 z-20 bg-[rgba(31,112,121,0.001)] backdrop-blur-[6px] transition-opacity duration-200 ease-out"
+      data-special-modules-edge-fade={side}
+      style={{
+        [side]: -RAIL_SHADOW_GUTTER,
+        opacity: strength,
+        width: fadeOuterEdge,
+        WebkitMaskImage: maskImage,
+        maskImage,
+      }}
+    />
   );
 }
 
@@ -336,26 +411,37 @@ type ScrollButtonProps = {
   ariaLabel: string;
   className: string;
   direction: "left" | "right";
+  disabled: boolean;
   onClick: () => void;
+  strength: number;
 };
 
-function ScrollButton({ ariaLabel, className, direction, onClick }: ScrollButtonProps) {
+function ScrollButton({
+  ariaLabel,
+  className,
+  direction,
+  disabled,
+  onClick,
+  strength,
+}: ScrollButtonProps) {
   const Icon = direction === "left" ? ChevronLeft : ChevronRight;
 
   return (
     <button
       aria-label={ariaLabel}
       className={cn(
-        "absolute top-[295px] z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-transparent text-smart-cream/80 transition duration-300 hover:bg-smart-cream/8 hover:text-smart-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:top-[310px]",
+        "absolute top-[295px] z-50 inline-flex size-12 -translate-y-1/2 items-center justify-center bg-transparent text-smart-cream/90 transition-[opacity,transform,color] duration-300 ease-out hover:text-smart-gold-light focus-visible:text-smart-gold-light focus-visible:outline-none disabled:pointer-events-none sm:top-[310px]",
         className,
       )}
+      disabled={disabled}
       onClick={onClick}
+      style={{ opacity: disabled ? 0 : Math.min(1, strength * 1.45) }}
       type="button"
     >
       <Icon
         aria-hidden="true"
-        className="size-8 drop-shadow-[0_4px_10px_rgba(3,17,28,0.18)]"
-        strokeWidth={1.55}
+        className="size-11 drop-shadow-[0_3px_7px_rgba(3,17,28,0.34)]"
+        strokeWidth={2}
       />
     </button>
   );

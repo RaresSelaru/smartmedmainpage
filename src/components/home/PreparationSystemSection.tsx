@@ -20,7 +20,7 @@ const preparationSteps = [
     keepTitleOnOneLine: true,
     description:
       "Simulări în format fizic care reproduc fidel condițiile de examen adaptate în funcție de centrul universitar",
-    image: "/images/offer-steps/simulation.png",
+    image: "/images/offer-steps/simulation-physical.png",
   },
   {
     title: "Feedback constant",
