@@ -10,6 +10,7 @@ export type AppRoute =
   | "/module-speciale/disectia-smart"
   | "/module-speciale/diferentialul-smart"
   | "/module-speciale/laboratorul-smart"
+  | "/module-speciale/problema-cu-probleme"
   | "/grile"
   | "/news"
   | "/simulari-smart"
@@ -44,6 +45,7 @@ export const navbarRoutes: RouteItem[] = [
       { label: "Diferențialul SMART", href: "/module-speciale/diferentialul-smart" },
       { label: "Imagistica SMART", href: "/module-speciale/imagistica-smart" },
       { label: "Laboratorul SMART", href: "/module-speciale/laboratorul-smart" },
+      { label: "Problema cu problemele", href: "/module-speciale/problema-cu-probleme" },
     ],
   },
   { label: "Grile", href: "/grile" },

@@ -5,7 +5,7 @@ import { BookOpen, GraduationCap } from "lucide-react";
 import { Reveal } from "@/components/animations/reveal";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
-export function LaboratorulSmartHero() {
+export function ProblemaCuProblemeHero() {
   return (
     <section className="relative isolate z-30 min-h-[980px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[1020px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[1060px] lg:px-8">
       <Image
@@ -15,7 +15,7 @@ export function LaboratorulSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/laboratorul-smart/7-laboratorul-smart.png"
+        src="/images/special-modules/problema-cu-probleme/8-problema-cu-probleme-2.png"
       />
       <div
         aria-hidden="true"
@@ -32,10 +32,10 @@ export function LaboratorulSmartHero() {
           <div className="w-full min-w-0 max-w-[700px]">
             <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[70px] xl:text-[82px] 2xl:text-[90px]">
               <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]"></span>
-              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[42px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[68px] lg:text-[84px] xl:text-[92px] 2xl:text-[100px]">
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[40px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[64px] lg:text-[78px] xl:text-[84px] 2xl:text-[92px]">
                 <span className="inline-block">
-                  <span className="block">LABORATORUL</span>
-                  <span className="block pl-[1em]">SMART</span>
+                  <span className="block">PROBLEMA CU</span>
+                  <span className="block">PROBLEMELE</span>
                   <div
                     aria-hidden="true"
                     className="relative mt-2 h-px w-full bg-gradient-to-r from-transparent via-smart-gold-light/70 to-transparent sm:mt-3"
@@ -47,8 +47,8 @@ export function LaboratorulSmartHero() {
             </h1>
 
             <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
-              Chimie înțeleasă, nu memorată<br></br>
-              Detaliile ascunse devin instrumente de performanță
+              Stăpânirea completă a tipologiei de exerciții<br></br>
+              care decide ierarhia finală la admitere
             </p>
 
             <div className="mt-6 flex w-full max-w-[630px] flex-col gap-3 sm:flex-row sm:gap-4">

@@ -282,7 +282,7 @@ export const moduleSpecialeCarousel = [
     eyebrow: "Modul special",
     title: "Problema cu problemele",
     description: "Toate tipurile de probleme întâlnite la examen, analizate minuțios, care fac diferența între buget și taxă.",
-    href: "/module-speciale",
+    href: "/module-speciale/problema-cu-probleme",
     accent: "cream",
     icon: "timer",
     imageSrc: "/images/special-modules/cards/problema-cu-problemele.png",
