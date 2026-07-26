@@ -13,7 +13,6 @@ import {
 } from "react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { SmartIcon } from "@/components/ui/SmartIcon";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import type { CarouselItem } from "@/lib/site-config";
@@ -159,8 +158,10 @@ export function SpecialModulesSection({
     <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28">
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
         <Reveal>
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel>{eyebrow}</SectionLabel>
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mx-auto max-w-none text-[22px] font-extrabold uppercase tracking-[0.22em] text-smart-gold-light mr-[-0.22em] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:tracking-[0.50em] lg:mr-[-0.5em]">
+              {eyebrow}
+            </p>
             <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] sm:text-6xl lg:text-7xl">
               {heading}
             </h2>
@@ -302,7 +303,7 @@ function SignatureCard() {
             className="size-full object-contain"
             height={1024}
             loading="eager"
-            src="/images/special-modules/signature-smartmed.png"
+            src="/images/special-modules/atlas-1.png"
             unoptimized
             width={1024}
           />
@@ -354,6 +355,7 @@ type SpecialModuleCardProps = {
 
 function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
   const imageSrc = item.imageSrc ?? item.imageUrl ?? item.image;
+  const titleMatch = item.title.match(/^(.*)\s+(SMART)$/i);
 
   return (
     <Link
@@ -397,7 +399,14 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
           {moduleNumber}
         </span>
         <h3 className="font-serif text-[1.9rem] font-semibold leading-[0.96] tracking-[-0.012em] text-smart-ink sm:text-[2rem]">
-          {item.title}
+          {titleMatch ? (
+            <>
+              <span className="block">{titleMatch[1]}</span>
+              <span className="block">{titleMatch[2].toUpperCase()}</span>
+            </>
+          ) : (
+            item.title
+          )}
         </h3>
         <p className="mx-auto mt-3 max-w-[14.25rem] text-[13.25px] leading-[1.58] text-smart-ink/68 sm:text-[13.5px] sm:leading-[1.62]">
           {item.description}

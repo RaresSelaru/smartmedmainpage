@@ -17,9 +17,9 @@ export default function Home() {
       <AcademicCreationSection />
       <PathChoiceSection />
       <SpecialModulesSection
-        description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere."
+        description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere"
         eyebrow="Resurse SmartMed"
-        heading="Module speciale"
+        heading="MODULE SPECIALE"
         items={moduleSpecialeCarousel}
       />
       <PathChoiceSectionGroup2 />
