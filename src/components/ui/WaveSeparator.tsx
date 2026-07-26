@@ -5,6 +5,8 @@ type WaveSeparatorProps = {
   position?: "top" | "bottom";
   variant?: "default" | "relaxed";
   className?: string;
+  backColor?: string;
+  frontColor?: string;
 };
 
 const fills = {
@@ -29,6 +31,8 @@ export function WaveSeparator({
   position = "bottom",
   variant = "default",
   className,
+  backColor,
+  frontColor,
 }: WaveSeparatorProps) {
   const { back, front } = fills[fill];
   const wavePaths = paths[variant];
@@ -44,16 +48,18 @@ export function WaveSeparator({
     >
       <svg
         aria-hidden="true"
-        className={cn("absolute bottom-0 h-full w-full", back)}
+        className={cn("absolute bottom-0 h-full w-full", !backColor && back)}
         preserveAspectRatio="none"
+        style={backColor ? { fill: backColor } : undefined}
         viewBox="0 0 1440 200"
       >
         <path d={wavePaths.back} />
       </svg>
       <svg
         aria-hidden="true"
-        className={cn("absolute bottom-0 h-full w-full", front)}
+        className={cn("absolute bottom-0 h-full w-full", !frontColor && front)}
         preserveAspectRatio="none"
+        style={frontColor ? { fill: frontColor } : undefined}
         viewBox="0 0 1440 200"
       >
         <path d={wavePaths.front} />

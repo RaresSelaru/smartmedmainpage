@@ -344,6 +344,10 @@
   height: clamp(125px, 14vw, 190px);
 }
 
+.sectionWave {
+  height: clamp(126px, 13vw, 190px);
+}
+
 .sectionInner {
   position: relative;
   z-index: 1;
@@ -363,7 +367,7 @@
 }
 
 .introSection {
-  padding: 126px 0 148px;
+  padding: 126px 0 225px;
 }
 
 .introSection::before,
@@ -603,7 +607,7 @@
 }
 
 .experienceSection {
-  padding: 146px 0 154px;
+  padding: 146px 0 230px;
   background:
     radial-gradient(circle at 78% 15%, rgba(40, 121, 135, 0.26), transparent 31%),
     linear-gradient(135deg, #03111c 0%, #082332 58%, #03111c 100%);
@@ -698,7 +702,7 @@
 }
 
 .formatsSection {
-  padding: 142px 0 150px;
+  padding: 142px 0 230px;
 }
 
 .splitHeading {
@@ -858,7 +862,7 @@
 }
 
 .rhythmSection {
-  padding: 140px 0 148px;
+  padding: 140px 0 225px;
   background: linear-gradient(128deg, #0e4c58 0%, #0b3542 48%, #061c2a 100%);
 }
 
@@ -961,7 +965,7 @@
 }
 
 .programSection {
-  padding: 142px 0 152px;
+  padding: 142px 0 230px;
 }
 
 .programCard {
@@ -1147,7 +1151,7 @@
 
 .schedulerSection {
   scroll-margin-top: 100px;
-  padding: 142px 0 152px;
+  padding: 142px 0 230px;
   background:
     radial-gradient(circle at 15% 18%, rgba(40, 121, 135, 0.24), transparent 28%),
     linear-gradient(137deg, #03111c 0%, #071f2e 54%, #061622 100%);
@@ -1178,7 +1182,7 @@
 }
 
 .locationSection {
-  padding: 144px 0 152px;
+  padding: 144px 0 230px;
 }
 
 .locationGrid {
@@ -1445,8 +1449,7 @@
 }
 
 .faqSection {
-  padding: 134px 0 148px;
-  border-top: 1px solid rgba(157, 117, 66, 0.16);
+  padding: 134px 0 230px;
   background:
     radial-gradient(circle at 18% 8%, rgba(40, 121, 135, 0.09), transparent 28%),
     var(--cf-paper);
@@ -1464,10 +1467,10 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  min-height: 690px;
+  min-height: 760px;
   place-items: center;
   overflow: hidden;
-  padding: 112px 20px;
+  padding: 112px 20px 200px;
   color: #f8f4ec;
 }
 
@@ -1762,7 +1765,12 @@
   .experienceSection,
   .rhythmSection,
   .schedulerSection {
-    padding-block: 92px;
+    padding-top: 92px;
+    padding-bottom: 155px;
+  }
+
+  .sectionWave {
+    height: 132px;
   }
 
   .sectionEyebrow {
@@ -1894,8 +1902,8 @@
   }
 
   .finalCta {
-    min-height: 650px;
-    padding-inline: 16px;
+    min-height: 720px;
+    padding: 100px 16px 178px;
   }
 
   .finalCtaInner > div {

@@ -235,6 +235,12 @@ export function CentruFizicLandingPage() {
             <span className={styles.editorialOrbit} aria-hidden="true" />
           </div>
         </div>
+        <WaveSeparator
+          backColor="#082332"
+          className={styles.sectionWave}
+          fill="dark"
+          frontColor="#03111c"
+        />
       </section>
 
       <section className={styles.experienceSection} id="experienta">
@@ -272,6 +278,13 @@ export function CentruFizicLandingPage() {
             })}
           </div>
         </div>
+        <WaveSeparator
+          backColor="#efe4d2"
+          className={styles.sectionWave}
+          fill="cream"
+          frontColor="#f4ebdd"
+          variant="relaxed"
+        />
       </section>
 
       <section className={styles.formatsSection}>
@@ -351,6 +364,12 @@ export function CentruFizicLandingPage() {
             </article>
           </div>
         </div>
+        <WaveSeparator
+          backColor="#287987"
+          className={styles.sectionWave}
+          fill="teal"
+          frontColor="#0e4c58"
+        />
       </section>
 
       <section className={styles.rhythmSection}>
@@ -386,6 +405,13 @@ export function CentruFizicLandingPage() {
             ))}
           </div>
         </div>
+        <WaveSeparator
+          backColor="#efe4d2"
+          className={styles.sectionWave}
+          fill="cream"
+          frontColor="#f4ebdd"
+          variant="relaxed"
+        />
       </section>
 
       <section className={styles.programSection}>
@@ -449,6 +475,12 @@ export function CentruFizicLandingPage() {
             ))}
           </div>
         </div>
+        <WaveSeparator
+          backColor="#071b29"
+          className={styles.sectionWave}
+          fill="dark"
+          frontColor="#03111c"
+        />
       </section>
 
       <section className={styles.schedulerSection} id="programare">
@@ -466,6 +498,13 @@ export function CentruFizicLandingPage() {
             <CentruFizicScheduler />
           </div>
         </div>
+        <WaveSeparator
+          backColor="#efe4d2"
+          className={styles.sectionWave}
+          fill="cream"
+          frontColor="#f4ebdd"
+          variant="relaxed"
+        />
       </section>
 
       <section className={styles.locationSection}>
@@ -534,6 +573,12 @@ export function CentruFizicLandingPage() {
             <span className={styles.mapCornerTwo} aria-hidden="true" />
           </div>
         </div>
+        <WaveSeparator
+          backColor="#f4ebdd"
+          className={styles.sectionWave}
+          fill="cream"
+          frontColor="#faf6ee"
+        />
       </section>
 
       <section className={styles.faqSection}>
@@ -549,6 +594,13 @@ export function CentruFizicLandingPage() {
             <CentruFizicFaq />
           </div>
         </div>
+        <WaveSeparator
+          backColor="#071b29"
+          className={styles.sectionWave}
+          fill="dark"
+          frontColor="#03111c"
+          variant="relaxed"
+        />
       </section>
 
       <section className={styles.finalCta}>
@@ -576,6 +628,12 @@ export function CentruFizicLandingPage() {
             </Link>
           </div>
         </div>
+        <WaveSeparator
+          backColor="#061622"
+          className={styles.sectionWave}
+          fill="dark"
+          frontColor="#000000"
+        />
       </section>
     </div>
   );
