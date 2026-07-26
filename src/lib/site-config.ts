@@ -201,15 +201,15 @@ export type CarouselItem = {
 
 export const moduleSpecialeCarousel = [
   {
-    eyebrow: "Module special",
-    title: "Module SMART",
+    eyebrow: "Modul special",
+    title: "Lecțiile SMART",
     description:
       "Completarea manualelor cu noțiuni vitale pentru înțelegerea fiecărui capitol, informațiile dificile devenind concepte ușor de înțeles.",
-    href: "/module-speciale",
+    href: "/module-speciale/lectiile-smart",
     accent: "aqua",
     icon: "book-open",
     imageSrc: "/images/special-modules/cards/lectiile-smart.png",
-    imageAlt: "Manual medical deschis cu concepte și legături vizuale pentru Modulele Speciale",
+    imageAlt: "Manual medical deschis cu concepte și legături vizuale pentru Lecțiile Speciale",
     imagePosition: "center top",
   },
   {
@@ -280,12 +280,12 @@ export const moduleSpecialeCarousel = [
   },
   {
     eyebrow: "Modul special",
-    title: "Problema cu problemele",
+    title: "Problema SMART",
     description: "Toate tipurile de probleme întâlnite la examen, analizate minuțios, care fac diferența între buget și taxă.",
-    href: "/module-speciale/problema-cu-probleme",
+    href: "/module-speciale/problema-smart",
     accent: "cream",
     icon: "timer",
-    imageSrc: "/images/special-modules/cards/problema-cu-problemele.png",
+    imageSrc: "/images/special-modules/cards/problema-smart.png",
     imageAlt: "Ilustrație academică pentru analiza problemelor de examen",
     imagePosition: "center top",
   },
