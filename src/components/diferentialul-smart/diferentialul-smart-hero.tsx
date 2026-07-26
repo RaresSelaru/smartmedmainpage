@@ -15,7 +15,7 @@ export function DiferentialulSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/diferentialul-smart/5-diferentialul-smart.png"
+        src="/images/special-modules/diferentialul-smart/5-diferentialul-smart-1.png"
       />
       <div
         aria-hidden="true"

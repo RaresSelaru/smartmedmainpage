@@ -114,7 +114,7 @@ export function CentruFizicLandingPage() {
           fill
           priority
           sizes="100vw"
-          src="/assets/generated/path-fizic.png"
+          src="/images/centrul-fizic/avicenna.jpeg"
         />
         <div className={styles.heroScrim} />
         <div className={styles.heroGrain} />

@@ -15,7 +15,7 @@ export function ProblemaSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/problema-smart/8-problema-smart-2.png"
+        src="/images/special-modules/problema-smart/8-problema-smart-3.png"
       />
       <div
         aria-hidden="true"

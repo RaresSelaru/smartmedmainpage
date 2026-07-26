@@ -15,7 +15,7 @@ export function ImagisticaSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/imagistica-smart/6-imagistica-smart.png"
+        src="/images/special-modules/imagistica-smart/6-imagistica-smart-1.png"
       />
       <div
         aria-hidden="true"

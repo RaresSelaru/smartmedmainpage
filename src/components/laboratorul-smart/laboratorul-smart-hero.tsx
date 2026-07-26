@@ -15,7 +15,7 @@ export function LaboratorulSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/laboratorul-smart/7-laboratorul-smart.png"
+        src="/images/special-modules/laboratorul-smart/7-laboratorul-smart-2.png"
       />
       <div
         aria-hidden="true"

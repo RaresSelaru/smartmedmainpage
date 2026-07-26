@@ -15,7 +15,7 @@ export function RadiografiaSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/radiografia-smart/3-radiografia-smart-3.png"
+        src="/images/special-modules/radiografia-smart/3-radiografia-smart-4.png"
       />
       <div
         aria-hidden="true"
