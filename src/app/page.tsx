@@ -25,9 +25,9 @@ export default function Home() {
       <PathChoiceSectionGroup2 />
       <HorizontalScrollSection
         bottomWave="cream"
-        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admitere"
         eyebrow="Mereu la curent"
-        heading="SmartMed News"
+        heading="SMARTMED NEWS"
         items={newsCarousel}
       />
       <PathChoiceSectionGroup3 />

@@ -18,9 +18,9 @@ export default function ContactPage() {
       </div>
       <HorizontalScrollSection
         bottomWave="cream"
-        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admitere"
         eyebrow="Mereu la curent"
-        heading="SmartMed News"
+        heading="SMARTMED NEWS"
         items={newsCarousel}
       />
       <FinalCTASection />

@@ -33,7 +33,14 @@ export type RouteItem = {
 };
 
 export const navbarRoutes: RouteItem[] = [
-  { label: "Centrul SmartMed", href: "/" },
+  {
+    label: "Centrul SmartMed",
+    href: "/",
+    children: [
+      { label: "Centru online", href: "/centru-online" },
+      { label: "Centru fizic", href: "/centru-fizic" },
+    ],
+  },
   {
     label: "Module speciale",
     href: "/module-speciale",

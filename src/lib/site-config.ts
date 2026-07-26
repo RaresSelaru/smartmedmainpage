@@ -174,7 +174,7 @@ export const pathChoiceGroup2 = [
     title: "Simulări Smart",
     href: "/simulari-smart",
     image: generatedAssets.ctaHeart,
-    cta: "Pregătește simularea",
+    cta: "Înscrie-te la simulare",
     benefits: [
       "Simulări desfășurate în condiții de examen",
       "Monitorizarea evoluției scorurilor în timp",
@@ -651,7 +651,7 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
     title: "Simulări Smart",
     description:
       "O zonă gândită pentru sesiuni de simulare, scoruri, leaderboard-uri controlate și feedback pe capitole.",
-    primaryCta: { label: "Pregătește simularea", href: "/cont" },
+    primaryCta: { label: "Înscrie-te la simulare", href: "/cont" },
     secondaryCta: { label: "Exersează grile", href: "/grile" },
     highlights: [
       {

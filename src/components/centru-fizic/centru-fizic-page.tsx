@@ -118,12 +118,6 @@ export function CentruFizicLandingPage() {
         />
         <div className={styles.heroScrim} />
         <div className={styles.heroGrain} />
-        <div className={styles.heroGreekFrame} aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
 
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
