@@ -16,7 +16,10 @@ import {
   UsersRound,
 } from "lucide-react";
 
+import { FinalCTASection } from "@/components/home/FinalCTASection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
+import { newsCarousel } from "@/lib/site-config";
 
 import { CentruFizicFaq } from "./centru-fizic-faq";
 import { CentruFizicScheduler } from "./centru-fizic-scheduler";
@@ -637,6 +640,18 @@ export function CentruFizicLandingPage() {
           frontColor="#000000"
         />
       </section>
+
+      <div className="relative bg-smart-dark pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
+      <HorizontalScrollSection
+        bottomWave="cream"
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admitere"
+        eyebrow="Mereu la curent"
+        heading="SMARTMED NEWS"
+        items={newsCarousel}
+      />
+      <FinalCTASection />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import { Reveal } from "@/components/animations/reveal";
+import { FinalCTASection } from "@/components/home/FinalCTASection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { SmartIcon } from "@/components/ui/SmartIcon";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import { onlineCenterModules, roleRoadmap } from "@/lib/site-config";
+import { newsCarousel, onlineCenterModules, roleRoadmap } from "@/lib/site-config";
 import type { IconName } from "@/lib/site-config";
 
 const progressPreview = [
@@ -148,6 +150,18 @@ export function OnlineCenterPage() {
           </div>
         </Reveal>
       </section>
+
+      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+        <WaveSeparator fill="teal" variant="relaxed" />
+      </div>
+      <HorizontalScrollSection
+        bottomWave="cream"
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admitere"
+        eyebrow="Mereu la curent"
+        heading="SMARTMED NEWS"
+        items={newsCarousel}
+      />
+      <FinalCTASection />
     </>
   );
 }
