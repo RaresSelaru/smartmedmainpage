@@ -360,14 +360,28 @@
 .programSection,
 .locationSection,
 .faqSection {
+  --entry-surface: var(--cf-cream);
   position: relative;
-  background:
-    radial-gradient(circle at 82% 4%, rgba(201, 166, 110, 0.12), transparent 22%),
-    var(--cf-cream);
+  background: var(--cf-cream);
 }
 
 .introSection {
   padding: 126px 0 225px;
+}
+
+.introSection::after,
+.formatsSection::after,
+.programSection::after,
+.locationSection::after,
+.faqSection::after {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(180deg, var(--entry-surface) 0, var(--entry-surface) 2px, transparent 230px),
+    radial-gradient(circle at 82% 18%, rgba(201, 166, 110, 0.12), transparent 24%);
 }
 
 .introSection::before,
@@ -607,10 +621,25 @@
 }
 
 .experienceSection {
+  --entry-surface: #03111c;
   padding: 146px 0 230px;
   background:
     radial-gradient(circle at 78% 15%, rgba(40, 121, 135, 0.26), transparent 31%),
     linear-gradient(135deg, #03111c 0%, #082332 58%, #03111c 100%);
+}
+
+.experienceSection::after,
+.rhythmSection::after,
+.schedulerSection::after {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 240px;
+  content: "";
+  background: linear-gradient(180deg, var(--entry-surface) 0, var(--entry-surface) 2px, transparent 230px);
 }
 
 .darkPattern {
@@ -640,29 +669,54 @@
 .pillarGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 72px;
-  border-top: 1px solid rgba(238, 215, 164, 0.2);
-  border-bottom: 1px solid rgba(238, 215, 164, 0.2);
+  gap: clamp(14px, 1.45vw, 22px);
+  margin-top: 68px;
 }
 
 .pillarCard {
   position: relative;
-  min-height: 315px;
-  padding: 34px 27px 32px;
-  border-right: 1px solid rgba(238, 215, 164, 0.18);
-  background: rgba(255, 255, 255, 0.022);
+  isolation: isolate;
+  display: flex;
+  min-height: 352px;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px 27px 31px;
+  border: 1px solid rgba(238, 215, 164, 0.23);
+  border-radius: 58px 58px 25px 25px;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(201, 166, 110, 0.13), transparent 28%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.074), rgba(255, 255, 255, 0.025) 55%, rgba(22, 89, 102, 0.1)),
+    rgba(7, 29, 40, 0.72);
+  box-shadow:
+    0 22px 58px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
   transition:
-    background-color 300ms ease,
-    translate 300ms ease;
+    translate 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 320ms ease,
+    box-shadow 320ms ease;
 }
 
-.pillarCard:first-child {
-  border-left: 1px solid rgba(238, 215, 164, 0.18);
+.pillarCard::before {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  inset: 7px;
+  border: 1px solid rgba(238, 215, 164, 0.095);
+  border-radius: 51px 51px 19px 19px;
+  content: "";
 }
 
-.pillarCard:hover {
-  translate: 0 -5px;
-  background: rgba(238, 215, 164, 0.065);
+.pillarCard::after {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid rgba(238, 215, 164, 0.42);
+  background: rgba(201, 166, 110, 0.15);
+  content: "";
+  rotate: 45deg;
+  translate: -50% 0;
 }
 
 .pillarTopline {
@@ -671,34 +725,69 @@
   justify-content: space-between;
 }
 
-.pillarTopline svg {
-  width: 24px;
-  height: 24px;
-  color: var(--cf-gold-light);
-  stroke-width: 1.3;
-}
-
 .pillarNumeral {
-  color: rgba(238, 215, 164, 0.38);
+  color: rgba(238, 215, 164, 0.46);
   font-family: var(--font-cormorant), Georgia, serif;
-  font-size: 2.2rem;
+  font-size: 2.35rem;
   line-height: 1;
 }
 
+.pillarIcon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(238, 215, 164, 0.28);
+  border-radius: 50%;
+  background: rgba(3, 17, 28, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 26px rgba(0, 0, 0, 0.14);
+  transition:
+    border-color 320ms ease,
+    background-color 320ms ease;
+}
+
+.pillarIcon svg {
+  width: 20px;
+  height: 20px;
+  color: var(--cf-gold-light);
+  stroke-width: 1.35;
+}
+
 .pillarCard h3 {
+  display: flex;
+  min-height: 2em;
+  align-items: flex-end;
   margin: 66px 0 0;
   color: #f8f4ec;
   font-family: var(--font-cormorant), Georgia, serif;
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 2vw, 2.08rem);
   font-weight: 600;
   line-height: 1;
 }
 
 .pillarCard p {
-  margin: 18px 0 0;
-  color: rgba(248, 244, 236, 0.6);
-  font-size: 0.82rem;
-  line-height: 1.75;
+  max-width: 29ch;
+  margin: 16px 0 17px;
+  color: rgba(248, 244, 236, 0.65);
+  font-size: 0.84rem;
+  line-height: 1.72;
+}
+
+@media (hover: hover) {
+  .pillarCard:hover {
+    translate: 0 -6px;
+    border-color: rgba(238, 215, 164, 0.46);
+    box-shadow:
+      0 32px 78px rgba(0, 0, 0, 0.27),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .pillarCard:hover .pillarIcon {
+    border-color: rgba(238, 215, 164, 0.52);
+    background: rgba(201, 166, 110, 0.1);
+  }
 }
 
 .formatsSection {
@@ -862,6 +951,7 @@
 }
 
 .rhythmSection {
+  --entry-surface: #0e4c58;
   padding: 140px 0 225px;
   background: linear-gradient(128deg, #0e4c58 0%, #0b3542 48%, #061c2a 100%);
 }
@@ -1150,6 +1240,7 @@
 }
 
 .schedulerSection {
+  --entry-surface: #03111c;
   scroll-margin-top: 100px;
   padding: 142px 0 230px;
   background:
@@ -1449,10 +1540,15 @@
 }
 
 .faqSection {
+  --entry-surface: var(--cf-paper);
   padding: 134px 0 230px;
+  background: var(--cf-paper);
+}
+
+.faqSection::after {
   background:
-    radial-gradient(circle at 18% 8%, rgba(40, 121, 135, 0.09), transparent 28%),
-    var(--cf-paper);
+    linear-gradient(180deg, var(--entry-surface) 0, var(--entry-surface) 2px, transparent 230px),
+    radial-gradient(circle at 18% 20%, rgba(40, 121, 135, 0.09), transparent 30%);
 }
 
 .faqHeading {
@@ -1485,6 +1581,7 @@
   z-index: -2;
   inset: 0;
   background:
+    linear-gradient(180deg, #03111c 0, rgba(3, 17, 28, 0.98) 64px, transparent 220px),
     linear-gradient(90deg, rgba(3, 17, 28, 0.89), rgba(3, 17, 28, 0.72)),
     radial-gradient(circle at center, transparent, rgba(3, 17, 28, 0.58));
 }
@@ -1588,12 +1685,13 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .pillarCard:nth-child(2) {
-    border-right: 1px solid rgba(238, 215, 164, 0.18);
+  .pillarCard {
+    min-height: 315px;
+    border-radius: 50px 50px 23px 23px;
   }
 
-  .pillarCard:nth-child(3) {
-    border-left: 1px solid rgba(238, 215, 164, 0.18);
+  .pillarCard::before {
+    border-radius: 43px 43px 17px 17px;
   }
 
   .rhythmLine {
@@ -1828,22 +1926,30 @@
   }
 
   .pillarGrid {
-    border-top: 0;
-    border-bottom: 0;
-    gap: 12px;
+    gap: 14px;
     margin-top: 50px;
   }
 
   .pillarCard,
   .pillarCard:first-child,
   .pillarCard:nth-child(3) {
-    min-height: 250px;
-    border: 1px solid rgba(238, 215, 164, 0.18);
-    border-radius: 20px;
+    min-height: 260px;
+    padding: 26px 22px 28px;
+    border-radius: 42px 42px 22px 22px;
+  }
+
+  .pillarCard::before {
+    border-radius: 35px 35px 16px 16px;
   }
 
   .pillarCard h3 {
+    min-height: 0;
     margin-top: 42px;
+  }
+
+  .pillarIcon {
+    width: 44px;
+    height: 44px;
   }
 
   .formatVisual {
@@ -1939,6 +2045,7 @@
   .outlineButton,
   .formatCard,
   .pillarCard,
+  .pillarIcon,
   .rhythmCard,
   .enrollmentCard {
     transition: none;

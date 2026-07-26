@@ -255,7 +255,11 @@ export function Navbar() {
 
             if (item.children && item.children.length > 0) {
               return (
-                <div className="group/dropdown relative" key={`${item.label}-${item.href}`}>
+                <div
+                  className="group/dropdown relative"
+                  data-nav-dropdown="true"
+                  key={`${item.label}-${item.href}`}
+                >
                   <Link
                     aria-current={active ? "page" : undefined}
                     className={cn(
@@ -272,8 +276,11 @@ export function Navbar() {
                       strokeWidth={2}
                     />
                   </Link>
-                  <div className="absolute left-0 top-full z-20 pt-3">
-                    <div className="invisible min-w-[210px] translate-y-1 rounded-2xl border border-white/12 bg-smart-dark/95 p-2 opacity-0 shadow-[0_20px_50px_rgba(3,17,28,0.34)] backdrop-blur-2xl transition duration-200 ease-out group-hover/dropdown:visible group-hover/dropdown:translate-y-0 group-hover/dropdown:opacity-100 group-focus-within/dropdown:visible group-focus-within/dropdown:translate-y-0 group-focus-within/dropdown:opacity-100">
+                  <div
+                    className="pointer-events-none invisible absolute left-0 top-full z-20 pt-3 opacity-0 transition-[opacity,visibility] duration-200 ease-out group-hover/dropdown:pointer-events-auto group-hover/dropdown:visible group-hover/dropdown:opacity-100 group-focus-within/dropdown:pointer-events-auto group-focus-within/dropdown:visible group-focus-within/dropdown:opacity-100"
+                    data-nav-dropdown-panel="true"
+                  >
+                    <div className="min-w-[210px] translate-y-1 rounded-2xl border border-white/12 bg-smart-dark/95 p-2 shadow-[0_20px_50px_rgba(3,17,28,0.34)] backdrop-blur-2xl transition-transform duration-200 ease-out group-hover/dropdown:translate-y-0 group-focus-within/dropdown:translate-y-0">
                       {item.children.map((child) => (
                         <Link
                           className="block whitespace-nowrap rounded-xl px-3 py-2.5 text-sm font-semibold text-smart-white/84 transition hover:bg-white/8 hover:text-smart-white"

@@ -8,15 +8,20 @@ import { WaveSeparator } from "@/components/ui/WaveSeparator";
 export function BlogPrincipalHero() {
   return (
     <section className="relative isolate z-30 min-h-[760px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[800px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[820px] lg:px-8">
-      <Image
-        alt=""
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 object-cover object-[72%_center] opacity-78 sm:opacity-88 lg:object-center lg:opacity-100"
-        fill
-        priority
-        sizes="100vw"
-        src="/images/blog/blog-principal-hero-user-bg.png"
-      />
+        className="pointer-events-none absolute inset-0 -z-20 lg:inset-x-0 lg:bottom-0 lg:top-auto lg:aspect-[1672/941] lg:h-auto lg:w-full"
+      >
+        <Image
+          alt=""
+          className="object-cover object-[72%_center] opacity-78 sm:opacity-88 lg:object-contain lg:object-[right_bottom] lg:opacity-100"
+          fill
+          priority
+          sizes="100vw"
+          src="/images/blog/blog-principal-hero-user-bg.png"
+        />
+        <div className="absolute inset-x-0 top-0 z-10 hidden h-28 bg-gradient-to-b from-smart-abyss via-smart-abyss/70 to-transparent lg:block" />
+      </div>
       <div
         aria-hidden="true"
         className="absolute inset-y-0 left-0 -z-10 w-[88%] bg-[linear-gradient(90deg,rgba(3,17,28,0.94)_0%,rgba(3,17,28,0.82)_34%,rgba(3,17,28,0.42)_60%,rgba(3,17,28,0.08)_82%,transparent_100%)] sm:w-[76%] lg:w-[56%]"

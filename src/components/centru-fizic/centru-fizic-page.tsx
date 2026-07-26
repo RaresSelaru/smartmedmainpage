@@ -180,7 +180,13 @@ export function CentruFizicLandingPage() {
           </div>
         </div>
 
-        <WaveSeparator className={styles.heroWave} fill="cream" variant="relaxed" />
+        <WaveSeparator
+          backColor="#efe4d2"
+          className={styles.heroWave}
+          fill="cream"
+          frontColor="#f4ebdd"
+          variant="relaxed"
+        />
       </section>
 
       <section className={styles.introSection}>
@@ -269,7 +275,9 @@ export function CentruFizicLandingPage() {
                 <article className={`${styles.pillarCard} ${styles.reveal}`} key={item.title}>
                   <div className={styles.pillarTopline}>
                     <span className={styles.pillarNumeral}>{item.numeral}</span>
-                    <Icon aria-hidden="true" />
+                    <span className={styles.pillarIcon} aria-hidden="true">
+                      <Icon />
+                    </span>
                   </div>
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
