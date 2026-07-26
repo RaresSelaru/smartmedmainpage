@@ -58,7 +58,7 @@ export function ModuleSpecialeHero() {
 
             <p className="mt-6 max-w-[620px] font-serif text-[20px] font-medium leading-[1.44] text-smart-white/86 drop-shadow-[0_10px_26px_rgba(0,0,0,0.30)] sm:text-[22px] lg:text-[23px]">
               Excelența se construiește capitol cu capitol<br></br>
-              Pregătirea care face diferența dintre canditat și student
+              Pregătirea care face diferența dintre candidat și student
             </p>
 
             
@@ -66,25 +66,25 @@ export function ModuleSpecialeHero() {
             <div className="mt-6 flex w-full max-w-[630px] flex-col gap-3 sm:flex-row sm:gap-4">
               <Link
                 className="group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-xl border border-smart-gold-light/60 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-5 py-3 text-[15px] font-extrabold text-smart-abyss shadow-[0_16px_38px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(213,173,107,0.30),inset_0_1px_0_rgba(255,255,255,0.68)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[280px]"
-                href="#"
+                href="#atlas-modulelor-speciale"
               >
                 <BookOpen
                   aria-hidden="true"
                   className="size-5 shrink-0 transition duration-300 group-hover:-rotate-3"
                   strokeWidth={1.85}
                 />
-                <span>Buton placeholder 1</span>
+                <span>Descoperă principiile</span>
               </Link>
               <Link
                 className="group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-xl border border-smart-gold-light/62 bg-smart-abyss/32 px-5 py-3 text-[15px] font-bold text-smart-gold-light shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:bg-smart-gold/10 hover:text-smart-white hover:shadow-[0_16px_38px_rgba(213,173,107,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[294px]"
-                href="#"
+                href="/cont"
               >
                 <GraduationCap
                   aria-hidden="true"
                   className="size-5 shrink-0 transition duration-300 group-hover:rotate-3"
                   strokeWidth={1.85}
                 />
-                <span>Buton placeholder 2</span>
+                <span>Începe pregătirea</span>
               </Link>
             </div>
           </div>
