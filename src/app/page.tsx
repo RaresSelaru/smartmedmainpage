@@ -17,17 +17,17 @@ export default function Home() {
       <AcademicCreationSection />
       <PathChoiceSection />
       <SpecialModulesSection
-        description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere."
+        description="Module tematice pentru concepte, conexiuni și strategii care completează pregătirea pentru admitere"
         eyebrow="Resurse SmartMed"
-        heading="Module speciale"
+        heading="MODULE SPECIALE"
         items={moduleSpecialeCarousel}
       />
       <PathChoiceSectionGroup2 />
       <HorizontalScrollSection
         bottomWave="cream"
-        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admiterea 2026."
+        description="Anunțuri oficiale, modificări de calendar, evenimente și actualizări relevante pentru admitere"
         eyebrow="Mereu la curent"
-        heading="SmartMed News"
+        heading="SMARTMED NEWS"
         items={newsCarousel}
       />
       <PathChoiceSectionGroup3 />

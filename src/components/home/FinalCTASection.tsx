@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import { Reveal } from "@/components/animations/reveal";
+import { sectionEyebrowClassName } from "@/components/home/PreparationSystemSection";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { SectionLabel } from "@/components/ui/SectionLabel";
 
 export function FinalCTASection() {
   return (
@@ -37,7 +37,7 @@ export function FinalCTASection() {
         </Reveal>
         <Reveal delay={0.16}>
           <div className="text-left lg:text-center">
-            <SectionLabel tone="cream">Cont SmartMed</SectionLabel>
+            <p className={sectionEyebrowClassName}>Cont SmartMed</p>
             <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.025em] sm:text-6xl">
               Creează-ți contul SmartMed
             </h2>

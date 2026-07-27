@@ -562,12 +562,12 @@ function SmartTrainingSection() {
       <div className="relative z-10 mx-auto max-w-[1620px]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel tone="cream">Antrenament aplicat</SectionLabel>
+            <p className={sectionEyebrowClassName}>Antrenament aplicat</p>
             <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
-              Exersează cu sens
+              EXERSEAZĂ CU SENS
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
-              Grile structurate și simulări realiste, calibrate pentru pregătirea ta de admitere.
+              Grile structurate și simulări realiste, calibrate pentru pregătirea ta de admitere
             </p>
           </div>
         </Reveal>
@@ -766,13 +766,13 @@ function SmartEcosystemSection() {
     <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8">
       <div className="relative z-10 mx-auto max-w-[1900px]">
         <Reveal>
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionLabel tone="cream">Citește, învață, comandă</SectionLabel>
+          <div className="mx-auto max-w-4xl text-center">
+            <p className={sectionEyebrowClassName}>Citește, învață, comandă</p>
             <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
-              Ecosistemul SmartMed
+              ECOSISTEMUL SMARTMED
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
-              Articole care clarifică și materiale care te susțin pe parcurs.
+              Articole care clarifică și materiale care te susțin pe parcurs
             </p>
           </div>
         </Reveal>
