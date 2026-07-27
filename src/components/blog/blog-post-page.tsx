@@ -75,6 +75,7 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
                   priority
                   sizes="(max-width: 1024px) 100vw, 54vw"
                   src={post.coverImage}
+                  unoptimized={/^https?:\/\//u.test(post.coverImage)}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-smart-abyss/42 via-transparent to-transparent" />
               </div>

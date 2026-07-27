@@ -32,9 +32,9 @@ export function OnlineCenterPage() {
               Centru SmartMed <span className="text-smart-aqua">Online</span>
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-8 text-smart-muted sm:text-lg">
-              Fundație pentru cursuri online, module, progres, abonamente și acces
-              diferențiat. Momentan este o structură premium, pregătită pentru
-              integrarea autentificării și a plăților.
+              Fundația pentru conturi, cursuri, module, progres, abonamente și acces
+              diferențiat este conectată. Catalogul și plățile vor deveni active odată
+              cu oferta și furnizorul comercial ales.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <PremiumButton href="/cont">Intră în cont</PremiumButton>
@@ -113,11 +113,11 @@ export function OnlineCenterPage() {
           <Reveal>
             <SectionLabel>Acces diferențiat</SectionLabel>
             <h2 className="mt-4 font-serif text-5xl font-semibold leading-none sm:text-6xl">
-              Rolurile sunt gândite de acum
+              Accesul este construit pe niveluri clare
             </h2>
             <p className="mt-5 max-w-xl text-sm leading-7 text-smart-white/72">
-              Logica reală vine când adăugăm auth, dar UI-ul este pregătit pentru
-              guest, user, premium și admin.
+              Supabase Auth gestionează conturile, iar drepturile cu perioadă de
+              valabilitate separă accesul standard, premium și administrativ.
             </p>
           </Reveal>
           <div className="grid gap-5 sm:grid-cols-2">

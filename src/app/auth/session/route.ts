@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { getSupabaseAuthConfig } from "@/lib/auth/env";
-import { getCurrentSmartMedSession } from "@/lib/auth/session";
+import { getCurrentSmartMedSessionSummary } from "@/lib/auth/session";
 
 export async function GET() {
   const config = getSupabaseAuthConfig();
-  const session = config.isConfigured ? await getCurrentSmartMedSession() : null;
+  const session = config.isConfigured ? await getCurrentSmartMedSessionSummary() : null;
 
   return NextResponse.json(
     {

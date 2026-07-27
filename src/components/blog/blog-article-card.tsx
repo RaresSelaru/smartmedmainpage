@@ -53,6 +53,7 @@ export function BlogArticleCard({
               onError={() => setFailedImageSrc(imageSrc)}
               sizes="(max-width: 639px) 80vw, (max-width: 1023px) 40vw, (max-width: 1535px) 27vw, 350px"
               src={imageSrc}
+              unoptimized={/^https?:\/\//u.test(imageSrc)}
             />
           ) : (
             <div aria-hidden="true" className={styles.imageFallback}>

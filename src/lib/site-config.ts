@@ -527,7 +527,7 @@ export const onlineCenterModules = [
   {
     title: "Acces diferențiat",
     description:
-      "Bază pentru guest, user logat, premium și admin, conectată la auth configurabil.",
+      "Acces public, cont autentificat, drepturi premium și administrare conectate la Supabase Auth.",
     icon: "shield",
   },
 ] satisfies Array<{
@@ -546,7 +546,7 @@ export const roleRoadmap = [
     access: "profil, progres de bază, materiale gratuite",
   },
   {
-    role: "Premium",
+    role: "Drepturi premium",
     access: "module plătite, simulări extinse, conținut blocat/deblocat",
   },
   {
@@ -841,7 +841,8 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
       },
       {
         title: "Roluri",
-        description: "Guest, user, premium și admin ca model extensibil de acces.",
+        description:
+          "Conturi standard, drepturi premium cu valabilitate și rol administrativ separat.",
         icon: "shield",
       },
       {

@@ -1,25 +1,27 @@
 export type SupabaseAuthConfig = {
-  anonKey: string;
   isConfigured: boolean;
   missing: string[];
+  publishableKey: string;
   url: string;
 };
 
-const publicEnvKeys = ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"] as const;
-
-function readEnvValue(key: (typeof publicEnvKeys)[number]) {
-  return process.env[key]?.trim() ?? "";
-}
-
 export function getSupabaseAuthConfig(): SupabaseAuthConfig {
-  const url = readEnvValue("NEXT_PUBLIC_SUPABASE_URL");
-  const anonKey = readEnvValue("NEXT_PUBLIC_SUPABASE_ANON_KEY");
-  const missing = publicEnvKeys.filter((key) => !readEnvValue(key));
+  // These references must remain static. Next.js only inlines NEXT_PUBLIC_ values
+  // in browser bundles when process.env.<NAME> is accessed directly.
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
+  const publishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
+    "";
+  const missing = [
+    ...(!url ? ["NEXT_PUBLIC_SUPABASE_URL"] : []),
+    ...(!publishableKey ? ["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"] : []),
+  ];
 
   return {
-    anonKey,
     isConfigured: missing.length === 0,
     missing,
+    publishableKey,
     url,
   };
 }

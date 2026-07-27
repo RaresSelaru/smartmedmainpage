@@ -2,10 +2,16 @@ export type SmartMedRole = "guest" | "user" | "premium" | "admin";
 
 export const authenticatedRoles = ["user", "premium", "admin"] as const satisfies SmartMedRole[];
 
+export type PremiumAccessSubject = {
+  hasPremiumAccess?: boolean;
+  role: SmartMedRole;
+};
+
 export type ProtectedRouteRule = {
   mode?: "exact" | "prefix";
   path: string;
   requireEmailConfirmed?: boolean;
+  requirePremiumAccess?: boolean;
   roles?: SmartMedRole[];
 };
 
@@ -22,6 +28,7 @@ export type AuthMode = (typeof authModes)[number];
 
 const defaultAccountPath = "/cont";
 const unsafePathPattern = /[\u0000-\u001f\u007f]/;
+const internalUrlBase = "https://smartmed.internal";
 
 export function isAuthMode(value: unknown): value is AuthMode {
   return typeof value === "string" && authModes.includes(value as AuthMode);
@@ -34,11 +41,27 @@ export function sanitizeInternalPath(value: unknown, fallback = defaultAccountPa
 
   const trimmed = value.trim();
 
-  if (!trimmed || !trimmed.startsWith("/") || trimmed.startsWith("//") || unsafePathPattern.test(trimmed)) {
+  if (
+    !trimmed ||
+    !trimmed.startsWith("/") ||
+    trimmed.startsWith("//") ||
+    trimmed.includes("\\") ||
+    unsafePathPattern.test(trimmed)
+  ) {
     return fallback;
   }
 
-  return trimmed;
+  try {
+    const parsed = new URL(trimmed, internalUrlBase);
+
+    if (parsed.origin !== internalUrlBase) {
+      return fallback;
+    }
+
+    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return fallback;
+  }
 }
 
 export function buildRestrictedAccessPath(nextPath: string) {
@@ -70,6 +93,12 @@ export function canRoleAccess(role: SmartMedRole, rule: ProtectedRouteRule) {
   return rule.roles.includes(role);
 }
 
-export function canAccessPremiumContent(role: SmartMedRole) {
-  return role === "premium" || role === "admin";
+export function canAccessPremiumContent(subject: SmartMedRole | PremiumAccessSubject) {
+  const role = typeof subject === "string" ? subject : subject.role;
+
+  return (
+    role === "admin" ||
+    role === "premium" ||
+    (typeof subject === "object" && subject.hasPremiumAccess === true)
+  );
 }

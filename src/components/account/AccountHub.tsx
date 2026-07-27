@@ -52,8 +52,8 @@ const modeLabels: Record<AuthMode, string> = {
 const roleLabels: Record<SmartMedSession["role"], string> = {
   admin: "Admin",
   guest: "Guest",
-  premium: "Premium",
-  user: "User",
+  premium: "Premium (compatibilitate)",
+  user: "Utilizator",
 };
 
 function accountModeHref(mode: AuthMode, nextPath: string) {
@@ -78,6 +78,20 @@ function getStatusMessage(status?: string, errorCode?: string) {
     return {
       tone: "error" as const,
       text: "Linkul de autentificare este invalid sau a expirat.",
+    };
+  }
+
+  if (errorCode === "email-not-confirmed") {
+    return {
+      tone: "error" as const,
+      text: "Confirmă adresa de email înainte să accesezi această secțiune.",
+    };
+  }
+
+  if (errorCode === "access-forbidden") {
+    return {
+      tone: "error" as const,
+      text: "Contul tău nu are drepturile necesare pentru această secțiune.",
     };
   }
 
@@ -390,9 +404,15 @@ function AccountStatusCard({ session }: { session: SmartMedSession }) {
           <p className="mt-1 truncate text-sm font-semibold text-smart-ink/58">{session.email}</p>
         </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-3">
         <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
           Rol: <span className="text-smart-teal">{roleLabels[session.role]}</span>
+        </span>
+        <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
+          Acces:{" "}
+          <span className="text-smart-teal">
+            {session.hasPremiumAccess ? "Premium" : "Standard"}
+          </span>
         </span>
         <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
           Email:{" "}
@@ -459,8 +479,8 @@ function AuthUnavailable() {
     <div className="rounded-[28px] border border-red-200 bg-red-50 p-6 text-red-900">
       <p className="font-serif text-3xl font-semibold leading-none">Autentificare neconfigurată</p>
       <p className="mt-3 text-sm leading-7">
-        Setează `NEXT_PUBLIC_SUPABASE_URL` și `NEXT_PUBLIC_SUPABASE_ANON_KEY` pentru a activa
-        formularele de cont.
+        Setează `NEXT_PUBLIC_SUPABASE_URL` și `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` pentru a
+        activa formularele de cont.
       </p>
     </div>
   );
@@ -477,7 +497,7 @@ export function AccountHub({
 }: AccountHubProps) {
   useEffect(() => {
     window.dispatchEvent(new Event("smartmed-auth-change"));
-  }, [session?.id, status]);
+  }, [session?.fullName, session?.id, status]);
 
   const showPasswordUpdate = activeMode === "parola-noua";
   const showProfile = session && !showPasswordUpdate;
@@ -570,8 +590,9 @@ export function AccountHub({
             <div className="flex gap-3">
               <CheckCircle2 aria-hidden="true" className="mt-1 size-5 shrink-0 text-smart-teal" />
               <p>
-                Confirmarea emailului este obligatorie pentru activarea contului. Rolurile premium
-                și admin sunt gestionate separat, din zona server-controlled SmartMed.
+                Confirmarea emailului este obligatorie pentru activarea contului. Rolul de
+                administrator și drepturile premium sunt gestionate separat și verificate în
+                siguranță pe server.
               </p>
             </div>
           </div>

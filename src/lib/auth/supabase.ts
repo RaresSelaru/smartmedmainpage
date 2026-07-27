@@ -1,27 +1,17 @@
-import { createBrowserClient, createServerClient } from "@supabase/ssr";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import "server-only";
+
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 import type { SmartMedDatabase } from "@/lib/auth/database.types";
 import { getSupabaseAuthConfig } from "@/lib/auth/env";
 
-type SmartMedSupabaseClient = SupabaseClient<SmartMedDatabase>;
+type ServerSupabaseClientOptions = {
+  onResponseHeaders?: (headers: Record<string, string>) => void;
+  requireCookieWrites?: boolean;
+};
 
-let browserClient: SmartMedSupabaseClient | null = null;
-
-export function createBrowserSupabaseClient() {
-  const config = getSupabaseAuthConfig();
-
-  if (!config.isConfigured) {
-    return null;
-  }
-
-  browserClient ??= createBrowserClient<SmartMedDatabase>(config.url, config.anonKey);
-
-  return browserClient;
-}
-
-export async function createServerSupabaseClient() {
+export async function createServerSupabaseClient(options?: ServerSupabaseClientOptions) {
   const config = getSupabaseAuthConfig();
 
   if (!config.isConfigured) {
@@ -30,17 +20,23 @@ export async function createServerSupabaseClient() {
 
   const cookieStore = await cookies();
 
-  return createServerClient<SmartMedDatabase>(config.url, config.anonKey, {
+  return createServerClient<SmartMedDatabase>(config.url, config.publishableKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet, headersToSet) {
+        options?.onResponseHeaders?.(headersToSet);
+
         try {
           cookiesToSet.forEach(({ name, options, value }) => {
             cookieStore.set(name, value, options);
           });
-        } catch {
+        } catch (error) {
+          if (options?.requireCookieWrites) {
+            throw error;
+          }
+
           // Server Components cannot write cookies. Proxy/Actions handle refresh writes.
         }
       },

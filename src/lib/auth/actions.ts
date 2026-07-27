@@ -37,6 +37,25 @@ function actionSuccess(message: string): AuthActionState {
 }
 
 function mapSupabaseAuthError(error: AuthError) {
+  switch (error.code) {
+    case "invalid_credentials":
+      return "Emailul sau parola nu sunt corecte.";
+    case "email_not_confirmed":
+      return "Adresa de email nu este confirmată încă. Verifică inboxul și confirmă contul.";
+    case "user_already_exists":
+    case "email_exists":
+      return "Există deja un cont pentru această adresă de email.";
+    case "weak_password":
+    case "same_password":
+    case "otp_expired":
+      return "Parola nu respectă regulile de securitate sau linkul de resetare a expirat.";
+    case "over_email_send_rate_limit":
+    case "over_request_rate_limit":
+      return "Prea multe încercări într-un timp scurt. Încearcă din nou peste câteva minute.";
+  }
+
+  // Keep a defensive fallback for older Auth server versions whose errors do
+  // not yet expose a stable code.
   const message = error.message.toLowerCase();
 
   if (message.includes("invalid login credentials")) {
@@ -64,8 +83,21 @@ function mapSupabaseAuthError(error: AuthError) {
 
 async function getRequestOrigin() {
   const requestHeaders = await headers();
+  const requestOrigin = requestHeaders.get("origin");
 
-  return requestHeaders.get("origin") ?? siteConfig.url;
+  if (process.env.NODE_ENV === "development" && requestOrigin) {
+    try {
+      const parsed = new URL(requestOrigin);
+
+      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+        return parsed.origin;
+      }
+    } catch {
+      // Fall through to the canonical, allow-listed production URL.
+    }
+  }
+
+  return siteConfig.url;
 }
 
 function buildCallbackUrl(origin: string, nextPath: string) {
@@ -85,7 +117,9 @@ async function getConfiguredSupabase() {
     };
   }
 
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient({
+    requireCookieWrites: true,
+  });
 
   return {
     error: supabase ? null : "Autentificarea SmartMed nu este disponibilă momentan.",
@@ -125,10 +159,17 @@ export async function loginAction(
 
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
 
-  if (!user?.email_confirmed_at && !user?.confirmed_at) {
-    await supabase.auth.signOut();
+  if (userError || !user) {
+    await supabase.auth.signOut({ scope: "local" });
+
+    return actionError("Sesiunea nu a putut fi verificată. Încearcă din nou.");
+  }
+
+  if (!user.email_confirmed_at) {
+    await supabase.auth.signOut({ scope: "local" });
 
     return actionError("Confirmă adresa de email înainte să intri în cont.");
   }
@@ -177,7 +218,7 @@ export async function signUpAction(
   }
 
   if (data.session) {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
   }
 
   return actionSuccess(
@@ -304,10 +345,12 @@ export async function updateProfileAction(
 }
 
 export async function logoutAction() {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient({
+    requireCookieWrites: true,
+  });
 
   if (supabase) {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
   }
 
   revalidatePath("/cont");

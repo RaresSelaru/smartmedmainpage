@@ -1,19 +1,39 @@
 import { NextResponse } from "next/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
 
 import { sanitizeInternalPath } from "@/lib/auth/access-control";
 import { getSupabaseAuthConfig } from "@/lib/auth/env";
 import { createServerSupabaseClient } from "@/lib/auth/supabase";
 
-function redirectWithStatus(request: Request, path: string, key: "error" | "status", value: string) {
+function redirectWithStatus(
+  request: Request,
+  path: string,
+  key: "error" | "status",
+  value: string,
+  responseHeaders?: Headers,
+) {
   const target = new URL(sanitizeInternalPath(path), request.url);
   target.searchParams.set(key, value);
+  const response = NextResponse.redirect(target);
 
-  return NextResponse.redirect(target);
+  responseHeaders?.forEach((headerValue, headerName) => {
+    response.headers.set(headerName, headerValue);
+  });
+  response.headers.set(
+    "Cache-Control",
+    "private, no-cache, no-store, must-revalidate, max-age=0",
+  );
+  response.headers.set("Expires", "0");
+  response.headers.set("Pragma", "no-cache");
+
+  return response;
 }
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+  const tokenHash = requestUrl.searchParams.get("token_hash");
+  const otpType = requestUrl.searchParams.get("type");
   const nextPath = sanitizeInternalPath(requestUrl.searchParams.get("next"));
   const config = getSupabaseAuthConfig();
 
@@ -21,23 +41,57 @@ export async function GET(request: Request) {
     return redirectWithStatus(request, "/cont?mode=conectare", "error", "auth-not-configured");
   }
 
-  if (!code) {
+  const supportedOtpTypes = new Set<EmailOtpType>([
+    "email",
+    "email_change",
+    "invite",
+    "magiclink",
+    "recovery",
+    "signup",
+  ]);
+  const hasTokenHashFlow =
+    Boolean(tokenHash) && Boolean(otpType) && supportedOtpTypes.has(otpType as EmailOtpType);
+
+  if (!code && !hasTokenHashFlow) {
     return redirectWithStatus(request, "/cont?mode=conectare", "error", "callback-invalid");
   }
 
-  const supabase = await createServerSupabaseClient();
+  const responseHeaders = new Headers();
+  const supabase = await createServerSupabaseClient({
+    onResponseHeaders(headersToSet) {
+      Object.entries(headersToSet).forEach(([headerName, headerValue]) => {
+        responseHeaders.set(headerName, headerValue);
+      });
+    },
+    requireCookieWrites: true,
+  });
 
   if (!supabase) {
     return redirectWithStatus(request, "/cont?mode=conectare", "error", "auth-not-configured");
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { error } = hasTokenHashFlow
+    ? await supabase.auth.verifyOtp({
+        token_hash: tokenHash!,
+        type: otpType as EmailOtpType,
+      })
+    : await supabase.auth.exchangeCodeForSession(code!);
 
   if (error) {
-    return redirectWithStatus(request, "/cont?mode=conectare", "error", "callback-invalid");
+    return redirectWithStatus(
+      request,
+      "/cont?mode=conectare",
+      "error",
+      "callback-invalid",
+      responseHeaders,
+    );
   }
 
-  const status = nextPath.includes("mode=parola-noua") ? "recovery-ready" : "email-confirmed";
+  const isRecoveryFlow =
+    (hasTokenHashFlow && otpType === "recovery") ||
+    (!hasTokenHashFlow && nextPath.includes("mode=parola-noua"));
+  const destination = isRecoveryFlow ? "/cont?mode=parola-noua" : nextPath;
+  const status = isRecoveryFlow ? "recovery-ready" : "email-confirmed";
 
-  return redirectWithStatus(request, nextPath, "status", status);
+  return redirectWithStatus(request, destination, "status", status, responseHeaders);
 }

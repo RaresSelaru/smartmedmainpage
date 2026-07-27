@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 import { BlogPageContent } from "@/components/blog/blog-page";
+import { getBlogCategory } from "@/lib/blog";
 import {
-  getBlogCategory,
-  getBlogPosts,
-  getBlogPostsByCategory,
-  searchBlogPosts,
-} from "@/lib/blog";
+  getPublishedBlogPosts,
+  getPublishedBlogPostsByCategory,
+  searchPublishedBlogPosts,
+} from "@/lib/blog-repository";
 import { siteConfig } from "@/lib/site-config";
 
 type BlogPageProps = {
@@ -38,10 +38,10 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const category = getBlogCategory(params?.categorie)?.slug;
   const searchQuery = params?.cautare?.trim();
   const posts = searchQuery
-    ? searchBlogPosts(searchQuery)
+    ? await searchPublishedBlogPosts(searchQuery)
     : category
-      ? getBlogPostsByCategory(category)
-      : getBlogPosts();
+      ? await getPublishedBlogPostsByCategory(category)
+      : await getPublishedBlogPosts();
   const heading = searchQuery
     ? `REZULTATE PENTRU „${searchQuery}”`
     : category

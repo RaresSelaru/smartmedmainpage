@@ -7,7 +7,7 @@ import { ChevronDown, LogOut, Menu, Search, ShoppingCart, UserRoundCheck, X } fr
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
 import { logoutAction } from "@/lib/auth/actions";
-import type { SmartMedSession } from "@/lib/auth/session";
+import type { SmartMedSessionSummary } from "@/lib/auth/session";
 import { navbarRoutes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -48,7 +48,7 @@ export function Navbar() {
   const lastScrollYRef = useRef(0);
   const upwardScrollRef = useRef(0);
   const revealDelayRef = useRef<number | null>(null);
-  const [accountSession, setAccountSession] = useState<SmartMedSession | null>(null);
+  const [accountSession, setAccountSession] = useState<SmartMedSessionSummary | null>(null);
   const searchExpanded = searchOpen || searchValue.length > 0;
   const accountInitial = accountSession?.fullName.trim().charAt(0).toUpperCase() ?? "";
 
@@ -73,7 +73,7 @@ export function Navbar() {
           return;
         }
 
-        const payload = (await response.json()) as { session: SmartMedSession | null };
+        const payload = (await response.json()) as { session: SmartMedSessionSummary | null };
 
         if (active) {
           setAccountSession(payload.session);

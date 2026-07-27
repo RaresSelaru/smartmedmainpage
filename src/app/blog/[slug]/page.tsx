@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { BlogPostPageContent } from "@/components/blog/blog-post-page";
-import { getBlogPostBySlug, getBlogPosts, getRelatedBlogPosts } from "@/lib/blog";
+import {
+  getPublishedBlogPostBySlug,
+  getPublishedBlogPosts,
+  getRelatedPublishedBlogPosts,
+} from "@/lib/blog-repository";
 import { siteConfig } from "@/lib/site-config";
 
 type BlogPostPageProps = {
@@ -11,17 +15,17 @@ type BlogPostPageProps = {
   }>;
 };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return getBlogPosts().map((post) => ({
+export async function generateStaticParams() {
+  return (await getPublishedBlogPosts()).map((post) => ({
     slug: post.slug,
   }));
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getPublishedBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -43,11 +47,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getPublishedBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
-  return <BlogPostPageContent post={post} relatedPosts={getRelatedBlogPosts(post)} />;
+  return (
+    <BlogPostPageContent
+      post={post}
+      relatedPosts={await getRelatedPublishedBlogPosts(post)}
+    />
+  );
 }
