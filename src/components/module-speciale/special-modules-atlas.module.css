@@ -1,0 +1,689 @@
+.section {
+  --atlas-ink: #172838;
+  --atlas-gold: #a87432;
+  --atlas-gold-light: #c79b5b;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(7rem, 10vw, 11rem) clamp(1.1rem, 3vw, 3.5rem) clamp(2rem, 4vw, 4.5rem);
+  color: var(--atlas-ink);
+}
+
+.section::before {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.34;
+  background:
+    linear-gradient(rgba(155, 111, 49, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 111, 49, 0.028) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 90%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 90%, transparent);
+}
+
+.paperGlow {
+  position: absolute;
+  z-index: -1;
+  top: 4rem;
+  left: 50%;
+  width: min(88vw, 80rem);
+  height: 38rem;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0) 69%);
+  filter: blur(0.35rem);
+  transform: translateX(-50%);
+}
+
+.sectionHeader {
+  position: relative;
+  z-index: 4;
+  width: min(100%, 88rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 1.2rem;
+  color: var(--atlas-gold);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.67rem, 0.78vw, 0.82rem);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--atlas-ink);
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(4.5rem, 10vw, 10.25rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.75;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+
+.titleOrnament {
+  position: relative;
+  display: block;
+  width: min(62vw, 30rem);
+  height: 1px;
+  margin: clamp(2.15rem, 3.3vw, 3.6rem) auto 1.65rem;
+  background: linear-gradient(90deg, transparent, rgba(168, 116, 50, 0.72), transparent);
+}
+
+.titleOrnament::before,
+.titleOrnament::after,
+.titleOrnament i {
+  position: absolute;
+  top: 50%;
+  display: block;
+  border: 1px solid rgba(168, 116, 50, 0.64);
+  background: #efe4d3;
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.titleOrnament::before,
+.titleOrnament::after {
+  width: 0.42rem;
+  height: 0.42rem;
+}
+
+.titleOrnament::before {
+  left: calc(50% - 1.05rem);
+}
+
+.titleOrnament::after {
+  right: calc(50% - 1.05rem);
+}
+
+.titleOrnament i {
+  left: 50%;
+  width: 0.72rem;
+  height: 0.72rem;
+  box-shadow: 0 0 0 0.3rem rgba(168, 116, 50, 0.055);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.intro {
+  max-width: 49rem;
+  margin: 0 auto;
+  color: rgba(23, 40, 56, 0.69);
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.25rem, 1.65vw, 1.65rem);
+  font-weight: 600;
+  letter-spacing: 0.002em;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.atlasStage {
+  position: relative;
+  display: grid;
+  width: min(100%, 100rem);
+  height: clamp(94rem, 140vw, 136rem);
+  margin: clamp(3.5rem, 6vw, 6rem) auto 0;
+  grid-template-columns:
+    minmax(15rem, 1fr)
+    clamp(23rem, 35vw, 34rem)
+    minmax(15rem, 1fr);
+  grid-template-rows: 28% repeat(4, 18%);
+  column-gap: clamp(1.5rem, 3.5vw, 5rem);
+}
+
+.atlasStage::before {
+  position: absolute;
+  z-index: 0;
+  top: 7%;
+  bottom: 2.5%;
+  left: 50%;
+  width: 1px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(168, 116, 50, 0.18) 10%,
+    rgba(168, 116, 50, 0.11) 88%,
+    transparent
+  );
+  box-shadow: 0 0 2.4rem rgba(168, 116, 50, 0.12);
+}
+
+.atlasFigure {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  grid-column: 2;
+  grid-row: 1 / 6;
+}
+
+.atlasHalo {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  width: 154%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(168, 116, 50, 0.12);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.62) 0 35%, rgba(219, 194, 154, 0.13) 58%, transparent 72%);
+  box-shadow:
+    0 0 0 2.2rem rgba(168, 116, 50, 0.025),
+    0 0 0 5rem rgba(168, 116, 50, 0.018);
+  transform: translateX(-50%);
+}
+
+.atlasImage {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0 1.3rem 1rem rgba(59, 42, 22, 0.14))
+    drop-shadow(0 3.5rem 3.5rem rgba(74, 49, 19, 0.1));
+  user-select: none;
+}
+
+.atlasCaption {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0.65%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(23, 40, 56, 0.66);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.atlasCaption::before {
+  width: 4.5rem;
+  height: 1px;
+  margin-bottom: 0.9rem;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(168, 116, 50, 0.68), transparent);
+}
+
+.atlasCaption span {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.82rem, 1vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.atlasCaption small {
+  margin-top: 0.35rem;
+  color: rgba(23, 40, 56, 0.43);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.5rem, 0.56vw, 0.6rem);
+  font-weight: 750;
+  letter-spacing: 0.15em;
+}
+
+.editorialNote {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  width: clamp(24rem, 36vw, 34rem);
+  aspect-ratio: 1.5;
+  align-self: start;
+  margin-top: clamp(4.5rem, 7vw, 7.5rem);
+  place-items: center;
+}
+
+.moduleCard::before {
+  position: absolute;
+  top: 50%;
+  width: clamp(1.5rem, 3.5vw, 5rem);
+  height: 1px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg, rgba(168, 116, 50, 0.5), rgba(168, 116, 50, 0.08));
+}
+
+.editorialNoteLeft {
+  justify-self: end;
+  margin-right: -0.75rem;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.moduleCardLeft::before {
+  left: 100%;
+}
+
+.editorialNoteRight {
+  justify-self: start;
+  margin-left: -0.75rem;
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.moduleCardRight::before {
+  right: 100%;
+  transform: rotate(180deg);
+}
+
+.neuronArtwork {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+}
+
+.neuronImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0 18% 0 0);
+  object-fit: contain;
+  transform-origin: 50% 46%;
+  filter:
+    brightness(0.985)
+    contrast(1.075)
+    saturate(0.82)
+    drop-shadow(0 0.15rem 0.08rem rgba(109, 73, 31, 0.2))
+    drop-shadow(0 1.45rem 1.5rem rgba(76, 51, 21, 0.13));
+  user-select: none;
+}
+
+.editorialNoteLeft .neuronImage {
+  transform: rotate(6.5deg) scale(1.68);
+}
+
+.editorialNoteRight .neuronImage {
+  transform: rotate(-8.5deg) scaleX(-1) scale(1.66);
+}
+
+.neuronCopy {
+  position: absolute;
+  z-index: 2;
+  top: 38%;
+  left: 50%;
+  display: flex;
+  width: 42%;
+  max-width: 14rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.neuronCopy::before {
+  position: absolute;
+  z-index: -1;
+  inset: -1.5rem -1.25rem;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(251, 246, 237, 0.76), rgba(251, 246, 237, 0) 73%);
+  content: "";
+  filter: blur(0.28rem);
+}
+
+.editorialNote p {
+  margin: 0 0 0.65rem;
+  color: var(--atlas-gold);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.61rem, 0.67vw, 0.74rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.editorialNote h3 {
+  margin: 0;
+  color: var(--atlas-ink);
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.85rem, 2.35vw, 2.55rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.moduleCard {
+  position: relative;
+  z-index: 5;
+  width: min(100%, 20rem);
+  align-self: center;
+  grid-row: var(--module-row);
+}
+
+.moduleCard::after {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  width: 0.42rem;
+  height: 0.42rem;
+  pointer-events: none;
+  border: 1px solid rgba(168, 116, 50, 0.55);
+  border-radius: 50%;
+  background: #efe5d5;
+  box-shadow: 0 0 0 0.28rem rgba(168, 116, 50, 0.06);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.moduleCardLeft {
+  justify-self: end;
+  grid-column: 1;
+}
+
+.moduleCardLeft::after {
+  left: calc(100% + clamp(1.32rem, 3.5vw, 4.82rem));
+}
+
+.moduleCardRight {
+  justify-self: start;
+  grid-column: 3;
+}
+
+.moduleCardRight::after {
+  right: calc(100% + clamp(1.32rem, 3.5vw, 4.82rem));
+}
+
+.moduleSurface {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.35rem, 1.8vw, 1.8rem);
+  border: 1px solid rgba(168, 116, 50, 0.2);
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 255, 255, 0.62), transparent 42%),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.66), rgba(242, 230, 211, 0.52));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    0 1.25rem 3.5rem rgba(71, 49, 23, 0.08);
+  backdrop-filter: blur(0.55rem);
+  transition:
+    border-color 320ms ease,
+    box-shadow 320ms ease,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.moduleSurface::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  content: "";
+  background: linear-gradient(to bottom, transparent, rgba(168, 116, 50, 0.62), transparent);
+}
+
+.moduleNumber {
+  display: block;
+  margin-bottom: 0.62rem;
+  color: var(--atlas-gold);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.58rem, 0.64vw, 0.68rem);
+  font-weight: 800;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+}
+
+.moduleSurface h3 {
+  margin: 0;
+  color: var(--atlas-ink);
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.85rem, 2.15vw, 2.45rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.moduleLink {
+  display: inline-flex;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  padding: 0.68rem 0.92rem;
+  border: 1px solid rgba(23, 40, 56, 0.18);
+  border-radius: 999px;
+  color: var(--atlas-ink);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.67rem, 0.7vw, 0.75rem);
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    border-color 240ms ease,
+    background-color 240ms ease,
+    color 240ms ease;
+}
+
+.moduleLink svg {
+  width: 0.98rem;
+  height: 0.98rem;
+  transition: transform 240ms ease;
+}
+
+.moduleLink:focus-visible {
+  outline: 2px solid var(--atlas-gold);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moduleCard:hover .moduleSurface {
+    border-color: rgba(168, 116, 50, 0.38);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.58),
+      0 1.7rem 4rem rgba(71, 49, 23, 0.12);
+    transform: translateY(-0.35rem);
+  }
+
+  .moduleLink:hover {
+    border-color: var(--atlas-ink);
+    background: var(--atlas-ink);
+    color: #f8f4ec;
+  }
+
+  .moduleLink:hover svg {
+    transform: translate(0.12rem, -0.12rem);
+  }
+}
+
+@media (max-width: 72rem) {
+  .section {
+    padding-inline: 1.25rem;
+  }
+
+  .atlasStage {
+    grid-template-columns:
+      minmax(12.5rem, 1fr)
+      clamp(21rem, 36vw, 27rem)
+      minmax(12.5rem, 1fr);
+    column-gap: clamp(1.1rem, 2.5vw, 2rem);
+  }
+
+  .editorialNote {
+    width: clamp(21rem, 35vw, 25.5rem);
+  }
+
+  .editorialNoteLeft {
+    margin-right: 0;
+  }
+
+  .editorialNoteRight {
+    margin-left: 0;
+  }
+
+  .moduleSurface {
+    padding: 1.25rem;
+  }
+
+  .moduleCard::before {
+    width: clamp(1.1rem, 2.5vw, 2rem);
+  }
+
+  .moduleCardLeft::after {
+    left: calc(100% + clamp(0.92rem, 2.5vw, 1.82rem));
+  }
+
+  .moduleCardRight::after {
+    right: calc(100% + clamp(0.92rem, 2.5vw, 1.82rem));
+  }
+}
+
+@media (max-width: 52rem) {
+  .section {
+    padding: 6.5rem 1rem 3rem;
+  }
+
+  .title {
+    font-size: clamp(4rem, 17vw, 7rem);
+    line-height: 0.8;
+  }
+
+  .intro {
+    max-width: 36rem;
+    font-size: clamp(1.18rem, 4.6vw, 1.5rem);
+  }
+
+  .atlasStage {
+    display: grid;
+    width: min(100%, 40rem);
+    height: auto;
+    margin-top: 3.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .atlasStage::before {
+    top: 7rem;
+    bottom: 0;
+  }
+
+  .atlasFigure {
+    width: min(82vw, 23rem);
+    height: auto;
+    margin-inline: auto;
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .atlasHalo {
+    width: 140%;
+  }
+
+  .atlasCaption {
+    bottom: 0.25%;
+  }
+
+  .editorialNote {
+    width: min(132%, 32rem);
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
+    justify-self: center;
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .editorialNoteLeft {
+    margin-top: 1.75rem;
+  }
+
+  .moduleCard::before,
+  .moduleCard::after {
+    display: none;
+  }
+
+  .neuronCopy {
+    width: 43%;
+    max-width: 13.75rem;
+  }
+
+  .editorialNote p {
+    font-size: clamp(0.52rem, 2vw, 0.62rem);
+  }
+
+  .editorialNote h3 {
+    font-size: clamp(1.62rem, 6.5vw, 2.05rem);
+  }
+
+  .moduleCard,
+  .moduleCardLeft,
+  .moduleCardRight {
+    width: min(100%, 34rem);
+    justify-self: center;
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .moduleSurface {
+    padding: 1.35rem 1.45rem;
+  }
+
+  .moduleSurface h3 {
+    font-size: clamp(2rem, 8vw, 2.65rem);
+  }
+
+  .moduleLink {
+    width: 100%;
+  }
+}
+
+@media (max-width: 32rem) {
+  .section {
+    padding-inline: 0.75rem;
+  }
+
+  .sectionHeader {
+    padding-inline: 0.35rem;
+  }
+
+  .kicker {
+    letter-spacing: 0.2em;
+  }
+
+  .title {
+    font-size: clamp(3.45rem, 17vw, 5.5rem);
+  }
+
+  .moduleCard,
+  .moduleCardLeft,
+  .moduleCardRight {
+    width: 100%;
+  }
+
+  .editorialNote {
+    width: min(136%, 31rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moduleSurface,
+  .moduleLink,
+  .moduleLink svg {
+    transition: none;
+  }
+
+  .moduleCard:hover .moduleSurface,
+  .moduleLink:hover svg {
+    transform: none;
+  }
+}
