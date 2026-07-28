@@ -209,6 +209,7 @@
   color: rgba(23, 40, 56, 0.66);
   text-align: center;
   text-transform: uppercase;
+  transform: translateY(3rem);
 }
 
 .atlasCaption::before {
@@ -313,7 +314,7 @@
 .neuronCopy {
   position: absolute;
   z-index: 2;
-  top: 38%;
+  top: 33%;
   left: 50%;
   display: flex;
   width: 42%;
@@ -324,6 +325,16 @@
   padding-top: 0;
   text-align: center;
   transform: translate(-50%, -50%);
+}
+
+@media (min-width: 52.01rem) {
+  .editorialNoteLeft .neuronCopy {
+    left: calc(50% + 4px);
+  }
+
+  .editorialNoteRight .neuronCopy {
+    left: calc(50% - 4px);
+  }
 }
 
 .neuronCopy::before {
@@ -341,7 +352,7 @@
   margin: 0 0 0.65rem;
   color: var(--atlas-gold);
   font-family: var(--font-manrope), Manrope, sans-serif;
-  font-size: clamp(0.61rem, 0.67vw, 0.74rem);
+  font-size: clamp(0.59rem, 0.65vw, 0.72rem);
   font-weight: 800;
   letter-spacing: 0.22em;
   line-height: 1.2;
@@ -352,7 +363,7 @@
   margin: 0;
   color: var(--atlas-ink);
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.85rem, 2.35vw, 2.55rem);
+  font-size: clamp(1.78rem, 2.25vw, 2.45rem);
   font-weight: 650;
   letter-spacing: -0.035em;
   line-height: 0.92;
@@ -591,6 +602,7 @@
 
   .atlasCaption {
     bottom: 0.25%;
+    transform: none;
   }
 
   .editorialNote {

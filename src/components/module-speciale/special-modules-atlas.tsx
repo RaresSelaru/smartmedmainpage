@@ -55,12 +55,12 @@ const modules = [
 const editorialNotes = [
   {
     eyebrow: "Înțelegere",
-    title: "Materia capătă logică.",
+    title: "Materia capătă logică",
     side: "left",
   },
   {
     eyebrow: "Strategie",
-    title: "Cunoașterea devine avantaj.",
+    title: "Cunoașterea devine avantaj",
     side: "right",
   },
 ] as const;
@@ -112,7 +112,7 @@ export function SpecialModulesAtlas() {
             className={styles.atlasImage}
             height={4000}
             sizes="(max-width: 832px) 82vw, (max-width: 1200px) 37vw, 544px"
-            src="/images/special-modules/atlas-spine-modules.png"
+            src="/images/special-modules/atlas-spine-modules-symmetric.png"
             width={1000}
           />
           <figcaption className={styles.atlasCaption}>
