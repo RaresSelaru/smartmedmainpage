@@ -60,9 +60,9 @@
   display: grid;
   width: min(100%, 102rem);
   margin-inline: auto;
-  grid-template-columns: minmax(16.5rem, 0.58fr) minmax(34rem, 1.45fr) minmax(22rem, 0.94fr);
+  grid-template-columns: minmax(15.5rem, 0.55fr) minmax(32rem, 1.36fr) minmax(25rem, 1.09fr);
   align-items: center;
-  gap: clamp(1.75rem, 2.35vw, 3.15rem);
+  gap: clamp(1.5rem, 2vw, 2.75rem);
 }
 
 .chapterOdd .chapterInner {
@@ -70,7 +70,7 @@
 }
 
 .chapterEven .chapterInner {
-  grid-template-columns: minmax(16.5rem, 0.58fr) minmax(22rem, 0.94fr) minmax(34rem, 1.45fr);
+  grid-template-columns: minmax(15.5rem, 0.55fr) minmax(25rem, 1.09fr) minmax(32rem, 1.36fr);
   grid-template-areas: "heading visual parchment";
 }
 
@@ -285,146 +285,23 @@
 }
 
 .visualSlot {
+  display: grid;
   grid-area: visual;
   min-width: 0;
+  place-items: center;
   will-change: transform;
 }
 
 .visualFrame {
-  position: relative;
-  display: grid;
   width: 100%;
-  max-width: 35rem;
-  aspect-ratio: 1.18;
+  max-width: 38rem;
+  aspect-ratio: 67 / 54;
   margin: 0;
-  place-items: center;
-  overflow: hidden;
-  border: 1px solid rgba(173, 126, 57, 0.36);
-  border-radius: 0.25rem;
-  background:
-    linear-gradient(rgba(177, 128, 57, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(177, 128, 57, 0.045) 1px, transparent 1px),
-    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.88), transparent 58%),
-    linear-gradient(145deg, rgba(235, 220, 196, 0.72), rgba(249, 244, 236, 0.96));
-  background-size: 36px 36px, 36px 36px, auto, auto;
-  box-shadow:
-    inset 0 0 0 0.55rem rgba(255, 255, 255, 0.42),
-    inset 0 0 4rem rgba(112, 77, 34, 0.08),
-    0 1.5rem 3.5rem rgba(71, 50, 23, 0.1);
+  background: url("../../assets/smartmed-chapter-visual.webp") center / contain no-repeat;
+  filter: drop-shadow(0 1.35rem 1.75rem rgba(71, 50, 23, 0.13));
 }
 
-.visualFrame::before {
-  position: absolute;
-  inset: 0.8rem;
-  border: 1px solid rgba(178, 130, 58, 0.24);
-  pointer-events: none;
-  content: "";
-}
-
-.visualFrame::after {
-  position: absolute;
-  width: 72%;
-  aspect-ratio: 1;
-  border: 1px solid rgba(170, 124, 57, 0.08);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 2.3rem rgba(170, 124, 57, 0.025),
-    0 0 0 5rem rgba(170, 124, 57, 0.018);
-  pointer-events: none;
-  content: "";
-}
-
-.visualIcons {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 2.2rem;
-  color: rgba(112, 78, 39, 0.22);
-}
-
-.visualIcons svg {
-  width: clamp(6.5rem, 9vw, 10.5rem);
-  height: auto;
-  filter: drop-shadow(0 0.8rem 1rem rgba(114, 79, 37, 0.05));
-}
-
-.visualIcons svg + svg {
-  margin-left: clamp(-2.25rem, -2vw, -1.1rem);
-  transform: translateY(1.25rem) scale(0.82);
-}
-
-.visualCaption {
-  position: absolute;
-  z-index: 3;
-  right: 1.65rem;
-  bottom: 1.45rem;
-  left: 1.65rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: rgba(68, 45, 20, 0.68);
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.visualCaption span {
-  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(0.92rem, 1.3vw, 1.2rem);
-  font-weight: 700;
-  letter-spacing: 0.09em;
-}
-
-.visualCaption small {
-  margin-top: 0.28rem;
-  color: rgba(72, 50, 25, 0.45);
-  font-family: var(--font-manrope), Manrope, sans-serif;
-  font-size: clamp(0.52rem, 0.58vw, 0.64rem);
-  font-weight: 700;
-  letter-spacing: 0.13em;
-}
-
-.visualCornerTopLeft,
-.visualCornerTopRight,
-.visualCornerBottomLeft,
-.visualCornerBottomRight {
-  position: absolute;
-  z-index: 4;
-  width: 1.75rem;
-  height: 1.75rem;
-  pointer-events: none;
-}
-
-.visualCornerTopLeft {
-  top: 0.45rem;
-  left: 0.45rem;
-  border-top: 1px solid rgba(161, 111, 43, 0.62);
-  border-left: 1px solid rgba(161, 111, 43, 0.62);
-}
-
-.visualCornerTopRight {
-  top: 0.45rem;
-  right: 0.45rem;
-  border-top: 1px solid rgba(161, 111, 43, 0.62);
-  border-right: 1px solid rgba(161, 111, 43, 0.62);
-}
-
-.visualCornerBottomLeft {
-  bottom: 0.45rem;
-  left: 0.45rem;
-  border-bottom: 1px solid rgba(161, 111, 43, 0.62);
-  border-left: 1px solid rgba(161, 111, 43, 0.62);
-}
-
-.visualCornerBottomRight {
-  right: 0.45rem;
-  bottom: 0.45rem;
-  border-right: 1px solid rgba(161, 111, 43, 0.62);
-  border-bottom: 1px solid rgba(161, 111, 43, 0.62);
-}
-
-@media (max-width: 78rem) {
+@media (max-width: 88rem) {
   .chapter {
     min-height: auto;
     padding-block: 2.5rem;
@@ -432,9 +309,9 @@
 
   .chapterInner,
   .chapterEven .chapterInner {
-    width: min(100%, 68rem);
-    grid-template-columns: minmax(17rem, 0.72fr) minmax(32rem, 1.28fr);
-    gap: 1.65rem 2.5rem;
+    width: min(100%, 72rem);
+    grid-template-columns: minmax(19rem, 0.82fr) minmax(31rem, 1.18fr);
+    gap: 1.65rem clamp(2rem, 3.2vw, 2.75rem);
   }
 
   .chapterOdd .chapterInner {
@@ -481,9 +358,6 @@
     font-size: clamp(2.3rem, 4.5vw, 3.55rem);
   }
 
-  .visualFrame {
-    aspect-ratio: 0.96;
-  }
 }
 
 @media (max-width: 52rem) {
@@ -522,12 +396,9 @@
     justify-self: center;
   }
 
-  .visualFrame {
-    aspect-ratio: 1.45;
-  }
-
-  .visualIcons svg {
-    width: clamp(5.7rem, 22vw, 8.5rem);
+  .parchmentSlot,
+  .visualSlot {
+    transform: none !important;
   }
 
   .parchmentSlot {
@@ -572,16 +443,6 @@
     font-size: 1.62rem;
   }
 
-  .visualFrame {
-    aspect-ratio: 1.3;
-  }
-
-  .visualCaption {
-    right: 1rem;
-    bottom: 1rem;
-    left: 1rem;
-  }
-
   .parchment {
     min-height: clamp(37rem, 168vw, 45rem);
     aspect-ratio: auto;
@@ -610,17 +471,12 @@
 @media (hover: hover) and (pointer: fine) {
   .visualFrame {
     transition:
-      border-color 320ms ease,
-      box-shadow 320ms ease,
+      filter 320ms ease,
       transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .visualFrame:hover {
-    border-color: rgba(173, 126, 57, 0.58);
-    box-shadow:
-      inset 0 0 0 0.55rem rgba(255, 255, 255, 0.5),
-      inset 0 0 4rem rgba(112, 77, 34, 0.1),
-      0 1.8rem 4rem rgba(71, 50, 23, 0.14);
+    filter: drop-shadow(0 1.65rem 2.1rem rgba(71, 50, 23, 0.17));
     transform: translateY(-0.35rem);
   }
 }

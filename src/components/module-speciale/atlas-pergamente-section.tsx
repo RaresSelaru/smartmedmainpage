@@ -1,16 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import {
-  BookOpen,
-  Brain,
-  Globe2,
-  Landmark,
-  Network,
-  PersonStanding,
-  ScrollText,
-  type LucideIcon,
-} from "lucide-react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 
@@ -31,9 +21,6 @@ type Chapter = {
   number: string;
   title: string;
   compactTitle?: boolean;
-  imageLabel: string;
-  imageHint: string;
-  icons: readonly LucideIcon[];
   copy: readonly CopyBlock[];
 };
 
@@ -41,9 +28,6 @@ const chapters: readonly Chapter[] = [
   {
     number: "01",
     title: "Înțelegere profundă",
-    imageLabel: "Cărți medicale și anatomie",
-    imageHint: "Spațiu pregătit pentru imaginea finală",
-    icons: [BookOpen, Brain],
     copy: [
       {
         type: "paragraph",
@@ -72,9 +56,6 @@ const chapters: readonly Chapter[] = [
     number: "02",
     title: "Înțelegerea conceptelor, nu memorarea lor",
     compactTitle: true,
-    imageLabel: "Statuie academică",
-    imageHint: "Spațiu pregătit pentru imaginea finală",
-    icons: [PersonStanding],
     copy: [
       {
         type: "paragraph",
@@ -108,9 +89,6 @@ const chapters: readonly Chapter[] = [
   {
     number: "03",
     title: "Legături inteligente",
-    imageLabel: "Cărți și pergamente",
-    imageHint: "Spațiu pregătit pentru imaginea finală",
-    icons: [ScrollText, Network],
     copy: [
       {
         type: "paragraph",
@@ -149,9 +127,6 @@ const chapters: readonly Chapter[] = [
   {
     number: "04",
     title: "Strategii de succes",
-    imageLabel: "Strategie și performanță",
-    imageHint: "Spațiu pregătit pentru imaginea finală",
-    icons: [Globe2, BookOpen],
     copy: [
       {
         type: "paragraph",
@@ -188,9 +163,6 @@ const chapters: readonly Chapter[] = [
     number: "05",
     title: "De ce fac diferența modulele speciale SmartMed?",
     compactTitle: true,
-    imageLabel: "Academia SmartMed",
-    imageHint: "Spațiu pregătit pentru imaginea finală",
-    icons: [Landmark],
     copy: [
       {
         type: "paragraph",
@@ -268,24 +240,8 @@ function ParchmentPanel({ chapter }: { chapter: Chapter }) {
   );
 }
 
-function ImagePlaceholder({ chapter }: { chapter: Chapter }) {
-  return (
-    <figure className={styles.visualFrame} data-image-slot={chapter.number}>
-      <span aria-hidden="true" className={styles.visualCornerTopLeft} />
-      <span aria-hidden="true" className={styles.visualCornerTopRight} />
-      <span aria-hidden="true" className={styles.visualCornerBottomLeft} />
-      <span aria-hidden="true" className={styles.visualCornerBottomRight} />
-      <div aria-hidden="true" className={styles.visualIcons}>
-        {chapter.icons.map((Icon, iconIndex) => (
-          <Icon key={`${chapter.number}-icon-${iconIndex}`} strokeWidth={0.85} />
-        ))}
-      </div>
-      <figcaption className={styles.visualCaption}>
-        <span>{chapter.imageLabel}</span>
-        <small>{chapter.imageHint}</small>
-      </figcaption>
-    </figure>
-  );
+function SharedChapterVisual() {
+  return <div aria-hidden="true" className={styles.visualFrame} />;
 }
 
 function StoryChapter({ chapter, index }: { chapter: Chapter; index: number }) {
@@ -348,7 +304,7 @@ function StoryChapter({ chapter, index }: { chapter: Chapter; index: number }) {
           viewport={{ amount: 0.3, once: true }}
           whileInView={{ opacity: 1, scale: 1, x: 0 }}
         >
-          <ImagePlaceholder chapter={chapter} />
+          <SharedChapterVisual />
         </motion.div>
       </div>
     </article>
