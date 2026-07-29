@@ -156,13 +156,14 @@ max_indexes = 5
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "https://smartmed.ro"
+site_url = "https://smartmedmainpage.vercel.app"
 # The public URL that Auth serves on. Defaults to the API external URL with `/auth/v1` appended.
 # external_url = ""
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
   "http://localhost:3000/auth/callback",
   "http://127.0.0.1:3000/auth/callback",
+  "https://smartmedmainpage.vercel.app/auth/callback",
   "https://smartmed.ro/auth/callback",
   "https://www.smartmed.ro/auth/callback",
 ]

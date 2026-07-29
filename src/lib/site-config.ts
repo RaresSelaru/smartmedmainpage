@@ -66,7 +66,7 @@ export const siteConfig = {
   fullName: "SmartMed Academy",
   description:
     "Pregătire premium pentru admiterea la Medicină, cu structură clară, exigență și sprijin constant.",
-  url: "https://smartmed.ro",
+  url: "https://smartmedmainpage.vercel.app",
   contact: {
     email: "contact@smartmed.ro",
     phone: "+40 700 000 000",

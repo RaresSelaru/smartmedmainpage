@@ -55,7 +55,7 @@ test("hosted targets require exact project identity and redact secrets from summ
     ADMIN_BOOTSTRAP_ENVIRONMENT: "staging",
     ADMIN_CHANGE_REASON: "Provisionare aprobată",
     ADMIN_INVITE_REDIRECT_URL:
-      "https://smartmed.ro/cont?mode=parola-noua",
+      "https://smartmedmainpage.vercel.app/cont?mode=parola-noua",
     ADMIN_OPERATOR_REFERENCE: "CHANGE-123",
     BOOTSTRAP_ADMIN_EMAIL: "ADMIN@example.com",
     EXPECTED_SUPABASE_PROJECT_REF: "abcdefghijklmnopqrst",
@@ -73,6 +73,13 @@ test("hosted targets require exact project identity and redact secrets from summ
   });
   assert.doesNotMatch(JSON.stringify(publicTargetSummary(target)), /must-not-be-returned/);
 
+  assert.doesNotThrow(() =>
+    readHostedTarget({
+      ...environment,
+      ADMIN_INVITE_REDIRECT_URL:
+        "https://smartmed.ro/cont?mode=parola-noua",
+    }),
+  );
   assert.throws(() =>
     readHostedTarget({
       ...environment,

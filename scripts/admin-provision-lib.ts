@@ -167,9 +167,15 @@ export function readHostedTarget(
     throw new Error("ADMIN_INVITE_REDIRECT_URL este invalid.");
   }
 
+  const allowedHostedApplicationOrigins = new Set([
+    "https://smartmedmainpage.vercel.app",
+    "https://smartmed.ro",
+    "https://www.smartmed.ro",
+  ]);
+
   if (
     parsedRedirect.protocol !== "https:" ||
-    parsedRedirect.origin !== "https://smartmed.ro" ||
+    !allowedHostedApplicationOrigins.has(parsedRedirect.origin) ||
     parsedRedirect.username ||
     parsedRedirect.password ||
     parsedRedirect.hash ||
