@@ -3,6 +3,7 @@ import { Barlow_Condensed, Cormorant_Garamond, Kaushan_Script, Manrope } from "n
 
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { RouteAwarePublicChrome } from "@/components/layout/route-aware-public-chrome";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { siteConfig } from "@/lib/site-config";
 
@@ -63,9 +64,12 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col antialiased">
         <StyledComponentsRegistry>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <RouteAwarePublicChrome
+            footer={<Footer />}
+            navbar={<Navbar />}
+          >
+            {children}
+          </RouteAwarePublicChrome>
         </StyledComponentsRegistry>
       </body>
     </html>

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, ShieldCheck, UserRoundCheck } from "lucide-react";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import {
   initialAuthActionState,
@@ -19,6 +20,7 @@ import {
 } from "@/lib/auth/actions";
 import type { AuthMode } from "@/lib/auth/access-control";
 import type { SmartMedSession } from "@/lib/auth/session";
+import { createBrowserSupabaseClient } from "@/lib/auth/supabase-browser";
 import { cn } from "@/lib/utils";
 
 type AccountHubProps = {
@@ -421,6 +423,30 @@ function AccountStatusCard({ session }: { session: SmartMedSession }) {
           </span>
         </span>
       </div>
+      {session.role === "admin" ? (
+        <Link
+          className="group flex min-h-14 items-center justify-between gap-4 rounded-2xl bg-smart-dark px-5 py-4 text-smart-white shadow-[0_18px_38px_rgba(3,17,28,0.16)] transition hover:-translate-y-0.5 hover:bg-smart-teal hover:shadow-[0_22px_46px_rgba(31,111,120,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+          href="/admin"
+        >
+          <span className="flex items-center gap-3">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10">
+              <ShieldCheck aria-hidden="true" className="size-5 text-smart-aqua" />
+            </span>
+            <span>
+              <span className="block text-sm font-extrabold">Admin Console</span>
+              <span className="mt-0.5 block text-xs font-semibold text-smart-white/62">
+                Gestionează conținutul editorial
+              </span>
+            </span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="text-xl transition-transform group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </Link>
+      ) : null}
     </div>
   );
 }
@@ -495,6 +521,11 @@ export function AccountHub({
   session,
   status,
 }: AccountHubProps) {
+  const router = useRouter();
+  const [passwordSessionState, setPasswordSessionState] = useState<
+    "checking" | "invalid" | "ready"
+  >(session ? "ready" : "checking");
+
   useEffect(() => {
     window.dispatchEvent(new Event("smartmed-auth-change"));
   }, [session?.fullName, session?.id, status]);
@@ -502,6 +533,49 @@ export function AccountHub({
   const showPasswordUpdate = activeMode === "parola-noua";
   const showProfile = session && !showPasswordUpdate;
   const activeAuthMode = activeMode === "parola-noua" ? "conectare" : activeMode;
+
+  useEffect(() => {
+    if (!showPasswordUpdate || session) {
+      return;
+    }
+
+    const supabase = createBrowserSupabaseClient();
+
+    if (!supabase) {
+      return;
+    }
+
+    let cancelled = false;
+
+    void supabase.auth.getSession().then(({ data, error }) => {
+      if (cancelled) {
+        return;
+      }
+
+      if (error || !data.session) {
+        setPasswordSessionState("invalid");
+        return;
+      }
+
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}`,
+      );
+      setPasswordSessionState("ready");
+      router.refresh();
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router, session, showPasswordUpdate]);
+
+  const effectivePasswordSessionState = session
+    ? "ready"
+    : isConfigured
+      ? passwordSessionState
+      : "invalid";
 
   return (
     <section className="relative isolate overflow-hidden bg-smart-cream px-5 pb-28 pt-32 text-smart-ink sm:px-7 sm:pt-36 lg:px-8">
@@ -534,7 +608,25 @@ export function AccountHub({
 
           {showPasswordUpdate ? (
             <ShellCard eyebrow="Recuperare parolă" title="Alege o parolă nouă">
-              <UpdatePasswordForm />
+              {effectivePasswordSessionState === "ready" ? (
+                <UpdatePasswordForm />
+              ) : effectivePasswordSessionState === "checking" ? (
+                <p aria-live="polite" className="text-sm font-semibold text-smart-ink/68">
+                  Verificăm în siguranță linkul de activare…
+                </p>
+              ) : (
+                <div className="grid gap-4 text-sm leading-7 text-red-800">
+                  <p>
+                    Linkul de activare sau recuperare este invalid ori a expirat.
+                  </p>
+                  <Link
+                    className="font-bold text-smart-teal"
+                    href={accountModeHref("recuperare-parola", nextPath)}
+                  >
+                    Solicită un link nou
+                  </Link>
+                </div>
+              )}
             </ShellCard>
           ) : null}
 

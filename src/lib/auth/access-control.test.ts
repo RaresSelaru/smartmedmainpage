@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   canAccessPremiumContent,
+  getAccessRuleForPath,
   sanitizeInternalPath,
 } from "./access-control.ts";
 
@@ -44,4 +45,10 @@ test("premium access rejects standard accounts without an entitlement", () => {
     false,
   );
   assert.equal(canAccessPremiumContent("guest"), false);
+});
+
+test("admin routes receive an optimistic authenticated-session rule", () => {
+  assert.equal(getAccessRuleForPath("/admin")?.path, "/admin");
+  assert.equal(getAccessRuleForPath("/admin/content/42")?.path, "/admin");
+  assert.equal(getAccessRuleForPath("/administrator"), null);
 });

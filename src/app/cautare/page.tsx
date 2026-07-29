@@ -4,7 +4,14 @@ import { ArrowRight, Search } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { getFeaturedSearchResults, searchSite, type SearchResult } from "@/lib/search";
+import { isPublicContentUnavailableError } from "@/lib/blog-repository";
+import {
+  getFeaturedSearchResults,
+  getFeaturedStaticSearchResults,
+  searchSite,
+  searchStaticSite,
+  type SearchResult,
+} from "@/lib/search";
 import { siteConfig } from "@/lib/site-config";
 
 type SearchPageProps = {
@@ -25,12 +32,33 @@ export const metadata: Metadata = {
     siteName: siteConfig.fullName,
     type: "website",
   },
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+  },
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams;
-  const query = (params?.q ?? params?.cautare ?? "").trim();
-  const results = query ? searchSite(query) : getFeaturedSearchResults();
+  const query = (params?.q ?? params?.cautare ?? "").trim().slice(0, 160);
+  let cmsUnavailable = false;
+  let results: SearchResult[];
+
+  try {
+    results = query
+      ? await searchSite(query)
+      : await getFeaturedSearchResults();
+  } catch (error) {
+    if (!isPublicContentUnavailableError(error)) {
+      throw error;
+    }
+
+    cmsUnavailable = true;
+    results = query
+      ? searchStaticSite(query)
+      : getFeaturedStaticSearchResults();
+  }
 
   return (
     <>
@@ -61,6 +89,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   className="min-w-0 flex-1 bg-transparent px-5 text-base text-smart-white outline-none placeholder:text-smart-muted"
                   defaultValue={query}
                   id="global-search"
+                  maxLength={160}
                   name="q"
                   placeholder="Caută în SmartMed"
                   type="search"
@@ -96,6 +125,16 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               </p>
             </div>
           </Reveal>
+
+          {cmsUnavailable ? (
+            <p
+              className="mt-8 rounded-2xl border border-smart-gold/30 bg-white/65 px-5 py-4 text-sm leading-7 text-smart-ink/70"
+              role="status"
+            >
+              Articolele din Blog nu pot fi căutate momentan. Rezultatele de mai jos
+              includ în continuare paginile și resursele SmartMed.
+            </p>
+          ) : null}
 
           {results.length ? (
             <div className="mt-12 grid gap-5 lg:grid-cols-2">

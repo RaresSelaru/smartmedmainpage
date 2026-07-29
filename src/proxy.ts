@@ -7,6 +7,29 @@ import { getSupabaseAuthConfig } from "@/lib/auth/env";
 
 const authResponseHeaderNames = ["cache-control", "expires", "pragma"] as const;
 
+function isAdminRequestPath(pathname: string) {
+  return pathname === "/admin" || pathname.startsWith("/admin/");
+}
+
+function applyAdminResponseHeaders(response: NextResponse, pathname: string) {
+  if (!isAdminRequestPath(pathname)) {
+    return response;
+  }
+
+  response.headers.set(
+    "Cache-Control",
+    "private, no-cache, no-store, must-revalidate, max-age=0",
+  );
+  response.headers.set("Expires", "0");
+  response.headers.set("Pragma", "no-cache");
+  response.headers.set(
+    "X-Robots-Tag",
+    "noindex, nofollow, noarchive, nosnippet",
+  );
+
+  return response;
+}
+
 function createAuthRedirect(target: URL, authResponse: NextResponse) {
   const redirectResponse = NextResponse.redirect(target);
 
@@ -37,7 +60,7 @@ export async function proxy(request: NextRequest) {
   const config = getSupabaseAuthConfig();
 
   if (!config.isConfigured) {
-    return response;
+    return applyAdminResponseHeaders(response, request.nextUrl.pathname);
   }
 
   const supabase = createServerClient<SmartMedDatabase>(config.url, config.publishableKey, {
@@ -66,13 +89,21 @@ export async function proxy(request: NextRequest) {
   const rule = getAccessRuleForPath(request.nextUrl.pathname);
 
   if (!rule) {
-    return response;
+    return applyAdminResponseHeaders(response, request.nextUrl.pathname);
   }
 
   if (!claimsData?.claims.sub) {
-    return createAuthRedirect(
-      new URL(buildRestrictedAccessPath(request.nextUrl.pathname), request.url),
-      response,
+    return applyAdminResponseHeaders(
+      createAuthRedirect(
+        new URL(
+          buildRestrictedAccessPath(
+            `${request.nextUrl.pathname}${request.nextUrl.search}`,
+          ),
+          request.url,
+        ),
+        response,
+      ),
+      request.nextUrl.pathname,
     );
   }
 
@@ -86,13 +117,16 @@ export async function proxy(request: NextRequest) {
       target.searchParams.set("error", "email-not-confirmed");
       target.searchParams.set("next", request.nextUrl.pathname);
 
-      return createAuthRedirect(target, response);
+      return applyAdminResponseHeaders(
+        createAuthRedirect(target, response),
+        request.nextUrl.pathname,
+      );
     }
   }
 
-  // Role authorization remains close to the data/page through
-  // requireSmartMedAccess(). Proxy is only an optimistic session check.
-  return response;
+  // Role/capability authorization remains in the request-time data access
+  // layer. Proxy is only an optimistic authenticated-session check.
+  return applyAdminResponseHeaders(response, request.nextUrl.pathname);
 }
 
 export const config = {

@@ -3,9 +3,8 @@ import type { Metadata } from "next";
 import { BlogPageContent } from "@/components/blog/blog-page";
 import { getBlogCategory } from "@/lib/blog";
 import {
-  getPublishedBlogPosts,
-  getPublishedBlogPostsByCategory,
-  searchPublishedBlogPosts,
+  getPublishedBlogPage,
+  isPublicContentUnavailableError,
 } from "@/lib/blog-repository";
 import { siteConfig } from "@/lib/site-config";
 
@@ -13,6 +12,7 @@ type BlogPageProps = {
   searchParams?: Promise<{
     categorie?: string;
     cautare?: string;
+    pagina?: string;
   }>;
 };
 
@@ -36,12 +36,31 @@ export const metadata: Metadata = {
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
   const category = getBlogCategory(params?.categorie)?.slug;
-  const searchQuery = params?.cautare?.trim();
-  const posts = searchQuery
-    ? await searchPublishedBlogPosts(searchQuery)
-    : category
-      ? await getPublishedBlogPostsByCategory(category)
-      : await getPublishedBlogPosts();
+  const searchQuery = params?.cautare?.trim().slice(0, 160) || undefined;
+  const requestedPage = Number.parseInt(params?.pagina ?? "1", 10);
+  let errorMessage: string | undefined;
+  let result = {
+    items: [],
+    page: 1,
+    pageSize: 18,
+    total: 0,
+    totalPages: 1,
+  } as Awaited<ReturnType<typeof getPublishedBlogPage>>;
+
+  try {
+    result = await getPublishedBlogPage({
+      category,
+      page: requestedPage,
+      query: searchQuery,
+    });
+  } catch (error) {
+    if (!isPublicContentUnavailableError(error)) {
+      throw error;
+    }
+
+    errorMessage =
+      "Încearcă din nou în câteva momente. Nu afișăm copii locale care ar putea fi depășite.";
+  }
   const heading = searchQuery
     ? `REZULTATE PENTRU „${searchQuery}”`
     : category
@@ -51,9 +70,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <BlogPageContent
       activeCategory={category}
+      currentPage={result.page}
+      errorMessage={errorMessage}
       heading={heading}
-      posts={posts}
+      posts={result.items}
       searchQuery={searchQuery}
+      totalPages={result.totalPages}
     />
   );
 }

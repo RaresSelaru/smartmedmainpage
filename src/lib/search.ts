@@ -1,4 +1,8 @@
-import { blogPosts, getBlogCategory } from "@/lib/blog";
+import "server-only";
+
+import { getBlogCategory } from "@/lib/blog";
+import { getPublishedBlogPosts } from "@/lib/blog-repository";
+import type { PublicBlogSummary } from "@/lib/content/types";
 import {
   destinationCards,
   featureCards,
@@ -137,6 +141,17 @@ const curatedDocuments: SearchDocument[] = [
     priority: 16,
     keywords: ["grile", "exerciții", "biologie", "chimie", "platformă de grile"],
   },
+  {
+    id: "page-inscriere",
+    title: "Înscriere SmartMed",
+    description:
+      "Punctul de pornire pentru viitoarele înscrieri la programele SmartMed Academy.",
+    href: "/inscriere",
+    type: "Pagină" as const,
+    eyebrow: "Înscriere",
+    priority: 17,
+    keywords: ["înscriere", "admitere", "programe", "grupe", "formular"],
+  },
   ...destinationCards.map((card) => ({
     id: `destination-${card.href}`,
     title: card.title,
@@ -169,40 +184,38 @@ const curatedDocuments: SearchDocument[] = [
   })),
 ];
 
-const blogDocuments: SearchDocument[] = blogPosts.map((post) => ({
-  id: `blog-${post.slug}`,
-  title: post.title,
-  description: post.excerpt,
-  href: `/blog/${post.slug}`,
-  type: "Articol" as const,
-  eyebrow: getBlogCategory(post.category)?.label ?? "Blog",
-  priority: 14,
-  keywords: [
-    post.author,
-    post.category,
-    post.readTime,
-    post.contentPreview,
-    ...post.tags,
-    ...post.body.flatMap((block) => {
-      if (block.type === "list") {
-        return block.items;
-      }
-
-      return [block.text];
-    }),
-  ],
-}));
-
-const searchDocuments: SearchDocument[] = [
+const staticSearchDocuments: SearchDocument[] = [
   ...curatedDocuments,
   ...pageDocuments,
-  ...blogDocuments,
 ];
 
-export function getFeaturedSearchResults(limit = 8): SearchResult[] {
+function createBlogSearchDocuments(
+  posts: PublicBlogSummary[],
+): SearchDocument[] {
+  return posts.map((post) => ({
+    id: `blog-${post.slug}`,
+    title: post.title,
+    description: post.excerpt,
+    href: `/blog/${post.slug}`,
+    type: "Articol" as const,
+    eyebrow: getBlogCategory(post.category)?.label ?? "Blog",
+    priority: 14,
+    keywords: [
+      post.author,
+      post.category,
+      post.readTime,
+      ...post.tags,
+    ],
+  }));
+}
+
+function selectFeaturedSearchResults(
+  documents: SearchDocument[],
+  limit: number,
+): SearchResult[] {
   const seenHrefs = new Set<string>();
 
-  return searchDocuments
+  return documents
     .slice()
     .sort((a, b) => b.priority - a.priority || a.title.localeCompare(b.title, "ro-RO"))
     .filter((document) => {
@@ -217,8 +230,12 @@ export function getFeaturedSearchResults(limit = 8): SearchResult[] {
     .map((document) => toSearchResult(document));
 }
 
-export function searchSite(query: string, limit = 24): SearchResult[] {
-  const terms = normalizeSearchText(query)
+function selectSearchResults(
+  query: string,
+  documents: SearchDocument[],
+  limit: number,
+): SearchResult[] {
+  const terms = normalizeSearchText(query.slice(0, 160))
     .split(/\s+/)
     .map((term) => term.trim())
     .filter(Boolean);
@@ -229,7 +246,7 @@ export function searchSite(query: string, limit = 24): SearchResult[] {
 
   const seenHrefs = new Set<string>();
 
-  return searchDocuments
+  return documents
     .map((document) => {
       const normalizedTitle = normalizeSearchText(document.title);
       const normalizedDescription = normalizeSearchText(document.description);
@@ -270,4 +287,40 @@ export function searchSite(query: string, limit = 24): SearchResult[] {
     })
     .slice(0, limit)
     .map(({ document, score }) => toSearchResult(document, score));
+}
+
+export function getFeaturedStaticSearchResults(limit = 8): SearchResult[] {
+  return selectFeaturedSearchResults(staticSearchDocuments, limit);
+}
+
+export function searchStaticSite(query: string, limit = 24): SearchResult[] {
+  return selectSearchResults(query, staticSearchDocuments, limit);
+}
+
+export async function getFeaturedSearchResults(
+  limit = 8,
+): Promise<SearchResult[]> {
+  const blogDocuments = createBlogSearchDocuments(
+    await getPublishedBlogPosts(),
+  );
+
+  return selectFeaturedSearchResults(
+    [...staticSearchDocuments, ...blogDocuments],
+    limit,
+  );
+}
+
+export async function searchSite(
+  query: string,
+  limit = 24,
+): Promise<SearchResult[]> {
+  const blogDocuments = createBlogSearchDocuments(
+    await getPublishedBlogPosts(),
+  );
+
+  return selectSearchResults(
+    query,
+    [...staticSearchDocuments, ...blogDocuments],
+    limit,
+  );
 }

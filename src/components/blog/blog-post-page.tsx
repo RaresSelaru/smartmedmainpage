@@ -9,14 +9,14 @@ import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import {
   formatBlogDate,
   getBlogCategory,
-  type BlogBodyBlock,
-  type BlogPost,
 } from "@/lib/blog";
+import { ContentRenderer } from "@/lib/content/renderer";
+import type { PublicBlogPost, PublicBlogSummary } from "@/lib/content/types";
 import { newsCarousel } from "@/lib/site-config";
 
 type BlogPostPageContentProps = {
-  post: BlogPost;
-  relatedPosts: BlogPost[];
+  post: PublicBlogPost;
+  relatedPosts: PublicBlogSummary[];
 };
 
 export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentProps) {
@@ -53,8 +53,19 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
                 <div className="mt-7 flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.12em] text-smart-white/58">
                   <span className="inline-flex items-center gap-2">
                     <CalendarDays aria-hidden="true" className="size-4 text-smart-aqua" />
-                    {formatBlogDate(post.date)}
+                    <time dateTime={post.publishedAt}>
+                      {formatBlogDate(post.publishedAt)}
+                    </time>
                   </span>
+                  {post.modifiedAt.slice(0, 10) !==
+                  post.publishedAt.slice(0, 10) ? (
+                    <span>
+                      Actualizat{" "}
+                      <time dateTime={post.modifiedAt}>
+                        {formatBlogDate(post.modifiedAt)}
+                      </time>
+                    </span>
+                  ) : null}
                   <span className="inline-flex items-center gap-2">
                     <Clock3 aria-hidden="true" className="size-4 text-smart-aqua" />
                     {post.readTime}
@@ -89,34 +100,66 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
           <Reveal>
             <div className="rounded-[32px] border border-smart-abyss/10 bg-white/66 p-6 shadow-[0_22px_70px_rgba(3,17,28,0.12)] sm:p-10">
               <div className="prose-smart">
-                {post.body.map((block, index) => (
-                  <BlogBody block={block} key={`${post.slug}-${block.type}-${index}`} />
-                ))}
+                <ContentRenderer document={post.document} entryId={post.id} schemaVersion={1} />
               </div>
+              {post.correctionNote ? (
+                <aside
+                  className="mt-10 rounded-3xl border border-smart-gold/30 bg-smart-gold/10 p-5 text-sm leading-7 text-smart-ink/75"
+                  role="note"
+                >
+                  <strong>Notă de corecție:</strong> {post.correctionNote}
+                </aside>
+              ) : null}
+              {post.disclaimer ? (
+                <aside
+                  className="mt-6 rounded-3xl border border-smart-teal/25 bg-smart-teal/8 p-5 text-sm leading-7 text-smart-ink/75"
+                  role="note"
+                >
+                  <strong>Notă medicală:</strong> {post.disclaimer}
+                </aside>
+              ) : null}
+              {post.reviewer ? (
+                <p className="mt-6 text-sm text-smart-ink/60">
+                  Revizuit de {post.reviewer}
+                  {post.reviewedAt ? (
+                    <>
+                      {" "}
+                      la <time dateTime={post.reviewedAt}>{formatBlogDate(post.reviewedAt)}</time>
+                    </>
+                  ) : null}
+                  .
+                </p>
+              ) : null}
             </div>
           </Reveal>
           <Reveal delay={0.08}>
             <aside className="rounded-[30px] border border-smart-abyss/10 bg-smart-abyss p-6 text-smart-white shadow-[0_22px_70px_rgba(3,17,28,0.18)]">
               <h2 className="font-serif text-3xl font-semibold">Articole similare</h2>
               <div className="mt-6 grid gap-4">
-                {relatedPosts.map((related) => (
-                  <Link
-                    className="group rounded-3xl border border-white/10 bg-white/[0.055] p-4 transition hover:border-smart-aqua/40 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
-                    href={`/blog/${related.slug}`}
-                    key={related.slug}
-                  >
-                    <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-smart-gold-light">
-                      {getBlogCategory(related.category)?.label ?? "Blog"}
-                    </span>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold leading-none text-smart-white">
-                      {related.title}
-                    </h3>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-smart-aqua">
-                      Citește
-                      <ArrowRight aria-hidden="true" className="size-4 transition group-hover:translate-x-1" />
-                    </span>
-                  </Link>
-                ))}
+                {relatedPosts.length ? (
+                  relatedPosts.map((related) => (
+                    <Link
+                      className="group rounded-3xl border border-white/10 bg-white/[0.055] p-4 transition hover:border-smart-aqua/40 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
+                      href={`/blog/${related.slug}`}
+                      key={related.slug}
+                    >
+                      <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-smart-gold-light">
+                        {getBlogCategory(related.category)?.label ?? "Blog"}
+                      </span>
+                      <h3 className="mt-2 font-serif text-2xl font-semibold leading-none text-smart-white">
+                        {related.title}
+                      </h3>
+                      <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-smart-aqua">
+                        Citește
+                        <ArrowRight aria-hidden="true" className="size-4 transition group-hover:translate-x-1" />
+                      </span>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-sm leading-7 text-smart-white/64">
+                    Nu există încă recomandări pentru acest articol.
+                  </p>
+                )}
               </div>
             </aside>
           </Reveal>
@@ -135,22 +178,4 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
       <FinalCTASection />
     </>
   );
-}
-
-function BlogBody({ block }: { block: BlogBodyBlock }) {
-  if (block.type === "heading") {
-    return <h2>{block.text}</h2>;
-  }
-
-  if (block.type === "list") {
-    return (
-      <ul>
-        {block.items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    );
-  }
-
-  return <p>{block.text}</p>;
 }

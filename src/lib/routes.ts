@@ -19,6 +19,7 @@ export type AppRoute =
   | "/pentru-parinti"
   | "/despre"
   | "/contact"
+  | "/inscriere"
   | "/cont"
   | "/cautare"
   | "/termeni"

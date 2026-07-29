@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Reveal } from "@/components/animations/reveal";
 import { BlogArticleCard } from "@/components/blog/blog-article-card";
 import { BlogCategoryFilter } from "@/components/blog/blog-category-filter";
@@ -5,21 +7,28 @@ import { BlogPrincipalHero } from "@/components/blog/blog-principal-hero";
 import { FinalCTASection } from "@/components/home/FinalCTASection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import { type BlogCategorySlug, type BlogPost } from "@/lib/blog";
+import { type BlogCategorySlug } from "@/lib/blog";
+import type { PublicBlogSummary } from "@/lib/content/types";
 import { newsCarousel } from "@/lib/site-config";
 
 type BlogPageContentProps = {
   activeCategory?: BlogCategorySlug;
+  currentPage?: number;
+  errorMessage?: string;
   heading: string;
-  posts: BlogPost[];
+  posts: PublicBlogSummary[];
   searchQuery?: string;
+  totalPages?: number;
 };
 
 export function BlogPageContent({
   activeCategory,
+  currentPage = 1,
+  errorMessage,
   heading,
   posts,
   searchQuery,
+  totalPages = 1,
 }: BlogPageContentProps) {
   return (
     <>
@@ -31,7 +40,15 @@ export function BlogPageContent({
           </Reveal>
         </div>
       </section>
-      <BlogArticleSection heading={heading} posts={posts} />
+      <BlogArticleSection
+        activeCategory={activeCategory}
+        currentPage={currentPage}
+        errorMessage={errorMessage}
+        heading={heading}
+        posts={posts}
+        searchQuery={searchQuery}
+        totalPages={totalPages}
+      />
       <div className="relative bg-smart-cream pb-36 sm:pb-48">
         <WaveSeparator fill="teal" variant="relaxed" />
       </div>
@@ -48,9 +65,14 @@ export function BlogPageContent({
 }
 
 function BlogArticleSection({
+  activeCategory,
+  currentPage = 1,
+  errorMessage,
   heading,
   posts,
-}: Pick<BlogPageContentProps, "heading" | "posts">) {
+  searchQuery,
+  totalPages = 1,
+}: BlogPageContentProps) {
   return (
     <section
       className="relative scroll-mt-28 overflow-hidden bg-smart-cream pb-24 pt-8 text-smart-ink sm:pt-10"
@@ -69,7 +91,22 @@ function BlogArticleSection({
           </div>
         </Reveal>
 
-        {posts.length ? (
+        {errorMessage ? (
+          <Reveal>
+            <div
+              className="mt-12 rounded-[30px] border border-smart-gold/30 bg-white/62 p-8 text-center shadow-[0_20px_58px_rgba(3,17,28,0.10)]"
+              role="status"
+            >
+              <h3 className="font-serif text-4xl font-semibold">
+                Articolele nu pot fi încărcate
+              </h3>
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-smart-ink/62">
+                {errorMessage}
+              </p>
+            </div>
+          </Reveal>
+        ) : posts.length ? (
+          <>
           <div className="mt-10 grid grid-cols-1 gap-x-7 gap-y-12 sm:mt-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8 xl:gap-y-14">
             {posts.map((post, index) => (
               <Reveal
@@ -81,13 +118,48 @@ function BlogArticleSection({
                   href={`/blog/${post.slug}`}
                   imageAlt={post.coverAlt}
                   imageSrc={post.coverImage}
-                  publishedAt={post.date}
+                  publishedAt={post.publishedAt}
                   tags={post.tags}
                   title={post.title}
                 />
               </Reveal>
             ))}
           </div>
+          {totalPages > 1 ? (
+            <nav
+              aria-label="Paginarea articolelor"
+              className="mt-14 flex items-center justify-center gap-4"
+            >
+              {currentPage > 1 ? (
+                <Link
+                  className="rounded-full border border-smart-teal/25 bg-white/65 px-5 py-3 text-sm font-bold text-smart-teal transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                  href={buildBlogPageHref({
+                    activeCategory,
+                    page: currentPage - 1,
+                    searchQuery,
+                  })}
+                >
+                  Pagina anterioară
+                </Link>
+              ) : null}
+              <span className="text-sm font-semibold text-smart-ink/60">
+                Pagina {currentPage} din {totalPages}
+              </span>
+              {currentPage < totalPages ? (
+                <Link
+                  className="rounded-full border border-smart-teal/25 bg-white/65 px-5 py-3 text-sm font-bold text-smart-teal transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                  href={buildBlogPageHref({
+                    activeCategory,
+                    page: currentPage + 1,
+                    searchQuery,
+                  })}
+                >
+                  Pagina următoare
+                </Link>
+              ) : null}
+            </nav>
+          ) : null}
+          </>
         ) : (
           <Reveal>
             <div className="mt-12 rounded-[30px] border border-smart-abyss/10 bg-white/62 p-8 text-center shadow-[0_20px_58px_rgba(3,17,28,0.10)]">
@@ -101,4 +173,31 @@ function BlogArticleSection({
       </div>
     </section>
   );
+}
+
+function buildBlogPageHref({
+  activeCategory,
+  page,
+  searchQuery,
+}: {
+  activeCategory?: BlogCategorySlug;
+  page: number;
+  searchQuery?: string;
+}) {
+  const params = new URLSearchParams();
+
+  if (activeCategory) {
+    params.set("categorie", activeCategory);
+  }
+
+  if (searchQuery) {
+    params.set("cautare", searchQuery);
+  }
+
+  if (page > 1) {
+    params.set("pagina", String(page));
+  }
+
+  const query = params.toString();
+  return query ? `/blog?${query}#articole` : "/blog#articole";
 }

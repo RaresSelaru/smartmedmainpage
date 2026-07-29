@@ -83,6 +83,7 @@ export function BlogPrincipalHero() {
               <input
                 className="min-w-0 flex-1 bg-transparent text-sm font-medium text-smart-white outline-none placeholder:text-smart-muted/82 sm:text-base"
                 id="blog-search"
+                maxLength={160}
                 name="cautare"
                 placeholder="Caută articole, subiecte, strategii..."
                 type="search"

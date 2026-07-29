@@ -15,7 +15,14 @@ export type ProtectedRouteRule = {
   roles?: SmartMedRole[];
 };
 
-export const protectedRouteRules: readonly ProtectedRouteRule[] = [];
+export const protectedRouteRules: readonly ProtectedRouteRule[] = [
+  {
+    mode: "prefix",
+    path: "/admin",
+    requireEmailConfirmed: true,
+    roles: ["admin"],
+  },
+];
 
 export const authModes = [
   "conectare",

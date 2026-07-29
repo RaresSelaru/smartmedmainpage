@@ -843,6 +843,7 @@ export type Database = {
           updated_at: string
           updated_by: string | null
           visibility: string
+          working_revision_id: number | null
         }
         Insert: {
           author_id?: number | null
@@ -864,6 +865,7 @@ export type Database = {
           updated_at?: string
           updated_by?: string | null
           visibility?: string
+          working_revision_id?: number | null
         }
         Update: {
           author_id?: number | null
@@ -885,6 +887,7 @@ export type Database = {
           updated_at?: string
           updated_by?: string | null
           visibility?: string
+          working_revision_id?: number | null
         }
         Relationships: [
           {
@@ -904,6 +907,13 @@ export type Database = {
           {
             foreignKeyName: "content_entries_published_revision_fk"
             columns: ["published_revision_id"]
+            isOneToOne: false
+            referencedRelation: "content_revisions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_entries_working_revision_fk"
+            columns: ["working_revision_id"]
             isOneToOne: false
             referencedRelation: "content_revisions"
             referencedColumns: ["id"]
@@ -1009,6 +1019,45 @@ export type Database = {
           },
         ]
       }
+      content_revision_media: {
+        Row: {
+          created_at: string
+          media_asset_id: number
+          revision_id: number
+          sort_order: number
+          usage: string
+        }
+        Insert: {
+          created_at?: string
+          media_asset_id: number
+          revision_id: number
+          sort_order?: number
+          usage?: string
+        }
+        Update: {
+          created_at?: string
+          media_asset_id?: number
+          revision_id?: number
+          sort_order?: number
+          usage?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_revision_media_media_asset_id_fkey"
+            columns: ["media_asset_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_revision_media_revision_id_fkey"
+            columns: ["revision_id"]
+            isOneToOne: false
+            referencedRelation: "content_revisions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       content_revisions: {
         Row: {
           body: Json
@@ -1016,8 +1065,10 @@ export type Database = {
           content_entry_id: number
           created_at: string
           created_by: string | null
+          editorial_snapshot: Json
           id: number
           revision_no: number
+          schema_version: number
         }
         Insert: {
           body?: Json
@@ -1025,8 +1076,10 @@ export type Database = {
           content_entry_id: number
           created_at?: string
           created_by?: string | null
+          editorial_snapshot?: Json
           id?: never
           revision_no: number
+          schema_version?: number
         }
         Update: {
           body?: Json
@@ -1034,8 +1087,10 @@ export type Database = {
           content_entry_id?: number
           created_at?: string
           created_by?: string | null
+          editorial_snapshot?: Json
           id?: never
           revision_no?: number
+          schema_version?: number
         }
         Relationships: [
           {
@@ -2727,7 +2782,125 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cms_archive_content: {
+        Args: {
+          p_correlation_id?: string
+          p_entry_id: number
+        }
+        Returns: Json
+      }
+      cms_archive_media: {
+        Args: {
+          p_correlation_id?: string
+          p_media_id: number
+        }
+        Returns: Json
+      }
+      cms_create_content: {
+        Args: {
+          p_body: Json
+          p_change_summary?: string
+          p_correlation_id?: string
+          p_kind: string
+          p_snapshot: Json
+        }
+        Returns: Json
+      }
+      cms_get_content: {
+        Args: {
+          p_entry_id: number
+        }
+        Returns: Json
+      }
+      cms_get_revision: {
+        Args: {
+          p_entry_id: number
+          p_revision_id: number
+        }
+        Returns: Json
+      }
+      cms_list_content: {
+        Args: {
+          p_author_id?: number
+          p_category_id?: number
+          p_kind?: string
+          p_page?: number
+          p_page_size?: number
+          p_status?: string
+        }
+        Returns: Json
+      }
+      cms_operator_grant_admin: {
+        Args: {
+          p_correlation_id?: string
+          p_display_name?: string
+          p_operator_reference: string
+          p_reason: string
+          p_user_id: string
+        }
+        Returns: Json
+      }
+      cms_operator_revoke_admin: {
+        Args: {
+          p_correlation_id?: string
+          p_operator_reference: string
+          p_reason: string
+          p_user_id: string
+        }
+        Returns: Json
+      }
+      cms_operator_set_local_mfa_requirement: {
+        Args: {
+          p_correlation_id?: string
+          p_operator_reference: string
+          p_reason: string
+          p_require_mfa: boolean
+          p_supabase_url: string
+        }
+        Returns: Json
+      }
+      cms_publish_content: {
+        Args: {
+          p_correlation_id?: string
+          p_entry_id: number
+          p_expected_working_revision_id: number
+        }
+        Returns: Json
+      }
+      cms_register_media: {
+        Args: {
+          p_byte_size: number
+          p_caption: string
+          p_checksum_sha256: string
+          p_correlation_id?: string
+          p_default_alt_text: string
+          p_height: number
+          p_metadata?: Json
+          p_mime_type: string
+          p_storage_path: string
+          p_title: string
+          p_width: number
+        }
+        Returns: Json
+      }
+      cms_save_draft: {
+        Args: {
+          p_body: Json
+          p_change_summary?: string
+          p_correlation_id?: string
+          p_entry_id: number
+          p_expected_working_revision_id: number
+          p_snapshot: Json
+        }
+        Returns: Json
+      }
+      cms_unpublish_content: {
+        Args: {
+          p_correlation_id?: string
+          p_entry_id: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       smartmed_role: "user" | "premium" | "admin"

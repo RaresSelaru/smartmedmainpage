@@ -3,7 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, LogOut, Menu, Search, ShoppingCart, UserRoundCheck, X } from "lucide-react";
+import {
+  ChevronDown,
+  GraduationCap,
+  LogOut,
+  Menu,
+  Search,
+  ShoppingCart,
+  UserRoundCheck,
+  X,
+} from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
 import { logoutAction } from "@/lib/auth/actions";
@@ -19,22 +28,6 @@ function isActive(pathname: string, href: string) {
 const navActionClass =
   "group/action relative hidden h-12 w-11 shrink-0 items-center justify-center text-smart-white/78 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:text-smart-aqua focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:inline-flex";
 
-type ThemeMode = "dark" | "light";
-
-function getInitialThemeMode(): ThemeMode {
-  if (typeof window === "undefined") {
-    return "dark";
-  }
-
-  const storedTheme = window.localStorage.getItem("smartmed-theme");
-
-  if (storedTheme === "light" || storedTheme === "dark") {
-    return storedTheme;
-  }
-
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-}
-
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -43,7 +36,6 @@ export function Navbar() {
   const [navHidden, setNavHidden] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [themeMode, setThemeMode] = useState<ThemeMode>(getInitialThemeMode);
   const desktopSearchInputRef = useRef<HTMLInputElement>(null);
   const lastScrollYRef = useRef(0);
   const upwardScrollRef = useRef(0);
@@ -175,11 +167,6 @@ export function Navbar() {
   }, [open, pathname, searchExpanded]);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = themeMode;
-    window.localStorage.setItem("smartmed-theme", themeMode);
-  }, [themeMode]);
-
-  useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       setOpen(false);
       setSearchOpen(false);
@@ -201,12 +188,6 @@ export function Navbar() {
     router.push(query ? `/cautare?q=${encodeURIComponent(query)}` : "/cautare");
     setSearchOpen(false);
     setOpen(false);
-  }
-
-  function toggleTheme() {
-    setThemeMode((current) => {
-      return current === "dark" ? "light" : "dark";
-    });
   }
 
   return (
@@ -314,98 +295,18 @@ export function Navbar() {
         </div>
 
         <div className="flex shrink-0 items-center gap-3">
-          <button
-            aria-label={themeMode === "dark" ? "Comută la modul luminos" : "Comută la modul întunecat"}
-            aria-pressed={themeMode === "light"}
-            className={cn(
-              "theme-infinity-toggle hidden lg:inline-flex",
-              themeMode === "light" && "theme-infinity-toggle--light",
-            )}
-            onClick={toggleTheme}
-            type="button"
+          <Link
+            aria-current={pathname === "/inscriere" ? "page" : undefined}
+            className="group hidden min-h-11 items-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.2),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(213,173,107,0.3),inset_0_1px_0_rgba(255,255,255,0.68)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:inline-flex"
+            href="/inscriere"
           >
-            <svg
+            <GraduationCap
               aria-hidden="true"
-              className="theme-infinity-toggle__track"
-              fill="none"
-              viewBox="0 0 96 48"
-            >
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-soft" x1="12" x2="84" y1="24" y2="24">
-                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="18%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="36%" stopColor="currentColor" stopOpacity="0.34" />
-                  <stop offset="50%" stopColor="currentColor" stopOpacity="0" />
-                  <stop offset="64%" stopColor="currentColor" stopOpacity="0.34" />
-                  <stop offset="82%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-mid" x1="12" x2="84" y1="24" y2="24">
-                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="20%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="33%" stopColor="currentColor" stopOpacity="0.42" />
-                  <stop offset="46%" stopColor="currentColor" stopOpacity="0" />
-                  <stop offset="54%" stopColor="currentColor" stopOpacity="0" />
-                  <stop offset="67%" stopColor="currentColor" stopOpacity="0.42" />
-                  <stop offset="80%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient gradientUnits="userSpaceOnUse" id="theme-infinity-taper-core" x1="12" x2="84" y1="24" y2="24">
-                  <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="17%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="28%" stopColor="currentColor" stopOpacity="0.72" />
-                  <stop offset="40%" stopColor="currentColor" stopOpacity="0" />
-                  <stop offset="60%" stopColor="currentColor" stopOpacity="0" />
-                  <stop offset="72%" stopColor="currentColor" stopOpacity="0.72" />
-                  <stop offset="83%" stopColor="currentColor" stopOpacity="1" />
-                  <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
-                </linearGradient>
-              </defs>
-              <path
-                className="theme-infinity-toggle__track-base"
-                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
-                pathLength="1"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                className="theme-infinity-toggle__track-loop-soft"
-                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
-                stroke="url(#theme-infinity-taper-soft)"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                className="theme-infinity-toggle__track-loop-mid"
-                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
-                stroke="url(#theme-infinity-taper-mid)"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                className="theme-infinity-toggle__track-loop-core"
-                d="M84 24C84 12.48 66.85 12.48 48 24C29.15 35.52 12 35.52 12 24C12 12.48 29.15 12.48 48 24C66.85 35.52 84 35.52 84 24Z"
-                stroke="url(#theme-infinity-taper-core)"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-            <span aria-hidden="true" className="theme-infinity-toggle__orb theme-infinity-toggle__sun">
-              <svg className="theme-infinity-toggle__sun-mark" fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" fill="currentColor" r="5.05" />
-                <path
-                  d="M12 2.2V4.7M18.9 5.1L17.1 6.9M21.8 12H19.3M18.9 18.9L17.1 17.1M12 21.8V19.3M5.1 18.9L6.9 17.1M2.2 12H4.7M5.1 5.1L6.9 6.9"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="1.86"
-                />
-              </svg>
-            </span>
-            <span aria-hidden="true" className="theme-infinity-toggle__orb theme-infinity-toggle__moon">
-              <svg className="theme-infinity-toggle__moon-mark" viewBox="0 0 24 24">
-                <path
-                  d="M18.55 16.95C16.85 19.05 13.9 20.1 11.1 19.2C7.15 17.95 4.95 13.75 6.2 9.8C7.1 6.98 9.55 5.04 12.3 4.67C10.96 6.39 10.47 8.72 11.19 10.98C11.94 13.36 13.86 15.13 16.18 15.72C16.98 15.92 17.78 15.99 18.55 16.95Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </span>
-          </button>
+              className="size-[18px] transition-transform duration-300 group-hover:-rotate-6"
+              strokeWidth={1.8}
+            />
+            Înscriere
+          </Link>
           <form
             className={cn(
               "group/search hidden h-11 items-center overflow-hidden rounded-full transition-all duration-500 ease-out lg:flex",
@@ -522,6 +423,14 @@ export function Navbar() {
                 ) : null}
               </div>
             ))}
+            <Link
+              className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.18),inset_0_1px_0_rgba(255,255,255,0.58)]"
+              href="/inscriere"
+              onClick={() => setOpen(false)}
+            >
+              <GraduationCap aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+              Înscriere
+            </Link>
             <form
               className="mt-3 flex rounded-full border border-white/14 bg-white/8 p-1"
               onSubmit={submitSearch}

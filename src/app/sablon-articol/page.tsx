@@ -14,6 +14,11 @@ export const metadata: Metadata = {
     siteName: siteConfig.fullName,
     type: "article",
   },
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+  },
 };
 
 export default function SablonArticolPage() {
