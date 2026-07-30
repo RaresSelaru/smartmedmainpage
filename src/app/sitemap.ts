@@ -64,6 +64,7 @@ const staticRoutes = [
   { path: "/ajutor", changeFrequency: "monthly", priority: 0.5 },
   { path: "/termeni", changeFrequency: "yearly", priority: 0.3 },
   { path: "/confidentialitate", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/politica-cookie", changeFrequency: "yearly", priority: 0.3 },
 ] as const satisfies ReadonlyArray<{
   path: string;
   changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;

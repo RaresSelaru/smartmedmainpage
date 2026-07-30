@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ConsentYouTubeEmbed } from "@/components/consent/consent-youtube-embed";
 import { readStoredContentDocument } from "@/lib/content/legacy";
 import {
   getPublicCmsMediaPath,
@@ -126,20 +127,16 @@ function ContentBlockRenderer({
     return (
       <figure>
         <div className="aspect-video overflow-hidden rounded-3xl bg-smart-abyss">
-          <iframe
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="size-full border-0"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            sandbox="allow-scripts allow-same-origin allow-presentation"
-            src={`https://www.youtube-nocookie.com/embed/${block.videoId}`}
-            title={block.title}
-          />
+          <ConsentYouTubeEmbed title={block.title} videoId={block.videoId} />
         </div>
-        {block.summary ? (
-          <figcaption className="text-sm text-smart-ink/64">{block.summary}</figcaption>
-        ) : null}
+        <figcaption className="text-sm leading-6 text-smart-ink/64">
+          <span className="block font-semibold text-smart-ink/82">
+            {block.title}
+          </span>
+          {block.summary ? (
+            <span className="mt-1 block">{block.summary}</span>
+          ) : null}
+        </figcaption>
       </figure>
     );
   }
@@ -175,13 +172,13 @@ function ContentImage({
   block: ImageBlock;
   getMediaPath: ContentMediaPathResolver;
 }) {
-  const captionParts = [block.caption, block.credit, block.source, block.rights].filter(
+  const metadataParts = [block.credit, block.source, block.rights].filter(
     (value): value is string => Boolean(value),
   );
 
   return (
     <figure>
-      <picture>
+      <picture className="flex max-h-[720px] items-center justify-center overflow-hidden rounded-3xl bg-smart-cream/70">
         <source
           media="(max-width: 700px)"
           srcSet={getMediaPath(block.mediaId, 640)}
@@ -192,15 +189,24 @@ function ContentImage({
         />
         <img
           alt={block.decorative ? "" : block.alt}
-          className="h-auto w-full rounded-3xl object-cover"
+          className="block max-h-[720px] w-auto max-w-full object-contain"
           decoding="async"
           loading="lazy"
           src={getMediaPath(block.mediaId, 1920)}
         />
       </picture>
-      {captionParts.length ? (
-        <figcaption className="text-sm text-smart-ink/64">
-          {captionParts.join(" · ")}
+      {block.caption || metadataParts.length ? (
+        <figcaption className="text-sm leading-6 text-smart-ink/64">
+          {block.caption ? (
+            <span className="block font-semibold text-smart-ink/82">
+              {block.caption}
+            </span>
+          ) : null}
+          {metadataParts.length ? (
+            <span className={block.caption ? "mt-1 block" : "block"}>
+              {metadataParts.join(" · ")}
+            </span>
+          ) : null}
         </figcaption>
       ) : null}
     </figure>

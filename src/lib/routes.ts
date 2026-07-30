@@ -26,9 +26,11 @@ export type AppRoute =
   | "/confidentialitate"
   | "/ajutor";
 
+export type RouteHref = AppRoute | `/#${string}`;
+
 export type RouteItem = {
   label: string;
-  href: AppRoute;
+  href: RouteHref;
   description?: string;
   children?: RouteItem[];
 };
@@ -36,7 +38,7 @@ export type RouteItem = {
 export const navbarRoutes: RouteItem[] = [
   {
     label: "Centrul SmartMed",
-    href: "/",
+    href: "/#centrul-smartmed",
     children: [
       { label: "Centru online", href: "/centru-online" },
       { label: "Centru fizic", href: "/centru-fizic" },

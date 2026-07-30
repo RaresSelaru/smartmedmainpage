@@ -4,13 +4,21 @@ import { LinkNode } from "@lexical/link";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import {
+  $applyNodeReplacement,
+  $getNodeByKey,
   DecoratorNode,
   type DOMExportOutput,
+  type LexicalEditor,
   type NodeKey,
   type SerializedLexicalNode,
   type Spread,
 } from "lexical";
+import { createElement, type ReactNode } from "react";
 
+import {
+  StructuredContentNodeCard,
+  type StructuredContentBlock,
+} from "@/components/admin/structured-content-node-card";
 import { contentBlockSchema } from "@/lib/content/schema";
 import type {
   CalloutBlock,
@@ -18,12 +26,6 @@ import type {
   ReferencesBlock,
   YouTubeBlock,
 } from "@/lib/content/types";
-
-type StructuredContentBlock =
-  | CalloutBlock
-  | ImageBlock
-  | ReferencesBlock
-  | YouTubeBlock;
 
 type SerializedStructuredNode<Block extends StructuredContentBlock> = Spread<
   {
@@ -69,7 +71,7 @@ function parseStructuredBlock<
 
 abstract class SmartMedStructuredNode<
   Block extends StructuredContentBlock,
-> extends DecoratorNode<null> {
+> extends DecoratorNode<ReactNode> {
   protected __block: Block;
 
   constructor(block: Block, key?: NodeKey) {
@@ -84,13 +86,33 @@ abstract class SmartMedStructuredNode<
 
   createDOM(): HTMLElement {
     const element = document.createElement("div");
-    element.hidden = true;
     element.dataset.smartmedEditorNode = this.__block.type;
     return element;
   }
 
-  decorate(): null {
-    return null;
+  decorate(editor: LexicalEditor): ReactNode {
+    const key = this.getKey();
+
+    return createElement(StructuredContentNodeCard, {
+      block: this.getBlock(),
+      onChange: (nextBlock: StructuredContentBlock) => {
+        editor.update(() => {
+          const node = $getNodeByKey(key);
+
+          if (
+            node instanceof SmartMedStructuredNode &&
+            node.getBlock().type === nextBlock.type
+          ) {
+            node.setStructuredBlock(nextBlock);
+          }
+        });
+      },
+      onRemove: () => {
+        editor.update(() => {
+          $getNodeByKey(key)?.remove();
+        });
+      },
+    });
   }
 
   exportDOM(): DOMExportOutput {
@@ -101,6 +123,16 @@ abstract class SmartMedStructuredNode<
 
   getBlock(): Block {
     return this.getLatest().__block;
+  }
+
+  setStructuredBlock(nextBlock: StructuredContentBlock): this {
+    if (nextBlock.type !== this.getBlock().type) {
+      throw new Error("Tipul blocului SmartMed nu poate fi schimbat.");
+    }
+
+    const writable = this.getWritable();
+    writable.__block = nextBlock as Block;
+    return writable;
   }
 
   isInline(): false {
@@ -234,6 +266,18 @@ export class SmartMedReferencesNode extends SmartMedStructuredNode<ReferencesBlo
       version: 1,
     };
   }
+}
+
+export function $createSmartMedImageNode(
+  block: ImageBlock,
+): SmartMedImageNode {
+  return $applyNodeReplacement(new SmartMedImageNode(block));
+}
+
+export function $createSmartMedYouTubeNode(
+  block: YouTubeBlock,
+): SmartMedYouTubeNode {
+  return $applyNodeReplacement(new SmartMedYouTubeNode(block));
 }
 
 export const approvedSmartMedLexicalNodes = [

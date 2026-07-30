@@ -19,7 +19,10 @@ type BlogPostPageContentProps = {
   relatedPosts: PublicBlogSummary[];
 };
 
-export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentProps) {
+export function BlogPostPageContent({
+  post,
+  relatedPosts,
+}: BlogPostPageContentProps) {
   const categoryLabel = getBlogCategory(post.category)?.label ?? "Blog";
 
   return (
@@ -38,16 +41,16 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
             </Link>
           </Reveal>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
+          <div className="mt-9 grid gap-9 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
             <Reveal>
               <div>
                 <span className="rounded-full border border-smart-gold/28 bg-smart-gold/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-smart-gold-light">
                   {categoryLabel}
                 </span>
-                <h1 className="mt-6 max-w-4xl font-serif text-5xl font-semibold leading-[0.96] tracking-[-0.025em] sm:text-7xl">
+                <h1 className="mt-6 max-w-4xl font-serif text-4xl font-semibold leading-[1] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
                   {post.title}
                 </h1>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-smart-white/76">
+                <p className="mt-5 max-w-2xl text-base leading-7 text-smart-white/76 sm:text-lg sm:leading-8">
                   {post.excerpt}
                 </p>
                 <div className="mt-7 flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.12em] text-smart-white/58">
@@ -95,12 +98,16 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
         </div>
       </article>
 
-      <section className="bg-smart-cream py-20 text-smart-ink">
-        <div className="smart-container grid gap-10 lg:grid-cols-[minmax(0,800px)_340px] lg:items-start">
-          <Reveal>
-            <div className="rounded-[32px] border border-smart-abyss/10 bg-white/66 p-6 shadow-[0_22px_70px_rgba(3,17,28,0.12)] sm:p-10">
+      <section className="bg-smart-cream py-12 text-smart-ink sm:py-16 lg:py-20">
+        <div className="blog-reading-layout">
+          <Reveal className="min-w-0">
+            <div className="rounded-[24px] border border-smart-abyss/10 bg-white/72 p-6 shadow-[0_18px_58px_rgba(3,17,28,0.1)] sm:rounded-[28px] sm:p-10 lg:p-12">
               <div className="prose-smart">
-                <ContentRenderer document={post.document} entryId={post.id} schemaVersion={1} />
+                <ContentRenderer
+                  document={post.document}
+                  entryId={post.id}
+                  schemaVersion={1}
+                />
               </div>
               {post.correctionNote ? (
                 <aside
@@ -132,10 +139,10 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
               ) : null}
             </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <aside className="rounded-[30px] border border-smart-abyss/10 bg-smart-abyss p-6 text-smart-white shadow-[0_22px_70px_rgba(3,17,28,0.18)]">
+          <Reveal className="xl:sticky xl:top-28" delay={0.08}>
+            <aside className="rounded-[26px] border border-smart-abyss/10 bg-smart-abyss p-6 text-smart-white shadow-[0_20px_58px_rgba(3,17,28,0.16)]">
               <h2 className="font-serif text-3xl font-semibold">Articole similare</h2>
-              <div className="mt-6 grid gap-4">
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
                 {relatedPosts.length ? (
                   relatedPosts.map((related) => (
                     <Link
@@ -146,7 +153,7 @@ export function BlogPostPageContent({ post, relatedPosts }: BlogPostPageContentP
                       <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-smart-gold-light">
                         {getBlogCategory(related.category)?.label ?? "Blog"}
                       </span>
-                      <h3 className="mt-2 font-serif text-2xl font-semibold leading-none text-smart-white">
+                      <h3 className="mt-2 font-serif text-[1.4rem] font-semibold leading-[1.08] text-smart-white">
                         {related.title}
                       </h3>
                       <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-smart-aqua">

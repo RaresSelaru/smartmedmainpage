@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 
+import { ConsentProvider } from "@/components/consent/consent-provider";
 import { ContentRenderer } from "@/lib/content/renderer";
 import type { ContentDocument } from "@/lib/content/types";
 
@@ -36,7 +37,7 @@ test("renderer escapes text and hardens external links", () => {
   assert.match(html, /rel="noopener noreferrer external"/u);
 });
 
-test("renderer uses only the fixed privacy-enhanced YouTube origin", () => {
+test("renderer does not contact YouTube before external-media consent", () => {
   const document: ContentDocument = {
     version: 1,
     blocks: [
@@ -49,14 +50,87 @@ test("renderer uses only the fixed privacy-enhanced YouTube origin", () => {
     ],
   };
   const html = renderToStaticMarkup(
+    <ConsentProvider>
+      <ContentRenderer document={document} schemaVersion={1} />
+    </ConsentProvider>,
+  );
+
+  assert.match(html, /data-consent-gate="external-media"/u);
+  assert.match(html, /Permite și redă/u);
+  assert.equal(html.includes("youtube-nocookie.com"), false);
+  assert.equal(html.includes("youtube.com/embed"), false);
+});
+
+test("renderer shows image and YouTube titles below their media", () => {
+  const document: ContentDocument = {
+    version: 1,
+    blocks: [
+      {
+        id: "00000000-0000-4000-8000-000000000001",
+        type: "image",
+        mediaId: 24,
+        decorative: false,
+        alt: "Descriere accesibilă a neuronului",
+        caption: "Structura unui neuron",
+        credit: "SmartMed",
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000002",
+        type: "youtube",
+        videoId: "dQw4w9WgXcQ",
+        title: "Cum funcționează neuronul",
+        summary: "Explicație video pe scurt.",
+      },
+    ],
+  };
+  const html = renderToStaticMarkup(
+    <ConsentProvider>
+      <ContentRenderer document={document} schemaVersion={1} />
+    </ConsentProvider>,
+  );
+
+  assert.match(html, /<figcaption[^>]*>[\s\S]*Structura unui neuron/u);
+  assert.match(html, /Structura unui neuron[\s\S]*SmartMed[\s\S]*<\/figcaption>/u);
+  assert.match(html, /<figcaption[^>]*>[\s\S]*Cum funcționează neuronul/u);
+  assert.match(
+    html,
+    /Cum funcționează neuronul[\s\S]*Explicație video pe scurt\.[\s\S]*<\/figcaption>/u,
+  );
+});
+
+test("renderer keeps numbered lists as semantic ordered lists", () => {
+  const document: ContentDocument = {
+    version: 1,
+    blocks: [
+      {
+        id: "00000000-0000-4000-8000-000000000001",
+        type: "list",
+        style: "ordered",
+        items: [
+          {
+            id: "00000000-0000-4000-8000-000000000002",
+            content: [{ type: "text", text: "neuroni" }],
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000003",
+            content: [{ type: "text", text: "inima" }],
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000004",
+            content: [{ type: "text", text: "creier" }],
+          },
+        ],
+      },
+    ],
+  };
+  const html = renderToStaticMarkup(
     <ContentRenderer document={document} schemaVersion={1} />,
   );
 
   assert.match(
     html,
-    /https:\/\/www\.youtube-nocookie\.com\/embed\/dQw4w9WgXcQ/u,
+    /^<ol><li><span>neuroni<\/span><\/li><li><span>inima<\/span><\/li><li><span>creier<\/span><\/li><\/ol>$/u,
   );
-  assert.equal(html.includes("youtube.com/embed"), false);
 });
 
 test("renderer lets an authorized preview replace only the media projection", () => {

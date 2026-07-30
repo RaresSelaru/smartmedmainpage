@@ -22,7 +22,11 @@ import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+  const routePath = href.split("#", 1)[0] || "/";
+
+  return routePath === "/"
+    ? pathname === "/"
+    : pathname === routePath || pathname.startsWith(`${routePath}/`);
 }
 
 const navActionClass =
@@ -249,11 +253,12 @@ export function Navbar() {
                       active && "text-smart-white after:scale-x-100",
                     )}
                     href={item.href}
+                    onClick={(event) => event.currentTarget.blur()}
                   >
                     {item.label}
                     <ChevronDown
                       aria-hidden="true"
-                      className="size-3.5 shrink-0 transition duration-300 group-hover/dropdown:rotate-180"
+                      className="size-3.5 shrink-0 transition duration-300 group-hover/dropdown:rotate-180 group-focus-within/dropdown:rotate-180"
                       strokeWidth={2}
                     />
                   </Link>

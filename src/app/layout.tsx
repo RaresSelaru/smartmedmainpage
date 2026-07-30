@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Cormorant_Garamond, Kaushan_Script, Manrope } from "next/font/google";
 
+import { ConsentManager } from "@/components/consent/consent-manager";
+import { ConsentProvider } from "@/components/consent/consent-provider";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { RouteAwarePublicChrome } from "@/components/layout/route-aware-public-chrome";
@@ -63,14 +65,17 @@ export default function RootLayout({
       className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
-        <StyledComponentsRegistry>
-          <RouteAwarePublicChrome
-            footer={<Footer />}
-            navbar={<Navbar />}
-          >
-            {children}
-          </RouteAwarePublicChrome>
-        </StyledComponentsRegistry>
+        <ConsentProvider>
+          <StyledComponentsRegistry>
+            <RouteAwarePublicChrome
+              footer={<Footer />}
+              navbar={<Navbar />}
+            >
+              {children}
+            </RouteAwarePublicChrome>
+          </StyledComponentsRegistry>
+          <ConsentManager />
+        </ConsentProvider>
       </body>
     </html>
   );

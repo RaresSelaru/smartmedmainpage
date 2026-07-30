@@ -69,6 +69,16 @@ export type AdminContentDetail = {
   workingRevision: AdminContentRevision;
 };
 
+export type AdminContentEditorOption = {
+  id: number;
+  name: string;
+};
+
+export type AdminContentEditorOptions = {
+  categories: AdminContentEditorOption[];
+  tags: AdminContentEditorOption[];
+};
+
 export type AdminRevisionPreview = {
   entryId: number;
   isPublished: boolean;

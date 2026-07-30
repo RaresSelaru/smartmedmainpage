@@ -7,7 +7,7 @@ import { useState, useTransition } from "react";
 
 import { createContentAction } from "@/app/admin/content/actions";
 import { slugifyEditorialTitle } from "@/lib/admin/content-form-utils";
-import type { ContentKind, EditorialSnapshotV1 } from "@/lib/content/types";
+import type { EditorialSnapshotV1 } from "@/lib/content/types";
 
 const fieldClass =
   "min-h-12 w-full rounded-2xl border border-smart-abyss/15 bg-white px-4 py-3 text-sm outline-none focus:border-smart-teal focus:ring-2 focus:ring-smart-aqua/30";
@@ -15,9 +15,7 @@ const fieldClass =
 export function NewContentForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [kind, setKind] = useState<ContentKind>("blog");
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
@@ -25,6 +23,7 @@ export function NewContentForm() {
   function submit() {
     setMessage(null);
     setFieldErrors({});
+    const slug = slugifyEditorialTitle(title);
 
     const snapshot: EditorialSnapshotV1 = {
       authorId: null,
@@ -49,7 +48,7 @@ export function NewContentForm() {
       const result = await createContentAction({
         changeSummary: "Versiune inițială",
         document: { blocks: [], version: 1 },
-        kind,
+        kind: "blog",
         snapshot,
       });
 
@@ -76,15 +75,14 @@ export function NewContentForm() {
 
       <header className="mt-6">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-smart-teal">
-          Conținut nou
+          Articol nou
         </p>
         <h1 className="mt-3 font-serif text-5xl font-semibold leading-none sm:text-6xl">
-          Pornește o versiune editorială
+          Începe simplu
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-7 text-smart-ink/65">
-          Înregistrarea este creată atomic împreună cu prima revizie
-          nemodificabilă. Structura completă poate fi adăugată în editor după
-          creare.
+          Scrie titlul și o descriere scurtă. În pasul următor alegi coperta,
+          etichetele și scrii conținutul articolului.
         </p>
       </header>
 
@@ -95,61 +93,14 @@ export function NewContentForm() {
           submit();
         }}
       >
-        <fieldset className="grid gap-3">
-          <legend className="text-sm font-bold">Canal editorial</legend>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {(
-              [
-                ["blog", "Blog", "Poate fi publicat la /blog."],
-                [
-                  "news",
-                  "News",
-                  "Poate fi salvat și previzualizat, dar publicarea este dezactivată.",
-                ],
-              ] as const
-            ).map(([value, label, description]) => (
-              <label
-                className="flex cursor-pointer gap-3 rounded-2xl border border-smart-abyss/12 bg-smart-cream/45 p-4"
-                key={value}
-              >
-                <input
-                  checked={kind === value}
-                  name="kind"
-                  onChange={() => setKind(value)}
-                  type="radio"
-                  value={value}
-                />
-                <span>
-                  <strong className="block">{label}</strong>
-                  <span className="mt-1 block text-xs leading-5 text-smart-ink/60">
-                    {description}
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        {kind === "news" ? (
-          <p className="rounded-2xl border border-amber-300/45 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
-            Publicarea News nu este activată deoarece canalul public News nu a
-            fost încă implementat.
-          </p>
-        ) : null}
-
         <label className="grid gap-2 text-sm font-bold" htmlFor="new-title">
-          Titlu
+          Titlul articolului
           <input
             className={fieldClass}
             id="new-title"
             maxLength={160}
-            onChange={(event) => {
-              const nextTitle = event.target.value;
-              setTitle(nextTitle);
-              if (!slug || slug === slugifyEditorialTitle(title)) {
-                setSlug(slugifyEditorialTitle(nextTitle));
-              }
-            }}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="De exemplu: Cum înveți mai eficient pentru admitere"
             required
             value={title}
           />
@@ -160,31 +111,14 @@ export function NewContentForm() {
           ))}
         </label>
 
-        <label className="grid gap-2 text-sm font-bold" htmlFor="new-slug">
-          Slug unic
-          <input
-            className={fieldClass}
-            id="new-slug"
-            maxLength={160}
-            onChange={(event) => setSlug(event.target.value)}
-            pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-            required
-            value={slug}
-          />
-          {fieldErrors["snapshot.slug"]?.map((error) => (
-            <span className="text-xs text-red-700" key={error}>
-              {error}
-            </span>
-          ))}
-        </label>
-
         <label className="grid gap-2 text-sm font-bold" htmlFor="new-excerpt">
-          Rezumat
+          Descriere scurtă
           <textarea
             className={`${fieldClass} min-h-28 resize-y`}
             id="new-excerpt"
             maxLength={320}
             onChange={(event) => setExcerpt(event.target.value)}
+            placeholder="Două fraze care explică pe scurt ce va afla cititorul"
             required
             value={excerpt}
           />
@@ -194,6 +128,11 @@ export function NewContentForm() {
           {fieldErrors["snapshot.excerpt"]?.map((error) => (
             <span className="text-xs text-red-700" key={error}>
               {error}
+            </span>
+          ))}
+          {fieldErrors["snapshot.slug"]?.map((error) => (
+            <span className="text-xs text-red-700" key={error}>
+              Titlul nu a putut genera o adresă validă. Adaugă litere sau cifre.
             </span>
           ))}
         </label>
@@ -216,7 +155,7 @@ export function NewContentForm() {
           {pending ? (
             <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
           ) : null}
-          {pending ? "Se creează…" : "Creează versiunea inițială"}
+          {pending ? "Se pregătește…" : "Continuă la copertă și conținut"}
         </button>
       </form>
     </div>

@@ -10,6 +10,7 @@ import {
 } from "@/lib/admin/content-filters";
 import type {
   AdminContentDetail,
+  AdminContentEditorOptions,
   AdminContentListPage,
   AdminContentRevision,
   AdminRevisionPreview,
@@ -83,7 +84,13 @@ const historyItemSchema = z.object({
   createdAt: dateTimeSchema,
   createdBy: z.uuid().nullable(),
   id: z.number().int().positive(),
-  isPublished: z.boolean(),
+  // Older CMS revisions returned SQL NULL for drafts because `false = NULL`
+  // evaluates to NULL in PostgreSQL. Keep the reader compatible while the
+  // database migration below normalizes the RPC contract to a real boolean.
+  isPublished: z
+    .boolean()
+    .nullable()
+    .transform((value) => value ?? false),
   isWorking: z.boolean(),
   revisionNo: z.number().int().positive(),
   schemaVersion: z.number().int().min(0).max(1),
@@ -105,6 +112,11 @@ const detailSchema = z.object({
   history: z.array(historyItemSchema),
   publishedRevision: rawRevisionSchema.nullable(),
   workingRevision: rawRevisionSchema,
+});
+
+const editorOptionSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string().trim().min(1).max(100),
 });
 
 const previewSchema = z.object({
@@ -221,6 +233,47 @@ export async function getAdminContentDetail(
       ? normalizeRevision(parsed.data.publishedRevision)
       : null,
     workingRevision: normalizeRevision(parsed.data.workingRevision),
+  };
+}
+
+export async function getAdminContentEditorOptions(): Promise<AdminContentEditorOptions> {
+  const supabase = await createServerSupabaseClient();
+
+  if (!supabase) {
+    throw new AdminContentRepositoryError("configuration");
+  }
+
+  const [categoriesResult, tagsResult] = await Promise.all([
+    supabase
+      .from("content_categories")
+      .select("id, name")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .order("name", { ascending: true }),
+    supabase
+      .from("content_tags")
+      .select("id, name")
+      .order("name", { ascending: true }),
+  ]);
+
+  const repositoryError = categoriesResult.error ?? tagsResult.error;
+
+  if (repositoryError) {
+    throw new AdminContentRepositoryError("rpc", repositoryError);
+  }
+
+  const categories = z.array(editorOptionSchema).safeParse(
+    categoriesResult.data,
+  );
+  const tags = z.array(editorOptionSchema).safeParse(tagsResult.data);
+
+  if (!categories.success || !tags.success) {
+    throw new AdminContentRepositoryError("data-invalid");
+  }
+
+  return {
+    categories: categories.data,
+    tags: tags.data,
   };
 }
 

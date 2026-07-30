@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeartPulse, Mail, MapPin, Phone } from "lucide-react";
 
+import { ConsentSettingsButton } from "@/components/consent/consent-settings-button";
 import { siteConfig } from "@/lib/site-config";
 
 const siteLinks = [
@@ -18,10 +19,10 @@ const siteLinks = [
 const legalLinks = [
   { label: "Termeni și condiții", href: "/termeni" },
   { label: "Politica de confidențialitate", href: "/confidentialitate" },
-  // TODO: Split into dedicated legal routes when final policy copy is ready.
+  // TODO: Split delivery and return into dedicated legal routes when final policy copy is ready.
   { label: "Politica de livrare", href: "/termeni" },
   { label: "Politica de retur", href: "/termeni" },
-  { label: "Politica cookie", href: "/confidentialitate" },
+  { label: "Politica de cookies", href: "/politica-cookie" },
 ] as const;
 
 export function Footer() {
@@ -88,7 +89,7 @@ export function Footer() {
             </div>
           </div>
 
-          <FooterColumn links={legalLinks} title="Link-uri utile" />
+          <FooterColumn links={legalLinks} showConsentSettings title="Link-uri utile" />
           <FooterColumn links={siteLinks} title="Navigare" />
 
           <div>
@@ -134,9 +135,11 @@ export function Footer() {
 function FooterColumn({
   title,
   links,
+  showConsentSettings = false,
 }: {
   title: string;
   links: ReadonlyArray<{ label: string; href: string }>;
+  showConsentSettings?: boolean;
 }) {
   return (
     <div>
@@ -151,6 +154,11 @@ function FooterColumn({
             {item.label}
           </Link>
         ))}
+        {showConsentSettings ? (
+          <ConsentSettingsButton className="font-serif text-2xl font-semibold italic leading-none text-smart-cream/88 hover:text-smart-aqua">
+            Setări cookie
+          </ConsentSettingsButton>
+        ) : null}
       </div>
     </div>
   );

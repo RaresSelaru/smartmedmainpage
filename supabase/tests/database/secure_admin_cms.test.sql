@@ -4,6 +4,13 @@ set local search_path = public, extensions;
 
 select no_plan();
 
+-- Local development deliberately disables MFA after provisioning. Normalize the
+-- policy inside this rolled-back test transaction so security assertions do not
+-- depend on the developer machine's current local setting.
+update private.admin_security_settings
+set require_mfa = true
+where singleton;
+
 select has_table(
   'private',
   'content_channels',
@@ -645,6 +652,20 @@ select lives_ok(
     )
   ),
   'admin can read the created CMS entry'
+);
+
+select is(
+  (
+    public.cms_get_content(
+      (
+        select (result ->> 'entryId')::bigint
+        from cms_rpc_results
+        where operation = 'blog-create'
+      )
+    ) -> 'history' -> 0 ->> 'isPublished'
+  )::boolean,
+  false,
+  'draft history exposes isPublished as false, never null'
 );
 
 select lives_ok(

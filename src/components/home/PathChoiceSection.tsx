@@ -238,7 +238,7 @@ export function PathChoiceGroup({
 export function PathChoiceSection() {
   return (
     <section
-      className="smartmed-center-choice relative isolate overflow-visible bg-smart-cream px-5 pb-52 text-smart-ink sm:px-7 sm:pb-56 lg:px-8 xl:pb-60"
+      className="smartmed-center-choice relative isolate scroll-mt-28 overflow-visible bg-smart-cream px-5 pb-52 text-smart-ink sm:px-7 sm:pb-56 lg:px-8 xl:pb-60"
       id="centrul-smartmed"
     >
       <div className="relative z-10 mx-auto max-w-[1620px]">

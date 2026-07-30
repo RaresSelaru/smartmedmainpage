@@ -7,6 +7,7 @@ import { requireAdminCapability } from "@/lib/admin/auth";
 import {
   AdminContentRepositoryError,
   getAdminContentDetail,
+  getAdminContentEditorOptions,
 } from "@/lib/admin/content-repository";
 import type { AdminRevisionHistoryItem } from "@/lib/admin/content-types";
 import { cn } from "@/lib/utils";
@@ -107,9 +108,13 @@ export default async function AdminContentEditPage({
   });
 
   let detail;
+  let editorOptions;
 
   try {
-    detail = await getAdminContentDetail(entryId);
+    [detail, editorOptions] = await Promise.all([
+      getAdminContentDetail(entryId),
+      getAdminContentEditorOptions(),
+    ]);
   } catch (error) {
     if (
       error instanceof AdminContentRepositoryError &&
@@ -142,6 +147,7 @@ export default async function AdminContentEditPage({
     <div className="grid gap-10">
       <ContentEditorForm
         detail={detail}
+        options={editorOptions}
         key={`${detail.workingRevision.id}-${detail.entry.status}-${detail.entry.publishedRevisionId ?? "none"}`}
       />
 

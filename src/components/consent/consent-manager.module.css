@@ -1,0 +1,55 @@
+.banner,
+.tab {
+  animation: consent-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.backdrop {
+  animation: consent-fade 220ms ease-out both;
+}
+
+.dialog {
+  animation: consent-dialog 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes consent-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes consent-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes consent-dialog {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner,
+  .tab,
+  .backdrop,
+  .dialog {
+    animation: none;
+  }
+}
