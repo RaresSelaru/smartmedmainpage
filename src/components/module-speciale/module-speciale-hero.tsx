@@ -41,7 +41,7 @@ export function ModuleSpecialeHero() {
         <Reveal className="w-full min-w-0">
           <div className="w-full min-w-0 max-w-[700px]">
             <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[70px] xl:text-[82px] 2xl:text-[90px]">
-              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]">Înțelegere | Strategie | Performanță</span>
+              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]">Înțelegere · Strategie · Performanță</span>
               <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
                 <span className="inline-block">
                   <span className="block">MODULE</span>

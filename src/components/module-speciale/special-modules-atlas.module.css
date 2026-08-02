@@ -50,9 +50,9 @@
   margin: 0 0 1.2rem;
   color: var(--atlas-gold);
   font-family: var(--font-manrope), Manrope, sans-serif;
-  font-size: clamp(0.67rem, 0.78vw, 0.82rem);
+  font-size: 1.375rem;
   font-weight: 800;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.36em;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -669,7 +669,8 @@
   }
 
   .kicker {
-    letter-spacing: 0.2em;
+    font-size: 1.1rem;
+    letter-spacing: 0.24em;
   }
 
   .title {

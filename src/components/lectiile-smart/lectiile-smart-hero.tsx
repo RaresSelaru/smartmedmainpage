@@ -11,11 +11,11 @@ export function LectiileSmartHero() {
       <Image
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-20 object-cover object-[62%_30%] opacity-78 sm:opacity-88 lg:object-[58%_24%] lg:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-20 translate-x-[6%] scale-[0.88] object-cover object-[72%_38%] opacity-78 sm:opacity-88 lg:object-[center_38%] lg:opacity-100"
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/lectiile-smart/1-lectiile-smart-2.png"
+        src="/images/special-modules/lectiile-smart/1-lectiile-smart-4.png"
       />
       <div
         aria-hidden="true"

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Cormorant_Garamond, Kaushan_Script, Manrope } from "next/font/google";
+import { Barlow_Condensed, Cormorant_Garamond, Dancing_Script, Kaushan_Script, Manrope } from "next/font/google";
 
 import { ConsentManager } from "@/components/consent/consent-manager";
 import { ConsentProvider } from "@/components/consent/consent-provider";
@@ -28,6 +28,13 @@ const kaushanScript = Kaushan_Script({
   variable: "--font-script",
   subsets: ["latin", "latin-ext"],
   weight: "400",
+  display: "swap",
+});
+
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing-script",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -62,7 +69,7 @@ export default function RootLayout({
     <html
       lang="ro"
       data-scroll-behavior="smooth"
-      className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} h-full`}
+      className={`${manrope.variable} ${cormorant.variable} ${kaushanScript.variable} ${barlowCondensed.variable} ${dancingScript.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
         <ConsentProvider>

@@ -493,3 +493,22 @@
     transform: none;
   }
 }
+
+.parchmentCopyScript {
+  font-family: var(--font-dancing-script), "Dancing Script", cursive;
+  font-size: clamp(0.74rem, 2cqi, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.32;
+}
+
+.parchmentCopyScript .parchmentEmphasis {
+  font-weight: 700;
+}
+
+@media (max-width: 35rem) {
+  .parchmentCopyScript {
+    font-size: clamp(0.68rem, 3.1vw, 0.78rem);
+    line-height: 1.3;
+  }
+}

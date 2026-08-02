@@ -85,7 +85,7 @@ export function SpecialModulesAtlas() {
         viewport={{ amount: 0.55, once: true }}
         whileInView={{ opacity: 1, y: 0 }}
       >
-        <p className={styles.kicker}>Atlasul performanței SmartMed</p>
+        <p className={styles.kicker}>Axa performanței SmartMed</p>
         <h2 className={styles.title} id="special-modules-atlas-title">
           Module speciale
         </h2>
@@ -93,8 +93,9 @@ export function SpecialModulesAtlas() {
           <i />
         </span>
         <p className={styles.intro}>
-          Opt perspective complementare. O singură structură de gândire construită
-          pentru admiterea la Medicină.
+          Opt perspective complementare<br></br>
+           O singură structură de gândire construită
+          pentru admiterea la Medicină
         </p>
       </motion.header>
 

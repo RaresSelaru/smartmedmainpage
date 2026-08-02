@@ -27,7 +27,7 @@ type Chapter = {
 const chapters: readonly Chapter[] = [
   {
     number: "01",
-    title: "Înțelegere profundă",
+    title: "Baze solide",
     copy: [
       {
         type: "paragraph",
@@ -214,7 +214,11 @@ function ParchmentPanel({ chapter }: { chapter: Chapter }) {
         sizes={sharedImageSizes}
         src="/images/special-modules/pergament-module-speciale-blank.png"
       />
-      <div className={styles.parchmentCopy}>
+      <div
+        className={`${styles.parchmentCopy} ${
+          chapter.number === "01" ? styles.parchmentCopyScript : ""
+        }`}
+      >
         {chapter.copy.map((block, blockIndex) => {
           if (block.type === "list") {
             return (
