@@ -15,7 +15,7 @@ export function LectiileSmartHero() {
         fill
         priority
         sizes="100vw"
-        src="/images/special-modules/lectiile-smart/1-lectiile-smart-4.png"
+        src="/images/special-modules/lectiile-smart/1-lectiile-smart-5.png"
       />
       <div
         aria-hidden="true"
