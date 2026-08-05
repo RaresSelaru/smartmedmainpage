@@ -749,7 +749,7 @@ function SmartEcosystemSection() {
 
   return (
     <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8 lg:pb-36 lg:pt-18">
-      <div className="relative z-10 mx-auto max-w-[1900px] lg:max-w-[1480px]">
+      <div className="relative z-10 mx-auto max-w-[1900px] lg:max-w-[var(--smart-wide-content-max)]">
         <Reveal>
           <div className="mx-auto max-w-4xl text-center">
             <p className={sectionEyebrowClassName}>Citește, învață, comandă</p>
