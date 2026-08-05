@@ -246,7 +246,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "smart-header-shell fixed inset-x-0 top-0 z-50 pt-4 will-change-transform sm:pt-5",
+        "smart-header-shell fixed inset-x-0 top-0 z-50 pt-4 will-change-transform sm:pt-5 lg:pt-4",
         navHidden && "smart-header-shell--hidden pointer-events-none",
       )}
       data-smart-header="true"
@@ -254,7 +254,7 @@ export function Navbar() {
       <nav
         aria-label="Navigație principală"
         className={cn(
-          "smart-nav-container flex min-h-[74px] items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-2xl transition-all duration-500 ease-out sm:px-4 xl:gap-5",
+          "smart-nav-container flex min-h-[74px] items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-2xl transition-all duration-500 ease-out sm:px-4 lg:min-h-[68px] lg:px-3.5 xl:gap-[1.125rem]",
           scrolled
             ? "border-white/14 bg-smart-dark/74 shadow-[0_20px_60px_rgba(3,17,28,0.34)]"
             : "border-white/10 bg-smart-dark/38 shadow-[0_12px_36px_rgba(3,17,28,0.22)]",
@@ -268,12 +268,12 @@ export function Navbar() {
           <Image
             alt=""
             aria-hidden="true"
-            className="size-[65px] shrink-0 object-contain"
+            className="size-[65px] shrink-0 object-contain lg:size-[60px]"
             height={65}
             src="/assets/brand/smartmed-logo-mark.svg"
             width={65}
           />
-          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block xl:hidden 2xl:block 2xl:max-w-[190px]">
+          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block xl:hidden">
             <span className="block font-serif text-xl font-semibold uppercase tracking-[0.16em]">
               {siteConfig.name}
             </span>
@@ -283,7 +283,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <div className="hidden min-w-0 items-center justify-center gap-1 xl:flex 2xl:gap-2">
+        <div className="hidden min-w-0 items-center justify-center gap-1 xl:flex">
           {navbarRoutes.map((item) => {
             const active = isActive(pathname, item.href);
 
@@ -297,7 +297,7 @@ export function Navbar() {
                   <Link
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative flex items-center gap-1 whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
+                      "relative flex items-center gap-1 whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua",
                       "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
                       active && "text-smart-white after:scale-x-100",
                     )}
@@ -335,7 +335,7 @@ export function Navbar() {
               <Link
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua 2xl:px-2.5 2xl:text-sm",
+                  "relative whitespace-nowrap px-1.5 py-3 text-[13px] font-semibold text-smart-white/82 transition hover:text-smart-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua",
                   "after:absolute after:inset-x-2 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-gradient-to-r after:from-transparent after:via-smart-gold-light/80 after:to-transparent after:transition-transform after:duration-300 hover:after:scale-x-100",
                   active && "text-smart-white after:scale-x-100",
                 )}
@@ -387,7 +387,7 @@ export function Navbar() {
             className={cn(
               "group/search hidden h-11 items-center overflow-hidden rounded-full transition-all duration-500 ease-out lg:flex",
               searchExpanded
-                ? "w-52 border border-white/10 bg-white/[0.045] pl-4 pr-1 focus-within:border-smart-aqua/45 focus-within:bg-white/[0.08] focus-within:shadow-[0_12px_30px_rgba(156,206,208,0.16)] 2xl:w-60"
+                ? "w-52 border border-white/10 bg-white/[0.045] pl-4 pr-1 focus-within:border-smart-aqua/45 focus-within:bg-white/[0.08] focus-within:shadow-[0_12px_30px_rgba(156,206,208,0.16)]"
                 : "w-11 border border-transparent bg-transparent px-0",
             )}
             onSubmit={submitSearch}

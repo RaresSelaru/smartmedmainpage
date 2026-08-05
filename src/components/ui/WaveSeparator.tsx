@@ -41,7 +41,7 @@ export function WaveSeparator({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-x-0 z-20 h-36 overflow-hidden sm:h-48",
+        "smart-wave-separator pointer-events-none absolute inset-x-0 z-20 h-36 overflow-hidden sm:h-48",
         position === "top" ? "-top-px rotate-180" : "-bottom-px",
         className,
       )}

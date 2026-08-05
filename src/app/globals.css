@@ -25,6 +25,18 @@
   --smart-glass-border: rgba(255, 255, 255, 0.18);
   --shadow-premium: 0 24px 80px rgba(0, 0, 0, 0.28);
   --shadow-soft: 0 18px 54px rgba(3, 17, 28, 0.18);
+  --smart-public-header-offset: 96px;
+  --smart-content-max: 80rem;
+  --smart-wide-content-max: 90rem;
+  --smart-nav-max: 92.5rem;
+  --smart-desktop-section-space: 6rem;
+  --smart-desktop-wave-space: 10.5rem;
+  --smart-desktop-deep-wave-space: 13rem;
+  --smart-desktop-hero-top: 6rem;
+  --smart-desktop-hero-bottom: 10rem;
+  --smart-module-hero-min: 56.25rem;
+  --smart-module-hero-top: 8rem;
+  --smart-module-hero-bottom: 10rem;
 }
 
 @theme inline {
@@ -60,7 +72,7 @@ html {
   min-height: 100%;
   position: relative;
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: var(--smart-public-header-offset);
 }
 
 body {
@@ -300,12 +312,12 @@ canvas {
 }
 
 .smart-container {
-  width: min(1380px, calc(100% - 2rem));
+  width: min(var(--smart-wide-content-max), calc(100% - 2rem));
   margin-inline: auto;
 }
 
 .smart-nav-container {
-  width: min(1580px, calc(100% - 2rem));
+  width: min(var(--smart-nav-max), calc(100% - 2rem));
   margin-inline: auto;
 }
 
@@ -320,21 +332,46 @@ canvas {
 
 @media (min-width: 640px) {
   .smart-container {
-    width: min(1380px, calc(100% - 3rem));
+    width: min(var(--smart-wide-content-max), calc(100% - 3rem));
   }
 
   .smart-nav-container {
-    width: min(1580px, calc(100% - 3rem));
+    width: min(var(--smart-nav-max), calc(100% - 3rem));
   }
 }
 
 @media (min-width: 1024px) {
+  :root {
+    --smart-public-header-offset: 92px;
+  }
+
   .smart-container {
-    width: min(1380px, calc(100% - 4rem));
+    width: min(var(--smart-wide-content-max), calc(100% - 4rem));
   }
 
   .smart-nav-container {
-    width: min(1580px, calc(100% - 4rem));
+    width: min(var(--smart-nav-max), calc(100% - 4rem));
+  }
+
+  .smart-wave-separator {
+    height: 11rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 899px) {
+  :root {
+    --smart-desktop-section-space: 5rem;
+    --smart-desktop-wave-space: 9.25rem;
+    --smart-desktop-deep-wave-space: 11.5rem;
+    --smart-desktop-hero-top: 5.25rem;
+    --smart-desktop-hero-bottom: 8.5rem;
+    --smart-module-hero-min: 51.25rem;
+    --smart-module-hero-top: 7rem;
+    --smart-module-hero-bottom: 8.5rem;
+  }
+
+  .smart-wave-separator {
+    height: 10rem;
   }
 }
 

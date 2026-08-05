@@ -33,8 +33,8 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-black text-smart-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_8%,rgba(156,206,208,0.12),transparent_28%),radial-gradient(circle_at_82%_20%,rgba(200,168,117,0.10),transparent_26%),linear-gradient(135deg,#000000_0%,#03111c_62%,#000000_100%)]" />
       <div className="grain-overlay" />
-      <div className="smart-container relative z-10 py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.12fr_0.72fr_0.82fr_0.92fr]">
+      <div className="smart-container relative z-10 py-16 lg:py-14">
+        <div className="grid gap-12 lg:grid-cols-[1.12fr_0.72fr_0.82fr_0.92fr] lg:gap-11">
           <div>
             <Link
               aria-label="SmartMed, mergi la pagina principală"
@@ -53,10 +53,10 @@ export function Footer() {
                 </span>
               </span>
             </Link>
-            <blockquote className="mt-8 max-w-sm font-serif text-2xl italic leading-8 text-smart-cream">
+            <blockquote className="mt-8 max-w-sm font-serif text-2xl italic leading-8 text-smart-cream lg:mt-7 lg:text-[1.375rem] lg:leading-[1.875rem]">
               „Nu există scurtături către niciun loc în care merită să mergi.”
             </blockquote>
-            <address className="mt-8 grid gap-4 text-sm not-italic text-smart-muted">
+            <address className="mt-8 grid gap-4 text-sm not-italic text-smart-muted lg:mt-7 lg:gap-3.5">
               <p className="flex items-center gap-3">
                 <MapPin aria-hidden="true" className="size-5 text-smart-aqua" />
                 <span>{siteConfig.contact.location}</span>
@@ -74,7 +74,7 @@ export function Footer() {
                 </a>
               </p>
             </address>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3 lg:mt-7">
               {siteConfig.socialLinks.map((item) => (
                 <a
                   aria-label={item.label}
@@ -94,13 +94,13 @@ export function Footer() {
           <FooterColumn links={siteLinks} title="Navigare" />
 
           <div>
-            <h2 className="font-serif text-3xl font-semibold italic">Protecția consumatorului</h2>
-            <div className="mt-7 grid gap-5">
+            <h2 className="font-serif text-3xl font-semibold italic lg:text-[1.75rem]">Protecția consumatorului</h2>
+            <div className="mt-7 grid gap-5 lg:mt-6 lg:gap-[1.125rem]">
               <TrustPanel label="ANPC" title="Soluționarea alternativă a litigiilor" />
               <TrustPanel label="SOL" title="Soluționarea online a litigiilor" />
             </div>
-            <div className="mt-8 rounded-[26px] border border-white/12 bg-white/[0.055] p-5">
-              <h3 className="font-serif text-2xl font-semibold">Newsletter</h3>
+            <div className="mt-8 rounded-[26px] border border-white/12 bg-white/[0.055] p-5 lg:mt-7 lg:p-[1.125rem]">
+              <h3 className="font-serif text-2xl font-semibold lg:text-[1.375rem]">Newsletter</h3>
               <p className="mt-3 text-sm leading-7 text-smart-muted">
                 {siteConfig.newsletter.description}
               </p>
@@ -126,7 +126,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-white/10 px-5 py-6 text-center font-serif text-xl italic tracking-[0.03em] text-smart-cream">
+      <div className="relative z-10 border-t border-white/10 px-5 py-6 text-center font-serif text-xl italic tracking-[0.03em] text-smart-cream lg:py-[1.375rem] lg:text-lg">
         {year} SmartMed Academy. Toate drepturile rezervate.
       </div>
     </footer>
@@ -144,11 +144,11 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h2 className="font-serif text-3xl font-semibold italic">{title}</h2>
+      <h2 className="font-serif text-3xl font-semibold italic lg:text-[1.75rem]">{title}</h2>
       <div className="mt-6 grid gap-3">
         {links.map((item) => (
           <Link
-            className="font-serif text-2xl font-semibold italic leading-none text-smart-cream/88 transition hover:text-smart-aqua"
+            className="font-serif text-2xl font-semibold italic leading-none text-smart-cream/88 transition hover:text-smart-aqua lg:text-[1.375rem]"
             href={item.href}
             key={`${title}-${item.href}-${item.label}`}
           >
@@ -156,7 +156,7 @@ function FooterColumn({
           </Link>
         ))}
         {showConsentSettings ? (
-          <ConsentSettingsButton className="font-serif text-2xl font-semibold italic leading-none text-smart-cream/88 hover:text-smart-aqua">
+          <ConsentSettingsButton className="font-serif text-2xl font-semibold italic leading-none text-smart-cream/88 hover:text-smart-aqua lg:text-[1.375rem]">
             Setări cookie
           </ConsentSettingsButton>
         ) : null}
@@ -171,10 +171,10 @@ function TrustPanel({ label, title }: { label: string; title: string }) {
       className="grid grid-cols-[0.6fr_1fr] overflow-hidden rounded-[24px] border border-white/12 bg-smart-cream text-smart-ink shadow-[0_18px_44px_rgba(0,0,0,0.20)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_54px_rgba(0,0,0,0.26)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
       href="/termeni"
     >
-      <span className="flex items-center justify-center border-r border-smart-ink/18 px-5 py-6 font-serif text-3xl font-semibold italic">
+      <span className="flex items-center justify-center border-r border-smart-ink/18 px-5 py-6 font-serif text-3xl font-semibold italic lg:px-[1.125rem] lg:py-[1.375rem] lg:text-[1.75rem]">
         {label}
       </span>
-      <span className="flex flex-col items-center justify-center px-5 py-5 text-center">
+      <span className="flex flex-col items-center justify-center px-5 py-5 text-center lg:px-[1.125rem] lg:py-[1.125rem]">
         <span className="font-serif text-lg font-bold uppercase italic leading-5 tracking-[0.08em]">
           {title}
         </span>

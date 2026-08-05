@@ -24,21 +24,21 @@ const dashboardStats = [
 export function OnlineCenterPage() {
   return (
     <>
-      <section className="relative isolate min-h-[760px] overflow-hidden bg-smart-dark px-5 pb-44 pt-32 text-smart-white sm:px-7 lg:px-8">
+      <section className="relative isolate min-h-[760px] overflow-hidden bg-smart-dark px-5 pb-44 pt-32 text-smart-white sm:px-7 lg:min-h-[43.75rem] lg:px-8 lg:pb-[var(--smart-desktop-hero-bottom)] lg:pt-[var(--smart-desktop-hero-top)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_20%,rgba(156,206,208,0.28),transparent_32%),linear-gradient(135deg,#03111c,#071b29_62%,#061622)]" />
         <div className="grain-overlay" />
-        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative z-10 mx-auto grid max-w-[var(--smart-content-max)] items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-11">
           <Reveal>
             <SectionLabel>Centru digital</SectionLabel>
-            <h1 className="mt-5 font-serif text-6xl font-semibold leading-[0.94] tracking-[-0.035em] sm:text-7xl lg:text-8xl">
+            <h1 className="mt-5 font-serif text-6xl font-semibold leading-[0.94] tracking-[-0.035em] sm:text-7xl lg:text-[5.5rem]">
               Centru SmartMed <span className="text-smart-aqua">Online</span>
             </h1>
-            <p className="mt-7 max-w-2xl text-base leading-8 text-smart-muted sm:text-lg">
+            <p className="mt-7 max-w-2xl text-base leading-8 text-smart-muted sm:text-lg lg:mt-6">
               Fundația pentru conturi, cursuri, module, progres, abonamente și acces
               diferențiat este conectată. Catalogul și plățile vor deveni active odată
               cu oferta și furnizorul comercial ales.
             </p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row lg:mt-8 lg:gap-3.5">
               <PremiumButton href="/cont">Intră în cont</PremiumButton>
               <PremiumButton href="/grile" variant="outline">
                 Exersează grile
@@ -47,8 +47,8 @@ export function OnlineCenterPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <GlassCard className="p-6">
-              <div className="flex items-center justify-between gap-4 border-b border-white/12 pb-5">
+            <GlassCard className="p-6 lg:p-[1.375rem]">
+              <div className="flex items-center justify-between gap-4 border-b border-white/12 pb-5 lg:pb-[1.125rem]">
                 <div>
                   <p className="font-serif text-3xl font-semibold">Dashboard preview</p>
                   <p className="mt-1 text-sm text-smart-muted">
@@ -59,7 +59,7 @@ export function OnlineCenterPage() {
                   Premium ready
                 </span>
               </div>
-              <div className="mt-7 grid gap-5">
+              <div className="mt-7 grid gap-5 lg:mt-6 lg:gap-[1.125rem]">
                 {progressPreview.map((item) => (
                   <div key={item.label}>
                     <div className="flex items-center justify-between text-sm">
@@ -72,9 +72,9 @@ export function OnlineCenterPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-7 grid gap-4 sm:grid-cols-3">
+              <div className="mt-7 grid gap-4 sm:grid-cols-3 lg:mt-6 lg:gap-3.5">
                 {dashboardStats.map((item) => (
-                  <div className="rounded-[22px] border border-white/12 bg-white/6 p-4" key={item.label}>
+                  <div className="rounded-[22px] border border-white/12 bg-white/6 p-4 lg:p-3.5" key={item.label}>
                     <SmartIcon className="text-smart-aqua" name={item.icon} />
                     <p className="mt-3 text-xs text-smart-muted">{item.label}</p>
                     <p className="mt-1 font-serif text-3xl font-semibold">{item.value}</p>
@@ -87,15 +87,15 @@ export function OnlineCenterPage() {
         <WaveSeparator fill="cream" />
       </section>
 
-      <section className="relative overflow-hidden bg-smart-cream px-5 py-20 text-smart-ink sm:px-7 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">
+      <section className="relative overflow-hidden bg-smart-cream px-5 py-20 text-smart-ink sm:px-7 lg:px-8 lg:py-[4.5rem]">
+        <div className="mx-auto grid max-w-[var(--smart-content-max)] gap-6 md:grid-cols-3 lg:gap-[1.375rem]">
           {onlineCenterModules.map((module, index) => (
             <Reveal delay={index * 0.06} key={module.title}>
-              <GlassCard className="h-full border-smart-abyss/10 bg-white/55 p-7 text-smart-ink shadow-[0_20px_58px_rgba(3,17,28,0.12)]">
+              <GlassCard className="h-full border-smart-abyss/10 bg-white/55 p-7 text-smart-ink shadow-[0_20px_58px_rgba(3,17,28,0.12)] lg:p-[1.625rem]">
                 <span className="flex size-12 items-center justify-center rounded-full border border-smart-gold/40 bg-smart-cream-deep text-smart-teal">
                   <SmartIcon name={module.icon} />
                 </span>
-                <h2 className="mt-6 font-serif text-3xl font-semibold leading-none">
+                <h2 className="mt-6 font-serif text-3xl font-semibold leading-none lg:mt-[1.375rem] lg:text-[1.75rem]">
                   {module.title}
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-smart-ink/68">
@@ -108,13 +108,13 @@ export function OnlineCenterPage() {
         <WaveSeparator fill="teal" />
       </section>
 
-      <section className="relative overflow-hidden bg-smart-teal px-5 pb-44 pt-24 text-smart-white sm:px-7 lg:px-8">
+      <section className="relative overflow-hidden bg-smart-teal px-5 pb-44 pt-24 text-smart-white sm:px-7 lg:px-8 lg:pb-[var(--smart-desktop-wave-space)] lg:pt-[var(--smart-desktop-section-space)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(156,206,208,0.22),transparent_30%),linear-gradient(135deg,#1f6f78,#0d4351_72%)]" />
         <div className="grain-overlay" />
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="relative z-10 mx-auto grid max-w-[var(--smart-content-max)] gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-9">
           <Reveal>
             <SectionLabel>Acces diferențiat</SectionLabel>
-            <h2 className="mt-4 font-serif text-5xl font-semibold leading-none sm:text-6xl">
+            <h2 className="mt-4 font-serif text-5xl font-semibold leading-none sm:text-6xl lg:text-[3.375rem]">
               Accesul este construit pe niveluri clare
             </h2>
             <p className="mt-5 max-w-xl text-sm leading-7 text-smart-white/72">
@@ -125,9 +125,9 @@ export function OnlineCenterPage() {
           <div className="grid gap-5 sm:grid-cols-2">
             {roleRoadmap.map((item, index) => (
               <Reveal delay={index * 0.05} key={item.role}>
-                <GlassCard className="h-full p-6">
+                <GlassCard className="h-full p-6 lg:p-[1.375rem]">
                   <SmartIcon className="text-smart-aqua" name="shield" />
-                  <h3 className="mt-4 font-serif text-3xl font-semibold">{item.role}</h3>
+                  <h3 className="mt-4 font-serif text-3xl font-semibold lg:text-[1.75rem]">{item.role}</h3>
                   <p className="mt-3 text-sm leading-7 text-smart-white/72">
                     {item.access}
                   </p>
@@ -139,19 +139,19 @@ export function OnlineCenterPage() {
         <WaveSeparator fill="cream" />
       </section>
 
-      <section className="bg-smart-cream px-5 py-20 text-center text-smart-ink sm:px-7 lg:px-8">
+      <section className="bg-smart-cream px-5 py-20 text-center text-smart-ink sm:px-7 lg:px-8 lg:py-[4.5rem]">
         <Reveal>
           <SectionLabel tone="cream">SmartMed Premium</SectionLabel>
-          <h2 className="mx-auto mt-4 max-w-4xl font-serif text-5xl font-semibold leading-none sm:text-6xl">
+          <h2 className="mx-auto mt-4 max-w-4xl font-serif text-5xl font-semibold leading-none sm:text-6xl lg:text-[3.375rem]">
             Cursuri, progres, abonamente și materiale într-o experiență fluidă
           </h2>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex justify-center lg:mt-7">
             <PremiumButton href="/contact">Cere detalii</PremiumButton>
           </div>
         </Reveal>
       </section>
 
-      <div className="relative bg-smart-cream pb-36 sm:pb-48">
+      <div className="relative bg-smart-cream pb-36 sm:pb-48 lg:pb-[var(--smart-desktop-wave-space)]">
         <WaveSeparator fill="teal" variant="relaxed" />
       </div>
       <HorizontalScrollSection
