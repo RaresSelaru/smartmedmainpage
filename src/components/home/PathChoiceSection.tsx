@@ -238,22 +238,22 @@ export function PathChoiceGroup({
 export function PathChoiceSection() {
   return (
     <section
-      className="smartmed-center-choice relative isolate scroll-mt-28 overflow-visible bg-smart-cream px-5 pb-52 text-smart-ink sm:px-7 sm:pb-56 lg:px-8 xl:pb-60"
+      className="smartmed-center-choice relative isolate scroll-mt-28 overflow-visible bg-smart-cream px-5 pb-52 text-smart-ink sm:px-7 sm:pb-56 lg:px-8 lg:pb-[var(--smart-desktop-deep-wave-space)]"
       id="centrul-smartmed"
     >
-      <div className="relative z-10 mx-auto max-w-[1620px]">
+      <div className="relative z-10 mx-auto max-w-[1620px] lg:max-w-[var(--smart-wide-content-max)]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <p className={sectionEyebrowClassName}>Centrul SmartMed</p>
           </div>
         </Reveal>
 
-        <div className="mt-7 xl:grid xl:grid-cols-[minmax(170px,0.5fr)_minmax(760px,2.1fr)_minmax(170px,0.5fr)] xl:items-center xl:gap-5 2xl:gap-8">
+        <div className="mt-7 lg:mt-6 xl:grid xl:grid-cols-[minmax(160px,0.5fr)_minmax(680px,2.1fr)_minmax(160px,0.5fr)] xl:items-center xl:gap-5">
           <Reveal className="hidden xl:block" delay={0.05}>
             <CenterChoiceCopy align="left" choice={smartMedCenterChoices[0]} />
           </Reveal>
 
-          <Reveal className="relative mx-auto w-full max-w-[1040px] 2xl:max-w-[1140px]" delay={0.02} y={16}>
+          <Reveal className="relative mx-auto w-full max-w-[1040px] lg:max-w-[950px]" delay={0.02} y={16}>
             <div className="pointer-events-none absolute inset-x-[10%] bottom-[8%] top-[12%] rounded-full bg-smart-gold/12 blur-3xl" />
             <CenterLungsVisual />
           </Reveal>
@@ -265,7 +265,7 @@ export function PathChoiceSection() {
 
         <Reveal delay={0.08}>
           <div className="mx-auto mt-6 max-w-3xl text-center sm:mt-8 xl:-mt-2">
-            <h2 className="font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+            <h2 className="font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-[64px]">
               Alege drumul tău
             </h2>
             <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
@@ -471,7 +471,7 @@ function CenterChoiceCopy({
   return (
     <div
       className={cn(
-        "smartmed-choice-copy mx-auto max-w-[17rem] text-center text-smart-ink 2xl:max-w-[19rem]",
+        "smartmed-choice-copy mx-auto max-w-[17rem] text-center text-smart-ink",
         align === "right" ? "xl:ml-auto" : "xl:mr-auto",
         isOnline
           ? "smartmed-choice-online-copy smartmed-choice-online-trigger"
@@ -480,7 +480,7 @@ function CenterChoiceCopy({
     >
       <span
         className={cn(
-          "mx-auto flex size-14 items-center justify-center rounded-full border bg-smart-cream/70 shadow-[0_14px_36px_rgba(79,55,22,0.10)]",
+          "mx-auto flex size-14 items-center justify-center rounded-full border bg-smart-cream/70 shadow-[0_14px_36px_rgba(79,55,22,0.10)] lg:size-[52px]",
           isOnline
             ? "border-smart-teal/22 text-smart-teal"
             : "border-smart-gold/44 text-smart-gold",
@@ -490,7 +490,7 @@ function CenterChoiceCopy({
       </span>
       <h3
         className={cn(
-          "smartmed-choice-title mt-5 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          "smartmed-choice-title mt-5 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl lg:text-[43px]",
           isOnline ? "smartmed-choice-online-title" : "smartmed-choice-physical-title",
         )}
       >
@@ -549,12 +549,12 @@ function SmartTrainingSection() {
   const simulationChoice = smartTrainingChoices[1];
 
   return (
-    <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-52 pt-24 text-smart-ink sm:px-7 sm:pb-56 sm:pt-28 lg:px-8 xl:pb-60">
-      <div className="relative z-10 mx-auto max-w-[1620px]">
+    <section className="smart-training-section relative isolate overflow-hidden bg-smart-cream px-5 pb-52 pt-24 text-smart-ink sm:px-7 sm:pb-56 sm:pt-28 lg:px-8 lg:pb-[var(--smart-desktop-deep-wave-space)] lg:pt-[var(--smart-desktop-section-space)]">
+      <div className="relative z-10 mx-auto max-w-[1620px] lg:max-w-[var(--smart-wide-content-max)]">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <p className={sectionEyebrowClassName}>Antrenament aplicat</p>
-            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-[64px]">
               EXERSEAZĂ CU SENS
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
@@ -563,12 +563,12 @@ function SmartTrainingSection() {
           </div>
         </Reveal>
 
-        <div className="mt-9 xl:grid xl:grid-cols-[minmax(190px,0.58fr)_minmax(560px,1.45fr)_minmax(190px,0.58fr)] xl:items-center xl:gap-6 2xl:gap-10">
+        <div className="mt-9 lg:mt-8 xl:grid xl:grid-cols-[minmax(180px,0.58fr)_minmax(520px,1.45fr)_minmax(180px,0.58fr)] xl:items-center xl:gap-6">
           <Reveal className="hidden xl:block" delay={0.05}>
             <TrainingChoiceCopy align="left" choice={grileChoice} />
           </Reveal>
 
-          <Reveal className="relative mx-auto w-full max-w-[620px]" delay={0.02} y={16}>
+          <Reveal className="relative mx-auto w-full max-w-[620px] lg:max-w-[560px]" delay={0.02} y={16}>
             <BrainTrainingVisual leftHref={grileChoice.href} rightHref={simulationChoice.href} />
           </Reveal>
 
@@ -667,8 +667,7 @@ function TrainingChoiceCopy({
   return (
     <div
       className={cn(
-        "smart-training-copy mx-auto max-w-[18rem] text-center text-smart-ink",
-        isGrile ? "xl:max-w-[30rem]" : "xl:max-w-[29rem] 2xl:max-w-[31rem]",
+        "smart-training-copy mx-auto max-w-[18rem] text-center text-smart-ink xl:max-w-[27rem]",
         align === "right" ? "xl:ml-auto" : "xl:mr-auto",
         isGrile
           ? "smart-training-grile-copy smart-training-grile-trigger"
@@ -677,7 +676,7 @@ function TrainingChoiceCopy({
     >
       <span
         className={cn(
-          "mx-auto flex size-16 items-center justify-center rounded-full border bg-smart-cream/72 shadow-[0_16px_38px_rgba(79,55,22,0.10)]",
+          "mx-auto flex size-16 items-center justify-center rounded-full border bg-smart-cream/72 shadow-[0_16px_38px_rgba(79,55,22,0.10)] lg:size-[58px]",
           isGrile
             ? "border-smart-teal/24 text-smart-teal"
             : "border-smart-gold/44 text-smart-gold",
@@ -687,7 +686,7 @@ function TrainingChoiceCopy({
       </span>
       <h3
         className={cn(
-          "smart-training-copy-title mt-6 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          "smart-training-copy-title mt-6 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl lg:mt-5 lg:text-[43px]",
           isGrile ? "smart-training-grile-title" : "smart-training-simulari-title",
         )}
       >
@@ -712,7 +711,7 @@ function TrainingChoiceCopy({
             >
               <SmartIcon className="size-3.5" name="check" />
             </span>
-            <span className="xl:whitespace-nowrap">{benefit}</span>
+            <span>{benefit}</span>
           </li>
         ))}
       </ul>
@@ -749,12 +748,12 @@ function SmartEcosystemSection() {
   const shopChoice = smartEcosystemChoices[1];
 
   return (
-    <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8">
-      <div className="relative z-10 mx-auto max-w-[1900px]">
+    <section className="smart-ecosystem-section relative isolate overflow-hidden bg-smart-cream px-5 pb-36 pt-16 text-smart-ink sm:px-7 sm:pb-40 sm:pt-20 lg:px-8 lg:pb-36 lg:pt-18">
+      <div className="relative z-10 mx-auto max-w-[1900px] lg:max-w-[1480px]">
         <Reveal>
           <div className="mx-auto max-w-4xl text-center">
             <p className={sectionEyebrowClassName}>Citește, învață, comandă</p>
-            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-7xl">
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] text-smart-ink sm:text-6xl lg:text-[64px]">
               ECOSISTEMUL SMARTMED
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-smart-ink/66 sm:text-lg">
@@ -763,20 +762,20 @@ function SmartEcosystemSection() {
           </div>
         </Reveal>
 
-        <div className="mt-10 xl:grid xl:grid-cols-[minmax(250px,0.58fr)_minmax(620px,1.34fr)_minmax(250px,0.58fr)] xl:items-center xl:gap-4 min-[1800px]:grid-cols-[minmax(320px,0.66fr)_minmax(980px,1.8fr)_minmax(320px,0.66fr)] min-[1800px]:gap-6">
-          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-28 xl:block min-[1800px]:-mt-32" delay={0.05}>
+        <div className="mt-10 lg:mt-9 xl:grid xl:grid-cols-[minmax(230px,0.58fr)_minmax(700px,1.6fr)_minmax(230px,0.58fr)] xl:items-center xl:gap-4">
+          <Reveal className="relative z-20 hidden xl:col-start-1 xl:row-start-1 xl:-mt-24 xl:block" delay={0.05}>
             <EcosystemChoiceCopy align="left" choice={blogChoice} />
           </Reveal>
 
           <Reveal
-            className="relative z-10 mx-auto mt-6 w-full max-w-[980px] xl:col-start-2 xl:row-start-1 xl:max-w-none"
+            className="relative z-10 mx-auto mt-6 w-full max-w-[980px] lg:max-w-[900px] xl:col-start-2 xl:row-start-1"
             delay={0.04}
             y={16}
           >
             <EcosystemEyesVisual blogChoice={blogChoice} shopChoice={shopChoice} />
           </Reveal>
 
-          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-28 xl:block min-[1800px]:-mt-32" delay={0.05}>
+          <Reveal className="relative z-20 hidden xl:col-start-3 xl:row-start-1 xl:-mt-24 xl:block" delay={0.05}>
             <EcosystemChoiceCopy align="right" choice={shopChoice} />
           </Reveal>
         </div>
@@ -810,7 +809,7 @@ function EcosystemEyesVisual({
           className="relative z-10 h-auto w-full select-none object-contain"
           height={902}
           priority={false}
-          sizes="(max-width: 768px) 92vw, (max-width: 1280px) 940px, (max-width: 1536px) 64vw, 1480px"
+          sizes="(max-width: 768px) 92vw, (max-width: 1280px) 940px, 900px"
           src="/assets/generated/smartmed-eyes-infinity.svg"
           unoptimized
           width={1920}
@@ -842,7 +841,7 @@ function EcosystemEyesVisual({
           />
         </div>
       </div>
-      <div className="mx-auto mt-20 hidden max-w-[760px] grid-cols-2 gap-5 md:grid">
+      <div className="mx-auto mt-20 hidden max-w-[760px] grid-cols-2 gap-5 md:grid lg:mt-16">
         <EcosystemChoiceButton choice={blogChoice} />
         <EcosystemChoiceButton choice={shopChoice} />
       </div>
@@ -865,7 +864,7 @@ function EcosystemChoiceCopy({
   return (
     <div
       className={cn(
-        "smart-ecosystem-copy mx-auto max-w-[21rem] text-center text-smart-ink xl:max-w-[19.5rem] min-[1800px]:max-w-[21rem]",
+        "smart-ecosystem-copy mx-auto max-w-[21rem] text-center text-smart-ink xl:max-w-[19.5rem]",
         align === "right" ? "xl:mr-auto" : "xl:ml-auto",
         isBlog
           ? "smart-ecosystem-blog-copy smart-ecosystem-blog-trigger"
@@ -882,7 +881,7 @@ function EcosystemChoiceCopy({
       </p>
       <h3
         className={cn(
-          "smart-ecosystem-copy-title mt-4 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl",
+          "smart-ecosystem-copy-title mt-4 font-serif text-4xl font-semibold leading-none text-smart-ink sm:text-5xl lg:text-[43px]",
           isBlog ? "smart-ecosystem-blog-title" : "smart-ecosystem-shop-title",
         )}
       >
@@ -908,7 +907,7 @@ function EcosystemChoiceCopy({
             >
               <SmartIcon className="size-3.5" name="check" />
             </span>
-            <span className="xl:whitespace-nowrap">{benefit}</span>
+            <span>{benefit}</span>
           </li>
         ))}
       </ul>

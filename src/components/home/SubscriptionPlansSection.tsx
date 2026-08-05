@@ -97,7 +97,7 @@ export function SubscriptionPlansSection({ context }: SubscriptionPlansSectionPr
     <section
       aria-labelledby="abonamente-title"
       className={cn(
-        "relative isolate overflow-hidden px-5 py-24 sm:px-7 lg:px-8 lg:py-28",
+        "relative isolate overflow-hidden px-5 py-24 sm:px-7 lg:px-8 lg:py-[var(--smart-desktop-section-space)]",
         styles.section,
       )}
       id="abonamente"
@@ -111,7 +111,7 @@ export function SubscriptionPlansSection({ context }: SubscriptionPlansSectionPr
           <div className="mx-auto max-w-3xl text-center text-smart-ink">
             <p className={sectionEyebrowClassName}>Abonamente SmartMed</p>
             <h2
-              className="mt-4 font-serif text-5xl font-semibold leading-[0.92] tracking-[-0.035em] sm:text-6xl lg:text-7xl"
+              className="mt-4 font-serif text-5xl font-semibold leading-[0.92] tracking-[-0.035em] sm:text-6xl lg:text-[64px]"
               id="abonamente-title"
             >
               Alege cum vrei să începi
@@ -139,7 +139,7 @@ export function SubscriptionPlansSection({ context }: SubscriptionPlansSectionPr
           </span>
         </div>
 
-        <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-3 lg:gap-7">
+        <div className="mt-12 grid items-stretch gap-6 lg:mt-10 lg:grid-cols-3 lg:gap-6">
           {plans.map((plan, index) => (
             <Reveal className="h-full" delay={0.06 * index} key={plan.slug}>
               <PlanCard context={safeContext} plan={plan} />
@@ -165,7 +165,7 @@ function PlanCard({
   return (
     <article
       aria-labelledby={headingId}
-      className={cn("p-6 sm:p-8", styles.card, styles[plan.tone])}
+      className={cn("p-6 sm:p-8 lg:p-7", styles.card, styles[plan.tone])}
     >
       <div className="flex items-start justify-between gap-4">
         <span
@@ -189,14 +189,14 @@ function PlanCard({
 
       <p
         className={cn(
-          "mt-8 text-[0.69rem] font-extrabold uppercase tracking-[0.22em]",
+          "mt-8 text-[0.69rem] font-extrabold uppercase tracking-[0.22em] lg:mt-7",
           styles.accentText,
         )}
       >
         {plan.eyebrow}
       </p>
       <h3
-        className="mt-3 font-serif text-4xl font-semibold leading-none tracking-[-0.025em] text-smart-ink sm:text-[2.65rem]"
+        className="mt-3 font-serif text-4xl font-semibold leading-none tracking-[-0.025em] text-smart-ink sm:text-[2.65rem] lg:text-[38px]"
         id={headingId}
       >
         {plan.name}
@@ -205,7 +205,7 @@ function PlanCard({
         {plan.description}
       </p>
 
-      <div className="my-7 h-px bg-gradient-to-r from-smart-ink/13 via-smart-ink/7 to-transparent" />
+      <div className="my-7 h-px bg-gradient-to-r from-smart-ink/13 via-smart-ink/7 to-transparent lg:my-6" />
       <p className="text-xs font-extrabold uppercase tracking-[0.15em] text-smart-ink/52">
         Include
       </p>
@@ -225,7 +225,7 @@ function PlanCard({
         ))}
       </ul>
 
-      <div className="mt-auto pt-9">
+      <div className="mt-auto pt-9 lg:pt-8">
         <Link
           aria-label={`Alege abonamentul ${plan.name}`}
           className={styles.planLink}

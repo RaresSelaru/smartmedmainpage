@@ -112,14 +112,14 @@ export function HorizontalScrollSection({
   }
 
   return (
-    <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28">
+    <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28 lg:pb-[var(--smart-desktop-wave-space)] lg:pt-[var(--smart-desktop-section-space)]">
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
         <Reveal>
           <div className="mx-auto max-w-4xl text-center">
-            <p className="mx-auto max-w-none text-[22px] font-extrabold uppercase tracking-[0.22em] text-smart-gold-light mr-[-0.22em] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:tracking-[0.50em] lg:mr-[-0.5em]">
+            <p className="mx-auto max-w-none text-[22px] font-extrabold uppercase tracking-[0.22em] text-smart-gold-light mr-[-0.22em] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:text-[20px] lg:tracking-[0.50em] lg:mr-[-0.5em]">
               {eyebrow}
             </p>
-            <h2 className="mt-3 font-serif text-6xl font-semibold leading-none tracking-[-0.025em] sm:text-7xl">
+            <h2 className="mt-3 font-serif text-6xl font-semibold leading-none tracking-[-0.025em] sm:text-7xl lg:text-[64px]">
               {heading}
             </h2>
             <p className="mt-4 text-base leading-8 text-smart-white/74 sm:text-lg">

@@ -155,14 +155,14 @@ export function SpecialModulesSection({
   }
 
   return (
-    <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28">
+    <section className="relative isolate overflow-hidden bg-smart-teal px-0 pb-44 pt-24 text-smart-white sm:pb-48 sm:pt-28 lg:pb-[var(--smart-desktop-wave-space)] lg:pt-[var(--smart-desktop-section-space)]">
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
         <Reveal>
           <div className="mx-auto max-w-4xl text-center">
-            <p className="mx-auto max-w-none text-[22px] font-extrabold uppercase tracking-[0.22em] text-smart-gold-light mr-[-0.22em] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:tracking-[0.50em] lg:mr-[-0.5em]">
+            <p className="mx-auto max-w-none text-[22px] font-extrabold uppercase tracking-[0.22em] text-smart-gold-light mr-[-0.22em] sm:tracking-[0.38em] sm:mr-[-0.38em] lg:text-[20px] lg:tracking-[0.50em] lg:mr-[-0.5em]">
               {eyebrow}
             </p>
-            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] sm:text-6xl lg:text-7xl">
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-none tracking-[-0.015em] sm:text-6xl lg:text-[64px]">
               {heading}
             </h2>
             <p className="mt-4 text-base leading-8 text-smart-white/74 sm:text-lg">
@@ -177,9 +177,9 @@ export function SpecialModulesSection({
         </Reveal>
       </div>
 
-      <div className="relative z-10 mx-auto mt-14 max-w-[1600px] px-5 sm:mt-16 sm:px-7 lg:px-12">
-        <div className="grid items-start gap-6 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16 xl:grid-cols-[360px_minmax(0,1fr)]">
-          <Reveal className="min-w-0 lg:-mt-8 xl:-mt-9">
+      <div className="relative z-10 mx-auto mt-14 max-w-[1600px] px-5 sm:mt-16 sm:px-7 lg:mt-14 lg:max-w-[var(--smart-wide-content-max)] lg:px-10">
+        <div className="grid items-start gap-6 lg:grid-cols-[324px_minmax(0,1fr)] lg:gap-[52px]">
+          <Reveal className="min-w-0 lg:-mt-7">
             <SignatureCard />
           </Reveal>
 
@@ -187,7 +187,7 @@ export function SpecialModulesSection({
             <div className="relative min-w-0 overflow-visible">
               <div className="relative min-w-0 overflow-visible">
                 <div
-                  className="-mx-16 -mb-14 -mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth scroll-pl-[4.75rem] scroll-pr-36 py-6 pb-24 pl-[4.75rem] pr-36 [scrollbar-width:none] sm:scroll-pl-20 sm:scroll-pr-40 sm:pl-20 sm:pr-40 [&::-webkit-scrollbar]:hidden"
+                  className="-mx-16 -mb-14 -mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth scroll-pl-[4.75rem] scroll-pr-36 py-6 pb-24 pl-[4.75rem] pr-36 [scrollbar-width:none] sm:scroll-pl-20 sm:scroll-pr-40 sm:pl-20 sm:pr-40 lg:-mx-14 lg:-mb-12 lg:-mt-5 lg:scroll-pl-[4.5rem] lg:scroll-pr-32 lg:py-5 lg:pb-20 lg:pl-[4.5rem] lg:pr-32 [&::-webkit-scrollbar]:hidden"
                   id="special-modules-rail"
                   onScroll={updateRailState}
                   ref={railRef}
@@ -204,7 +204,7 @@ export function SpecialModulesSection({
 
               <ScrollButton
                 ariaLabel="Module precedente"
-                className="left-0 hover:-translate-x-1 sm:left-1 lg:-left-14"
+                className="left-0 hover:-translate-x-1 sm:left-1 lg:-left-12"
                 direction="left"
                 disabled={!canScrollLeft}
                 onClick={() => scrollRail(-1)}
@@ -212,7 +212,7 @@ export function SpecialModulesSection({
               />
               <ScrollButton
                 ariaLabel="Module următoare"
-                className="right-0 hover:translate-x-1 sm:right-1 lg:-right-12"
+                className="right-0 hover:translate-x-1 sm:right-1 lg:-right-10"
                 direction="right"
                 disabled={!canScrollRight}
                 onClick={() => scrollRail(1)}
@@ -291,12 +291,12 @@ function SignatureCard() {
   return (
     <Link
       aria-label="Module semnătură SmartMed"
-      className="group/signature relative flex min-h-[560px] w-full flex-col overflow-hidden rounded-[28px] border border-smart-gold/38 bg-[linear-gradient(180deg,#fbf7ef_0%,#f3eadb_100%)] px-8 py-9 text-smart-ink shadow-[0_14px_32px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.82)] transition duration-500 ease-out hover:-translate-y-1 hover:border-smart-gold/70 hover:shadow-[0_20px_48px_rgba(3,17,28,0.14),0_0_24px_rgba(200,168,117,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold"
+      className="group/signature relative flex min-h-[560px] w-full flex-col overflow-hidden rounded-[28px] border border-smart-gold/38 bg-[linear-gradient(180deg,#fbf7ef_0%,#f3eadb_100%)] px-8 py-9 text-smart-ink shadow-[0_14px_32px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.82)] transition duration-500 ease-out hover:-translate-y-1 hover:border-smart-gold/70 hover:shadow-[0_20px_48px_rgba(3,17,28,0.14),0_0_24px_rgba(200,168,117,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:min-h-[515px] lg:px-7 lg:py-8"
       href="/module-speciale"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(200,168,117,0.18),transparent_34%),linear-gradient(135deg,rgba(31,111,120,0.04),transparent_42%)]" />
       <div className="relative flex flex-1 flex-col">
-        <div className="mx-auto h-28 w-32 transition duration-500 group-hover/signature:scale-[1.035]">
+        <div className="mx-auto h-28 w-32 transition duration-500 group-hover/signature:scale-[1.035] lg:h-24 lg:w-28">
           <Image
             alt=""
             aria-hidden="true"
@@ -309,28 +309,28 @@ function SignatureCard() {
           />
         </div>
 
-        <div className="mx-auto mt-8 max-w-[16rem] text-center">
-          <h3 className="font-serif text-[2.45rem] font-semibold leading-[0.96] tracking-[-0.018em]">
+        <div className="mx-auto mt-8 max-w-[16rem] text-center lg:mt-6 lg:max-w-[14.5rem]">
+          <h3 className="font-serif text-[2.45rem] font-semibold leading-[0.96] tracking-[-0.018em] lg:text-[35px]">
             Module semnătură SmartMed
           </h3>
-          <p className="mt-5 text-base leading-7 text-smart-ink/72">
+          <p className="mt-5 text-base leading-7 text-smart-ink/72 lg:leading-6">
             Transformăm materia din manual în înțelegere, strategie și progres.
           </p>
-          <span className="mx-auto mt-6 block h-px w-36 bg-gradient-to-r from-transparent via-smart-gold/72 to-transparent" />
+          <span className="mx-auto mt-6 block h-px w-36 bg-gradient-to-r from-transparent via-smart-gold/72 to-transparent lg:mt-5" />
         </div>
 
-        <div className="mt-7 grid gap-5">
+        <div className="mt-7 grid gap-5 lg:mt-6 lg:gap-4">
           {benefits.map(({ icon, title, description }, index) => (
-            <div className="grid grid-cols-[3.25rem_1fr] gap-4" key={title}>
+            <div className="grid grid-cols-[3.25rem_1fr] gap-4 lg:grid-cols-[3rem_1fr] lg:gap-3" key={title}>
               <span
                 className={cn(
-                  "flex size-12 items-center justify-center rounded-full border text-smart-white shadow-[0_12px_28px_rgba(3,17,28,0.12)]",
+                  "flex size-12 items-center justify-center rounded-full border text-smart-white shadow-[0_12px_28px_rgba(3,17,28,0.12)] lg:size-11",
                   index === 1
                     ? "border-smart-gold/50 bg-smart-gold"
                     : "border-smart-teal/24 bg-smart-teal",
                 )}
               >
-                <SmartIcon className="size-6" name={icon} />
+                <SmartIcon className="size-6 lg:size-[22px]" name={icon} />
               </span>
               <span>
                 <span className="block text-sm font-extrabold text-smart-ink">
@@ -360,17 +360,17 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
   return (
     <Link
       aria-label={`${item.title} - ${item.description}`}
-      className="group/card relative isolate flex min-h-[590px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[30px] bg-[#fbf6ec] text-smart-ink shadow-[0_18px_42px_rgba(3,17,28,0.14),0_4px_14px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.76)] transition duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_26px_58px_rgba(3,17,28,0.20),0_0_24px_rgba(215,190,138,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-h-[620px] sm:w-[300px]"
+      className="group/card relative isolate flex min-h-[590px] w-[286px] shrink-0 snap-start flex-col overflow-hidden rounded-[30px] bg-[#fbf6ec] text-smart-ink shadow-[0_18px_42px_rgba(3,17,28,0.14),0_4px_14px_rgba(3,17,28,0.08),inset_0_1px_0_rgba(255,255,255,0.76)] transition duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_26px_58px_rgba(3,17,28,0.20),0_0_24px_rgba(215,190,138,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-h-[620px] sm:w-[300px] lg:min-h-[560px] lg:w-[280px]"
       data-special-module-card="true"
       href={item.href}
     >
-      <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#fbf6ec] sm:h-[358px]">
+      <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#fbf6ec] sm:h-[358px] lg:h-[322px]">
         {imageSrc ? (
           <Image
             alt={item.imageAlt ?? ""}
             className="transition duration-700 ease-out [backface-visibility:hidden] [transform:translateZ(0)] group-hover/card:scale-[1.045]"
             fill
-            sizes="(min-width: 1024px) 300px, 286px"
+            sizes="(min-width: 1024px) 280px, 286px"
             src={imageSrc}
             style={{
               objectFit: item.imageFit ?? "cover",
@@ -394,11 +394,11 @@ function SpecialModuleCard({ item, moduleNumber }: SpecialModuleCardProps) {
         <div className="pointer-events-none absolute inset-x-0 bottom-[-3px] z-10 h-[52%] bg-[linear-gradient(180deg,rgba(251,246,236,0)_0%,rgba(251,246,236,0.08)_32%,rgba(251,246,236,0.28)_62%,rgba(251,246,236,0.68)_86%,#fbf6ec_100%)]" />
       </div>
 
-      <div className="relative z-20 -mt-px flex h-[260px] flex-col items-center bg-[#fbf6ec] px-8 pb-6 pt-[62px] text-center sm:h-[262px] sm:px-9 sm:pb-[26px] sm:pt-16">
+      <div className="relative z-20 -mt-px flex h-[260px] flex-col items-center bg-[#fbf6ec] px-8 pb-6 pt-[62px] text-center sm:h-[262px] sm:px-9 sm:pb-[26px] sm:pt-16 lg:h-auto lg:min-h-[238px] lg:flex-1 lg:px-8 lg:pb-6 lg:pt-14">
         <span className="absolute left-1/2 top-0 z-20 flex size-[3.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[4px] border-[#fbf6ec] bg-[linear-gradient(180deg,#e2c783_0%,#c69d5f_100%)] text-lg font-extrabold text-white shadow-[0_12px_24px_rgba(153,111,43,0.26),0_2px_6px_rgba(3,17,28,0.10)] sm:size-14">
           {moduleNumber}
         </span>
-        <h3 className="font-serif text-[1.9rem] font-semibold leading-[0.96] tracking-[-0.012em] text-smart-ink sm:text-[2rem]">
+        <h3 className="font-serif text-[1.9rem] font-semibold leading-[0.96] tracking-[-0.012em] text-smart-ink sm:text-[2rem] lg:text-[29px]">
           {titleMatch ? (
             <>
               <span className="block">{titleMatch[1]}</span>
@@ -439,7 +439,7 @@ function ScrollButton({
     <button
       aria-label={ariaLabel}
       className={cn(
-        "absolute top-[295px] z-50 inline-flex size-12 -translate-y-1/2 items-center justify-center bg-transparent text-smart-cream/90 transition-[opacity,transform,color] duration-300 ease-out hover:text-smart-gold-light focus-visible:text-smart-gold-light focus-visible:outline-none disabled:pointer-events-none sm:top-[310px]",
+        "absolute top-[295px] z-50 inline-flex size-12 -translate-y-1/2 items-center justify-center bg-transparent text-smart-cream/90 transition-[opacity,transform,color] duration-300 ease-out hover:text-smart-gold-light focus-visible:text-smart-gold-light focus-visible:outline-none disabled:pointer-events-none sm:top-[310px] lg:top-[280px]",
         className,
       )}
       disabled={disabled}

@@ -155,6 +155,19 @@
   transform: translateX(0.25rem);
 }
 
+@media (min-width: 64rem) {
+  .card {
+    border-radius: 1.75rem;
+  }
+
+  .card::after {
+    top: -6.3rem;
+    right: -6.3rem;
+    width: 13.5rem;
+    height: 13.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card::after,

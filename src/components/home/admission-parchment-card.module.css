@@ -196,6 +196,13 @@
   }
 }
 
+@media (min-width: 64rem) {
+  .grid {
+    width: min(88vw, 82rem);
+    gap: min(2vw, 1.75rem);
+  }
+}
+
 @media (min-width: 84rem) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
