@@ -1,106 +1,137 @@
 .story {
   --atlas-ink: #172838;
-  --atlas-muted: rgba(23, 40, 56, 0.62);
-  --atlas-gold: #b9893f;
-  --atlas-gold-soft: rgba(185, 137, 63, 0.38);
+  --atlas-gold: #aa7736;
+  --atlas-gold-soft: rgba(170, 119, 54, 0.34);
   --atlas-paper: #f5ecdf;
   position: relative;
   isolation: isolate;
+  height: 700svh;
   overflow: clip;
   color: var(--atlas-ink);
 }
 
-.chapter {
-  --sheet-gutter: clamp(0.65rem, 1.1vw, 1.25rem);
-  position: relative;
-  display: flex;
-  min-height: clamp(33rem, 55svh, 37rem);
-  align-items: center;
-  padding: clamp(1.9rem, 2.8svh, 2.5rem) clamp(1.25rem, 4vw, 4.75rem);
-  scroll-margin-top: 5.5rem;
-}
-
-.chapter::before {
+.story::before {
   position: absolute;
   z-index: 0;
-  inset: 0.55rem var(--sheet-gutter);
+  inset: 0;
   pointer-events: none;
-  content: "";
-  border: 1px solid rgba(155, 111, 49, 0.22);
   background:
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.3), transparent 28%),
-    linear-gradient(115deg, rgba(255, 252, 246, 0.3), rgba(248, 239, 224, 0.18));
-  box-shadow:
-    inset 0 0 0 0.32rem rgba(255, 255, 255, 0.1),
-    0 0.85rem 2.8rem rgba(72, 49, 20, 0.045);
-  clip-path: polygon(
-    0.65rem 0,
-    calc(100% - 0.65rem) 0,
-    100% 0.65rem,
-    100% calc(100% - 0.65rem),
-    calc(100% - 0.65rem) 100%,
-    0.65rem 100%,
-    0 calc(100% - 0.65rem),
-    0 0.65rem
-  );
+    radial-gradient(circle at 50% 8%, rgba(255, 255, 255, 0.54), transparent 27rem),
+    linear-gradient(rgba(155, 111, 49, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 111, 49, 0.03) 1px, transparent 1px);
+  background-size: auto, 72px 72px, 72px 72px;
+  content: "";
+  opacity: 0.72;
 }
 
-.chapter::after {
-  position: absolute;
+.stickyStage {
+  position: sticky;
   z-index: 1;
-  inset: 1.05rem calc(var(--sheet-gutter) + 0.5rem);
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+  padding: calc(var(--smart-public-header-offset) + clamp(1.7rem, 2.8svh, 1.95rem)) 0
+    clamp(1.25rem, 2.5svh, 2rem);
+  background:
+    radial-gradient(circle at 50% 52%, rgba(255, 252, 246, 0.76), transparent 43%),
+    linear-gradient(115deg, rgba(255, 252, 246, 0.31), rgba(239, 226, 205, 0.18));
+}
+
+.stageGlow {
+  position: absolute;
+  z-index: 0;
+  top: 14%;
+  left: 50%;
+  width: min(72vw, 68rem);
+  height: 72%;
   pointer-events: none;
-  content: "";
-  border: 1px solid rgba(155, 111, 49, 0.1);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.74), transparent 68%);
+  filter: blur(1.7rem);
+  transform: translateX(-50%);
+}
+
+.track {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  perspective: 90rem;
+  perspective-origin: 50% 46%;
+}
+
+.chapter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding-inline: clamp(1rem, 2.2vw, 2rem);
+  place-items: stretch;
 }
 
 .chapterInner {
   position: relative;
-  z-index: 2;
   display: grid;
-  width: min(100%, 92rem);
+  width: min(var(--smart-wide-content-max), 100%);
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
   margin-inline: auto;
-  grid-template-columns: minmax(14rem, 0.55fr) minmax(29rem, 1.36fr) minmax(22.5rem, 1.09fr);
+  grid-template-rows: auto auto;
+  align-content: start;
   align-items: center;
-  gap: clamp(1.4rem, 1.8vw, 2.4rem);
-}
-
-.chapterOdd .chapterInner {
-  grid-template-areas: "heading parchment visual";
-}
-
-.chapterEven .chapterInner {
-  grid-template-columns: minmax(14rem, 0.55fr) minmax(22.5rem, 1.09fr) minmax(29rem, 1.36fr);
-  grid-template-areas: "heading visual parchment";
+  gap: clamp(0.25rem, 0.62svh, 0.52rem);
+  backface-visibility: hidden;
+  transform-origin: 50% 52%;
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
 }
 
 .chapterHeading {
-  grid-area: heading;
-  align-self: center;
-  max-width: 17rem;
+  --atlas-number-size: clamp(3.3rem, 4vw, 4.3rem);
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: fit-content;
+  max-width: min(100%, 60rem);
+  height: clamp(5.6rem, 6vw, 7.2rem);
+  margin-inline: auto;
+  grid-template-columns: var(--atlas-number-size) minmax(0, max-content) var(--atlas-number-size);
+  grid-template-areas: "number lockup .";
+  align-content: end;
+  align-items: center;
+  column-gap: 1.75rem;
+  row-gap: clamp(0.16rem, 0.42svh, 0.32rem);
+  text-align: center;
+  will-change: transform;
 }
 
 .numberMedallion {
   position: relative;
   isolation: isolate;
   display: inline-grid;
-  width: clamp(4.15rem, 4.8vw, 5.15rem);
+  width: var(--atlas-number-size);
   aspect-ratio: 1;
+  grid-area: number;
+  align-self: end;
+  justify-self: end;
   place-items: center;
-  border: 1px solid rgba(160, 108, 39, 0.52);
+  border: 1px solid rgba(160, 108, 39, 0.48);
   border-radius: 999px;
   background:
     radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.98), transparent 27%),
     radial-gradient(circle, rgba(250, 242, 227, 0.98) 0 56%, rgba(225, 202, 164, 0.9) 79%, rgba(246, 235, 216, 0.96) 100%),
     #f3e7d3;
   box-shadow:
-    0 0 0 0.48rem rgba(199, 160, 95, 0.055),
-    inset 0 0 0 0.24rem rgba(255, 255, 255, 0.46),
-    inset 0 -0.38rem 0.7rem rgba(139, 91, 31, 0.08),
-    0 0.75rem 1.85rem rgba(80, 54, 20, 0.11);
+    0 0 0 0.32rem rgba(199, 160, 95, 0.055),
+    inset 0 0 0 0.17rem rgba(255, 255, 255, 0.46),
+    inset 0 -0.25rem 0.55rem rgba(139, 91, 31, 0.08),
+    0 0.55rem 1.4rem rgba(80, 54, 20, 0.11);
   color: #946126;
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.72rem, 2vw, 2.18rem);
+  font-size: clamp(1.5rem, 1.9vw, 1.95rem);
   font-weight: 700;
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: 0.015em;
@@ -108,17 +139,26 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
+.titleLockup {
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  grid-area: lockup;
+  justify-items: center;
+  row-gap: clamp(0.16rem, 0.42svh, 0.32rem);
+}
+
 .numberMedallion::before {
   position: absolute;
   z-index: -1;
-  inset: 0.18rem;
+  inset: 0.15rem;
   border-radius: inherit;
-  content: "";
   background: repeating-conic-gradient(
     from -3deg,
     rgba(151, 99, 34, 0.34) 0deg 2deg,
     transparent 2deg 15deg
   );
+  content: "";
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
 }
@@ -126,64 +166,146 @@
 .numberMedallion::after {
   position: absolute;
   z-index: -1;
-  inset: 0.52rem;
-  border: 1px solid rgba(166, 112, 42, 0.26);
+  inset: 0.38rem;
+  border: 1px solid rgba(166, 112, 42, 0.25);
   border-radius: inherit;
-  box-shadow:
-    0 0 0 0.16rem rgba(255, 255, 255, 0.35),
-    inset 0 0 0 1px rgba(137, 89, 30, 0.08);
+  box-shadow: 0 0 0 0.12rem rgba(255, 255, 255, 0.35);
   content: "";
 }
 
-.headingRule {
-  display: block;
-  width: min(100%, 7.5rem);
-  height: 1px;
-  margin-block: 1.35rem 1rem;
-  background: linear-gradient(90deg, rgba(169, 119, 49, 0.82), transparent);
-}
-
 .chapterHeading p {
-  margin: 0 0 0.55rem;
+  display: flex;
+  width: 100%;
+  max-width: 31rem;
+  margin: 0 auto;
+  align-items: center;
+  justify-self: center;
+  gap: clamp(0.65rem, 1.1vw, 1rem);
   color: #a17234;
-  font-size: clamp(0.66rem, 0.7vw, 0.77rem);
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(0.57rem, 0.62vw, 0.68rem);
   font-weight: 800;
   letter-spacing: 0.2em;
-  line-height: 1.35;
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
+.chapterHeading p::before,
+.chapterHeading p::after {
+  width: 0;
+  min-width: 1.5rem;
+  height: 1px;
+  flex: 1 1 0;
+  background: linear-gradient(90deg, transparent, rgba(169, 119, 49, 0.64));
+  content: "";
+}
+
+.chapterHeading p::after {
+  background: linear-gradient(90deg, rgba(169, 119, 49, 0.64), transparent);
+}
+
 .chapterHeading h2 {
+  width: fit-content;
+  max-width: 56rem;
   margin: 0;
+  justify-self: center;
   color: var(--atlas-ink);
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(2.25rem, 2.75vw, 3.55rem);
+  font-size: clamp(2.4rem, 3.25vw, 3.85rem);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 0.91;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
   text-wrap: balance;
   text-transform: uppercase;
 }
 
 .chapterHeading .chapterTitleCompact {
-  font-size: clamp(1.95rem, 2.2vw, 2.85rem);
-  line-height: 0.95;
+  max-width: 49.5rem;
+  font-size: clamp(1.95rem, 2.7vw, 3.2rem);
+  line-height: 0.92;
+}
+
+.composition {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: start center;
+  will-change: transform;
+}
+
+.sidePanelSlot {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  display: grid;
+  width: clamp(2.65rem, 10.5vw, 5.5rem);
+  min-width: 0;
+  pointer-events: none;
+  place-items: center;
+}
+
+.sidePanelSlotLeft {
+  left: 0;
+  transform: translate(-20%, -50%);
+}
+
+.sidePanelSlotRight {
+  right: 0;
+  transform: translate(20%, -50%);
+}
+
+.sidePanel {
+  position: relative;
+  width: min(100%, 18rem);
+  aspect-ratio: 1080 / 2000;
+  opacity: 0.74;
+  filter:
+    saturate(0.88)
+    contrast(0.98)
+    drop-shadow(0 1.1rem 1.35rem rgba(79, 54, 24, 0.14));
+}
+
+.sidePanelMotion {
+  width: 100%;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: opacity, transform;
+}
+
+.sidePanelArtwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
 }
 
 .parchmentSlot {
   position: relative;
-  grid-area: parchment;
+  z-index: 2;
+  width: min(
+    100%,
+    var(--smart-content-max),
+    calc(116svh - var(--smart-public-header-offset) - 11rem)
+  );
   min-width: 0;
+  justify-self: center;
+  backface-visibility: hidden;
+  transform-origin: 50% 16%;
   will-change: transform;
 }
 
 .parchmentSlot::before {
   position: absolute;
   z-index: -1;
-  inset: 12% 8% 5%;
+  inset: 9% 7% 3%;
   border-radius: 50%;
-  background: rgba(199, 153, 81, 0.2);
-  filter: blur(2.6rem);
+  background: rgba(176, 124, 52, 0.22);
+  filter: blur(2.5rem);
   content: "";
 }
 
@@ -191,9 +313,11 @@
   position: relative;
   display: grid;
   width: 100%;
-  aspect-ratio: 1.5;
+  aspect-ratio: 6 / 5;
   container-type: inline-size;
-  filter: drop-shadow(0 1.4rem 1.15rem rgba(78, 50, 18, 0.2));
+  filter:
+    drop-shadow(0 1.1rem 0.9rem rgba(78, 50, 18, 0.18))
+    drop-shadow(0 2.4rem 2.7rem rgba(74, 49, 19, 0.1));
   place-items: stretch;
 }
 
@@ -205,9 +329,30 @@
   user-select: none;
 }
 
+.parchmentSheen {
+  position: absolute;
+  z-index: 4;
+  inset: 11.5% 6.5% 5%;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent 24%,
+    rgba(255, 249, 228, 0.08) 38%,
+    rgba(255, 255, 255, 0.72) 49%,
+    rgba(224, 183, 114, 0.12) 61%,
+    transparent 76%
+  );
+  border-radius: 42% 42% 8% 8% / 13% 13% 5% 5%;
+  filter: blur(0.55rem);
+  mix-blend-mode: soft-light;
+  transform: translateZ(0);
+  will-change: opacity, transform;
+}
+
 .parchmentCopy {
-  position: relative;
+  position: absolute;
   z-index: 1;
+  inset: 0;
   display: flex;
   min-width: 0;
   min-height: 0;
@@ -215,33 +360,23 @@
   align-items: center;
   justify-content: center;
   padding:
-    clamp(5.2rem, 13.6cqi, 7.2rem)
-    clamp(2.55rem, 10.6cqi, 5.8rem)
-    clamp(2.45rem, 7.2cqi, 4rem);
+    13.5cqi
+    13.5cqi
+    6cqi;
   color: #281d14;
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(0.88rem, 2.25cqi, 1.08rem);
+  font-size: clamp(1rem, 2.4cqi, 1.5rem);
   font-style: normal;
   font-weight: 600;
-  letter-spacing: 0.003em;
-  line-height: 1.15;
+  letter-spacing: 0.002em;
+  line-height: 1.18;
   text-align: center;
   text-wrap: pretty;
 }
 
-.chapter:not(:first-child) .parchmentCopy {
-  font-size: clamp(0.92rem, 2.36cqi, 1.14rem);
-  line-height: 1.13;
-}
-
-.chapter:nth-child(3) .parchmentCopy {
-  padding-bottom: clamp(2.75rem, 8.1cqi, 4.35rem);
-  line-height: 1.11;
-}
-
 .parchmentCopy p {
   width: 100%;
-  max-width: 50rem;
+  max-width: 100%;
   margin: 0;
 }
 
@@ -251,12 +386,6 @@
   margin-top: 0.48em;
 }
 
-.chapter:nth-child(3) .parchmentCopy p + p,
-.chapter:nth-child(3) .parchmentCopy p + ul,
-.chapter:nth-child(3) .parchmentCopy ul + p {
-  margin-top: 0.4em;
-}
-
 .parchmentEmphasis {
   font-weight: 700;
 }
@@ -264,9 +393,9 @@
 .parchmentList {
   display: grid;
   width: 100%;
-  max-width: 50rem;
-  gap: 0.08em;
-  margin: 0.2em 0 0;
+  max-width: 100%;
+  gap: 0.06em;
+  margin: 0.18em 0 0;
   padding: 0;
   list-style: none;
 }
@@ -280,238 +409,318 @@
   margin-right: 0.33em;
   color: #94652e;
   content: "◆";
-  font-size: 0.52em;
+  font-size: 0.5em;
   transform: translateY(-0.15em) rotate(45deg);
-}
-
-.visualSlot {
-  display: grid;
-  grid-area: visual;
-  min-width: 0;
-  place-items: center;
-  will-change: transform;
-}
-
-.visualFrame {
-  width: 100%;
-  max-width: 34rem;
-  aspect-ratio: 67 / 54;
-  margin: 0;
-  background: url("../../assets/smartmed-chapter-visual.webp") center / contain no-repeat;
-  filter: drop-shadow(0 1.35rem 1.75rem rgba(71, 50, 23, 0.13));
-}
-
-@media (max-width: 80rem) {
-  .chapter {
-    min-height: auto;
-    padding-block: 2.5rem;
-  }
-
-  .chapterInner {
-    width: min(100%, 72rem);
-    grid-template-columns: minmax(19rem, 0.82fr) minmax(31rem, 1.18fr);
-    gap: 1.65rem clamp(2rem, 3.2vw, 2.75rem);
-  }
-
-  .chapterEven .chapterInner {
-    grid-template-columns: minmax(31rem, 1.18fr) minmax(19rem, 0.82fr);
-  }
-
-  .chapterOdd .chapterInner {
-    grid-template-areas:
-      "heading heading"
-      "visual parchment";
-  }
-
-  .chapterEven .chapterInner {
-    grid-template-areas:
-      "heading heading"
-      "parchment visual";
-  }
-
-  .chapterHeading {
-    display: grid;
-    max-width: none;
-    grid-template-columns: auto minmax(4rem, 7rem) 1fr;
-    grid-template-rows: auto auto;
-    align-items: center;
-    column-gap: 1.2rem;
-  }
-
-  .numberMedallion {
-    grid-row: 1 / 3;
-  }
-
-  .headingRule {
-    width: 100%;
-    margin: 0;
-  }
-
-  .chapterHeading p {
-    margin: 0;
-  }
-
-  .chapterHeading h2 {
-    grid-column: 2 / 4;
-    margin-top: 0.35rem;
-    font-size: clamp(2.55rem, 5vw, 4rem);
-  }
-
-  .chapterHeading .chapterTitleCompact {
-    font-size: clamp(2.3rem, 4.5vw, 3.55rem);
-  }
-
-}
-
-@media (max-width: 52rem) {
-  .chapter {
-    min-height: auto;
-    padding: 2.75rem 1rem 2.5rem;
-  }
-
-  .chapterInner,
-  .chapterOdd .chapterInner,
-  .chapterEven .chapterInner {
-    width: min(100%, 45rem);
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "heading"
-      "parchment"
-      "visual";
-    gap: 1.25rem;
-  }
-
-  .chapterHeading {
-    grid-template-columns: auto minmax(2.5rem, 5rem) 1fr;
-    column-gap: 1rem;
-  }
-
-  .chapterHeading h2 {
-    font-size: clamp(2.45rem, 8.5vw, 4rem);
-  }
-
-  .chapterHeading .chapterTitleCompact {
-    font-size: clamp(2.1rem, 7.4vw, 3.15rem);
-  }
-
-  .visualSlot {
-    width: min(100%, 34rem);
-    justify-self: center;
-  }
-
-  .parchmentSlot,
-  .visualSlot {
-    transform: none !important;
-  }
-
-  .parchmentSlot {
-    width: min(100%, 45rem);
-    justify-self: center;
-  }
-
-}
-
-@media (max-width: 35rem) {
-  .chapter {
-    padding: 2.25rem 0.7rem 2rem;
-  }
-
-  .chapterInner,
-  .chapterOdd .chapterInner,
-  .chapterEven .chapterInner {
-    gap: 1.1rem;
-  }
-
-  .chapterHeading {
-    padding-inline: 0.35rem;
-    grid-template-columns: auto 2.75rem 1fr;
-    column-gap: 0.75rem;
-  }
-
-  .chapterHeading h2 {
-    font-size: clamp(2.15rem, 10vw, 3.2rem);
-  }
-
-  .chapterHeading .chapterTitleCompact {
-    font-size: clamp(1.95rem, 8.3vw, 2.55rem);
-  }
-
-  .chapterHeading p {
-    font-size: 0.59rem;
-    letter-spacing: 0.15em;
-  }
-
-  .numberMedallion {
-    width: 3.85rem;
-    font-size: 1.62rem;
-  }
-
-  .parchment {
-    min-height: clamp(37rem, 168vw, 45rem);
-    aspect-ratio: auto;
-  }
-
-  .parchmentCopy {
-    padding:
-      clamp(6.1rem, 27vw, 7.2rem)
-      clamp(2.15rem, 9.5vw, 2.8rem)
-      clamp(3rem, 13vw, 3.8rem);
-    font-size: clamp(0.82rem, 3.7vw, 0.92rem);
-    line-height: 1.14;
-  }
-
-  .chapter:not(:first-child) .parchmentCopy {
-    font-size: clamp(0.85rem, 3.85vw, 0.96rem);
-    line-height: 1.13;
-  }
-
-  .chapter:nth-child(3) .parchmentCopy {
-    padding-bottom: clamp(3.25rem, 14.5vw, 4.1rem);
-    line-height: 1.11;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .visualFrame {
-    transition:
-      filter 320ms ease,
-      transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .visualFrame:hover {
-    filter: drop-shadow(0 1.65rem 2.1rem rgba(71, 50, 23, 0.17));
-    transform: translateY(-0.35rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .parchmentSlot,
-  .visualSlot {
-    will-change: auto;
-  }
-
-  .visualFrame,
-  .visualFrame:hover {
-    transition: none;
-    transform: none;
-  }
 }
 
 .parchmentCopyScript {
   font-family: var(--font-dancing-script), "Dancing Script", cursive;
-  font-size: clamp(0.74rem, 2cqi, 0.95rem);
+  font-size: clamp(0.95rem, 2.2cqi, 1.38rem);
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 1.32;
+  line-height: 1.27;
 }
 
 .parchmentCopyScript .parchmentEmphasis {
   font-weight: 700;
 }
 
+.parchmentCopyDense {
+  line-height: 1.12;
+}
+
+.parchmentCopyDense p + p,
+.parchmentCopyDense p + ul,
+.parchmentCopyDense ul + p {
+  margin-top: 0.38em;
+}
+
+@media (min-width: 70.01rem) {
+  .composition {
+    grid-template-columns:
+      clamp(10.5rem, 16vw, 18rem)
+      minmax(0, 1fr)
+      clamp(10.5rem, 16vw, 18rem);
+    column-gap: clamp(0.6rem, 1.1vw, 1rem);
+    align-items: center;
+  }
+
+  .sidePanelSlot {
+    position: relative;
+    z-index: 1;
+    top: auto;
+    width: 100%;
+    align-self: center;
+    transform: none;
+  }
+
+  .sidePanelSlotLeft {
+    left: auto;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .sidePanelSlotRight {
+    right: auto;
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .sidePanel {
+    opacity: 0.86;
+  }
+
+  .parchmentSlot {
+    width: min(
+      100%,
+      var(--smart-content-max),
+      calc(110svh - var(--smart-public-header-offset) - 11rem)
+    );
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 70rem) {
+  .chapter {
+    padding-inline: 1.25rem;
+  }
+
+}
+
+@media (min-width: 52.01rem) and (max-height: 55rem) {
+  .stickyStage {
+    padding-top: calc(var(--smart-public-header-offset) + 1.35rem);
+    padding-bottom: 0.85rem;
+  }
+
+  .chapterInner {
+    gap: 0.3rem;
+  }
+
+  .chapterHeading {
+    height: 5.7rem;
+  }
+
+  .parchmentSlot {
+    width: min(
+      100%,
+      var(--smart-content-max),
+      calc(117svh - var(--smart-public-header-offset) - 11rem)
+    );
+  }
+
+  .chapterHeading h2 {
+    font-size: clamp(2.1rem, 3vw, 3.2rem);
+  }
+
+  .chapterHeading .chapterTitleCompact {
+    font-size: clamp(1.72rem, 2.45vw, 2.6rem);
+  }
+
+  .numberMedallion {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 52rem) {
+  .stickyStage {
+    padding: calc(var(--smart-public-header-offset) + 1.45rem) 0 1rem;
+  }
+
+  .chapter {
+    padding-inline: 0.8rem;
+  }
+
+  .chapterInner {
+    width: min(100%, var(--smart-content-max));
+    gap: 0.45rem;
+  }
+
+  .chapterHeading {
+    max-width: min(100%, 43rem);
+    height: 8.8rem;
+  }
+
+  .chapterHeading h2 {
+    max-width: 42rem;
+    font-size: clamp(2.2rem, 6.5vw, 3.35rem);
+  }
+
+  .chapterHeading .chapterTitleCompact {
+    max-width: 40rem;
+    font-size: clamp(1.85rem, 5.7vw, 2.8rem);
+  }
+
+  .composition {
+    width: min(100%, 47rem);
+    margin-inline: auto;
+  }
+
+  .parchmentSlot {
+    width: min(100%, 47rem);
+  }
+}
+
 @media (max-width: 35rem) {
+  .stickyStage {
+    padding: calc(var(--smart-public-header-offset) + 1.2rem) 0 0.8rem;
+  }
+
+  .chapter {
+    padding-inline: 0.55rem;
+  }
+
+  .chapterInner {
+    gap: 0.2rem;
+  }
+
+  .chapterHeading {
+    --atlas-number-size: 3rem;
+    height: 5.5rem;
+    column-gap: 1.75rem;
+    max-width: 100%;
+    grid-template-columns: var(--atlas-number-size) minmax(0, max-content) var(--atlas-number-size);
+  }
+
+  .numberMedallion {
+    width: var(--atlas-number-size);
+    font-size: 1.32rem;
+  }
+
+  .numberMedallion::after {
+    inset: 0.34rem;
+  }
+
+  .chapterHeading p {
+    width: min(100%, 18rem);
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+  }
+
+  .chapterHeading p::before,
+  .chapterHeading p::after {
+    width: 1.2rem;
+    min-width: 1rem;
+  }
+
+  .chapterHeading h2 {
+    max-width: 22rem;
+    margin-top: 0.22rem;
+    font-size: clamp(1.72rem, 7.9vw, 2.15rem);
+    line-height: 0.9;
+  }
+
+  .chapterHeading .chapterTitleCompact {
+    max-width: 22rem;
+    font-size: clamp(1.38rem, 6.5vw, 1.72rem);
+    line-height: 0.93;
+  }
+
+  .composition {
+    width: 100%;
+  }
+
+  .parchmentSlot {
+    width: 100%;
+  }
+
+  .parchment {
+    height: clamp(34rem, 71svh, 38rem);
+    aspect-ratio: auto;
+  }
+
+  .parchmentCopy {
+    padding:
+      clamp(5.4rem, 23cqi, 6.1rem)
+      12.5cqi
+      8cqi;
+    font-size: clamp(0.82rem, 3.65cqi, 0.9rem);
+    line-height: 1.17;
+  }
+
   .parchmentCopyScript {
-    font-size: clamp(0.68rem, 3.1vw, 0.78rem);
-    line-height: 1.3;
+    font-size: clamp(0.82rem, 3.6cqi, 0.9rem);
+    line-height: 1.24;
+  }
+
+  .parchmentCopyDense {
+    line-height: 1.1;
+  }
+
+  .parchmentCopy p + p,
+  .parchmentCopy p + ul,
+  .parchmentCopy ul + p {
+    margin-top: 0.4em;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story {
+    height: auto;
+  }
+
+  .stickyStage {
+    position: relative;
+    height: auto;
+    overflow: clip;
+    padding: clamp(3.5rem, var(--smart-desktop-section-space), 6rem) 0;
+  }
+
+  .track {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .chapter {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    min-height: min(52rem, 100svh);
+    padding: clamp(2.25rem, 5vw, 4.5rem) clamp(0.75rem, 2.2vw, 2rem);
+  }
+
+  .chapter + .chapter {
+    border-top: 1px solid rgba(155, 111, 49, 0.14);
+  }
+
+  .chapterInner {
+    min-height: 0;
+    gap: clamp(1rem, 2vw, 1.65rem);
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .chapterHeading,
+  .parchmentSlot,
+  .sidePanelMotion,
+  .composition {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .sidePanelMotion {
+    opacity: 1 !important;
+  }
+
+  .parchmentSheen {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 35rem) {
+  .stickyStage {
+    padding-block: 2.25rem;
+  }
+
+  .chapter {
+    min-height: 0;
+    padding-block: 2.5rem;
   }
 }

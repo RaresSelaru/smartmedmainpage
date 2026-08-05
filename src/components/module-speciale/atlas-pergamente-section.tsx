@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  type MotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useRef } from "react";
 
 import styles from "./atlas-pergamente-section.module.css";
@@ -21,6 +28,7 @@ type Chapter = {
   number: string;
   title: string;
   compactTitle?: boolean;
+  denseCopy?: boolean;
   copy: readonly CopyBlock[];
 };
 
@@ -89,6 +97,7 @@ const chapters: readonly Chapter[] = [
   {
     number: "03",
     title: "Legături inteligente",
+    denseCopy: true,
     copy: [
       {
         type: "paragraph",
@@ -127,6 +136,7 @@ const chapters: readonly Chapter[] = [
   {
     number: "04",
     title: "Strategii de succes",
+    denseCopy: true,
     copy: [
       {
         type: "paragraph",
@@ -163,6 +173,7 @@ const chapters: readonly Chapter[] = [
     number: "05",
     title: "De ce fac diferența modulele speciale SmartMed?",
     compactTitle: true,
+    denseCopy: true,
     copy: [
       {
         type: "paragraph",
@@ -200,7 +211,10 @@ const chapters: readonly Chapter[] = [
 ];
 
 const sharedImageSizes =
-  "(max-width: 768px) 100vw, (max-width: 1200px) 58vw, 44vw";
+  "(max-width: 560px) calc(100vw - 1.1rem), (max-width: 832px) calc(100vw - 1.6rem), (max-width: 1440px) 62vw, (max-width: 1920px) 52vw, 1280px";
+
+const transitionStarts = [0.105, 0.355, 0.605, 0.855] as const;
+const transitionEnds = [0.185, 0.435, 0.685, 0.935] as const;
 
 function ParchmentPanel({ chapter }: { chapter: Chapter }) {
   return (
@@ -212,12 +226,14 @@ function ParchmentPanel({ chapter }: { chapter: Chapter }) {
         fill
         loading={chapter.number === "01" ? "eager" : "lazy"}
         sizes={sharedImageSizes}
-        src="/images/special-modules/pergament-module-speciale-blank.png"
+        src="/images/special-modules/parchment-scroll.png"
       />
       <div
         className={`${styles.parchmentCopy} ${
           chapter.number === "01" ? styles.parchmentCopyScript : ""
-        }`}
+        } ${chapter.denseCopy ? styles.parchmentCopyDense : ""}`}
+        data-atlas-copy="true"
+        data-atlas-copy-density={chapter.denseCopy ? "dense" : "standard"}
       >
         {chapter.copy.map((block, blockIndex) => {
           if (block.type === "list") {
@@ -244,87 +260,286 @@ function ParchmentPanel({ chapter }: { chapter: Chapter }) {
   );
 }
 
-function SharedChapterVisual() {
-  return <div aria-hidden="true" className={styles.visualFrame} />;
+function SidePanel({ side }: { side: "left" | "right" }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`${styles.sidePanel} ${
+        side === "left" ? styles.sidePanelLeft : styles.sidePanelRight
+      }`}
+      data-atlas-panel={side}
+    >
+      <Image
+        alt=""
+        className={styles.sidePanelArtwork}
+        height={2000}
+        sizes="(max-width: 560px) 3.75rem, (max-width: 832px) 5.25rem, (max-width: 1120px) 7rem, (max-width: 1440px) 16vw, 18rem"
+        src="/images/special-modules/parchment-side-panel.png"
+        width={1080}
+      />
+    </div>
+  );
 }
 
-function StoryChapter({ chapter, index }: { chapter: Chapter; index: number }) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const parchmentOffset = useTransform(scrollYProgress, [0, 1], [28, -28]);
-  const visualOffset = useTransform(scrollYProgress, [0, 1], [-22, 22]);
-  const parchmentY = useSpring(parchmentOffset, { damping: 28, stiffness: 120, mass: 0.45 });
-  const visualY = useSpring(visualOffset, { damping: 30, stiffness: 115, mass: 0.5 });
-  const isEven = index % 2 === 1;
-  const transition = reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const };
+type StoryChapterProps = {
+  chapter: Chapter;
+  index: number;
+  progress: MotionValue<number>;
+  reduceMotion: boolean;
+};
+
+function StoryChapter({ chapter, index, progress, reduceMotion }: StoryChapterProps) {
+  const isFirst = index === 0;
+  const isLast = index === chapters.length - 1;
+  const entryStart = isFirst ? 0 : transitionStarts[index - 1];
+  const entryEnd = isFirst ? 0 : transitionEnds[index - 1];
+  const entryFadeStart = entryStart + (entryEnd - entryStart) * 0.42;
+  const exitStart = isLast ? 1 : transitionStarts[index];
+  const exitEnd = isLast ? 1 : transitionEnds[index];
+  const exitFadeEnd = exitStart + (exitEnd - exitStart) * 0.58;
+
+  const sceneRange = isFirst
+    ? [0, transitionStarts[0], transitionEnds[0], 1]
+    : isLast
+      ? [0, transitionStarts[index - 1], transitionEnds[index - 1], 1]
+      : [
+          0,
+          transitionStarts[index - 1],
+          transitionEnds[index - 1],
+          transitionStarts[index],
+          transitionEnds[index],
+          1,
+        ];
+  const sceneY = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, -26, -26]
+      : isLast
+        ? [34, 34, 0, 0]
+        : [34, 34, 0, 0, -26, -26],
+  );
+  const opacityRange = isFirst
+    ? [0, transitionStarts[0], exitFadeEnd, 1]
+    : isLast
+      ? [0, entryFadeStart, entryEnd, 1]
+      : [0, entryFadeStart, entryEnd, transitionStarts[index], exitFadeEnd, 1];
+  const opacity = useTransform(
+    progress,
+    opacityRange,
+    isFirst
+      ? [1, 1, 0, 0]
+      : isLast
+        ? [0, 0, 1, 1]
+        : [0, 0, 1, 1, 0, 0],
+  );
+  const scale = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [1, 1, 0.996, 0.996]
+      : isLast
+        ? [0.995, 0.995, 1, 1]
+        : [0.995, 0.995, 1, 1, 0.996, 0.996],
+  );
+  const rotateX = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, -0.65, -0.65]
+      : isLast
+        ? [1.2, 1.2, 0, 0]
+        : [1.2, 1.2, 0, 0, -0.65, -0.65],
+  );
+  const headingY = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, -12, -12]
+      : isLast
+        ? [18, 18, 0, 0]
+        : [18, 18, 0, 0, -12, -12],
+  );
+  const parchmentY = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, -20, -20]
+      : isLast
+        ? [26, 26, 0, 0]
+        : [26, 26, 0, 0, -20, -20],
+  );
+  const parchmentScale = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [1, 1, 0.996, 0.996]
+      : isLast
+        ? [0.985, 0.985, 1, 1]
+        : [0.985, 0.985, 1, 1, 0.996, 0.996],
+  );
+  const sideOpacity = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [1, 1, 0.34, 0.34]
+      : isLast
+        ? [0.24, 0.24, 1, 1]
+        : [0.24, 0.24, 1, 1, 0.34, 0.34],
+  );
+  const leftPanelX = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, -24, -24]
+      : isLast
+        ? [-38, -38, 0, 0]
+        : [-38, -38, 0, 0, -24, -24],
+  );
+  const rightPanelX = useTransform(
+    progress,
+    sceneRange,
+    isFirst
+      ? [0, 0, 24, 24]
+      : isLast
+        ? [38, 38, 0, 0]
+        : [38, 38, 0, 0, 24, 24],
+  );
+  const sheenRange = isFirst
+    ? [0, 1]
+    : [0, entryStart, (entryStart + entryEnd) / 2, entryEnd, 1];
+  const sheenOpacity = useTransform(
+    progress,
+    sheenRange,
+    isFirst ? [0, 0] : [0, 0, 0.58, 0, 0],
+  );
+  const sheenX = useTransform(
+    progress,
+    sheenRange,
+    isFirst ? ["-70%", "-70%"] : ["-70%", "-70%", "0%", "70%", "70%"],
+  );
 
   return (
     <article
       aria-labelledby={`special-module-chapter-${chapter.number}`}
-      className={`${styles.chapter} ${isEven ? styles.chapterEven : styles.chapterOdd}`}
-      ref={sectionRef}
+      className={styles.chapter}
+      data-atlas-slide={chapter.number}
     >
-      <div className={styles.chapterInner}>
+      <motion.div
+        className={styles.chapterInner}
+        data-atlas-scene="true"
+        style={reduceMotion ? undefined : { opacity, rotateX, scale, y: sceneY }}
+      >
         <motion.header
           className={styles.chapterHeading}
-          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -42 }}
-          transition={transition}
-          viewport={{ amount: 0.35, once: true }}
-          whileInView={{ opacity: 1, x: 0 }}
+          data-atlas-heading="true"
+          style={reduceMotion ? undefined : { y: headingY }}
         >
-          <span className={styles.numberMedallion}>{chapter.number}</span>
-          <span aria-hidden="true" className={styles.headingRule} />
-          <p>Principiu SmartMed</p>
-          <h2
-            className={chapter.compactTitle ? styles.chapterTitleCompact : undefined}
-            id={`special-module-chapter-${chapter.number}`}
-          >
-            {chapter.title}
-          </h2>
+          <span className={styles.numberMedallion} data-atlas-number="true">
+            {chapter.number}
+          </span>
+          <div className={styles.titleLockup}>
+            <p data-atlas-principle="true">Principiu SmartMed</p>
+            <h2
+              className={chapter.compactTitle ? styles.chapterTitleCompact : undefined}
+              id={`special-module-chapter-${chapter.number}`}
+            >
+              {chapter.title}
+            </h2>
+          </div>
         </motion.header>
 
-        <motion.div
-          className={styles.parchmentSlot}
-          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 58, rotate: isEven ? 0.7 : -0.7 }}
-          style={reduceMotion ? undefined : { y: parchmentY }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.08 }}
-          viewport={{ amount: 0.24, once: true }}
-          whileInView={{ opacity: 1, rotate: 0 }}
-        >
-          <ParchmentPanel chapter={chapter} />
-        </motion.div>
-
-        <motion.div
-          className={styles.visualSlot}
-          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: isEven ? -54 : 54, scale: 0.97 }}
-          style={reduceMotion ? undefined : { y: visualY }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.16 }}
-          viewport={{ amount: 0.3, once: true }}
-          whileInView={{ opacity: 1, scale: 1, x: 0 }}
-        >
-          <SharedChapterVisual />
-        </motion.div>
-      </div>
+        <div className={styles.composition}>
+          <div
+            aria-hidden="true"
+            className={`${styles.sidePanelSlot} ${styles.sidePanelSlotLeft}`}
+          >
+            <motion.div
+              className={styles.sidePanelMotion}
+              style={reduceMotion ? undefined : { opacity: sideOpacity, x: leftPanelX }}
+            >
+              <SidePanel side="left" />
+            </motion.div>
+          </div>
+          <motion.div
+            className={styles.parchmentSlot}
+            data-atlas-parchment="true"
+            style={reduceMotion ? undefined : { scale: parchmentScale, y: parchmentY }}
+          >
+            <ParchmentPanel chapter={chapter} />
+            <motion.div
+              aria-hidden="true"
+              className={styles.parchmentSheen}
+              style={reduceMotion ? undefined : { opacity: sheenOpacity, x: sheenX }}
+            />
+          </motion.div>
+          <div
+            aria-hidden="true"
+            className={`${styles.sidePanelSlot} ${styles.sidePanelSlotRight}`}
+          >
+            <motion.div
+              className={styles.sidePanelMotion}
+              style={reduceMotion ? undefined : { opacity: sideOpacity, x: rightPanelX }}
+            >
+              <SidePanel side="right" />
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
     </article>
   );
 }
 
 export function AtlasPergamenteSection() {
+  const storyRef = useRef<HTMLElement>(null);
+  const reduceMotion = Boolean(useReducedMotion());
+  const { scrollYProgress } = useScroll({
+    target: storyRef,
+    offset: ["start start", "end end"],
+  });
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 17,
+    mass: 0.25,
+    stiffness: 180,
+    restDelta: 0.0005,
+    restSpeed: 0.0005,
+  });
+  const glowOpacity = useTransform(
+    smoothProgress,
+    [0, 0.105, 0.145, 0.185, 0.355, 0.395, 0.435, 0.605, 0.645, 0.685, 0.855, 0.895, 0.935, 1],
+    [0.72, 0.72, 1, 0.8, 0.8, 1, 0.82, 0.82, 1, 0.84, 0.84, 1, 0.78, 0.78],
+  );
+
   return (
     <section
       aria-label="Principiile Modulelor Speciale SmartMed"
       className={`${styles.story} bg-smart-cream`}
       id="atlas-modulelor-speciale"
+      ref={storyRef}
     >
-      {chapters.map((chapter, index) => (
-        <StoryChapter chapter={chapter} index={index} key={chapter.number} />
-      ))}
+      <div className={styles.stickyStage} data-atlas-stage="true">
+        <motion.div
+          aria-hidden="true"
+          className={styles.stageGlow}
+          style={reduceMotion ? undefined : { opacity: glowOpacity }}
+        />
+        <div
+          className={styles.track}
+          data-atlas-axis="vertical"
+          data-atlas-lock="native"
+          data-atlas-track="true"
+        >
+          {chapters.map((chapter, index) => (
+            <StoryChapter
+              chapter={chapter}
+              index={index}
+              key={chapter.number}
+              progress={smoothProgress}
+              reduceMotion={reduceMotion}
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
