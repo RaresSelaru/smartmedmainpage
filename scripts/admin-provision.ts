@@ -22,6 +22,7 @@ import type { SmartMedDatabase } from "../src/lib/auth/database.types.ts";
 
 type OperatorCommand =
   | "hosted:grant"
+  | "hosted:grant-super-admin"
   | "hosted:invite"
   | "hosted:revoke"
   | "hosted:verify"
@@ -32,6 +33,7 @@ type OperatorRpcClient = {
     name:
       | "cms_operator_grant_admin"
       | "cms_operator_revoke_admin"
+      | "cms_operator_set_super_admin"
       | "cms_operator_set_local_mfa_requirement",
     args: Record<string, unknown>,
   ): PromiseLike<{
@@ -42,6 +44,7 @@ type OperatorRpcClient = {
 
 const supportedCommands = new Set<OperatorCommand>([
   "hosted:grant",
+  "hosted:grant-super-admin",
   "hosted:invite",
   "hosted:revoke",
   "hosted:verify",
@@ -49,6 +52,14 @@ const supportedCommands = new Set<OperatorCommand>([
 ]);
 
 const displayNameSchema = z.string().trim().min(2).max(100);
+const superAdminAssignmentSchema = z
+  .object({
+    changed: z.boolean(),
+    isSuperAdmin: z.literal(true),
+    role: z.literal("admin"),
+    userId: z.string().uuid(),
+  })
+  .passthrough();
 
 function serviceClient(url: string, secret: string) {
   return createClient<SmartMedDatabase>(url, secret, {
@@ -105,6 +116,7 @@ async function callOperatorRpc(
   name:
     | "cms_operator_grant_admin"
     | "cms_operator_revoke_admin"
+    | "cms_operator_set_super_admin"
     | "cms_operator_set_local_mfa_requirement",
   args: Record<string, unknown>,
 ) {
@@ -207,7 +219,7 @@ async function signInForRouteVerification(input: {
 async function assertAdminRoutes(
   requestAsUser: (path: string) => Promise<Response>,
 ) {
-  for (const path of ["/admin", "/admin/content"]) {
+  for (const path of ["/admin", "/admin/content", "/admin/administratori"]) {
     const response = await requestAsUser(path);
 
     if (response.status < 200 || response.status >= 300) {
@@ -334,6 +346,12 @@ async function localProvision() {
     p_reason: reason,
     p_user_id: user.id,
   });
+  await callOperatorRpc(supabase, "cms_operator_set_super_admin", {
+    p_correlation_id: randomUUID(),
+    p_operator_reference: operatorReference,
+    p_reason: reason,
+    p_user_id: user.id,
+  });
 
   const administratorState = await readProfileAndRole(supabase, user.id);
 
@@ -408,7 +426,7 @@ async function localProvision() {
     command: "local:provision",
     email,
     identityCreated,
-    routesVerified: ["/admin", "/admin/content"],
+    routesVerified: ["/admin", "/admin/content", "/admin/administratori"],
     status: "EXECUTED",
     target: {
       appUrl,
@@ -526,6 +544,49 @@ async function hostedGrant() {
   };
 }
 
+async function hostedGrantSuperAdmin() {
+  requireHostedExecution(process.env);
+  const { supabase, target } = hostedServiceClient();
+  const { state, user } = await requireGrantableHostedUser(
+    supabase,
+    target.email,
+  );
+
+  if (state.role !== "admin") {
+    throw new Error(
+      "Rolul admin trebuie acordat înainte de atribuirea proprietarului.",
+    );
+  }
+
+  const assignment = await callOperatorRpc(
+    supabase,
+    "cms_operator_set_super_admin",
+    {
+      p_correlation_id: randomUUID(),
+      p_operator_reference: target.operatorReference,
+      p_reason: target.reason,
+      p_user_id: user.id,
+    },
+  );
+  const verifiedAssignment = superAdminAssignmentSchema.safeParse(assignment);
+
+  if (
+    !verifiedAssignment.success ||
+    verifiedAssignment.data.userId !== user.id
+  ) {
+    throw new Error(
+      "Atribuirea rolului de super administrator nu a putut fi confirmată.",
+    );
+  }
+
+  return {
+    command: "hosted:grant-super-admin",
+    status: "EXECUTED",
+    target: publicTargetSummary(target),
+    userId: user.id,
+  };
+}
+
 async function hostedVerify() {
   const { supabase, target } = hostedServiceClient();
   const user = await resolveExactUser(supabase, target.email);
@@ -629,6 +690,8 @@ async function main() {
       return hostedInvite();
     case "hosted:grant":
       return hostedGrant();
+    case "hosted:grant-super-admin":
+      return hostedGrantSuperAdmin();
     case "hosted:verify":
       return hostedVerify();
     case "hosted:revoke":

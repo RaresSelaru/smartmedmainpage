@@ -26,6 +26,7 @@
     "admin:provision:local": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts local:provision",
     "admin:hosted:invite": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts hosted:invite",
     "admin:hosted:grant": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts hosted:grant",
+    "admin:hosted:grant-super-admin": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts hosted:grant-super-admin",
     "admin:hosted:verify": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts hosted:verify",
     "admin:hosted:revoke": "tsx --env-file-if-exists=.env.admin.local scripts/admin-provision.ts hosted:revoke"
   },

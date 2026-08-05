@@ -3,7 +3,8 @@
 SmartMed nu citește o parolă de administrator din Vercel și nu creează automat
 un administrator la pornirea aplicației. Contul este o identitate Supabase Auth
 normală, iar permisiunea administrativă este acordată separat în baza de date și
-protejată prin TOTP.
+protejată prin TOTP. Există un singur **super administrator**. Numai acesta poate
+invita sau revoca alți administratori din consola SmartMed.
 
 Acest model evită o parolă comună, păstrată ca secret de deployment, și permite
 auditarea și revocarea fiecărui administrator în parte.
@@ -75,11 +76,21 @@ npm run admin:hosted:invite
 Deschide emailul primit și alege o parolă puternică, unică. Parola este procesată
 de Supabase Auth și nu este văzută de script sau de Vercel.
 
-După confirmarea identității, acordă rolul:
+După confirmarea identității, acordă rolul administrativ:
 
 ```bash
 npm run admin:hosted:grant
 ```
+
+Atribuie apoi proprietarul unic al consolei:
+
+```bash
+npm run admin:hosted:grant-super-admin
+```
+
+Operația este idempotentă pentru proprietarul curent. Transferul de proprietate
+este o operație de recuperare separată, disponibilă numai prin cheia temporară
+de operator; nu este expusă în browser.
 
 Intră pe `https://smartmed.ro/admin`. Aplicația te va conduce la configurarea
 TOTP. Scanează codul cu o aplicație de autentificare și confirmă primul cod.
@@ -114,15 +125,19 @@ administratorului și nu trebuie expusă browserului.
 
 ## Administratori suplimentari și revocare
 
-Repetă pașii de invitație și grant pentru fiecare persoană, cu adresă proprie și
-TOTP propriu. Nu folosi un cont comun.
+Super administratorul folosește pagina **Admin → Administratori**. Introduce
+emailul colegului și motivul acordării accesului, iar sistemul trimite o invitație
+individuală. Rolul devine activ numai după confirmarea acelei adrese. Fiecare
+administrator folosește propriul cont și propriul TOTP; conturile comune nu sunt
+acceptate.
 
-Pentru retragerea drepturilor, completează ținta exactă în `.env.admin.local` și
-rulează:
+Administratorii obișnuiți nu văd modulul de gestiune a echipei și nu pot acorda,
+revoca sau transfera roluri nici prin apeluri directe la API. Super
+administratorul își reconfirmă TOTP pentru invitații și revocări, iar fiecare
+operație este auditată cu actor, motiv și identificator de corelare.
 
-```bash
-npm run admin:hosted:revoke
-```
-
-În cazul unui incident, revocă și sesiunile/factorii utilizatorului din Supabase
-Dashboard, apoi rotește orice cheie server care ar fi putut fi expusă.
+În cazul unui incident, accesul unui administrator se revocă din aceeași pagină,
+cu reintroducerea exactă a emailului și un motiv obligatoriu. Pentru recuperarea
+proprietarului unic se folosește numai procedura service-only
+`admin:hosted:grant-super-admin`, cu o cheie temporară revocată imediat după
+operație.

@@ -3,6 +3,7 @@
 import {
   CalendarDays,
   ClipboardCheck,
+  Crown,
   ExternalLink,
   FileText,
   LayoutDashboard,
@@ -10,6 +11,7 @@ import {
   Menu,
   ShieldCheck,
   UserRoundCheck,
+  UsersRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +29,7 @@ type AdminShellIdentity = {
   currentAal: AdminAssuranceLevel;
   email: string;
   fullName: string;
+  isSuperAdmin: boolean;
   mfaRequired: boolean;
 };
 
@@ -43,6 +46,10 @@ function isActivePath(pathname: string, href: string) {
 }
 
 function ModuleIcon({ icon }: { icon: AdminModuleIconKey }) {
+  if (icon === "administrators") {
+    return <UsersRound aria-hidden="true" className="size-5" />;
+  }
+
   if (icon === "calendar") {
     return <CalendarDays aria-hidden="true" className="size-5" />;
   }
@@ -143,9 +150,17 @@ function AssuranceBadge({
 function IdentitySummary({ identity }: { identity: AdminShellIdentity }) {
   return (
     <div className="min-w-0">
-      <p className="truncate text-sm font-bold text-smart-white">
-        {identity.fullName}
-      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="truncate text-sm font-bold text-smart-white">
+          {identity.fullName}
+        </p>
+        {identity.isSuperAdmin ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-smart-gold/25 bg-smart-gold/10 px-2 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.1em] text-[#f3d794]">
+            <Crown aria-hidden="true" className="size-3" />
+            Super administrator
+          </span>
+        ) : null}
+      </div>
       <p className="mt-1 truncate text-xs text-smart-white/52">
         {identity.email}
       </p>

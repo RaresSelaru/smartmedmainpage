@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   adminCapabilities,
+  allAdminCapabilities,
   hasAdminCapability,
   isAdminCapability,
   resolveAdminCapabilities,
@@ -14,6 +15,26 @@ test("the exact admin role resolves every declared capability", () => {
   assert.equal(hasAdminCapability("admin", "events.publish"), true);
   assert.equal(hasAdminCapability("admin", "enrollments.update"), true);
   assert.equal(hasAdminCapability("admin", "evaluations.update"), true);
+  assert.equal(hasAdminCapability("admin", "administrators.manage"), false);
+});
+
+test("only the explicitly elevated admin context receives governance capabilities", () => {
+  assert.deepEqual(
+    resolveAdminCapabilities("admin", true),
+    allAdminCapabilities,
+  );
+  assert.equal(
+    hasAdminCapability("admin", "administrators.read", true),
+    true,
+  );
+  assert.equal(
+    hasAdminCapability("admin", "administrators.manage", true),
+    true,
+  );
+  assert.equal(
+    hasAdminCapability("premium", "administrators.manage", true),
+    false,
+  );
 });
 
 test("unknown and non-admin roles fail closed", () => {
@@ -30,6 +51,7 @@ test("capability recognition accepts only the fixed capability tuple", () => {
   assert.equal(isAdminCapability("enrollments.notifications.retry"), true);
   assert.equal(isAdminCapability("evaluations.read"), true);
   assert.equal(isAdminCapability("evaluations.notifications.retry"), true);
+  assert.equal(isAdminCapability("administrators.manage"), true);
   assert.equal(isAdminCapability("content.delete"), false);
   assert.equal(isAdminCapability(null), false);
 });

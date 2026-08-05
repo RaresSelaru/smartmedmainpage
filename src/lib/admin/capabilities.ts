@@ -24,22 +24,41 @@ export const adminCapabilities = [
   "evaluations.slots.manage",
 ] as const;
 
-export type AdminCapability = (typeof adminCapabilities)[number];
+export const superAdminCapabilities = [
+  "administrators.read",
+  "administrators.manage",
+] as const;
 
-const adminCapabilitySet = new Set<string>(adminCapabilities);
+export const allAdminCapabilities = [
+  ...adminCapabilities,
+  ...superAdminCapabilities,
+] as const;
+
+export type AdminCapability = (typeof allAdminCapabilities)[number];
+
+const adminCapabilitySet = new Set<string>(allAdminCapabilities);
 const noCapabilities = Object.freeze([]) as readonly AdminCapability[];
 
 export function isAdminCapability(value: unknown): value is AdminCapability {
   return typeof value === "string" && adminCapabilitySet.has(value);
 }
 
-export function resolveAdminCapabilities(role: unknown): readonly AdminCapability[] {
-  return role === "admin" ? adminCapabilities : noCapabilities;
+export function resolveAdminCapabilities(
+  role: unknown,
+  isSuperAdmin = false,
+): readonly AdminCapability[] {
+  if (role !== "admin") return noCapabilities;
+
+  return isSuperAdmin ? allAdminCapabilities : adminCapabilities;
 }
 
-export function hasAdminCapability(role: unknown, capability: unknown): boolean {
+export function hasAdminCapability(
+  role: unknown,
+  capability: unknown,
+  isSuperAdmin = false,
+): boolean {
   return (
     isAdminCapability(capability) &&
-    resolveAdminCapabilities(role).includes(capability)
+    resolveAdminCapabilities(role, isSuperAdmin).includes(capability)
   );
 }

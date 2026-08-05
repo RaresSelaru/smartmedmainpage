@@ -1,4 +1,5 @@
 export type AdminModuleIconKey =
+  | "administrators"
   | "calendar"
   | "enrollments"
   | "evaluations"

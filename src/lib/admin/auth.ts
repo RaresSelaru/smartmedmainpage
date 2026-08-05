@@ -25,6 +25,7 @@ export type AdminIdentity = {
   email: string;
   fullName: string;
   id: string;
+  isSuperAdmin: boolean;
   mfaRequired: boolean;
   nextAal: AdminAssuranceLevel;
   role: "admin";
@@ -189,6 +190,28 @@ const loadAdminIdentity = cache(async (): Promise<AdminIdentityResult> => {
   }
 
   const profileName = profileResult.data.full_name?.trim() ?? "";
+  const superAdminResult = await (
+    supabase as unknown as {
+      rpc(
+        name: "cms_is_super_admin",
+      ): PromiseLike<{
+        data: boolean | null;
+        error: { code?: string } | null;
+      }>;
+    }
+  ).rpc("cms_is_super_admin");
+
+  if (superAdminResult.error) {
+    console.error("SmartMed super administrator lookup failed", {
+      code: superAdminResult.error.code ?? null,
+      userId: user.id,
+    });
+
+    return {
+      failure: "unavailable",
+      ok: false,
+    };
+  }
 
   return {
     identity: {
@@ -196,6 +219,7 @@ const loadAdminIdentity = cache(async (): Promise<AdminIdentityResult> => {
       email: user.email,
       fullName: profileName || user.email,
       id: user.id,
+      isSuperAdmin: superAdminResult.data === true,
       mfaRequired: mfaPolicy.required,
       nextAal,
       role: "admin",
@@ -212,7 +236,7 @@ export function getGrantedAdminCapabilities(
   identity: AdminIdentity,
 ): readonly AdminCapability[] {
   return isAdminMfaSatisfied(identity)
-    ? resolveAdminCapabilities(identity.role)
+    ? resolveAdminCapabilities(identity.role, identity.isSuperAdmin)
     : [];
 }
 
@@ -235,7 +259,13 @@ export async function authorizeAdminCapability(
     };
   }
 
-  if (!hasAdminCapability(result.identity.role, capability)) {
+  if (
+    !hasAdminCapability(
+      result.identity.role,
+      capability,
+      result.identity.isSuperAdmin,
+    )
+  ) {
     return {
       code: "forbidden",
       ok: false,
@@ -245,7 +275,10 @@ export async function authorizeAdminCapability(
   return {
     context: {
       ...result.identity,
-      capabilities: resolveAdminCapabilities(result.identity.role),
+      capabilities: resolveAdminCapabilities(
+        result.identity.role,
+        result.identity.isSuperAdmin,
+      ),
     },
     ok: true,
   };
@@ -291,7 +324,13 @@ export async function requireAdminCapability(
 ): Promise<AdminContext> {
   const identity = await requireAdminIdentity(options);
 
-  if (!hasAdminCapability(identity.role, capability)) {
+  if (
+    !hasAdminCapability(
+      identity.role,
+      capability,
+      identity.isSuperAdmin,
+    )
+  ) {
     redirect(
       buildAccessDeniedPath(sanitizeAdminNextPath(options.nextPath)),
     );
@@ -299,6 +338,9 @@ export async function requireAdminCapability(
 
   return {
     ...identity,
-    capabilities: resolveAdminCapabilities(identity.role),
+    capabilities: resolveAdminCapabilities(
+      identity.role,
+      identity.isSuperAdmin,
+    ),
   };
 }

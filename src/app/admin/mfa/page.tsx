@@ -13,6 +13,7 @@ export const revalidate = 0;
 
 type AdminMfaPageProps = {
   searchParams: Promise<{
+    force?: string | string[];
     next?: string | string[];
   }>;
 };
@@ -24,12 +25,13 @@ export default async function AdminMfaPage({
   const nextPath = sanitizeAdminNextPath(
     typeof params.next === "string" ? params.next : "/admin",
   );
+  const forceVerification = params.force === "1";
   const identity = await requireAdminIdentity({
     allowAal1: true,
     nextPath,
   });
 
-  if (isAdminMfaSatisfied(identity)) {
+  if (isAdminMfaSatisfied(identity) && !forceVerification) {
     redirect(nextPath);
   }
 
@@ -46,9 +48,9 @@ export default async function AdminMfaPage({
           Protejează accesul administrativ
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-7 text-smart-ink/68 sm:text-base">
-          SmartMed cere un cod TOTP pentru fiecare sesiune administrativă.
-          Această verificare protejează publicarea și datele editoriale chiar
-          dacă parola contului este compromisă.
+          {forceVerification
+            ? "Reconfirmă codul TOTP înaintea operațiunilor sensibile asupra echipei administrative."
+            : "SmartMed cere un cod TOTP pentru fiecare sesiune administrativă. Această verificare protejează publicarea și datele editoriale chiar dacă parola contului este compromisă."}
         </p>
       </header>
 

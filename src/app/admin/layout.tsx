@@ -34,9 +34,8 @@ export default async function AdminLayout({
     allowAal1: true,
     nextPath: "/admin",
   });
-  const modules = getVisibleAdminModules(
-    getGrantedAdminCapabilities(identity),
-  );
+  const capabilities = getGrantedAdminCapabilities(identity);
+  const modules = getVisibleAdminModules(capabilities);
 
   return (
     <AdminShell
@@ -44,6 +43,7 @@ export default async function AdminLayout({
         currentAal: identity.currentAal,
         email: identity.email,
         fullName: identity.fullName,
+        isSuperAdmin: capabilities.includes("administrators.manage"),
         mfaRequired: identity.mfaRequired,
       }}
       modules={modules}

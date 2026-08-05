@@ -48,6 +48,16 @@ const moduleDefinitions = [
     order: 40,
     requiredCapability: "evaluations.read",
   },
+  {
+    description:
+      "Invită administratori, urmărește activarea și revocă accesul într-un circuit protejat.",
+    href: "/admin/administratori",
+    icon: "administrators",
+    id: "administrators",
+    label: "Administratori",
+    order: 50,
+    requiredCapability: "administrators.read",
+  },
 ] as const satisfies readonly AdminModuleDefinition[];
 
 function validateModuleRegistry(
