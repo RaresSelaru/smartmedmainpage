@@ -1,0 +1,162 @@
+.backdrop {
+  animation: onboarding-fade 220ms ease-out both;
+}
+
+.dialog {
+  height: calc(100vh - 2.5rem);
+  height: min(820px, calc(100dvh - 2.5rem));
+  grid-template-rows: minmax(0, 1fr);
+  animation: onboarding-dialog 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.contentScroller {
+  overscroll-behavior: contain;
+  scrollbar-color: rgb(31 111 120 / 0.42) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.contentScroller::-webkit-scrollbar {
+  width: 8px;
+}
+
+.contentScroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contentScroller::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgb(31 111 120 / 0.38);
+  background-clip: padding-box;
+}
+
+.contentScroller::-webkit-scrollbar-thumb:hover {
+  background: rgb(31 111 120 / 0.58);
+  background-clip: padding-box;
+}
+
+.choice {
+  animation: onboarding-choice 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.progressTrack {
+  position: relative;
+  height: 2px;
+  margin-inline: 6px;
+  background: rgb(3 17 28 / 0.11);
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1f6f78, #58a8ad);
+  transition: width 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.progressDot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #e9dfd0;
+  border-radius: 999px;
+  background: #b8aea0;
+  transform: translate(-50%, -50%);
+  transition:
+    width 240ms ease,
+    height 240ms ease,
+    border-color 240ms ease,
+    background-color 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.progressDotActive {
+  width: 13px;
+  height: 13px;
+  border-color: #f7f0e6;
+  background: #1f6f78;
+  box-shadow: 0 0 0 3px rgb(31 111 120 / 0.12);
+}
+
+.successPulse {
+  animation: onboarding-pulse 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes onboarding-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes onboarding-dialog {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.85rem, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes onboarding-choice {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.35rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes onboarding-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-8deg);
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(1.08) rotate(2deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .dialog {
+    height: 94vh;
+    height: 94dvh;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 700px) {
+  .sideQuote {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .dialog,
+  .choice,
+  .successPulse {
+    animation: none;
+  }
+
+  .progressFill,
+  .progressDot {
+    transition: none;
+  }
+}

@@ -1,0 +1,41 @@
+.enrollmentButton {
+  isolation: isolate;
+}
+
+.enrollmentButton::before {
+  animation: enrollment-glow 2.9s ease-in-out infinite;
+  background: rgb(243 218 163 / 0.72);
+  border-radius: inherit;
+  content: "";
+  filter: blur(18px);
+  inset: -10px;
+  opacity: 0.4;
+  pointer-events: none;
+  position: absolute;
+  transform: scale(0.97);
+  z-index: -1;
+}
+
+@keyframes enrollment-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 18px 3px rgb(239 211 155 / 0.28);
+    opacity: 0.38;
+    transform: scale(0.97);
+  }
+
+  50% {
+    box-shadow: 0 0 34px 11px rgb(239 211 155 / 0.48);
+    opacity: 0.78;
+    transform: scale(1.065);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enrollmentButton::before {
+    animation: none;
+    box-shadow: 0 0 32px 10px rgb(239 211 155 / 0.48);
+    opacity: 0.68;
+    transform: scale(1.04);
+  }
+}

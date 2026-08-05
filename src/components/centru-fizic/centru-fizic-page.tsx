@@ -223,6 +223,7 @@ export function CentruFizicLandingPage() {
                 alt="Sală de pregătire SmartMed Academy, amenajată în tonuri teal și auriu"
                 className={styles.editorialImage}
                 fill
+                loading="eager"
                 sizes="(max-width: 900px) 92vw, 52vw"
                 src="/assets/generated/smartmed-center-physical-class.png"
               />

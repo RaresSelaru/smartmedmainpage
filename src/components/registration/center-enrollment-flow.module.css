@@ -1,0 +1,68 @@
+.activeStepDescription {
+  display: none;
+}
+
+.formControl {
+  background-color: rgb(255 255 255 / 0.88);
+  color: var(--smart-ink);
+  caret-color: var(--smart-ink);
+}
+
+.formControl:autofill {
+  box-shadow: 0 0 0 1000px #fff inset;
+  color: var(--smart-ink);
+}
+
+.formControl:-webkit-autofill,
+.formControl:-webkit-autofill:hover,
+.formControl:-webkit-autofill:focus,
+.formControl:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  box-shadow: 0 0 0 1000px #fff inset;
+  -webkit-text-fill-color: var(--smart-ink);
+  caret-color: var(--smart-ink);
+}
+
+@media (min-width: 640px) {
+  .activeStepDescription {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .activeStepDescription {
+    display: none;
+  }
+
+  .asideDescription,
+  .choiceDescription,
+  .confirmationDescription,
+  .guardianDescription,
+  .subjectHelper {
+    display: none;
+  }
+
+  .choiceButton {
+    min-height: 54px;
+    padding-block: 0.375rem;
+  }
+
+  .compactSelect {
+    min-height: 40px;
+  }
+
+  .errorSlot {
+    min-height: 12px;
+    font-size: 0.625rem;
+    line-height: 12px;
+  }
+
+  .fieldLabel {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .stepStack {
+    gap: 0.5rem;
+  }
+}

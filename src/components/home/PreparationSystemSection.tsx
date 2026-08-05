@@ -1,6 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, GraduationCap } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
+
+import styles from "./PreparationSystemSection.module.css";
 
 const preparationSteps = [
   {
@@ -136,6 +140,38 @@ export function PreparationSystemSection() {
           })}
         </div>
       </div>
+
+      <Reveal delay={0.24}>
+        <div className="relative mx-auto mt-14 max-w-7xl overflow-hidden rounded-[34px] border border-smart-aqua/35 bg-[linear-gradient(118deg,#216f79_0%,#287e88_56%,#338b95_100%)] px-6 py-9 text-smart-white shadow-[0_24px_64px_rgba(31,111,120,0.25)] sm:mt-16 sm:px-11 sm:py-11 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-14">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-16 -top-28 size-72 rounded-full border border-smart-aqua/25 bg-smart-aqua/12"
+          />
+          <div className="relative max-w-3xl text-center lg:text-left">
+            <p className="text-xs font-extrabold uppercase tracking-[0.28em] text-smart-gold-light">
+              Următorul pas
+            </p>
+            <h3 className="mt-3 font-serif text-[2.1rem] font-semibold leading-[0.98] sm:text-5xl">
+              Transformă planul într-un ritm care te duce la Medicină
+            </h3>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-smart-white/72 sm:text-base lg:mx-0">
+              Spune-ne unde ești acum, iar echipa SmartMed îți recomandă traseul de pregătire potrivit pentru tine.
+            </p>
+          </div>
+          <Link
+            className={`${styles.enrollmentButton} group relative mx-auto mt-8 inline-flex min-h-16 w-full max-w-[380px] shrink-0 items-center justify-center gap-4 rounded-full border border-smart-gold-light/65 bg-[linear-gradient(180deg,#f3daa3_0%,#d8ae69_100%)] px-9 text-base font-extrabold text-smart-abyss shadow-[0_18px_42px_rgba(213,173,107,0.30),inset_0_1px_0_rgba(255,255,255,0.68)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(213,173,107,0.42),inset_0_1px_0_rgba(255,255,255,0.76)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:mx-0 lg:mt-0 lg:w-auto lg:min-w-[350px]`}
+            href="/#abonamente"
+          >
+            <GraduationCap aria-hidden="true" className="size-6" strokeWidth={1.8} />
+            Înscrie-te la centru
+            <ArrowRight
+              aria-hidden="true"
+              className="size-6 transition-transform duration-300 group-hover:translate-x-1"
+              strokeWidth={1.8}
+            />
+          </Link>
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -47,6 +47,13 @@ export const resetPasswordSchema = z.object({
   email: emailSchema,
 });
 
+export const oauthLoginSchema = z
+  .object({
+    next: z.string().optional(),
+    provider: z.enum(["google", "facebook"]),
+  })
+  .strict();
+
 export const updatePasswordSchema = z
   .object({
     confirmPassword: z.string().min(1, "Confirmă parola nouă."),

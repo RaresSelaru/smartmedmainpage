@@ -19,7 +19,9 @@ export type AppRoute =
   | "/pentru-parinti"
   | "/despre"
   | "/contact"
+  | "/evaluare"
   | "/inscriere"
+  | "/inscriere/centru"
   | "/cont"
   | "/cautare"
   | "/termeni"
@@ -107,7 +109,9 @@ export const utilityRoutes: RouteItem[] = [
 
 export const footerRoutes: RouteItem[] = [
   ...primaryRoutes,
+  { label: "Programează o evaluare", href: "/evaluare" },
   { label: "Simulări Smart", href: "/simulari-smart" },
+  { label: "Înscrieri și evenimente", href: "/inscriere" },
   { label: "Shop", href: "/shop" },
   ...utilityRoutes,
   { label: "Termeni și condiții", href: "/termeni" },

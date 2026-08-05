@@ -1,0 +1,173 @@
+.section {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(156, 206, 208, 0.19), transparent 28rem),
+    linear-gradient(180deg, var(--smart-cream-surface) 0%, var(--smart-cream-surface-deep) 100%);
+}
+
+.card {
+  --plan-accent: var(--smart-teal);
+  --plan-accent-soft: var(--smart-aqua);
+  --plan-button-start: #2d7680;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  border: 1px solid rgba(3, 17, 28, 0.12);
+  border-radius: 2rem;
+  background:
+    linear-gradient(145deg, rgba(248, 244, 236, 0.94), rgba(244, 235, 221, 0.78));
+  box-shadow: 0 24px 64px rgba(3, 17, 28, 0.1);
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 420ms ease,
+    box-shadow 420ms ease;
+}
+
+.card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.28rem;
+  content: "";
+  background: linear-gradient(90deg, var(--plan-accent-soft), var(--plan-accent));
+}
+
+.card::after {
+  position: absolute;
+  z-index: -1;
+  top: -7rem;
+  right: -7rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 999px;
+  content: "";
+  background: color-mix(in srgb, var(--plan-accent-soft) 20%, transparent);
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-0.5rem);
+  border-color: color-mix(in srgb, var(--plan-accent) 36%, transparent);
+  box-shadow: 0 32px 82px rgba(3, 17, 28, 0.17);
+}
+
+.card:hover::after {
+  transform: scale(1.12) translate(-0.4rem, 0.5rem);
+}
+
+.online {
+  --plan-accent: var(--smart-teal-soft);
+  --plan-accent-soft: var(--smart-aqua);
+  --plan-button-start: #2d7680;
+}
+
+.center {
+  --plan-accent: #aa7c38;
+  --plan-accent-soft: var(--smart-gold-light);
+  --plan-button-start: #e6c67e;
+  border-color: rgba(170, 124, 56, 0.34);
+  background:
+    linear-gradient(145deg, rgba(251, 246, 237, 0.98), rgba(239, 228, 210, 0.91));
+  box-shadow: 0 28px 76px rgba(93, 63, 23, 0.16);
+}
+
+.modules {
+  --plan-accent: var(--smart-teal);
+  --plan-accent-soft: #67abb0;
+  --plan-button-start: #2e7f88;
+}
+
+.accentText {
+  color: var(--plan-accent);
+}
+
+.iconBadge {
+  border-color: color-mix(in srgb, var(--plan-accent) 22%, transparent);
+  color: var(--plan-accent);
+  background: color-mix(in srgb, var(--plan-accent-soft) 17%, white);
+}
+
+.checkBadge {
+  color: var(--plan-accent);
+  background: color-mix(in srgb, var(--plan-accent-soft) 25%, transparent);
+}
+
+.planLink {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  min-height: 3.5rem;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem 0.85rem 1.5rem;
+  color: var(--smart-white);
+  font-size: 0.9rem;
+  font-weight: 750;
+  background: linear-gradient(90deg, var(--plan-button-start), var(--plan-accent));
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--plan-accent) 25%, transparent);
+  transition:
+    filter 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.center .planLink {
+  color: var(--smart-ink);
+}
+
+.planLink::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0;
+  background: linear-gradient(110deg, transparent 15%, rgba(255, 255, 255, 0.24) 45%, transparent 72%);
+  transform: translateX(-70%);
+  transition:
+    opacity 320ms ease,
+    transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.planLink:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 20px 44px color-mix(in srgb, var(--plan-accent) 33%, transparent);
+}
+
+.planLink:hover::before {
+  opacity: 1;
+  transform: translateX(70%);
+}
+
+.planLink:focus-visible {
+  outline: 2px solid var(--plan-accent);
+  outline-offset: 4px;
+}
+
+.planLink svg {
+  position: relative;
+  flex: none;
+  transition: transform 300ms ease;
+}
+
+.planLink:hover svg {
+  transform: translateX(0.25rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::after,
+  .planLink,
+  .planLink::before,
+  .planLink svg {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:hover::after,
+  .planLink:hover::before,
+  .planLink:hover svg {
+    transform: none;
+  }
+}

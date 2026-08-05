@@ -4,6 +4,7 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 import { sanitizeInternalPath } from "@/lib/auth/access-control";
 import { getSupabaseAuthConfig } from "@/lib/auth/env";
 import { createServerSupabaseClient } from "@/lib/auth/supabase";
+import { consumePendingCenterEnrollmentLink } from "@/lib/center-enrollments/account-link";
 
 function redirectWithStatus(
   request: Request,
@@ -32,6 +33,7 @@ function redirectWithStatus(
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+  const callbackError = requestUrl.searchParams.get("error");
   const tokenHash = requestUrl.searchParams.get("token_hash");
   const otpType = requestUrl.searchParams.get("type");
   const nextPath = sanitizeInternalPath(requestUrl.searchParams.get("next"));
@@ -39,6 +41,15 @@ export async function GET(request: Request) {
 
   if (!config.isConfigured) {
     return redirectWithStatus(request, "/cont?mode=conectare", "error", "auth-not-configured");
+  }
+
+  if (callbackError) {
+    return redirectWithStatus(
+      request,
+      "/cont?mode=conectare",
+      "error",
+      callbackError === "access_denied" ? "oauth-cancelled" : "oauth-failed",
+    );
   }
 
   const supportedOtpTypes = new Set<EmailOtpType>([
@@ -70,14 +81,14 @@ export async function GET(request: Request) {
     return redirectWithStatus(request, "/cont?mode=conectare", "error", "auth-not-configured");
   }
 
-  const { error } = hasTokenHashFlow
+  const authResult = hasTokenHashFlow
     ? await supabase.auth.verifyOtp({
         token_hash: tokenHash!,
         type: otpType as EmailOtpType,
       })
     : await supabase.auth.exchangeCodeForSession(code!);
 
-  if (error) {
+  if (authResult.error) {
     return redirectWithStatus(
       request,
       "/cont?mode=conectare",
@@ -91,7 +102,16 @@ export async function GET(request: Request) {
     (hasTokenHashFlow && otpType === "recovery") ||
     (!hasTokenHashFlow && nextPath.includes("mode=parola-noua"));
   const destination = isRecoveryFlow ? "/cont?mode=parola-noua" : nextPath;
-  const status = isRecoveryFlow ? "recovery-ready" : "email-confirmed";
+  const enrollmentLink = await consumePendingCenterEnrollmentLink(supabase);
+  const provider = authResult.data.user?.app_metadata?.provider;
+  const isSocialProvider = provider === "google" || provider === "facebook";
+  const status = isRecoveryFlow
+    ? "recovery-ready"
+    : enrollmentLink.linked
+      ? "enrollment-linked"
+    : isSocialProvider
+      ? "social-connected"
+      : "email-confirmed";
 
   return redirectWithStatus(request, destination, "status", status, responseHeaders);
 }

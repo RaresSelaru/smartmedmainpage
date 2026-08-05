@@ -1,5 +1,31 @@
 import type { AppRoute } from "@/lib/routes";
 
+const fallbackSiteUrl = "https://smartmedmainpage.vercel.app";
+
+function resolveSiteUrl(value: string | undefined) {
+  if (!value?.trim()) {
+    return fallbackSiteUrl;
+  }
+
+  try {
+    const parsed = new URL(value.trim());
+
+    if (
+      !["http:", "https:"].includes(parsed.protocol) ||
+      parsed.username ||
+      parsed.password
+    ) {
+      return fallbackSiteUrl;
+    }
+
+    return parsed.origin;
+  } catch {
+    return fallbackSiteUrl;
+  }
+}
+
+const publicSiteUrl = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
+
 export type IconName =
   | "book-open"
   | "building"
@@ -66,7 +92,7 @@ export const siteConfig = {
   fullName: "SmartMed Academy",
   description:
     "Pregătire premium pentru admiterea la Medicină, cu structură clară, exigență și sprijin constant.",
-  url: "https://smartmedmainpage.vercel.app",
+  url: publicSiteUrl,
   contact: {
     email: "contact@smartmed.ro",
     phone: "+40 700 000 000",
@@ -106,7 +132,7 @@ export const heroCopy = {
     "Pregătire completă pentru Admiterea la Medicină",
     "Biologie, chimie, grile explicate, simulări și module speciale",
   ],
-  primaryCta: "Programează o evaluare",
+  primaryCta: "Înscrie-te la centru",
   secondaryCta: "Vezi modulele speciale →",
   academicTagline: "Educație medicală la standarde înalte",
 } as const;

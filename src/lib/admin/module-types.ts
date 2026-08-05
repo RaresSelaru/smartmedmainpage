@@ -1,4 +1,8 @@
-export type AdminModuleIconKey = "files";
+export type AdminModuleIconKey =
+  | "calendar"
+  | "enrollments"
+  | "evaluations"
+  | "files";
 
 export type AdminModuleSummary = {
   description: string;

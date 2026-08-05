@@ -8,12 +8,19 @@ import type { AuthError } from "@supabase/supabase-js";
 import type { AuthActionState } from "@/lib/auth/action-state";
 import { sanitizeInternalPath } from "@/lib/auth/access-control";
 import { getAuthConfigurationMessage } from "@/lib/auth/env";
+import {
+  getOAuthProviderAvailability,
+  type SmartMedOAuthProvider,
+} from "@/lib/auth/oauth";
 import { getCurrentSmartMedSession } from "@/lib/auth/session";
+import { smartMedSignupProfileMetadataSchema } from "@/lib/auth/signup-profile";
 import { createServerSupabaseClient } from "@/lib/auth/supabase";
+import { consumePendingCenterEnrollmentLink } from "@/lib/center-enrollments/account-link";
 import {
   flattenZodErrors,
   formValue,
   loginSchema,
+  oauthLoginSchema,
   profileSchema,
   resetPasswordSchema,
   signUpSchema,
@@ -89,7 +96,11 @@ async function getRequestOrigin() {
     try {
       const parsed = new URL(requestOrigin);
 
-      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+      if (
+        parsed.hostname === "localhost" ||
+        parsed.hostname === "127.0.0.1" ||
+        parsed.hostname === "[::1]"
+      ) {
         return parsed.origin;
       }
     } catch {
@@ -174,8 +185,63 @@ export async function loginAction(
     return actionError("Confirmă adresa de email înainte să intri în cont.");
   }
 
+  const enrollmentLink = await consumePendingCenterEnrollmentLink(supabase);
   revalidatePath("/cont");
+  if (enrollmentLink.linked && nextPath === "/cont") {
+    redirect("/cont?status=enrollment-linked");
+  }
   redirect(nextPath);
+}
+
+export async function oauthLoginAction(
+  _prevState: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  const parsed = oauthLoginSchema.safeParse({
+    next: formValue(formData, "next"),
+    provider: formValue(formData, "provider"),
+  });
+
+  if (!parsed.success) {
+    return actionError("Metoda de conectare nu este validă.");
+  }
+
+  const availability = getOAuthProviderAvailability();
+  const provider = parsed.data.provider as SmartMedOAuthProvider;
+
+  if (!availability[provider]) {
+    return actionError(
+      provider === "google"
+        ? "Conectarea cu Google așteaptă activarea cheilor proiectului."
+        : "Conectarea cu Facebook așteaptă activarea cheilor proiectului.",
+    );
+  }
+
+  const { error: configurationError, supabase } = await getConfiguredSupabase();
+
+  if (!supabase) {
+    return actionError(
+      configurationError ?? "Autentificarea SmartMed nu este disponibilă momentan.",
+    );
+  }
+
+  const origin = await getRequestOrigin();
+  const nextPath = sanitizeInternalPath(parsed.data.next);
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    options: {
+      redirectTo: buildCallbackUrl(origin, nextPath),
+      skipBrowserRedirect: true,
+    },
+    provider,
+  });
+
+  if (error || !data.url) {
+    return actionError(
+      `Conectarea cu ${provider === "google" ? "Google" : "Facebook"} nu a putut porni. Încearcă din nou.`,
+    );
+  }
+
+  redirect(data.url);
 }
 
 export async function signUpAction(
@@ -202,12 +268,14 @@ export async function signUpAction(
 
   const origin = await getRequestOrigin();
   const nextPath = sanitizeInternalPath(parsed.data.next);
+  const signupMetadata = smartMedSignupProfileMetadataSchema.parse({
+    full_name: parsed.data.fullName,
+    signup_source: "account",
+  });
   const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     options: {
-      data: {
-        full_name: parsed.data.fullName,
-      },
+      data: signupMetadata,
       emailRedirectTo: buildCallbackUrl(origin, nextPath),
     },
     password: parsed.data.password,

@@ -9,6 +9,7 @@ const siteLinks = [
   { label: "Module speciale", href: "/module-speciale" },
   { label: "Grile", href: "/grile" },
   { label: "Simulări", href: "/simulari-smart" },
+  { label: "Înscrieri și evenimente", href: "/inscriere" },
   { label: "Shop", href: "/shop" },
   { label: "Blog", href: "/blog" },
   { label: "Pentru părinți", href: "/pentru-parinti" },

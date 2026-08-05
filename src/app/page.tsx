@@ -8,9 +8,19 @@ import {
   PathChoiceSectionGroup3,
 } from "@/components/home/PathChoiceSection";
 import { SpecialModulesSection } from "@/components/home/SpecialModulesSection";
+import { SubscriptionPlansSection } from "@/components/home/SubscriptionPlansSection";
 import { moduleSpecialeCarousel, newsCarousel } from "@/lib/site-config";
 
-export default function Home() {
+type HomePageProps = {
+  searchParams: Promise<{
+    clasa?: string | string[];
+    source?: string | string[];
+  }>;
+};
+
+export default async function Home({ searchParams }: HomePageProps) {
+  const { clasa, source } = await searchParams;
+
   return (
     <>
       <HeroSection />
@@ -31,6 +41,7 @@ export default function Home() {
         items={newsCarousel}
       />
       <PathChoiceSectionGroup3 />
+      <SubscriptionPlansSection context={{ clasa, source }} />
       <FinalCTASection />
     </>
   );

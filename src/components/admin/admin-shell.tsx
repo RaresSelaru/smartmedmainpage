@@ -1,12 +1,15 @@
 "use client";
 
 import {
+  CalendarDays,
+  ClipboardCheck,
   ExternalLink,
   FileText,
   LayoutDashboard,
   LogOut,
   Menu,
   ShieldCheck,
+  UserRoundCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -40,8 +43,20 @@ function isActivePath(pathname: string, href: string) {
 }
 
 function ModuleIcon({ icon }: { icon: AdminModuleIconKey }) {
+  if (icon === "calendar") {
+    return <CalendarDays aria-hidden="true" className="size-5" />;
+  }
+
   if (icon === "files") {
     return <FileText aria-hidden="true" className="size-5" />;
+  }
+
+  if (icon === "evaluations") {
+    return <ClipboardCheck aria-hidden="true" className="size-5" />;
+  }
+
+  if (icon === "enrollments") {
+    return <UserRoundCheck aria-hidden="true" className="size-5" />;
   }
 
   return <LayoutDashboard aria-hidden="true" className="size-5" />;
@@ -177,7 +192,7 @@ export function AdminShell({
             SmartMed
           </span>
           <span className="mt-1 block text-xs font-bold uppercase tracking-[0.2em] text-smart-aqua">
-            Control editorial
+            Administrare SmartMed
           </span>
         </Link>
 

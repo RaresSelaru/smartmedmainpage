@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Cormorant_Garamond, Dancing_Script, Kaushan_Script, Manrope } from "next/font/google";
+import {
+  Barlow_Condensed,
+  Cormorant_Garamond,
+  Dancing_Script,
+  Kaushan_Script,
+  Manrope,
+} from "next/font/google";
+import { Suspense } from "react";
 
 import { ConsentManager } from "@/components/consent/consent-manager";
 import { ConsentProvider } from "@/components/consent/consent-provider";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { RouteAwarePublicChrome } from "@/components/layout/route-aware-public-chrome";
+import { StudentOnboardingGate } from "@/components/onboarding/student-onboarding-gate";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { siteConfig } from "@/lib/site-config";
 
@@ -80,6 +88,9 @@ export default function RootLayout({
             >
               {children}
             </RouteAwarePublicChrome>
+            <Suspense fallback={null}>
+              <StudentOnboardingGate initialSession={null} />
+            </Suspense>
           </StyledComponentsRegistry>
           <ConsentManager />
         </ConsentProvider>

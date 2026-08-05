@@ -669,12 +669,7 @@ canvas {
 .smart-training-section:has(.smart-training-grile-trigger:focus-visible) .smart-training-grile-button,
 .smart-training-section:has(.smart-training-simulari-trigger:hover) .smart-training-simulari-button,
 .smart-training-section:has(.smart-training-simulari-trigger:focus-visible) .smart-training-simulari-button {
-  background-color: #fff8ee;
-  border-color: #d6bc8c;
-  box-shadow:
-    0 20px 42px rgba(80, 58, 26, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
+  filter: brightness(1.1);
 }
 
 .smart-training-section:has(.smart-training-grile-trigger:hover) .smart-training-grile-button svg:last-child,
@@ -785,12 +780,7 @@ canvas {
 .smart-ecosystem-section:has(.smart-ecosystem-blog-trigger:focus-visible) .smart-ecosystem-blog-button,
 .smart-ecosystem-section:has(.smart-ecosystem-shop-trigger:hover) .smart-ecosystem-shop-button,
 .smart-ecosystem-section:has(.smart-ecosystem-shop-trigger:focus-visible) .smart-ecosystem-shop-button {
-  background-color: #fff8ee;
-  border-color: #d6bc8c;
-  box-shadow:
-    0 20px 42px rgba(80, 58, 26, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
+  filter: brightness(1.1);
 }
 
 .smart-ecosystem-section:has(.smart-ecosystem-blog-trigger:hover) .smart-ecosystem-blog-button svg:last-child,

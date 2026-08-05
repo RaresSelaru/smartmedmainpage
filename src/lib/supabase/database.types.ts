@@ -7,10 +7,30 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
@@ -168,8 +188,11 @@ export type Database = {
       appointments: {
         Row: {
           appointment_type_id: number
+          availability_slot_id: number | null
           blocked_ends_at: string
           blocked_starts_at: string
+          booking_request_id: string | null
+          booking_version: number
           cancelled_at: string | null
           confirmed_at: string | null
           contact_email: string
@@ -180,8 +203,11 @@ export type Database = {
           customer_notes: string | null
           ends_at: string
           id: number
+          last_rescheduled_at: string | null
           location_id: number | null
+          metadata: Json
           public_id: string
+          reschedule_count: number
           source: string
           staff_member_id: number | null
           starts_at: string
@@ -192,8 +218,11 @@ export type Database = {
         }
         Insert: {
           appointment_type_id: number
+          availability_slot_id?: number | null
           blocked_ends_at: string
           blocked_starts_at: string
+          booking_request_id?: string | null
+          booking_version?: number
           cancelled_at?: string | null
           confirmed_at?: string | null
           contact_email: string
@@ -204,8 +233,11 @@ export type Database = {
           customer_notes?: string | null
           ends_at: string
           id?: never
+          last_rescheduled_at?: string | null
           location_id?: number | null
+          metadata?: Json
           public_id?: string
+          reschedule_count?: number
           source?: string
           staff_member_id?: number | null
           starts_at: string
@@ -216,8 +248,11 @@ export type Database = {
         }
         Update: {
           appointment_type_id?: number
+          availability_slot_id?: number | null
           blocked_ends_at?: string
           blocked_starts_at?: string
+          booking_request_id?: string | null
+          booking_version?: number
           cancelled_at?: string | null
           confirmed_at?: string | null
           contact_email?: string
@@ -228,8 +263,11 @@ export type Database = {
           customer_notes?: string | null
           ends_at?: string
           id?: never
+          last_rescheduled_at?: string | null
           location_id?: number | null
+          metadata?: Json
           public_id?: string
+          reschedule_count?: number
           source?: string
           staff_member_id?: number | null
           starts_at?: string
@@ -244,6 +282,13 @@ export type Database = {
             columns: ["appointment_type_id"]
             isOneToOne: false
             referencedRelation: "appointment_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_availability_slot_id_fkey"
+            columns: ["availability_slot_id"]
+            isOneToOne: false
+            referencedRelation: "availability_exceptions"
             referencedColumns: ["id"]
           },
           {
@@ -319,6 +364,7 @@ export type Database = {
       availability_exceptions: {
         Row: {
           appointment_type_id: number | null
+          capacity: number
           created_at: string
           ends_at: string
           id: number
@@ -332,6 +378,7 @@ export type Database = {
         }
         Insert: {
           appointment_type_id?: number | null
+          capacity?: number
           created_at?: string
           ends_at: string
           id?: never
@@ -345,6 +392,7 @@ export type Database = {
         }
         Update: {
           appointment_type_id?: number | null
+          capacity?: number
           created_at?: string
           ends_at?: string
           id?: never
@@ -530,6 +578,176 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      center_enrollments: {
+        Row: {
+          account_created_at: string | null
+          account_creation_requested: boolean
+          account_creation_requested_at: string | null
+          account_link_key: string
+          admin_notes: string | null
+          assigned_to: string | null
+          biology_level: string | null
+          birth_date: string
+          chemistry_level: string | null
+          confirmation_email_sent_at: string | null
+          context: Json
+          created_at: string
+          current_grade: string
+          delivery_mode: string
+          email: string
+          email_last_error: string | null
+          exam_year: number
+          follow_up_expires_at: string
+          follow_up_token: string
+          full_name: string
+          guardian_email: string | null
+          guardian_name: string | null
+          guardian_phone: string | null
+          high_school: string
+          id: number
+          idempotency_key: string
+          locality_county: string
+          newsletter_consent_at: string | null
+          newsletter_consent_version: string | null
+          newsletter_opt_in: boolean
+          next_follow_up_at: string | null
+          normalized_email: string | null
+          participant_status: string
+          phone: string
+          preparation_types: string[]
+          previous_tutoring: boolean
+          privacy_accepted_at: string
+          privacy_policy_version: string
+          public_id: string
+          selected_access_plan_id: number | null
+          source: string
+          source_context: string
+          staff_email_sent_at: string | null
+          status: string
+          study_profile: string
+          subjects: string[]
+          target_university: string
+          target_university_other: string | null
+          updated_at: string
+          user_id: string | null
+          whatsapp_opt_in: boolean
+        }
+        Insert: {
+          account_created_at?: string | null
+          account_creation_requested?: boolean
+          account_creation_requested_at?: string | null
+          account_link_key?: string
+          admin_notes?: string | null
+          assigned_to?: string | null
+          biology_level?: string | null
+          birth_date: string
+          chemistry_level?: string | null
+          confirmation_email_sent_at?: string | null
+          context?: Json
+          created_at?: string
+          current_grade: string
+          delivery_mode: string
+          email: string
+          email_last_error?: string | null
+          exam_year: number
+          follow_up_expires_at?: string
+          follow_up_token?: string
+          full_name: string
+          guardian_email?: string | null
+          guardian_name?: string | null
+          guardian_phone?: string | null
+          high_school: string
+          id?: never
+          idempotency_key: string
+          locality_county: string
+          newsletter_consent_at?: string | null
+          newsletter_consent_version?: string | null
+          newsletter_opt_in?: boolean
+          next_follow_up_at?: string | null
+          normalized_email?: string | null
+          participant_status: string
+          phone: string
+          preparation_types: string[]
+          previous_tutoring: boolean
+          privacy_accepted_at: string
+          privacy_policy_version: string
+          public_id?: string
+          selected_access_plan_id?: number | null
+          source?: string
+          source_context?: string
+          staff_email_sent_at?: string | null
+          status?: string
+          study_profile: string
+          subjects: string[]
+          target_university: string
+          target_university_other?: string | null
+          updated_at?: string
+          user_id?: string | null
+          whatsapp_opt_in: boolean
+        }
+        Update: {
+          account_created_at?: string | null
+          account_creation_requested?: boolean
+          account_creation_requested_at?: string | null
+          account_link_key?: string
+          admin_notes?: string | null
+          assigned_to?: string | null
+          biology_level?: string | null
+          birth_date?: string
+          chemistry_level?: string | null
+          confirmation_email_sent_at?: string | null
+          context?: Json
+          created_at?: string
+          current_grade?: string
+          delivery_mode?: string
+          email?: string
+          email_last_error?: string | null
+          exam_year?: number
+          follow_up_expires_at?: string
+          follow_up_token?: string
+          full_name?: string
+          guardian_email?: string | null
+          guardian_name?: string | null
+          guardian_phone?: string | null
+          high_school?: string
+          id?: never
+          idempotency_key?: string
+          locality_county?: string
+          newsletter_consent_at?: string | null
+          newsletter_consent_version?: string | null
+          newsletter_opt_in?: boolean
+          next_follow_up_at?: string | null
+          normalized_email?: string | null
+          participant_status?: string
+          phone?: string
+          preparation_types?: string[]
+          previous_tutoring?: boolean
+          privacy_accepted_at?: string
+          privacy_policy_version?: string
+          public_id?: string
+          selected_access_plan_id?: number | null
+          source?: string
+          source_context?: string
+          staff_email_sent_at?: string | null
+          status?: string
+          study_profile?: string
+          subjects?: string[]
+          target_university?: string
+          target_university_other?: string | null
+          updated_at?: string
+          user_id?: string | null
+          whatsapp_opt_in?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "center_enrollments_selected_access_plan_id_fkey"
+            columns: ["selected_access_plan_id"]
+            isOneToOne: false
+            referencedRelation: "access_plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       consent_events: {
         Row: {
@@ -1620,6 +1838,86 @@ export type Database = {
         }
         Relationships: []
       }
+      event_registrations: {
+        Row: {
+          attended_at: string | null
+          cancelled_at: string | null
+          confirmation_email_sent_at: string | null
+          created_at: string
+          email: string
+          email_last_error: string | null
+          event_id: number
+          full_name: string
+          id: string
+          marketing_opt_in: boolean
+          normalized_email: string | null
+          notification_batch_id: string
+          phone: string | null
+          privacy_accepted_at: string
+          privacy_policy_version: string
+          registered_at: string
+          source: string
+          staff_email_sent_at: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attended_at?: string | null
+          cancelled_at?: string | null
+          confirmation_email_sent_at?: string | null
+          created_at?: string
+          email: string
+          email_last_error?: string | null
+          event_id: number
+          full_name: string
+          id?: string
+          marketing_opt_in?: boolean
+          normalized_email?: string | null
+          notification_batch_id?: string
+          phone?: string | null
+          privacy_accepted_at: string
+          privacy_policy_version: string
+          registered_at?: string
+          source?: string
+          staff_email_sent_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attended_at?: string | null
+          cancelled_at?: string | null
+          confirmation_email_sent_at?: string | null
+          created_at?: string
+          email?: string
+          email_last_error?: string | null
+          event_id?: number
+          full_name?: string
+          id?: string
+          marketing_opt_in?: boolean
+          normalized_email?: string | null
+          notification_batch_id?: string
+          phone?: string | null
+          privacy_accepted_at?: string
+          privacy_policy_version?: string
+          registered_at?: string
+          source?: string
+          staff_email_sent_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "registration_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inventory_items: {
         Row: {
           allow_backorder: boolean
@@ -2036,6 +2334,47 @@ export type Database = {
           },
         ]
       }
+      newsletter_consent_sources: {
+        Row: {
+          created_at: string
+          granted_at: string | null
+          metadata: Json
+          source: string
+          status: string
+          subscriber_id: number
+          updated_at: string
+          withdrawn_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          granted_at?: string | null
+          metadata?: Json
+          source: string
+          status: string
+          subscriber_id: number
+          updated_at?: string
+          withdrawn_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          granted_at?: string | null
+          metadata?: Json
+          source?: string
+          status?: string
+          subscriber_id?: number
+          updated_at?: string
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_consent_sources_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletter_subscribers: {
         Row: {
           confirmed_at: string | null
@@ -2045,6 +2384,7 @@ export type Database = {
           normalized_email: string | null
           source: string
           status: string
+          unsubscribe_token: string
           unsubscribed_at: string | null
           updated_at: string
           user_id: string | null
@@ -2057,6 +2397,7 @@ export type Database = {
           normalized_email?: string | null
           source?: string
           status?: string
+          unsubscribe_token?: string
           unsubscribed_at?: string | null
           updated_at?: string
           user_id?: string | null
@@ -2069,6 +2410,7 @@ export type Database = {
           normalized_email?: string | null
           source?: string
           status?: string
+          unsubscribe_token?: string
           unsubscribed_at?: string | null
           updated_at?: string
           user_id?: string | null
@@ -2587,11 +2929,25 @@ export type Database = {
           city: string | null
           created_at: string
           exam_year: string | null
+          focus_subjects: string[]
           full_name: string | null
           id: string
           locale: string
+          onboarding_completed_at: string | null
+          onboarding_snoozed_until: string | null
+          onboarding_started_at: string | null
+          onboarding_status: string
+          onboarding_step: number
+          onboarding_version: number
           phone: string | null
+          primary_learning_goal: string | null
           school: string | null
+          signup_source: string
+          study_challenges: string[]
+          study_stage: string | null
+          target_exam_plan: string | null
+          target_exam_year: number | null
+          target_medical_center: string | null
           timezone: string
           updated_at: string
         }
@@ -2599,11 +2955,25 @@ export type Database = {
           city?: string | null
           created_at?: string
           exam_year?: string | null
+          focus_subjects?: string[]
           full_name?: string | null
           id: string
           locale?: string
+          onboarding_completed_at?: string | null
+          onboarding_snoozed_until?: string | null
+          onboarding_started_at?: string | null
+          onboarding_status?: string
+          onboarding_step?: number
+          onboarding_version?: number
           phone?: string | null
+          primary_learning_goal?: string | null
           school?: string | null
+          signup_source?: string
+          study_challenges?: string[]
+          study_stage?: string | null
+          target_exam_plan?: string | null
+          target_exam_year?: number | null
+          target_medical_center?: string | null
           timezone?: string
           updated_at?: string
         }
@@ -2611,15 +2981,127 @@ export type Database = {
           city?: string | null
           created_at?: string
           exam_year?: string | null
+          focus_subjects?: string[]
           full_name?: string | null
           id?: string
           locale?: string
+          onboarding_completed_at?: string | null
+          onboarding_snoozed_until?: string | null
+          onboarding_started_at?: string | null
+          onboarding_status?: string
+          onboarding_step?: number
+          onboarding_version?: number
           phone?: string | null
+          primary_learning_goal?: string | null
           school?: string | null
+          signup_source?: string
+          study_challenges?: string[]
+          study_stage?: string | null
+          target_exam_plan?: string | null
+          target_exam_year?: number | null
+          target_medical_center?: string | null
           timezone?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      registration_events: {
+        Row: {
+          allow_waitlist: boolean
+          capacity: number | null
+          confirmed_count: number
+          contact_email: string | null
+          cover_media_id: number | null
+          created_at: string
+          created_by: string | null
+          delivery_mode: string
+          description: string
+          ends_at: string
+          event_type: string
+          featured: boolean
+          id: number
+          location_address: string | null
+          location_name: string | null
+          price_label: string | null
+          published_at: string | null
+          registration_closes_at: string
+          registration_opens_at: string
+          slug: string
+          starts_at: string
+          status: string
+          summary: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+          waitlist_count: number
+        }
+        Insert: {
+          allow_waitlist?: boolean
+          capacity?: number | null
+          confirmed_count?: number
+          contact_email?: string | null
+          cover_media_id?: number | null
+          created_at?: string
+          created_by?: string | null
+          delivery_mode?: string
+          description: string
+          ends_at: string
+          event_type?: string
+          featured?: boolean
+          id?: never
+          location_address?: string | null
+          location_name?: string | null
+          price_label?: string | null
+          published_at?: string | null
+          registration_closes_at: string
+          registration_opens_at: string
+          slug: string
+          starts_at: string
+          status?: string
+          summary: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          waitlist_count?: number
+        }
+        Update: {
+          allow_waitlist?: boolean
+          capacity?: number | null
+          confirmed_count?: number
+          contact_email?: string | null
+          cover_media_id?: number | null
+          created_at?: string
+          created_by?: string | null
+          delivery_mode?: string
+          description?: string
+          ends_at?: string
+          event_type?: string
+          featured?: boolean
+          id?: never
+          location_address?: string | null
+          location_name?: string | null
+          price_label?: string | null
+          published_at?: string | null
+          registration_closes_at?: string
+          registration_opens_at?: string
+          slug?: string
+          starts_at?: string
+          status?: string
+          summary?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          waitlist_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "registration_events_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       staff_members: {
         Row: {
@@ -2782,18 +3264,76 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      cms_archive_content: {
+      admin_create_smartmed_evaluation_slot: {
         Args: {
-          p_correlation_id?: string
-          p_entry_id: number
+          p_capacity: number
+          p_location_id: number
+          p_public_label?: string
+          p_staff_member_id: number
+          p_starts_at: string
         }
         Returns: Json
       }
-      cms_archive_media: {
+      admin_delete_all_smartmed_evaluation_slots: { Args: never; Returns: Json }
+      admin_delete_smartmed_evaluation_slot: {
+        Args: { p_slot_id: number }
+        Returns: boolean
+      }
+      admin_retry_center_enrollment_notifications: {
+        Args: { p_enrollment_id: number }
+        Returns: boolean
+      }
+      admin_update_smartmed_evaluation: {
         Args: {
-          p_correlation_id?: string
-          p_media_id: number
+          p_public_id: string
+          p_reason?: string
+          p_slot_id?: number
+          p_status?: string
         }
+        Returns: Json
+      }
+      admin_update_smartmed_evaluation_slot_capacity: {
+        Args: { p_capacity: number; p_slot_id: number }
+        Returns: boolean
+      }
+      book_smartmed_evaluation: {
+        Args: {
+          p_booking_request_id: string
+          p_customer_notes?: string
+          p_evaluation_goal: string
+          p_phone?: string
+          p_privacy_accepted?: boolean
+          p_slot_id: number
+          p_source?: string
+        }
+        Returns: Json
+      }
+      cancel_own_smartmed_evaluation: {
+        Args: { p_public_id: string }
+        Returns: Json
+      }
+      claim_center_enrollment_notifications: {
+        Args: { p_public_id: string }
+        Returns: Json
+      }
+      claim_event_registration_notifications: {
+        Args: { p_registration_id: string }
+        Returns: Json
+      }
+      list_registration_notification_retry_targets: {
+        Args: { p_limit?: number }
+        Returns: Json
+      }
+      claim_smartmed_evaluation_notification: {
+        Args: { p_public_id: string }
+        Returns: Json
+      }
+      cms_archive_content: {
+        Args: { p_correlation_id?: string; p_entry_id: number }
+        Returns: Json
+      }
+      cms_archive_media: {
+        Args: { p_correlation_id?: string; p_media_id: number }
         Returns: Json
       }
       cms_create_content: {
@@ -2806,17 +3346,9 @@ export type Database = {
         }
         Returns: Json
       }
-      cms_get_content: {
-        Args: {
-          p_entry_id: number
-        }
-        Returns: Json
-      }
+      cms_get_content: { Args: { p_entry_id: number }; Returns: Json }
       cms_get_revision: {
-        Args: {
-          p_entry_id: number
-          p_revision_id: number
-        }
+        Args: { p_entry_id: number; p_revision_id: number }
         Returns: Json
       }
       cms_list_content: {
@@ -2895,10 +3427,222 @@ export type Database = {
         Returns: Json
       }
       cms_unpublish_content: {
+        Args: { p_correlation_id?: string; p_entry_id: number }
+        Returns: Json
+      }
+      complete_center_enrollment_notification: {
         Args: {
-          p_correlation_id?: string
-          p_entry_id: number
+          p_claim_token: string
+          p_error_code?: string
+          p_notification_id: string
+          p_outcome: string
+          p_provider_message_id?: string
         }
+        Returns: boolean
+      }
+      complete_event_registration_notification: {
+        Args: {
+          p_claim_token: string
+          p_error_code?: string
+          p_notification_id: string
+          p_outcome: string
+          p_provider_message_id?: string
+        }
+        Returns: boolean
+      }
+      complete_smartmed_evaluation_notification: {
+        Args: {
+          p_claim_token: string
+          p_error_code?: string
+          p_notification_id: string
+          p_outcome: string
+          p_provider_message_id?: string
+        }
+        Returns: boolean
+      }
+      get_admin_smartmed_evaluation_slots: {
+        Args: { p_from?: string; p_until?: string }
+        Returns: {
+          booked_count: number
+          capacity: number
+          ends_at: string
+          is_public: boolean
+          location_id: number
+          location_kind: string
+          location_name: string
+          public_label: string
+          remaining_places: number
+          slot_id: number
+          staff_member_id: number
+          staff_name: string
+          starts_at: string
+        }[]
+      }
+      get_admin_smartmed_evaluations: {
+        Args: never
+        Returns: {
+          booking_version: number
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          customer_notes: string
+          ends_at: string
+          id: number
+          last_rescheduled_at: string
+          location_city: string
+          location_id: number
+          location_kind: string
+          location_name: string
+          metadata: Json
+          notification_attempts: number
+          notification_error: string
+          notification_sent_at: string
+          notification_status: string
+          notification_type: string
+          public_id: string
+          reschedule_count: number
+          staff_member_id: number
+          staff_name: string
+          staff_title: string
+          starts_at: string
+          status: string
+          timezone: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
+      get_smartmed_evaluation_slots: {
+        Args: { p_from?: string; p_until?: string }
+        Returns: {
+          booked_count: number
+          capacity: number
+          delivery_mode: string
+          ends_at: string
+          location_city: string
+          location_name: string
+          public_label: string
+          remaining_places: number
+          slot_id: number
+          staff_name: string
+          staff_title: string
+          starts_at: string
+        }[]
+      }
+      prepare_center_enrollment_account: {
+        Args: { p_follow_up_token: string }
+        Returns: Json
+      }
+      link_center_enrollment_to_current_account: {
+        Args: { p_follow_up_token: string }
+        Returns: Json
+      }
+      register_for_event: {
+        Args: {
+          p_email: string
+          p_event_id: number
+          p_full_name: string
+          p_marketing_opt_in?: boolean
+          p_phone?: string
+          p_privacy_accepted?: boolean
+        }
+        Returns: Json
+      }
+      register_for_event_server: {
+        Args: {
+          p_authenticated_user_id: string | null
+          p_email: string
+          p_event_id: number
+          p_full_name: string
+          p_marketing_opt_in?: boolean
+          p_phone?: string
+          p_privacy_accepted?: boolean
+        }
+        Returns: Json
+      }
+      reschedule_own_smartmed_evaluation: {
+        Args: { p_public_id: string; p_slot_id: number }
+        Returns: Json
+      }
+      retry_smartmed_evaluation_notification: {
+        Args: { p_public_id: string }
+        Returns: boolean
+      }
+      set_center_enrollment_post_submit_preferences: {
+        Args: {
+          p_account_requested: boolean
+          p_follow_up_token: string
+          p_newsletter_consent: boolean
+          p_newsletter_opt_in: boolean
+        }
+        Returns: Json
+      }
+      submit_center_enrollment: {
+        Args: {
+          p_biology_level: string
+          p_birth_date: string
+          p_chemistry_level: string
+          p_context: Json
+          p_current_grade: string
+          p_delivery_mode: string
+          p_email: string
+          p_exam_year: number
+          p_full_name: string
+          p_guardian_email: string
+          p_guardian_name: string
+          p_guardian_phone: string
+          p_high_school: string
+          p_idempotency_key: string
+          p_locality_county: string
+          p_participant_status: string
+          p_phone: string
+          p_preparation_types: string[]
+          p_previous_tutoring: boolean
+          p_privacy_accepted: boolean
+          p_source_context: string
+          p_study_profile: string
+          p_subjects: string[]
+          p_target_university: string
+          p_target_university_other: string
+          p_whatsapp_opt_in: boolean
+        }
+        Returns: Json
+      }
+      submit_center_enrollment_server: {
+        Args: {
+          p_authenticated_user_id: string | null
+          p_biology_level: string
+          p_birth_date: string
+          p_chemistry_level: string
+          p_context: Json
+          p_current_grade: string
+          p_delivery_mode: string
+          p_email: string
+          p_exam_year: number
+          p_full_name: string
+          p_guardian_email: string
+          p_guardian_name: string
+          p_guardian_phone: string
+          p_high_school: string
+          p_idempotency_key: string
+          p_locality_county: string
+          p_participant_status: string
+          p_phone: string
+          p_preparation_types: string[]
+          p_previous_tutoring: boolean
+          p_privacy_accepted: boolean
+          p_selected_plan_slug: string
+          p_source_context: string
+          p_study_profile: string
+          p_subjects: string[]
+          p_target_university: string
+          p_target_university_other: string
+          p_whatsapp_opt_in: boolean
+        }
+        Returns: Json
+      }
+      unsubscribe_newsletter: {
+        Args: { p_unsubscribe_token: string }
         Returns: Json
       }
     }
@@ -3029,6 +3773,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       smartmed_role: ["user", "premium", "admin"],

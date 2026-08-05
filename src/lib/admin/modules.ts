@@ -10,6 +10,16 @@ export type AdminModuleDefinition = AdminModuleSummary & {
 const moduleDefinitions = [
   {
     description:
+      "Centralizează înscrierile la centru, urmărește parcursul fiecărui candidat și gestionează răspunsurile echipei.",
+    href: "/admin/inscrieri",
+    icon: "enrollments",
+    id: "enrollments",
+    label: "Înscrieri centru",
+    order: 20,
+    requiredCapability: "enrollments.read",
+  },
+  {
+    description:
       "Creează, verifică și publică articolele Blog. Știrile rămân în circuit editorial intern.",
     href: "/admin/content",
     icon: "files",
@@ -17,6 +27,26 @@ const moduleDefinitions = [
     label: "Conținut",
     order: 10,
     requiredCapability: "content.read",
+  },
+  {
+    description:
+      "Publică simulări, teste și webinarii, urmărește locurile și gestionează participanții.",
+    href: "/admin/events",
+    icon: "calendar",
+    id: "events",
+    label: "Evenimente",
+    order: 30,
+    requiredCapability: "events.read",
+  },
+  {
+    description:
+      "Urmărește programările pentru evaluarea inițială, replanifică întâlniri și verifică notificările trimise.",
+    href: "/admin/evaluari",
+    icon: "evaluations",
+    id: "evaluations",
+    label: "Evaluări",
+    order: 40,
+    requiredCapability: "evaluations.read",
   },
 ] as const satisfies readonly AdminModuleDefinition[];
 

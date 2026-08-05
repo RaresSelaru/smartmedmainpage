@@ -20,24 +20,24 @@ const admissionPlans = [
     title: "Începi devreme",
     description:
       "Începe din clasa a X-a și construiește fundația pentru performanță. Parcurgem împreună bazele solide ale materiei și formăm obiceiuri corecte de învățare care te vor susține în anii următori.",
-    ctaLabel: "Înscrie-te",
-    href: "/contact",
+    ctaLabel: "Înscrie-te la centru",
+    href: "/?clasa=10&source=homepage-admitere#abonamente",
   },
   {
     grade: "Clasa a XI-a",
     title: "Accelerezi progresul",
     description:
       "În clasa a XI-a aprofundăm și consolidăm cunoștințele, dezvoltăm gândirea analitică și învățăm să organizăm eficient studiul pentru a face pasul spre performanță în mod constant.",
-    ctaLabel: "Înscrie-te",
-    href: "/contact",
+    ctaLabel: "Înscrie-te la centru",
+    href: "/?clasa=11&source=homepage-admitere#abonamente",
   },
   {
     grade: "Clasa a XII-a",
     title: "Te pregătești pentru examen",
     description:
       "În clasa a XII-a ne concentrăm 100% pe obiectivul final. Îți oferim strategia, exercițiul și încrederea necesare pentru a aborda examenul cu claritate, calm și rezultate care te reprezintă.",
-    ctaLabel: "Înscrie-te",
-    href: "/contact",
+    ctaLabel: "Înscrie-te la centru",
+    href: "/?clasa=12&source=homepage-admitere#abonamente",
   },
 ] satisfies ReadonlyArray<AdmissionParchmentCardProps>;
 

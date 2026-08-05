@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { AccountHub } from "@/components/account/AccountHub";
 import { isAuthMode, sanitizeInternalPath, type AuthMode } from "@/lib/auth/access-control";
 import { getSupabaseAuthConfig } from "@/lib/auth/env";
+import { getOAuthProviderAvailability } from "@/lib/auth/oauth";
 import { getCurrentSmartMedSession } from "@/lib/auth/session";
 import { siteConfig } from "@/lib/site-config";
 
@@ -37,6 +38,7 @@ export default async function ContPage({ searchParams }: ContPageProps) {
   const params = await searchParams;
   const session = await getCurrentSmartMedSession();
   const authConfig = getSupabaseAuthConfig();
+  const oauthProviders = getOAuthProviderAvailability();
 
   return (
     <AccountHub
@@ -45,6 +47,7 @@ export default async function ContPage({ searchParams }: ContPageProps) {
       errorCode={params?.error}
       isConfigured={authConfig.isConfigured}
       nextPath={sanitizeInternalPath(params?.next)}
+      oauthProviders={oauthProviders}
       session={session}
       status={params?.status}
     />

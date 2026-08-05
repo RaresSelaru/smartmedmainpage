@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 
+import { CentruFizicIntroPrompt } from "@/components/centru-fizic/centru-fizic-intro-prompt";
 import { CentruFizicLandingPage } from "@/components/centru-fizic/centru-fizic-page";
+
+type CentruFizicPageProps = {
+  searchParams?: Promise<{
+    intro?: string;
+    source?: string;
+  }>;
+};
 
 export const metadata: Metadata = {
   title: "Centrul Fizic SmartMed",
@@ -14,6 +22,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CentruFizicPage() {
-  return <CentruFizicLandingPage />;
+export default async function CentruFizicPage({ searchParams }: CentruFizicPageProps) {
+  const params = await searchParams;
+
+  return (
+    <>
+      {params?.intro === "inscriere" ? (
+        <CentruFizicIntroPrompt source={params.source} />
+      ) : null}
+      <CentruFizicLandingPage />
+    </>
+  );
 }

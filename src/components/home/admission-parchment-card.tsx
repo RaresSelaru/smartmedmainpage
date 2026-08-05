@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import type { AppRoute } from "@/lib/routes";
+import { ArrowRight } from "lucide-react";
 
 import styles from "./admission-parchment-card.module.css";
 
@@ -9,7 +8,7 @@ export type AdmissionParchmentCardProps = {
   title: string;
   description: string;
   ctaLabel: string;
-  href: AppRoute;
+  href: string;
 };
 
 export function AdmissionParchmentCard({
@@ -29,8 +28,13 @@ export function AdmissionParchmentCard({
           <span aria-hidden="true" className={styles.separator} />
           <p className={styles.description}>{description}</p>
         </div>
-        <Link className={styles.cta} href={href}>
-          {ctaLabel}
+        <Link
+          aria-label={`${ctaLabel} — ${grade}`}
+          className={styles.cta}
+          href={href}
+        >
+          <span>{ctaLabel}</span>
+          <ArrowRight aria-hidden="true" className={styles.ctaIcon} strokeWidth={1.9} />
         </Link>
       </div>
     </article>

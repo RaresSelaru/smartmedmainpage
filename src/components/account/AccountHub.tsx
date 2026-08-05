@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, ShieldCheck, UserRoundCheck } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  CheckCircle2,
+  HeartPulse,
+  ShieldCheck,
+  Sparkles,
+  UserRoundCheck,
+} from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 
 import {
@@ -13,6 +21,7 @@ import {
 import {
   loginAction,
   logoutAction,
+  oauthLoginAction,
   requestPasswordResetAction,
   signUpAction,
   updatePasswordAction,
@@ -21,6 +30,10 @@ import {
 import type { AuthMode } from "@/lib/auth/access-control";
 import type { SmartMedSession } from "@/lib/auth/session";
 import { createBrowserSupabaseClient } from "@/lib/auth/supabase-browser";
+import {
+  OPEN_STUDENT_ONBOARDING_EVENT,
+  type FocusSubject,
+} from "@/lib/onboarding/schema";
 import { cn } from "@/lib/utils";
 
 type AccountHubProps = {
@@ -29,6 +42,7 @@ type AccountHubProps = {
   errorCode?: string;
   isConfigured: boolean;
   nextPath: string;
+  oauthProviders: Record<"facebook" | "google", boolean>;
   session: SmartMedSession | null;
   status?: string;
 };
@@ -83,6 +97,20 @@ function getStatusMessage(status?: string, errorCode?: string) {
     };
   }
 
+  if (errorCode === "oauth-cancelled") {
+    return {
+      tone: "error" as const,
+      text: "Conectarea socială a fost anulată. Contul tău nu a fost modificat.",
+    };
+  }
+
+  if (errorCode === "oauth-failed") {
+    return {
+      tone: "error" as const,
+      text: "Conectarea socială nu a putut fi finalizată. Încearcă din nou.",
+    };
+  }
+
   if (errorCode === "email-not-confirmed") {
     return {
       tone: "error" as const,
@@ -101,6 +129,27 @@ function getStatusMessage(status?: string, errorCode?: string) {
     return {
       tone: "success" as const,
       text: "Emailul a fost confirmat. Contul tău SmartMed este activ.",
+    };
+  }
+
+  if (status === "social-connected") {
+    return {
+      tone: "success" as const,
+      text: "Te-ai conectat cu succes. Bine ai venit în SmartMed!",
+    };
+  }
+
+  if (status === "enrollment-link-pending") {
+    return {
+      tone: "success" as const,
+      text: "Conectează-te cu adresa folosită la înscriere. După autentificare, asociem automat formularul și precompletăm profilul tău de studiu.",
+    };
+  }
+
+  if (status === "enrollment-linked") {
+    return {
+      tone: "success" as const,
+      text: "Înscrierea la centru a fost asociată contului, iar răspunsurile utile au fost preluate automat în profil.",
     };
   }
 
@@ -205,6 +254,117 @@ function ShellCard({ children, eyebrow, title }: { children: React.ReactNode; ey
   );
 }
 
+function SocialProviderMark({ provider }: { provider: "facebook" | "google" }) {
+  if (provider === "facebook") {
+    return (
+      <svg
+        aria-hidden="true"
+        className="size-7 shrink-0"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <circle cx="12" cy="12" fill="#1877F2" r="12" />
+        <path
+          d="M13.7 20v-7h2.35l.35-2.73h-2.7V8.53c0-.79.22-1.33 1.35-1.33h1.44V4.76a19.3 19.3 0 0 0-2.1-.11c-2.08 0-3.5 1.27-3.5 3.6v2.02H8.54V13h2.35v7h2.81Z"
+          fill="#fff"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-7 shrink-0 rounded-full bg-white p-1 shadow-[0_1px_5px_rgba(3,17,28,0.16)]"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M21.35 12.2c0-.68-.06-1.34-.18-1.97H12v3.73h5.24a4.48 4.48 0 0 1-1.94 2.94v2.42h3.14c1.84-1.69 2.91-4.18 2.91-7.12Z"
+        fill="#4285F4"
+      />
+      <path
+        d="M12 21.7c2.62 0 4.82-.87 6.44-2.38L15.3 16.9c-.87.58-1.98.93-3.3.93-2.53 0-4.67-1.71-5.44-4.01H3.31v2.5A9.72 9.72 0 0 0 12 21.7Z"
+        fill="#34A853"
+      />
+      <path
+        d="M6.56 13.82A5.84 5.84 0 0 1 6.25 12c0-.63.11-1.24.31-1.82v-2.5H3.31A9.72 9.72 0 0 0 2.3 12c0 1.57.38 3.05 1.01 4.32l3.25-2.5Z"
+        fill="#FBBC05"
+      />
+      <path
+        d="M12 6.17c1.43 0 2.71.49 3.72 1.45l2.79-2.79A9.36 9.36 0 0 0 12 2.3a9.72 9.72 0 0 0-8.69 5.38l3.25 2.5c.77-2.3 2.91-4.01 5.44-4.01Z"
+        fill="#EA4335"
+      />
+    </svg>
+  );
+}
+
+function SocialAuthButtons({
+  availability,
+  nextPath,
+}: {
+  availability: Record<"facebook" | "google", boolean>;
+  nextPath: string;
+}) {
+  const [state, formAction, pending] = useActionState(
+    oauthLoginAction,
+    initialAuthActionState,
+  );
+  const providers = [
+    { id: "google" as const, label: "Continuă cu Google", name: "Google" },
+    {
+      id: "facebook" as const,
+      label: "Continuă cu Facebook",
+      name: "Facebook",
+    },
+  ];
+
+  return (
+    <div className="mb-6 grid gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {providers.map((provider) => {
+          const enabled = availability[provider.id];
+
+          return (
+            <form action={formAction} key={provider.id}>
+              <input name="next" type="hidden" value={nextPath} />
+              <input name="provider" type="hidden" value={provider.id} />
+              <button
+                aria-label={
+                  enabled
+                    ? provider.label
+                    : `${provider.name} — disponibil în curând`
+                }
+                className="flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl border border-smart-abyss/12 bg-white/82 px-4 py-3 text-sm font-extrabold text-smart-ink shadow-[0_12px_28px_rgba(3,17,28,0.06)] transition hover:-translate-y-0.5 hover:border-smart-teal/28 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-smart-teal disabled:cursor-not-allowed disabled:border-smart-abyss/10 disabled:bg-smart-cream-deep/72 disabled:text-smart-ink/68 disabled:shadow-none disabled:hover:translate-y-0"
+                disabled={!enabled || pending}
+                type="submit"
+              >
+                <SocialProviderMark provider={provider.id} />
+                <span>
+                  {enabled ? provider.label : `${provider.name} · Disponibil în curând`}
+                </span>
+              </button>
+            </form>
+          );
+        })}
+      </div>
+      <ActionMessage state={state} />
+      {!availability.google && !availability.facebook ? (
+        <p className="text-center text-xs font-semibold leading-5 text-smart-ink/62">
+          Conectarea prin Google și Facebook va fi disponibilă în curând.
+        </p>
+      ) : null}
+      <div className="flex items-center gap-4 py-1" aria-hidden="true">
+        <span className="h-px flex-1 bg-smart-abyss/10" />
+        <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-smart-ink/38">
+          sau continuă cu email
+        </span>
+        <span className="h-px flex-1 bg-smart-abyss/10" />
+      </div>
+    </div>
+  );
+}
+
 function LoginForm({ nextPath }: { nextPath: string }) {
   const [state, formAction, pending] = useActionState(loginAction, initialAuthActionState);
 
@@ -284,6 +444,10 @@ function SignUpForm({ nextPath }: { nextPath: string }) {
       />
       <ActionMessage state={state} />
       <SubmitButton pending={pending}>Creează cont</SubmitButton>
+      <p className="text-center text-xs font-semibold leading-5 text-smart-ink/56">
+        După confirmarea contului, finalizezi profilul de studiu prin șase
+        alegeri scurte. Răspunsurile pot fi schimbate oricând.
+      </p>
     </form>
   );
 }
@@ -451,6 +615,78 @@ function AccountStatusCard({ session }: { session: SmartMedSession }) {
   );
 }
 
+const subjectLabels: Record<FocusSubject, string> = {
+  biology: "Biologie",
+  chemistry: "Chimie",
+  physics: "Fizică",
+  undecided: "În explorare",
+};
+
+function OnboardingProfileCard({ session }: { session: SmartMedSession }) {
+  const completed = session.onboarding.status === "completed";
+  const firstName = session.fullName.trim().split(/\s+/)[0] || "viitor medic";
+  const summary = [
+    session.onboarding.targetExamYear
+      ? `Admitere ${session.onboarding.targetExamYear}`
+      : null,
+    ...session.onboarding.focusSubjects.map((subject) => subjectLabels[subject]),
+  ].filter(Boolean);
+
+  return (
+    <div className="relative overflow-hidden rounded-[28px] border border-smart-teal/18 bg-smart-dark p-5 text-smart-white shadow-[0_20px_52px_rgba(3,17,28,0.18)] sm:p-6">
+      <div className="pointer-events-none absolute -right-16 -top-20 size-52 rounded-full border border-smart-aqua/16" />
+      <div className="pointer-events-none absolute -bottom-20 right-8 size-44 rounded-full bg-smart-teal/14 blur-3xl" />
+      <div className="relative flex items-start gap-4">
+        <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-smart-aqua/12 text-smart-aqua ring-1 ring-smart-aqua/22">
+          {completed ? (
+            <Sparkles aria-hidden="true" className="size-6" />
+          ) : (
+            <HeartPulse aria-hidden="true" className="size-6" />
+          )}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-smart-gold-light">
+            Profilul meu de studiu
+          </p>
+          <h3 className="mt-2 font-serif text-3xl font-semibold leading-[0.98]">
+            {completed
+              ? `SmartMed te cunoaște mai bine, ${firstName}`
+              : "6 alegeri. Un SmartMed mai aproape de tine."}
+          </h3>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-smart-muted">
+            {completed
+              ? "Preferințele tale sunt salvate în cont și pot fi actualizate oricând."
+              : "Finalizează cele șase alegeri scurte pentru a-ți personaliza experiența SmartMed. Profilul se încheie la prima conectare."}
+          </p>
+          {summary.length > 0 ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {summary.map((item) => (
+                <span
+                  className="rounded-full border border-smart-aqua/22 bg-smart-aqua/8 px-3 py-1.5 text-xs font-bold text-smart-aqua"
+                  key={item}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          <button
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-smart-aqua px-5 py-2.5 text-sm font-extrabold text-smart-abyss transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
+            data-student-onboarding-trigger="true"
+            onClick={() =>
+              window.dispatchEvent(new Event(OPEN_STUDENT_ONBOARDING_EVENT))
+            }
+            type="button"
+          >
+            {completed ? "Actualizează preferințele" : "Continuă profilul"}
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function StatusBanner({
   accessRequired,
   errorCode,
@@ -518,6 +754,7 @@ export function AccountHub({
   errorCode,
   isConfigured,
   nextPath,
+  oauthProviders,
   session,
   status,
 }: AccountHubProps) {
@@ -635,6 +872,29 @@ export function AccountHub({
               <ShellCard eyebrow="Profil activ" title="Datele tale">
                 <div className="grid gap-6">
                   <AccountStatusCard session={session} />
+                  <Link
+                    className="group flex items-center justify-between gap-5 rounded-[1.5rem] border border-smart-teal/18 bg-[linear-gradient(135deg,rgba(31,111,120,0.10),rgba(255,255,255,0.78))] p-5 transition hover:-translate-y-0.5 hover:border-smart-teal/32 hover:shadow-[0_18px_42px_rgba(18,57,62,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                    href="/evaluare#programare"
+                  >
+                    <span className="flex items-center gap-4">
+                      <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-smart-teal text-white shadow-[0_12px_28px_rgba(31,111,120,0.22)]">
+                        <CalendarDays aria-hidden="true" className="size-5" />
+                      </span>
+                      <span>
+                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-smart-teal">
+                          Evaluarea mea
+                        </span>
+                        <span className="mt-1 block font-serif text-xl font-semibold text-smart-ink">
+                          Programează sau gestionează evaluarea
+                        </span>
+                      </span>
+                    </span>
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="size-5 shrink-0 text-smart-teal transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                  <OnboardingProfileCard session={session} />
                   <ProfileForm session={session} />
                   <form action={logoutAction}>
                     <button
@@ -668,6 +928,14 @@ export function AccountHub({
                 ))}
               </div>
 
+              {activeAuthMode === "conectare" ||
+              activeAuthMode === "creare-cont" ? (
+                <SocialAuthButtons
+                  availability={oauthProviders}
+                  nextPath={nextPath}
+                />
+              ) : null}
+
               {!isConfigured ? null : activeAuthMode === "creare-cont" ? (
                 <SignUpForm nextPath={nextPath} />
               ) : activeAuthMode === "recuperare-parola" ? (
@@ -682,9 +950,10 @@ export function AccountHub({
             <div className="flex gap-3">
               <CheckCircle2 aria-hidden="true" className="mt-1 size-5 shrink-0 text-smart-teal" />
               <p>
-                Confirmarea emailului este obligatorie pentru activarea contului. Rolul de
-                administrator și drepturile premium sunt gestionate separat și verificate în
-                siguranță pe server.
+                Pentru conturile create cu email, confirmarea adresei este
+                obligatorie. Google și Facebook verifică identitatea prin
+                serviciul lor. Rolul de administrator și drepturile premium
+                rămân gestionate separat și verificate în siguranță pe server.
               </p>
             </div>
           </div>

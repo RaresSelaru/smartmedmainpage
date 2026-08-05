@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight,
   BookOpen,
   ClipboardCheck,
   GraduationCap,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
+import { MarketingChoiceButton } from "@/components/home/marketing-choice-button";
 import { sectionEyebrowClassName } from "@/components/home/PreparationSystemSection";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { SmartIcon } from "@/components/ui/SmartIcon";
@@ -52,7 +52,7 @@ const smartMedCenterChoices = [
   {
     title: "Centru fizic",
     subtitle: "Interacțiune reală.\nMotivație la fiecare pas.",
-    href: "/centru-fizic",
+    href: "/centru-fizic?intro=inscriere&source=homepage-centru",
     icon: Landmark,
     tone: "physical",
     benefits: [
@@ -76,7 +76,7 @@ const smartTrainingChoices = [
   },
   {
     title: pathChoiceGroup2[1].title,
-    href: pathChoiceGroup2[1].href,
+    href: "/inscriere?flow=simulare&source=homepage-exerseaza",
     cta: pathChoiceGroup2[1].cta,
     benefits: pathChoiceGroup2[1].benefits,
     icon: MonitorCheck,
@@ -531,25 +531,16 @@ function CenterChoiceButton({ choice }: { choice: CenterChoice }) {
   const isOnline = choice.tone === "online";
 
   return (
-    <Link
+    <MarketingChoiceButton
+      ariaLabel={`${choice.title} — descoperă opțiunea de pregătire`}
       className={cn(
-        "smartmed-choice-button group inline-grid h-[68px] w-full max-w-[300px] grid-cols-[2rem_1fr_1.75rem] items-center gap-5 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.5rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[300px]",
+        "smartmed-choice-button",
         isOnline ? "smartmed-choice-online-trigger" : "smartmed-choice-physical-trigger",
       )}
       href={choice.href}
-    >
-      <Icon
-        aria-hidden="true"
-        className="size-8 shrink-0 text-smart-gold"
-        strokeWidth={1.55}
-      />
-      <span className="min-w-0 whitespace-nowrap text-left">{choice.title}</span>
-      <ArrowRight
-        aria-hidden="true"
-        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
-        strokeWidth={1.7}
-      />
-    </Link>
+      icon={Icon}
+      label={choice.title}
+    />
   );
 }
 
@@ -734,27 +725,22 @@ function TrainingChoiceButton({ choice }: { choice: SmartTrainingChoice }) {
   const isGrile = choice.tone === "grile";
 
   return (
-    <Link
+    <MarketingChoiceButton
+      ariaLabel={
+        isGrile
+          ? "Exersează pe grilele SmartMed"
+          : "Vezi simulările disponibile și înscrie-te"
+      }
       className={cn(
-        "smart-training-button group inline-grid h-[68px] w-full max-w-[340px] grid-cols-[2rem_1fr_1.75rem] items-center gap-4 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.28rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[340px] sm:text-[1.38rem]",
+        "smart-training-button",
         isGrile
           ? "smart-training-grile-button smart-training-grile-trigger"
           : "smart-training-simulari-button smart-training-simulari-trigger",
       )}
       href={choice.href}
-    >
-      <Icon
-        aria-hidden="true"
-        className="size-8 shrink-0 text-smart-gold"
-        strokeWidth={1.55}
-      />
-      <span className="min-w-0 whitespace-nowrap text-left">{choice.cta}</span>
-      <ArrowRight
-        aria-hidden="true"
-        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
-        strokeWidth={1.7}
-      />
-    </Link>
+      icon={Icon}
+      label={choice.cta}
+    />
   );
 }
 
@@ -940,27 +926,18 @@ function EcosystemChoiceButton({ choice }: { choice: SmartEcosystemChoice }) {
   const isBlog = choice.tone === "blog";
 
   return (
-    <Link
+    <MarketingChoiceButton
+      ariaLabel={`${choice.cta} — ${choice.title}`}
       className={cn(
-        "smart-ecosystem-button group inline-grid h-[68px] w-full max-w-[340px] grid-cols-[2rem_1fr_1.75rem] items-center gap-4 rounded-full border border-[#decaa8] bg-[#fbf5ea] px-7 font-serif text-[1.28rem] font-semibold leading-none text-smart-ink shadow-[0_15px_32px_rgba(80,58,26,0.12),inset_0_1px_0_rgba(255,255,255,0.78)] transition-[transform,border-color,box-shadow,background-color] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] hover:-translate-y-px hover:border-[#d6bc8c] hover:bg-[#fff8ee] hover:shadow-[0_18px_40px_rgba(80,58,26,0.15),inset_0_1px_0_rgba(255,255,255,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:w-[340px] sm:text-[1.38rem]",
+        "smart-ecosystem-button",
         isBlog
           ? "smart-ecosystem-blog-button smart-ecosystem-blog-trigger"
           : "smart-ecosystem-shop-button smart-ecosystem-shop-trigger",
       )}
       href={choice.href}
-    >
-      <Icon
-        aria-hidden="true"
-        className="size-8 shrink-0 text-smart-gold"
-        strokeWidth={1.55}
-      />
-      <span className="min-w-0 whitespace-nowrap text-left">{choice.cta}</span>
-      <ArrowRight
-        aria-hidden="true"
-        className="size-7 shrink-0 text-smart-gold transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-x-0.5"
-        strokeWidth={1.7}
-      />
-    </Link>
+      icon={Icon}
+      label={choice.cta}
+    />
   );
 }
 

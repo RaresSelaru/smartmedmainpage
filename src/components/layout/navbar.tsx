@@ -37,6 +37,10 @@ export function Navbar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [homeCtaGate, setHomeCtaGate] = useState({
+    pathname: "",
+    passed: false,
+  });
   const [navHidden, setNavHidden] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -47,14 +51,54 @@ export function Navbar() {
   const [accountSession, setAccountSession] = useState<SmartMedSessionSummary | null>(null);
   const searchExpanded = searchOpen || searchValue.length > 0;
   const accountInitial = accountSession?.fullName.trim().charAt(0).toUpperCase() ?? "";
+  const showRegistrationCta =
+    pathname !== "/" ||
+    (homeCtaGate.pathname === pathname && homeCtaGate.passed);
+  const keepHomeNavigationVisible =
+    pathname === "/" &&
+    homeCtaGate.pathname === pathname &&
+    homeCtaGate.passed;
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 20);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
+    const update = () => {
+      setScrolled(window.scrollY > 20);
 
-    return () => window.removeEventListener("scroll", update);
-  }, []);
+      if (pathname !== "/") {
+        return;
+      }
+
+      const primaryCta = document.querySelector<HTMLElement>(
+        "[data-home-primary-cta='true']",
+      );
+
+      if (!primaryCta) {
+        return;
+      }
+
+      const headerBottom =
+        document
+          .querySelector<HTMLElement>("[data-smart-header='true']")
+          ?.getBoundingClientRect().bottom ?? 96;
+      const passed = primaryCta.getBoundingClientRect().bottom <= headerBottom;
+
+      setHomeCtaGate((current) =>
+        current.pathname === pathname && current.passed === passed
+          ? current
+          : { pathname, passed },
+      );
+    };
+
+    update();
+    const fallbackInterval = window.setInterval(update, 200);
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      window.clearInterval(fallbackInterval);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     let active = true;
@@ -123,7 +167,12 @@ export function Navbar() {
       lastScrollYRef.current = currentY;
       const hideStartY = getHideStartY();
 
-      if (open || searchExpanded || currentY < hideStartY) {
+      if (
+        keepHomeNavigationVisible ||
+        open ||
+        searchExpanded ||
+        currentY < hideStartY
+      ) {
         upwardScrollRef.current = 0;
         revealNav();
         return;
@@ -168,7 +217,7 @@ export function Navbar() {
       window.removeEventListener("resize", updateVisibility);
       clearRevealDelay();
     };
-  }, [open, pathname, searchExpanded]);
+  }, [keepHomeNavigationVisible, open, pathname, searchExpanded]);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -224,7 +273,7 @@ export function Navbar() {
             src="/assets/brand/smartmed-logo-mark.svg"
             width={65}
           />
-          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block 2xl:max-w-[190px]">
+          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block xl:hidden 2xl:block 2xl:max-w-[190px]">
             <span className="block font-serif text-xl font-semibold uppercase tracking-[0.16em]">
               {siteConfig.name}
             </span>
@@ -300,10 +349,32 @@ export function Navbar() {
         </div>
 
         <div className="flex shrink-0 items-center gap-3">
+          {keepHomeNavigationVisible ? (
+            <Link
+              aria-label="Înscrie-te la Centrul SmartMed"
+              className="group inline-flex size-11 shrink-0 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold md:w-auto md:px-4 lg:hidden"
+              href="/#abonamente"
+            >
+              <GraduationCap
+                aria-hidden="true"
+                className="size-[18px] shrink-0 transition-transform duration-300 group-hover:-rotate-6"
+                strokeWidth={1.8}
+              />
+              <span aria-hidden="true" className="hidden md:inline">
+                Înscriere
+              </span>
+            </Link>
+          ) : null}
           <Link
-            aria-current={pathname === "/inscriere" ? "page" : undefined}
-            className="group hidden min-h-11 items-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.2),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(213,173,107,0.3),inset_0_1px_0_rgba(255,255,255,0.68)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:inline-flex"
-            href="/inscriere"
+            aria-hidden={!showRegistrationCta}
+            className={cn(
+              "group hidden min-h-11 items-center gap-2 overflow-hidden whitespace-nowrap rounded-full border bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] text-sm font-extrabold text-smart-abyss transition-[max-width,opacity,padding,border-color,box-shadow] duration-500 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:inline-flex",
+              showRegistrationCta
+                ? "max-w-[150px] border-smart-gold-light/55 px-4 opacity-100 shadow-[0_12px_30px_rgba(213,173,107,0.2),inset_0_1px_0_rgba(255,255,255,0.58)] hover:shadow-[0_16px_38px_rgba(213,173,107,0.3),inset_0_1px_0_rgba(255,255,255,0.68)]"
+                : "pointer-events-none max-w-0 border-transparent px-0 opacity-0 shadow-none",
+            )}
+            href="/#abonamente"
+            tabIndex={showRegistrationCta ? undefined : -1}
           >
             <GraduationCap
               aria-hidden="true"
@@ -428,14 +499,16 @@ export function Navbar() {
                 ) : null}
               </div>
             ))}
-            <Link
-              className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.18),inset_0_1px_0_rgba(255,255,255,0.58)]"
-              href="/inscriere"
-              onClick={() => setOpen(false)}
-            >
-              <GraduationCap aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
-              Înscriere
-            </Link>
+            {showRegistrationCta ? (
+              <Link
+                className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.18),inset_0_1px_0_rgba(255,255,255,0.58)]"
+                href="/#abonamente"
+                onClick={() => setOpen(false)}
+              >
+                <GraduationCap aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+                Înscriere
+              </Link>
+            ) : null}
             <form
               className="mt-3 flex rounded-full border border-white/14 bg-white/8 p-1"
               onSubmit={submitSearch}

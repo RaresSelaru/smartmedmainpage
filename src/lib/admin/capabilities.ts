@@ -8,6 +8,20 @@ export const adminCapabilities = [
   "content.unpublish",
   "content.archive",
   "content.media.manage",
+  "events.read",
+  "events.create",
+  "events.update",
+  "events.publish",
+  "events.cancel",
+  "events.registrations.read",
+  "events.registrations.update",
+  "enrollments.read",
+  "enrollments.update",
+  "enrollments.notifications.retry",
+  "evaluations.read",
+  "evaluations.update",
+  "evaluations.notifications.retry",
+  "evaluations.slots.manage",
 ] as const;
 
 export type AdminCapability = (typeof adminCapabilities)[number];

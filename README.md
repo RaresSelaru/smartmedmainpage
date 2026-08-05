@@ -81,8 +81,11 @@ Configurația versionată:
 - permite callback-urile exacte:
   - `http://localhost:3000/auth/callback`
   - `http://127.0.0.1:3000/auth/callback`
+  - `https://smartmedmainpage.vercel.app/auth/callback`
   - `https://smartmed.ro/auth/callback`
   - `https://www.smartmed.ro/auth/callback`
+- permite separat fluxurile hosted de alegere a parolei pentru invitațiile de
+  administrator;
 - păstrează în `supabase/templates/` template-urile SmartMed pentru confirmare,
   recuperare, invitație, magic link, schimbarea adresei și notificarea parolei.
 
@@ -91,6 +94,15 @@ Supabase. Planul Free cu furnizorul implicit nu permite activarea template-urilo
 personalizate, de aceea blocurile lor sunt comentate în `supabase/config.toml`. După
 configurarea SMTP, acestea se decomentează și se rulează `npx supabase config push`.
 Creditele SMTP/API nu se salvează în Git.
+
+## Administrator pe hosting
+
+Nu păstra emailul sau parola administratorului în Vercel. Proiectul folosește un
+flux mai sigur: invitație unică Supabase, parolă aleasă de administrator, grant
+separat în `account_roles` și TOTP obligatoriu înainte de accesul la `/admin`.
+
+Instrucțiunile complete pentru prima configurare, verificare și revocare sunt în
+[`docs/HOSTED_ADMIN_SETUP.md`](docs/HOSTED_ADMIN_SETUP.md).
 
 ## Modelul de date
 

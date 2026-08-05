@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  CalendarDays,
   ChartNoAxesColumnIncreasing,
+  GraduationCap,
   LayoutGrid,
   MapPin,
   Stethoscope,
@@ -71,9 +71,10 @@ export function HeroSection() {
             <div className="mt-8 flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <Link
                 className="group inline-flex min-h-[60px] items-center justify-center gap-4 rounded-xl border border-smart-gold-light/50 bg-[linear-gradient(180deg,#efd298_0%,#d4aa68_100%)] px-7 py-4 text-base font-extrabold text-smart-abyss shadow-[0_18px_42px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.52)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_52px_rgba(213,173,107,0.30),inset_0_1px_0_rgba(255,255,255,0.62)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:min-w-[360px] sm:text-lg"
-                href="/contact"
+                data-home-primary-cta="true"
+                href="/#abonamente"
               >
-                <CalendarDays aria-hidden="true" className="size-7 shrink-0" strokeWidth={2} />
+                <GraduationCap aria-hidden="true" className="size-7 shrink-0" strokeWidth={2} />
                 <span>{heroCopy.primaryCta}</span>
               </Link>
               <Link

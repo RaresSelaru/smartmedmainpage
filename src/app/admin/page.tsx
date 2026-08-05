@@ -1,11 +1,35 @@
-import { ArrowRight, FileText, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  ClipboardCheck,
+  FileText,
+  ShieldCheck,
+  UserRoundCheck,
+} from "lucide-react";
 import Link from "next/link";
 
 import { requireAdminCapability } from "@/lib/admin/auth";
 import { getVisibleAdminModules } from "@/lib/admin/modules";
+import type { AdminModuleIconKey } from "@/lib/admin/module-types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+function ModuleIcon({ icon }: { icon: AdminModuleIconKey }) {
+  if (icon === "calendar") {
+    return <CalendarDays aria-hidden="true" className="size-6" />;
+  }
+
+  if (icon === "evaluations") {
+    return <ClipboardCheck aria-hidden="true" className="size-6" />;
+  }
+
+  if (icon === "enrollments") {
+    return <UserRoundCheck aria-hidden="true" className="size-6" />;
+  }
+
+  return <FileText aria-hidden="true" className="size-6" />;
+}
 
 export default async function AdminDashboardPage() {
   const admin = await requireAdminCapability("admin.access", {
@@ -25,8 +49,8 @@ export default async function AdminDashboardPage() {
               Bun venit, {admin.fullName}
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-smart-ink/68 sm:text-base">
-              Administrează fluxul editorial SmartMed din modulele autorizate
-              pentru acest cont.
+              Administrează conținutul, evenimentele și înscrierile SmartMed
+              din modulele autorizate pentru acest cont.
             </p>
           </div>
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-700/15 bg-emerald-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-emerald-800">
@@ -46,7 +70,7 @@ export default async function AdminDashboardPage() {
               className="mt-2 font-serif text-4xl font-semibold"
               id="admin-modules-title"
             >
-              Control editorial
+              Instrumente de administrare
             </h2>
           </div>
           <p className="text-sm text-smart-ink/55">
@@ -62,7 +86,7 @@ export default async function AdminDashboardPage() {
               key={module.id}
             >
               <span className="flex size-12 items-center justify-center rounded-2xl bg-smart-dark text-smart-aqua">
-                <FileText aria-hidden="true" className="size-6" />
+                <ModuleIcon icon={module.icon} />
               </span>
               <h3 className="mt-6 font-serif text-3xl font-semibold">
                 {module.label}
