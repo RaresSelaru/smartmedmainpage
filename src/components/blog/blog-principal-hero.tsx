@@ -7,7 +7,7 @@ import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
 export function BlogPrincipalHero() {
   return (
-    <section className="relative isolate z-30 min-h-[760px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[800px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[820px] lg:px-8">
+    <section className="relative isolate z-30 min-h-[760px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[800px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[clamp(720px,82svh,740px)] lg:px-8 lg:pb-40 lg:pt-32">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-20 lg:inset-x-0 lg:bottom-0 lg:top-auto lg:aspect-[1672/941] lg:h-auto lg:w-full"
@@ -34,28 +34,28 @@ export function BlogPrincipalHero() {
 
       <Image
         alt="Centru acreditat — Exigență, Excelență și Experiență în pregătirea pentru Medicină — SmartMed Academy"
-        className="pointer-events-none absolute right-[17%] top-[10.25rem] z-[3] hidden h-auto w-[clamp(220px,15vw,290px)] drop-shadow-[0_14px_34px_rgba(0,0,0,0.34)] xl:block"
+        className="pointer-events-none absolute right-[17%] top-[9.25rem] z-[3] hidden h-auto w-[clamp(200px,13.5vw,260px)] drop-shadow-[0_14px_34px_rgba(0,0,0,0.34)] xl:block"
         height={1280}
         priority
-        sizes="(max-width: 1024px) 230px, 16vw"
+        sizes="(max-width: 1024px) 210px, 14vw"
         src="/assets/blog/centru-acreditat.png"
         width={1280}
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
+      <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1440px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[500px]">
         <Reveal className="w-full min-w-0">
-          <div className="w-full min-w-0 max-w-[700px]">
+          <div className="w-full min-w-0 max-w-[700px] lg:max-w-[640px]">
             <h1 className="inline-flex flex-col items-center font-serif font-semibold leading-[1.1] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)]">
-              <span className="text-center text-[30px] sm:text-[40px] lg:text-[48px] xl:text-[52px]">
+              <span className="text-center text-[30px] sm:text-[40px] lg:text-[44px] xl:text-[47px]">
                 Între un „nu mai pot”
               </span>
-              <span className="mt-3 text-center text-[30px] sm:text-[40px] lg:text-[48px] xl:text-[52px] sm:mt-2">
+              <span className="mt-3 text-center text-[30px] sm:mt-2 sm:text-[40px] lg:text-[44px] xl:text-[47px]">
                 și un „încă o grilă”
               </span>
-              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[90px] xl:text-[98px]">
                 SMARTMED
               </span>
-              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[100px] xl:text-[108px] 2xl:text-[118px]">
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[50px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[82px] lg:text-[90px] xl:text-[98px]">
                 BLOG
               </span>
             </h1>

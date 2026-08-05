@@ -58,11 +58,11 @@
   position: relative;
   z-index: 2;
   display: grid;
-  width: min(100%, 102rem);
+  width: min(100%, 92rem);
   margin-inline: auto;
-  grid-template-columns: minmax(15.5rem, 0.55fr) minmax(32rem, 1.36fr) minmax(25rem, 1.09fr);
+  grid-template-columns: minmax(14rem, 0.55fr) minmax(29rem, 1.36fr) minmax(22.5rem, 1.09fr);
   align-items: center;
-  gap: clamp(1.5rem, 2vw, 2.75rem);
+  gap: clamp(1.4rem, 1.8vw, 2.4rem);
 }
 
 .chapterOdd .chapterInner {
@@ -70,7 +70,7 @@
 }
 
 .chapterEven .chapterInner {
-  grid-template-columns: minmax(15.5rem, 0.55fr) minmax(25rem, 1.09fr) minmax(32rem, 1.36fr);
+  grid-template-columns: minmax(14rem, 0.55fr) minmax(22.5rem, 1.09fr) minmax(29rem, 1.36fr);
   grid-template-areas: "heading visual parchment";
 }
 
@@ -294,24 +294,27 @@
 
 .visualFrame {
   width: 100%;
-  max-width: 38rem;
+  max-width: 34rem;
   aspect-ratio: 67 / 54;
   margin: 0;
   background: url("../../assets/smartmed-chapter-visual.webp") center / contain no-repeat;
   filter: drop-shadow(0 1.35rem 1.75rem rgba(71, 50, 23, 0.13));
 }
 
-@media (max-width: 88rem) {
+@media (max-width: 80rem) {
   .chapter {
     min-height: auto;
     padding-block: 2.5rem;
   }
 
-  .chapterInner,
-  .chapterEven .chapterInner {
+  .chapterInner {
     width: min(100%, 72rem);
     grid-template-columns: minmax(19rem, 0.82fr) minmax(31rem, 1.18fr);
     gap: 1.65rem clamp(2rem, 3.2vw, 2.75rem);
+  }
+
+  .chapterEven .chapterInner {
+    grid-template-columns: minmax(31rem, 1.18fr) minmax(19rem, 0.82fr);
   }
 
   .chapterOdd .chapterInner {
@@ -323,7 +326,7 @@
   .chapterEven .chapterInner {
     grid-template-areas:
       "heading heading"
-      "visual parchment";
+      "parchment visual";
   }
 
   .chapterHeading {

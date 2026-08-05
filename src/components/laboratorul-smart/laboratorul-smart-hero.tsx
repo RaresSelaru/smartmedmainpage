@@ -7,7 +7,7 @@ import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
 export function LaboratorulSmartHero() {
   return (
-    <section className="relative isolate z-30 min-h-[980px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[1020px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[1060px] lg:px-8">
+    <section className="relative isolate z-30 min-h-[980px] overflow-hidden bg-smart-abyss px-5 pb-36 pt-32 text-smart-white sm:min-h-[1020px] sm:px-7 sm:pb-44 sm:pt-36 lg:min-h-[var(--smart-module-hero-min)] lg:px-8 lg:pb-[var(--smart-module-hero-bottom)] lg:pt-[var(--smart-module-hero-top)]">
       <Image
         alt=""
         aria-hidden="true"
@@ -27,12 +27,12 @@ export function LaboratorulSmartHero() {
       />
       <div className="grain-overlay z-[1] opacity-[0.08]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1580px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[545px]">
+      <div className="relative z-10 mx-auto flex min-h-[500px] w-full max-w-[1440px] items-center py-8 sm:min-h-[520px] sm:py-10 lg:min-h-[500px]">
         <Reveal className="w-full min-w-0">
-          <div className="w-full min-w-0 max-w-[700px]">
-            <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[70px] xl:text-[82px] 2xl:text-[90px]">
-              <span className="block whitespace-nowrap xl:text-[50px] 2xl:text-[56px]"></span>
-              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[42px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[68px] lg:text-[84px] xl:text-[92px] 2xl:text-[100px]">
+          <div className="w-full min-w-0 max-w-[700px] lg:max-w-[650px]">
+            <h1 className="font-serif text-[42px] font-semibold leading-[0.98] tracking-normal text-smart-white drop-shadow-[0_14px_36px_rgba(0,0,0,0.36)] sm:text-[56px] lg:text-[64px] xl:text-[74px]">
+              <span className="block whitespace-nowrap xl:text-[46px]"></span>
+              <span className="mt-2 block bg-[linear-gradient(180deg,#f7dfaa_0%,#d7b06e_52%,#b98643_100%)] bg-clip-text text-[42px] font-bold leading-[0.9] text-transparent drop-shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:text-[68px] lg:text-[76px] xl:text-[83px]">
                 <span className="inline-block">
                   <span className="block">LABORATORUL</span>
                   <span className="block pl-[1em]">SMART</span>

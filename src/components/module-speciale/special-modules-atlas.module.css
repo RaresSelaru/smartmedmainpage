@@ -5,7 +5,7 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  padding: clamp(7rem, 10vw, 11rem) clamp(1.1rem, 3vw, 3.5rem) clamp(2rem, 4vw, 4.5rem);
+  padding: clamp(6.5rem, 9vw, 10rem) clamp(1.1rem, 2.7vw, 3.15rem) clamp(2rem, 3.6vw, 4rem);
   color: var(--atlas-ink);
 }
 
@@ -41,7 +41,7 @@
 .sectionHeader {
   position: relative;
   z-index: 4;
-  width: min(100%, 88rem);
+  width: min(100%, 80rem);
   margin-inline: auto;
   text-align: center;
 }
@@ -61,7 +61,7 @@
   margin: 0;
   color: var(--atlas-ink);
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(4.5rem, 10vw, 10.25rem);
+  font-size: clamp(4.5rem, 9vw, 9.25rem);
   font-weight: 600;
   letter-spacing: -0.065em;
   line-height: 0.75;
@@ -127,15 +127,15 @@
 .atlasStage {
   position: relative;
   display: grid;
-  width: min(100%, 100rem);
-  height: clamp(94rem, 140vw, 136rem);
-  margin: clamp(3.5rem, 6vw, 6rem) auto 0;
+  width: min(100%, 90rem);
+  height: clamp(85rem, 126vw, 123rem);
+  margin: clamp(3.25rem, 5.4vw, 5.5rem) auto 0;
   grid-template-columns:
-    minmax(15rem, 1fr)
-    clamp(23rem, 35vw, 34rem)
-    minmax(15rem, 1fr);
+    minmax(13.5rem, 1fr)
+    clamp(21rem, 31.5vw, 30.5rem)
+    minmax(13.5rem, 1fr);
   grid-template-rows: 28% repeat(4, 18%);
-  column-gap: clamp(1.5rem, 3.5vw, 5rem);
+  column-gap: clamp(1.35rem, 3.15vw, 4.5rem);
 }
 
 .atlasStage::before {
@@ -240,17 +240,17 @@
   position: relative;
   z-index: 4;
   display: grid;
-  width: clamp(24rem, 36vw, 34rem);
+  width: clamp(22rem, 32.5vw, 30.5rem);
   aspect-ratio: 1.5;
   align-self: start;
-  margin-top: clamp(4.5rem, 7vw, 7.5rem);
+  margin-top: clamp(4.1rem, 6.3vw, 6.75rem);
   place-items: center;
 }
 
 .moduleCard::before {
   position: absolute;
   top: 50%;
-  width: clamp(1.5rem, 3.5vw, 5rem);
+  width: clamp(1.35rem, 3.15vw, 4.5rem);
   height: 1px;
   pointer-events: none;
   content: "";
@@ -363,7 +363,7 @@
   margin: 0;
   color: var(--atlas-ink);
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.78rem, 2.25vw, 2.45rem);
+  font-size: clamp(1.72rem, 2vw, 2.2rem);
   font-weight: 650;
   letter-spacing: -0.035em;
   line-height: 0.92;
@@ -373,7 +373,7 @@
 .moduleCard {
   position: relative;
   z-index: 5;
-  width: min(100%, 20rem);
+  width: min(100%, 18rem);
   align-self: center;
   grid-row: var(--module-row);
 }
@@ -399,7 +399,7 @@
 }
 
 .moduleCardLeft::after {
-  left: calc(100% + clamp(1.32rem, 3.5vw, 4.82rem));
+  left: calc(100% + clamp(1.2rem, 3.15vw, 4.32rem));
 }
 
 .moduleCardRight {
@@ -408,13 +408,13 @@
 }
 
 .moduleCardRight::after {
-  right: calc(100% + clamp(1.32rem, 3.5vw, 4.82rem));
+  right: calc(100% + clamp(1.2rem, 3.15vw, 4.32rem));
 }
 
 .moduleSurface {
   position: relative;
   overflow: hidden;
-  padding: clamp(1.35rem, 1.8vw, 1.8rem);
+  padding: clamp(1.25rem, 1.6vw, 1.65rem);
   border: 1px solid rgba(168, 116, 50, 0.2);
   border-radius: 1.1rem;
   background:
@@ -455,7 +455,7 @@
   margin: 0;
   color: var(--atlas-ink);
   font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.85rem, 2.15vw, 2.45rem);
+  font-size: clamp(1.75rem, 1.95vw, 2.2rem);
   font-weight: 650;
   letter-spacing: -0.035em;
   line-height: 0.98;
@@ -523,14 +523,14 @@
 
   .atlasStage {
     grid-template-columns:
-      minmax(12.5rem, 1fr)
-      clamp(21rem, 36vw, 27rem)
-      minmax(12.5rem, 1fr);
-    column-gap: clamp(1.1rem, 2.5vw, 2rem);
+      minmax(11.25rem, 1fr)
+      clamp(19rem, 32.5vw, 24.5rem)
+      minmax(11.25rem, 1fr);
+    column-gap: clamp(1rem, 2.25vw, 1.8rem);
   }
 
   .editorialNote {
-    width: clamp(21rem, 35vw, 25.5rem);
+    width: clamp(19rem, 31.5vw, 23rem);
   }
 
   .editorialNoteLeft {
@@ -542,19 +542,19 @@
   }
 
   .moduleSurface {
-    padding: 1.25rem;
+    padding: 1.15rem;
   }
 
   .moduleCard::before {
-    width: clamp(1.1rem, 2.5vw, 2rem);
+    width: clamp(1rem, 2.25vw, 1.8rem);
   }
 
   .moduleCardLeft::after {
-    left: calc(100% + clamp(0.92rem, 2.5vw, 1.82rem));
+    left: calc(100% + clamp(0.84rem, 2.25vw, 1.64rem));
   }
 
   .moduleCardRight::after {
-    right: calc(100% + clamp(0.92rem, 2.5vw, 1.82rem));
+    right: calc(100% + clamp(0.84rem, 2.25vw, 1.64rem));
   }
 }
 
