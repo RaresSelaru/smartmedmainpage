@@ -49,6 +49,7 @@ type AccountHubProps = {
 
 type FieldProps = {
   autoComplete?: string;
+  compact?: boolean;
   defaultValue?: string | null;
   error?: string;
   label: string;
@@ -179,6 +180,7 @@ function getStatusMessage(status?: string, errorCode?: string) {
 
 function Field({
   autoComplete,
+  compact = false,
   defaultValue,
   error,
   label,
@@ -196,7 +198,8 @@ function Field({
         aria-invalid={error ? "true" : undefined}
         autoComplete={autoComplete}
         className={cn(
-          "mt-2 h-13 w-full rounded-2xl border bg-white/76 px-4 text-sm font-semibold text-smart-ink outline-none transition placeholder:text-smart-ink/34 focus:border-smart-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(31,111,120,0.10)]",
+          "w-full rounded-2xl border bg-white/76 px-4 text-sm font-semibold text-smart-ink outline-none transition placeholder:text-smart-ink/34 focus:border-smart-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(31,111,120,0.10)]",
+          compact ? "mt-1.5 h-11" : "mt-2 h-13",
           error ? "border-red-300" : "border-smart-abyss/10",
         )}
         defaultValue={defaultValue ?? undefined}
@@ -251,6 +254,28 @@ function ShellCard({ children, eyebrow, title }: { children: React.ReactNode; ey
       </h2>
       <div className="mt-7">{children}</div>
     </div>
+  );
+}
+
+function ProfilePanel({
+  children,
+  eyebrow,
+  title,
+}: {
+  children: React.ReactNode;
+  eyebrow: string;
+  title: string;
+}) {
+  return (
+    <section className="flex flex-col rounded-[30px] border border-smart-abyss/10 bg-white/68 p-5 shadow-[0_22px_64px_rgba(3,17,28,0.10)] backdrop-blur-xl sm:p-6">
+      <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.22em] text-smart-teal">
+        {eyebrow}
+      </p>
+      <h2 className="mt-1.5 font-serif text-3xl font-semibold leading-none text-smart-ink sm:text-4xl">
+        {title}
+      </h2>
+      <div className="mt-5 flex-1">{children}</div>
+    </section>
   );
 }
 
@@ -508,9 +533,10 @@ function ProfileForm({ session }: { session: SmartMedSession }) {
   const [state, formAction, pending] = useActionState(updateProfileAction, initialAuthActionState);
 
   return (
-    <form action={formAction} className="grid gap-5">
+    <form action={formAction} className="grid gap-x-4 gap-y-3 sm:grid-cols-2">
       <Field
         autoComplete="name"
+        compact
         defaultValue={session.profile.fullName}
         error={getFirstFieldError(state, "fullName")}
         label="Nume complet"
@@ -519,6 +545,7 @@ function ProfileForm({ session }: { session: SmartMedSession }) {
       />
       <Field
         autoComplete="tel"
+        compact
         defaultValue={session.profile.phone}
         error={getFirstFieldError(state, "phone")}
         label="Telefon"
@@ -526,92 +553,135 @@ function ProfileForm({ session }: { session: SmartMedSession }) {
         placeholder="Opțional"
         type="tel"
       />
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field
-          autoComplete="address-level2"
-          defaultValue={session.profile.city}
-          error={getFirstFieldError(state, "city")}
-          label="Oraș"
-          name="city"
-          placeholder="Opțional"
-        />
-        <Field
-          defaultValue={session.profile.examYear}
-          error={getFirstFieldError(state, "examYear")}
-          label="An admitere"
-          name="examYear"
-          placeholder="2026"
-        />
-      </div>
       <Field
-        defaultValue={session.profile.school}
-        error={getFirstFieldError(state, "school")}
-        label="Liceu / facultate"
-        name="school"
+        autoComplete="address-level2"
+        compact
+        defaultValue={session.profile.city}
+        error={getFirstFieldError(state, "city")}
+        label="Oraș"
+        name="city"
         placeholder="Opțional"
       />
-      <ActionMessage state={state} />
-      <SubmitButton pending={pending}>Salvează profilul</SubmitButton>
+      <Field
+        compact
+        defaultValue={session.profile.examYear}
+        error={getFirstFieldError(state, "examYear")}
+        label="An admitere"
+        name="examYear"
+        placeholder="2026"
+      />
+      <div className="sm:col-span-2">
+        <Field
+          compact
+          defaultValue={session.profile.school}
+          error={getFirstFieldError(state, "school")}
+          label="Liceu / facultate"
+          name="school"
+          placeholder="Opțional"
+        />
+      </div>
+      {state.message && state.status !== "idle" ? (
+        <div className="sm:col-span-2">
+          <ActionMessage state={state} />
+        </div>
+      ) : null}
+      <div className="flex justify-end border-t border-smart-abyss/8 pt-4 sm:col-span-2">
+        <button
+          className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-smart-teal px-6 py-2.5 text-sm font-extrabold text-white shadow-[0_14px_34px_rgba(31,111,120,0.20)] transition duration-300 hover:-translate-y-0.5 hover:bg-smart-teal-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal disabled:cursor-not-allowed disabled:opacity-62 sm:w-auto sm:min-w-44"
+          disabled={pending}
+          type="submit"
+        >
+          {pending ? "Se salvează..." : "Salvează datele"}
+        </button>
+      </div>
     </form>
   );
 }
 
 function AccountStatusCard({ session }: { session: SmartMedSession }) {
   return (
-    <div className="grid gap-4 rounded-[28px] border border-smart-abyss/10 bg-smart-cream/76 p-5">
+    <div className="grid gap-3 rounded-[24px] border border-smart-abyss/10 bg-smart-cream/76 p-4">
       <div className="flex items-center gap-4">
-        <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-smart-teal text-smart-white shadow-[0_16px_34px_rgba(31,111,120,0.20)]">
-          <UserRoundCheck aria-hidden="true" className="size-7" strokeWidth={1.7} />
+        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-smart-teal text-smart-white shadow-[0_14px_30px_rgba(31,111,120,0.18)]">
+          <UserRoundCheck aria-hidden="true" className="size-6" strokeWidth={1.7} />
         </span>
         <div className="min-w-0">
-          <p className="truncate font-serif text-3xl font-semibold leading-none text-smart-ink">
+          <p className="truncate font-serif text-2xl font-semibold leading-none text-smart-ink sm:text-3xl">
             {session.fullName}
           </p>
           <p className="mt-1 truncate text-sm font-semibold text-smart-ink/58">{session.email}</p>
         </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
-        <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
+      <div className="grid grid-cols-3 gap-2">
+        <span className="rounded-xl bg-white/72 px-3 py-2 text-xs font-bold text-smart-ink/72 sm:text-sm">
           Rol: <span className="text-smart-teal">{roleLabels[session.role]}</span>
         </span>
-        <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
+        <span className="rounded-xl bg-white/72 px-3 py-2 text-xs font-bold text-smart-ink/72 sm:text-sm">
           Acces:{" "}
           <span className="text-smart-teal">
             {session.hasPremiumAccess ? "Premium" : "Standard"}
           </span>
         </span>
-        <span className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold text-smart-ink/72">
+        <span className="rounded-xl bg-white/72 px-3 py-2 text-xs font-bold text-smart-ink/72 sm:text-sm">
           Email:{" "}
           <span className={session.emailConfirmed ? "text-smart-teal" : "text-red-700"}>
             {session.emailConfirmed ? "confirmat" : "neconfirmat"}
           </span>
         </span>
       </div>
-      {session.role === "admin" ? (
-        <Link
-          className="group flex min-h-14 items-center justify-between gap-4 rounded-2xl bg-smart-dark px-5 py-4 text-smart-white shadow-[0_18px_38px_rgba(3,17,28,0.16)] transition hover:-translate-y-0.5 hover:bg-smart-teal hover:shadow-[0_22px_46px_rgba(31,111,120,0.24)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
-          href="/admin"
-        >
-          <span className="flex items-center gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10">
-              <ShieldCheck aria-hidden="true" className="size-5 text-smart-aqua" />
-            </span>
-            <span>
-              <span className="block text-sm font-extrabold">Admin Console</span>
-              <span className="mt-0.5 block text-xs font-semibold text-smart-white/62">
-                Gestionează conținutul editorial
-              </span>
-            </span>
-          </span>
-          <span
-            aria-hidden="true"
-            className="text-xl transition-transform group-hover:translate-x-1"
-          >
-            →
-          </span>
-        </Link>
-      ) : null}
     </div>
+  );
+}
+
+function AccountActionLink({
+  description,
+  href,
+  icon,
+  label,
+  tone = "light",
+}: {
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  tone?: "dark" | "light";
+}) {
+  return (
+    <Link
+      className={cn(
+        "group flex min-h-16 items-center justify-between gap-4 rounded-[20px] border px-4 py-3 transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal",
+        tone === "dark"
+          ? "border-transparent bg-smart-dark text-smart-white shadow-[0_16px_36px_rgba(3,17,28,0.16)] hover:bg-smart-teal"
+          : "border-smart-teal/18 bg-[linear-gradient(135deg,rgba(31,111,120,0.10),rgba(255,255,255,0.82))] text-smart-ink hover:border-smart-teal/32 hover:shadow-[0_16px_36px_rgba(18,57,62,0.10)]",
+      )}
+      href={href}
+    >
+      <span className="flex min-w-0 items-center gap-3">
+        <span
+          className={cn(
+            "grid size-10 shrink-0 place-items-center rounded-xl",
+            tone === "dark" ? "bg-white/10 text-smart-aqua" : "bg-smart-teal text-white",
+          )}
+        >
+          {icon}
+        </span>
+        <span className="min-w-0">
+          <span className="block text-sm font-extrabold">{label}</span>
+          <span
+            className={cn(
+              "mt-0.5 block text-xs font-semibold",
+              tone === "dark" ? "text-smart-white/62" : "text-smart-ink/56",
+            )}
+          >
+            {description}
+          </span>
+        </span>
+      </span>
+      <ArrowRight
+        aria-hidden="true"
+        className="size-5 shrink-0 transition-transform group-hover:translate-x-1"
+      />
+    </Link>
   );
 }
 
@@ -633,7 +703,7 @@ function OnboardingProfileCard({ session }: { session: SmartMedSession }) {
   ].filter(Boolean);
 
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-smart-teal/18 bg-smart-dark p-5 text-smart-white shadow-[0_20px_52px_rgba(3,17,28,0.18)] sm:p-6">
+    <div className="relative overflow-hidden rounded-[24px] border border-smart-teal/18 bg-smart-dark p-4 text-smart-white shadow-[0_18px_46px_rgba(3,17,28,0.16)] sm:p-5">
       <div className="pointer-events-none absolute -right-16 -top-20 size-52 rounded-full border border-smart-aqua/16" />
       <div className="pointer-events-none absolute -bottom-20 right-8 size-44 rounded-full bg-smart-teal/14 blur-3xl" />
       <div className="relative flex items-start gap-4">
@@ -648,18 +718,18 @@ function OnboardingProfileCard({ session }: { session: SmartMedSession }) {
           <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-smart-gold-light">
             Profilul meu de studiu
           </p>
-          <h3 className="mt-2 font-serif text-3xl font-semibold leading-[0.98]">
+          <h3 className="mt-1.5 font-serif text-2xl font-semibold leading-[1.02]">
             {completed
               ? `SmartMed te cunoaște mai bine, ${firstName}`
               : "6 alegeri. Un SmartMed mai aproape de tine."}
           </h3>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-smart-muted">
+          <p className="mt-2 max-w-xl text-xs leading-5 text-smart-muted sm:text-sm">
             {completed
               ? "Preferințele tale sunt salvate în cont și pot fi actualizate oricând."
               : "Finalizează cele șase alegeri scurte pentru a-ți personaliza experiența SmartMed. Profilul se încheie la prima conectare."}
           </p>
           {summary.length > 0 ? (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2">
               {summary.map((item) => (
                 <span
                   className="rounded-full border border-smart-aqua/22 bg-smart-aqua/8 px-3 py-1.5 text-xs font-bold text-smart-aqua"
@@ -671,7 +741,7 @@ function OnboardingProfileCard({ session }: { session: SmartMedSession }) {
             </div>
           ) : null}
           <button
-            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-smart-aqua px-5 py-2.5 text-sm font-extrabold text-smart-abyss transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
+            className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-smart-aqua px-5 py-2 text-sm font-extrabold text-smart-abyss transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua"
             data-student-onboarding-trigger="true"
             onClick={() =>
               window.dispatchEvent(new Event(OPEN_STUDENT_ONBOARDING_EVENT))
@@ -815,22 +885,32 @@ export function AccountHub({
       : "invalid";
 
   return (
-    <section className="relative isolate overflow-hidden bg-smart-cream px-5 pb-28 pt-32 text-smart-ink sm:px-7 sm:pt-36 lg:px-8">
+    <section
+      className={cn(
+        "relative isolate overflow-hidden bg-smart-cream px-5 text-smart-ink sm:px-7 lg:px-8",
+        showProfile ? "pb-12 pt-28 sm:pt-30" : "pb-28 pt-32 sm:pt-36",
+      )}
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_8%,rgba(200,168,117,0.16),transparent_30%),radial-gradient(circle_at_84%_12%,rgba(31,111,120,0.16),transparent_34%)]" />
       <div className="absolute right-[-10rem] top-16 h-[30rem] w-[30rem] rounded-full border border-smart-teal/10" />
-      <div className="smart-container relative z-10 grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-        <div className="lg:sticky lg:top-28">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-smart-teal">
-            Profil și acces
-          </p>
-          <h1 className="mt-4 max-w-2xl font-serif text-5xl font-semibold leading-[0.94] tracking-[-0.03em] sm:text-7xl">
-            Contul tău SmartMed
-          </h1>
-          <p className="mt-6 max-w-xl text-base leading-8 text-smart-ink/66 sm:text-lg">
-            Autentificare, profil personal și structură pregătită pentru acces diferențiat la
-            modulele SmartMed.
-          </p>
-          <div className="mt-8 grid gap-3">
+      {showProfile ? (
+        <div className="smart-container relative z-10">
+          <header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-smart-teal">
+                Profil și acces
+              </p>
+              <h1 className="mt-2 font-serif text-4xl font-semibold leading-none tracking-[-0.025em] sm:text-5xl">
+                Contul tău SmartMed
+              </h1>
+            </div>
+            <p className="max-w-2xl text-sm leading-6 text-smart-ink/62 lg:text-right">
+              Datele tale, accesul la platformă și toate acțiunile importante,
+              organizate într-un singur loc.
+            </p>
+          </header>
+
+          <div className="mt-4 grid gap-3">
             <StatusBanner
               accessRequired={accessRequired}
               errorCode={errorCode}
@@ -838,78 +918,125 @@ export function AccountHub({
               status={status}
             />
           </div>
-        </div>
 
-        <div className="grid gap-6">
-          {!isConfigured ? <AuthUnavailable /> : null}
-
-          {showPasswordUpdate ? (
-            <ShellCard eyebrow="Recuperare parolă" title="Alege o parolă nouă">
-              {effectivePasswordSessionState === "ready" ? (
-                <UpdatePasswordForm />
-              ) : effectivePasswordSessionState === "checking" ? (
-                <p aria-live="polite" className="text-sm font-semibold text-smart-ink/68">
-                  Verificăm în siguranță linkul de activare…
-                </p>
-              ) : (
-                <div className="grid gap-4 text-sm leading-7 text-red-800">
-                  <p>
-                    Linkul de activare sau recuperare este invalid ori a expirat.
+          <div className="mt-5 grid items-start gap-5 xl:grid-cols-[1.04fr_0.96fr]">
+            <ProfilePanel eyebrow="Date personale" title="Profilul tău">
+              <div className="flex h-full flex-col gap-4">
+                <AccountStatusCard session={session} />
+                <div className="rounded-[24px] border border-smart-abyss/8 bg-smart-cream/52 p-4">
+                  <p className="mb-3 text-sm font-extrabold text-smart-ink">
+                    Informații personale
                   </p>
-                  <Link
-                    className="font-bold text-smart-teal"
-                    href={accountModeHref("recuperare-parola", nextPath)}
-                  >
-                    Solicită un link nou
-                  </Link>
-                </div>
-              )}
-            </ShellCard>
-          ) : null}
-
-          {showProfile ? (
-            <>
-              <ShellCard eyebrow="Profil activ" title="Datele tale">
-                <div className="grid gap-6">
-                  <AccountStatusCard session={session} />
-                  <Link
-                    className="group flex items-center justify-between gap-5 rounded-[1.5rem] border border-smart-teal/18 bg-[linear-gradient(135deg,rgba(31,111,120,0.10),rgba(255,255,255,0.78))] p-5 transition hover:-translate-y-0.5 hover:border-smart-teal/32 hover:shadow-[0_18px_42px_rgba(18,57,62,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
-                    href="/evaluare#programare"
-                  >
-                    <span className="flex items-center gap-4">
-                      <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-smart-teal text-white shadow-[0_12px_28px_rgba(31,111,120,0.22)]">
-                        <CalendarDays aria-hidden="true" className="size-5" />
-                      </span>
-                      <span>
-                        <span className="block text-xs font-bold uppercase tracking-[0.18em] text-smart-teal">
-                          Evaluarea mea
-                        </span>
-                        <span className="mt-1 block font-serif text-xl font-semibold text-smart-ink">
-                          Programează sau gestionează evaluarea
-                        </span>
-                      </span>
-                    </span>
-                    <ArrowRight
-                      aria-hidden="true"
-                      className="size-5 shrink-0 text-smart-teal transition-transform group-hover:translate-x-1"
-                    />
-                  </Link>
-                  <OnboardingProfileCard session={session} />
                   <ProfileForm session={session} />
-                  <form action={logoutAction}>
+                </div>
+                <div className="mt-auto flex flex-col gap-3 border-t border-smart-abyss/8 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-xs font-semibold leading-5 text-smart-ink/52">
+                    Sesiunea ta este activă pe acest dispozitiv.
+                  </p>
+                  <form action={logoutAction} className="shrink-0">
                     <button
-                      className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-smart-abyss/12 bg-white/70 px-6 py-3 text-sm font-extrabold text-smart-ink transition hover:border-smart-teal/28 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                      className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-smart-abyss/14 bg-white/72 px-6 py-2.5 text-sm font-extrabold text-smart-ink transition hover:border-smart-teal/32 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal sm:w-auto"
                       type="submit"
                     >
                       Ieși din cont
                     </button>
                   </form>
                 </div>
-              </ShellCard>
-            </>
-          ) : null}
+              </div>
+            </ProfilePanel>
 
-          {!showProfile && !showPasswordUpdate ? (
+            <ProfilePanel eyebrow="SmartMed pentru tine" title="Acces și activitate">
+              <div className="flex h-full flex-col gap-4">
+                <div
+                  className={cn(
+                    "grid gap-3",
+                    session.role === "admin" ? "sm:grid-cols-2" : "grid-cols-1",
+                  )}
+                >
+                  {session.role === "admin" ? (
+                    <AccountActionLink
+                      description="Conținut, utilizatori și înscrieri"
+                      href="/admin"
+                      icon={<ShieldCheck aria-hidden="true" className="size-5" />}
+                      label="Admin Console"
+                      tone="dark"
+                    />
+                  ) : null}
+                  <AccountActionLink
+                    description="Programări și sesiuni SmartMed"
+                    href="/evaluare#programare"
+                    icon={<CalendarDays aria-hidden="true" className="size-5" />}
+                    label="Evaluarea mea"
+                  />
+                </div>
+                <OnboardingProfileCard session={session} />
+                <div className="mt-auto border-t border-smart-abyss/8 pt-4">
+                  <div className="flex max-w-md gap-2 text-xs font-semibold leading-5 text-smart-ink/52">
+                    <CheckCircle2
+                      aria-hidden="true"
+                      className="mt-0.5 size-4 shrink-0 text-smart-teal"
+                    />
+                    <p>
+                      Identitatea, rolul și accesul premium sunt verificate în
+                      siguranță pe server.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ProfilePanel>
+          </div>
+        </div>
+      ) : (
+        <div className="smart-container relative z-10 grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+          <div className="lg:sticky lg:top-28">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-smart-teal">
+              Profil și acces
+            </p>
+            <h1 className="mt-4 max-w-2xl font-serif text-5xl font-semibold leading-[0.94] tracking-[-0.03em] sm:text-7xl">
+              Contul tău SmartMed
+            </h1>
+            <p className="mt-6 max-w-xl text-base leading-8 text-smart-ink/66 sm:text-lg">
+              Autentificare, profil personal și structură pregătită pentru acces
+              diferențiat la modulele SmartMed.
+            </p>
+            <div className="mt-8 grid gap-3">
+              <StatusBanner
+                accessRequired={accessRequired}
+                errorCode={errorCode}
+                nextPath={nextPath}
+                status={status}
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-6">
+            {!isConfigured ? <AuthUnavailable /> : null}
+
+            {showPasswordUpdate ? (
+              <ShellCard eyebrow="Recuperare parolă" title="Alege o parolă nouă">
+                {effectivePasswordSessionState === "ready" ? (
+                  <UpdatePasswordForm />
+                ) : effectivePasswordSessionState === "checking" ? (
+                  <p aria-live="polite" className="text-sm font-semibold text-smart-ink/68">
+                    Verificăm în siguranță linkul de activare…
+                  </p>
+                ) : (
+                  <div className="grid gap-4 text-sm leading-7 text-red-800">
+                    <p>
+                      Linkul de activare sau recuperare este invalid ori a expirat.
+                    </p>
+                    <Link
+                      className="font-bold text-smart-teal"
+                      href={accountModeHref("recuperare-parola", nextPath)}
+                    >
+                      Solicită un link nou
+                    </Link>
+                  </div>
+                )}
+              </ShellCard>
+            ) : null}
+
+            {!showPasswordUpdate ? (
             <ShellCard eyebrow="Autentificare" title={modeLabels[activeAuthMode]}>
               <div className="mb-7 grid grid-cols-2 gap-2 rounded-full bg-smart-cream-deep/72 p-1">
                 {(["conectare", "creare-cont"] as const).map((mode) => (
@@ -946,19 +1073,20 @@ export function AccountHub({
             </ShellCard>
           ) : null}
 
-          <div className="rounded-[28px] border border-smart-abyss/10 bg-white/44 p-5 text-sm leading-7 text-smart-ink/64">
-            <div className="flex gap-3">
-              <CheckCircle2 aria-hidden="true" className="mt-1 size-5 shrink-0 text-smart-teal" />
-              <p>
-                Pentru conturile create cu email, confirmarea adresei este
-                obligatorie. Google și Facebook verifică identitatea prin
-                serviciul lor. Rolul de administrator și drepturile premium
-                rămân gestionate separat și verificate în siguranță pe server.
-              </p>
+            <div className="rounded-[28px] border border-smart-abyss/10 bg-white/44 p-5 text-sm leading-7 text-smart-ink/64">
+              <div className="flex gap-3">
+                <CheckCircle2 aria-hidden="true" className="mt-1 size-5 shrink-0 text-smart-teal" />
+                <p>
+                  Pentru conturile create cu email, confirmarea adresei este
+                  obligatorie. Google și Facebook verifică identitatea prin
+                  serviciul lor. Rolul de administrator și drepturile premium
+                  rămân gestionate separat și verificate în siguranță pe server.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

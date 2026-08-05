@@ -110,15 +110,19 @@ export function CentruFizicLandingPage() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <Image
-          alt=""
-          aria-hidden="true"
-          className={styles.heroImage}
-          fill
-          priority
-          sizes="100vw"
-          src="/images/centrul-fizic/avicenna.jpeg"
-        />
+        <div className={`${styles.heroImageLayer} hero-neural-layer`}>
+          <Image
+            alt=""
+            aria-hidden="true"
+            className={styles.heroImage}
+            fill
+            loading="eager"
+            priority
+            sizes="100vw"
+            src="/images/centrul-fizic/avicenna-night-smartmed.png"
+          />
+          <div aria-hidden="true" className={`${styles.heroImageOverlay} hero-neural-overlay`} />
+        </div>
         <div className={styles.heroScrim} />
         <div className={styles.heroGrain} />
 

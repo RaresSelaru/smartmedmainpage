@@ -116,6 +116,7 @@ export const siteConfig = {
 
 export const generatedAssets = {
   heroNeural: "/assets/generated/hero-neural.png",
+  homepageHeroNeural: "/assets/generated/hero-neural-smartmed.png",
   pathOnline: "/assets/generated/path-online.png",
   pathFizic: "/assets/generated/path-fizic.png",
   ctaHeart: "/assets/generated/cta-heart-stethoscope.png",

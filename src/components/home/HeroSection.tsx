@@ -34,7 +34,7 @@ export function HeroSection() {
           loading="eager"
           priority
           sizes="100vw"
-          src={generatedAssets.heroNeural}
+          src={generatedAssets.homepageHeroNeural}
         />
         <div aria-hidden="true" className="hero-neural-overlay absolute inset-0" />
       </div>
