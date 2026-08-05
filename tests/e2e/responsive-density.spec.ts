@@ -149,7 +149,7 @@ for (const viewport of homeViewports) {
     );
 
     if (viewport.width >= 1024) {
-      const heroHeightRange = viewport.height < 900 ? [860, 890] : [900, 925];
+      const heroHeightRange = [860, 890];
 
       expect.soft(geometry.heroHeight, `${viewport.label}: desktop hero lower bound`).toBeGreaterThanOrEqual(
         heroHeightRange[0],

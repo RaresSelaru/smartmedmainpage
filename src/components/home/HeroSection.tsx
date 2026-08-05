@@ -22,7 +22,7 @@ const proofItems = [
 export function HeroSection() {
   return (
     <section
-      className="relative isolate min-h-[780px] overflow-hidden bg-smart-dark px-5 pb-36 pt-28 text-smart-white sm:min-h-[820px] sm:px-7 sm:pb-44 sm:pt-32 lg:min-h-[740px] lg:px-8 lg:pb-[var(--smart-desktop-hero-bottom)] lg:pt-[var(--smart-desktop-hero-top)]"
+      className="relative isolate min-h-[780px] overflow-hidden bg-smart-dark px-5 pb-36 pt-28 text-smart-white sm:min-h-[820px] sm:px-7 sm:pb-44 sm:pt-32 lg:min-h-[870px] lg:px-8 lg:pb-[var(--smart-desktop-hero-bottom)] lg:pt-[var(--smart-desktop-hero-top)]"
       data-home-hero="true"
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_18%,rgba(156,206,208,0.20),transparent_38%),radial-gradient(circle_at_12%_28%,rgba(200,168,117,0.10),transparent_30%),linear-gradient(135deg,#03111c_0%,#071b29_48%,#061622_100%)]" />
@@ -41,7 +41,7 @@ export function HeroSection() {
       <div className="hero-copy-scrim" />
       <div className="grain-overlay z-[4]" />
       <div className="relative z-10 mx-auto flex max-w-[1580px] items-center py-8 sm:py-10 lg:min-h-[460px] lg:max-w-[var(--smart-wide-content-max)] lg:py-8">
-        <div className="flex w-full min-w-0 max-w-[320px] flex-col items-start text-left sm:max-w-[620px] lg:max-w-[720px]">
+        <div className="flex w-full min-w-0 max-w-[320px] flex-col items-start text-left sm:max-w-[620px] lg:max-w-[740px]">
           <Reveal>
             <div>
               <h1 className="inline-block text-center font-serif text-[36px] font-semibold leading-[1.04] tracking-normal text-smart-white drop-shadow-[0_12px_34px_rgba(0,0,0,0.34)] sm:text-[50px] lg:text-[58px]">
@@ -86,7 +86,7 @@ export function HeroSection() {
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <ul className="mt-8 grid w-full max-w-[760px] grid-cols-2 gap-x-5 gap-y-4 text-sm font-medium text-smart-white/88 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 sm:text-base lg:mt-7 lg:max-w-[684px]">
+            <ul className="mt-8 grid w-full max-w-[760px] grid-cols-2 gap-x-5 gap-y-4 text-sm font-medium text-smart-white/88 sm:flex sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 sm:text-base lg:mt-7 lg:max-w-[740px]">
               {proofItems.map(({ label, Icon }, index) => (
                 <li className="flex items-center gap-3" key={label}>
                   {index > 0 ? (
