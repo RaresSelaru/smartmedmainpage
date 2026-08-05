@@ -4,6 +4,7 @@ const homeViewports = [
   { label: "compact desktop", width: 1366, height: 768 },
   { label: "standard desktop", width: 1440, height: 900 },
   { label: "large laptop", width: 1512, height: 982 },
+  { label: "wide-brand breakpoint", width: 1536, height: 900 },
   { label: "full HD", width: 1920, height: 1080 },
   { label: "QHD", width: 2560, height: 1440 },
   { label: "ultrawide", width: 3440, height: 1440 },
@@ -56,6 +57,8 @@ for (const viewport of homeViewports) {
     const hero = page.locator("[data-home-hero='true']");
     const heroHeading = hero.locator("h1");
     const heroHighlight = heroHeading.locator("span").first();
+    const brandWordmark = header.locator("[data-smart-brand-wordmark='true']");
+    const academicArtwork = page.locator("[data-academic-creation-artwork='true']");
 
     await expect(main, `${viewport.label}: main content`).toBeVisible();
     await expect(header, `${viewport.label}: public header`).toBeVisible();
@@ -63,6 +66,14 @@ for (const viewport of homeViewports) {
     await expect(hero, `${viewport.label}: homepage hero`).toBeVisible();
     await expect(heroHeading, `${viewport.label}: hero heading`).toBeVisible();
     await expect(heroHighlight, `${viewport.label}: hero highlight`).toBeVisible();
+    await expect(academicArtwork, `${viewport.label}: academic artwork`).toBeAttached();
+
+    if (viewport.width >= 1536 || (viewport.width >= 640 && viewport.width < 1280)) {
+      await expect(brandWordmark, `${viewport.label}: complete SmartMed brand`).toBeVisible();
+    } else {
+      await expect(brandWordmark, `${viewport.label}: compact SmartMed brand`).toBeHidden();
+    }
+
     await waitForFonts(page);
 
     const geometry = await page.evaluate(() => {
@@ -223,6 +234,49 @@ for (const viewport of homeViewports) {
       measuredViewportWidth = widthSample.viewportWidth;
     }
 
+    await academicArtwork.scrollIntoViewIfNeeded();
+    await waitForLayout(page);
+
+    const artworkGeometry = await academicArtwork.evaluate((artworkElement) => {
+      const artworkRect = artworkElement.getBoundingClientRect();
+      const imageRect = artworkElement.querySelector("img")?.getBoundingClientRect();
+
+      return {
+        artworkCenter: artworkRect.left + artworkRect.width / 2,
+        artworkLeft: artworkRect.left,
+        artworkRight: artworkRect.right,
+        imageAspectRatio: imageRect ? imageRect.width / imageRect.height : 0,
+        imageLeft: imageRect?.left ?? 0,
+        imageRight: imageRect?.right ?? 0,
+        viewportWidth: document.documentElement.clientWidth,
+      };
+    });
+
+    expect.soft(artworkGeometry.artworkLeft, `${viewport.label}: artwork left edge`).toBeCloseTo(
+      0,
+      0,
+    );
+    expect.soft(artworkGeometry.artworkRight, `${viewport.label}: artwork right edge`).toBeCloseTo(
+      artworkGeometry.viewportWidth,
+      0,
+    );
+    expect.soft(artworkGeometry.artworkCenter, `${viewport.label}: artwork fixed center`).toBeCloseTo(
+      artworkGeometry.viewportWidth / 2,
+      0,
+    );
+    expect.soft(artworkGeometry.imageLeft, `${viewport.label}: image left edge`).toBeCloseTo(
+      0,
+      0,
+    );
+    expect.soft(artworkGeometry.imageRight, `${viewport.label}: image right edge`).toBeCloseTo(
+      artworkGeometry.viewportWidth,
+      0,
+    );
+    expect.soft(artworkGeometry.imageAspectRatio, `${viewport.label}: artwork aspect ratio`).toBeCloseTo(
+      1425 / 735,
+      2,
+    );
+
     expect.soft(maxPageWidth, `${viewport.label}: full-scroll horizontal overflow`).toBeLessThanOrEqual(
       measuredViewportWidth + 1,
     );
@@ -238,9 +292,11 @@ for (const viewport of atlasViewports) {
 
     const story = page.locator("#atlas-modulelor-speciale");
     const chapters = page.locator("#atlas-modulelor-speciale > article");
+    const nav = page.locator("[data-smart-header='true'] nav");
 
     await expect(story).toBeVisible();
     await expect(chapters).toHaveCount(5);
+    await expect(nav).toBeVisible();
     await waitForFonts(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await waitForLayout(page);
@@ -274,9 +330,27 @@ for (const viewport of atlasViewports) {
         };
       }),
     );
+    const navGroups = await nav.evaluate((navElement) => {
+      const [brand, menu, actions] = Array.from(navElement.children).map((element) =>
+        element.getBoundingClientRect(),
+      );
+
+      return {
+        actionsLeft: actions?.left ?? 0,
+        brandRight: brand?.right ?? 0,
+        menuLeft: menu?.left ?? 0,
+        menuRight: menu?.right ?? 0,
+      };
+    });
     const pageWidth = await measurePageWidth(page);
 
     expect(chapterLayouts).toHaveLength(5);
+    expect.soft(navGroups.brandRight, `${viewport.width}px: brand clears navigation`).toBeLessThanOrEqual(
+      navGroups.menuLeft,
+    );
+    expect.soft(navGroups.menuRight, `${viewport.width}px: navigation clears actions`).toBeLessThanOrEqual(
+      navGroups.actionsLeft,
+    );
 
     for (const [index, layout] of chapterLayouts.entries()) {
       expect.soft(layout.display, `${viewport.width}px chapter ${index + 1}: grid layout`).toBe(

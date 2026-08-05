@@ -273,7 +273,10 @@ export function Navbar() {
             src="/assets/brand/smartmed-logo-mark.svg"
             width={65}
           />
-          <span className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block xl:hidden">
+          <span
+            className="hidden -ml-2.5 max-w-[170px] whitespace-nowrap text-center leading-none sm:block xl:hidden 2xl:block 2xl:max-w-[190px]"
+            data-smart-brand-wordmark="true"
+          >
             <span className="block font-serif text-xl font-semibold uppercase tracking-[0.16em]">
               {siteConfig.name}
             </span>

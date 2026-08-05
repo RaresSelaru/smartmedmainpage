@@ -81,7 +81,10 @@ export function AcademicCreationSection() {
         <OrnamentalDivider className="my-14 sm:my-16 lg:my-16" />
 
         <Reveal delay={0.08}>
-          <div className="relative left-1/2 w-screen -translate-x-1/2 lg:w-[min(90vw,1440px)]">
+          <div
+            className="relative left-1/2 w-screen -translate-x-1/2"
+            data-academic-creation-artwork="true"
+          >
             <Image
               alt="SmartMed Academy, succesul prin constanță, admiterea 2027, pregătire cu medici"
               className="h-auto w-full object-contain object-center"
