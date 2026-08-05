@@ -231,7 +231,6 @@ for (const viewport of homeViewports) {
 
 for (const viewport of atlasViewports) {
   test(`all special-module chapters alternate at ${viewport.width}px`, async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
 
     const response = await page.goto("/module-speciale");
@@ -243,6 +242,8 @@ for (const viewport of atlasViewports) {
     await expect(story).toBeVisible();
     await expect(chapters).toHaveCount(5);
     await waitForFonts(page);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await waitForLayout(page);
 
     for (let index = 0; index < 5; index += 1) {
       await chapters.nth(index).scrollIntoViewIfNeeded();
