@@ -17,7 +17,6 @@ import {
   Mail,
   MessageCircle,
   Microscope,
-  Route,
   ShieldCheck,
   Sparkles,
   Stethoscope,
@@ -457,13 +456,40 @@ function ProgramHero({ config }: { config: GradeProgramConfig }) {
       <div className={styles.heroInner}>
         <Reveal>
           <div className={styles.heroCopy}>
-            <span className={styles.admissionBadge}>{config.admissionYear}</span>
+            <span
+              className={styles.admissionBadge}
+              data-registration-admission-badge="true"
+            >
+              {config.admissionYear}
+            </span>
             <p className={styles.programLabel}>{config.programLabel}</p>
             <h1>{config.title}</h1>
-            <p className={styles.heroLead}>{config.lead}</p>
-            <p className={styles.heroGuide}>{config.guide}</p>
+            <p className={styles.heroLead} data-registration-hero-lead="true">
+              {config.lead}
+            </p>
 
-            <div className={styles.heroActions}>
+            <div className={styles.focusCard} data-registration-focus-card="true">
+              <div className={styles.focusCardHeader}>
+                <p>{config.focusTitle}</p>
+              </div>
+              <ul>
+                {config.focusItems.map((item) => (
+                  <li key={item}>
+                    <CheckCircle2 aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className={styles.heroGuide} data-registration-hero-guide="true">
+              {config.guide}
+            </p>
+
+            <div
+              className={styles.heroActions}
+              data-registration-hero-actions="true"
+            >
               <Link className={styles.primaryButton} href="#abonamente">
                 <GraduationCap aria-hidden="true" className="size-5" />
                 Alege planul tău
@@ -474,34 +500,18 @@ function ProgramHero({ config }: { config: GradeProgramConfig }) {
                 {config.meetingLabel}
               </Link>
             </div>
-          </div>
-        </Reveal>
 
-        <Reveal className={styles.heroFocus}>
-          <div className={styles.focusCard}>
-            <div className={styles.focusCardHeader}>
-              <span className={styles.focusIcon}>
-                <Route aria-hidden="true" className="size-5" />
-              </span>
-              <p>{config.focusTitle}</p>
-            </div>
-            <ul>
-              {config.focusItems.map((item) => (
-                <li key={item}>
-                  <CheckCircle2 aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {config.closingCopy ? (
+              <div
+                className={styles.heroClosing}
+                data-registration-closing-copy="true"
+              >
+                <p>{config.closingCopy.lead}</p>
+                <span>{config.closingCopy.kicker}</span>
+                <strong>{config.closingCopy.title}</strong>
+              </div>
+            ) : null}
           </div>
-
-          {config.closingCopy ? (
-            <div className={styles.heroClosing} data-registration-closing-copy="true">
-              <p>{config.closingCopy.lead}</p>
-              <span>{config.closingCopy.kicker}</span>
-              <strong>{config.closingCopy.title}</strong>
-            </div>
-          ) : null}
         </Reveal>
       </div>
 

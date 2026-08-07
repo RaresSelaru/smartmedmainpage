@@ -446,7 +446,7 @@ for (const viewport of registrationViewports) {
 }
 
 test("the three enrollment routes keep their own hero identity", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.setViewportSize({ width: 1536, height: 900 });
 
   for (const gradeRoute of gradeEnrollmentRoutes) {
     const response = await page.goto(gradeRoute.route);
@@ -459,6 +459,58 @@ test("the three enrollment routes keep their own hero identity", async ({ page }
     await expect(hero.getByRole("heading", { level: 1 })).toHaveText(
       gradeRoute.heading,
     );
+
+    const heroLead = hero.locator("[data-registration-hero-lead='true']");
+    const focusCard = hero.locator("[data-registration-focus-card='true']");
+    const heroGuide = hero.locator("[data-registration-hero-guide='true']");
+    const heroActions = hero.locator("[data-registration-hero-actions='true']");
+    const admissionBadge = hero.locator(
+      "[data-registration-admission-badge='true']",
+    );
+    const heroWave = hero.locator(".smart-wave-separator");
+    const publicNavigation = page.locator("[data-smart-header='true'] nav");
+    await expect(heroLead).toBeVisible();
+    await expect(focusCard).toBeVisible();
+    await expect(heroGuide).toBeVisible();
+    await expect(heroActions).toBeVisible();
+    await expect(admissionBadge).toBeVisible();
+    await expect(heroWave).toBeVisible();
+    await expect(publicNavigation).toBeVisible();
+    await expect(focusCard.locator("li")).toHaveCount(4);
+
+    const [leadBox, focusBox, guideBox, actionsBox, badgeBox, waveBox, navBox] =
+      await Promise.all([
+        heroLead.evaluate((element) => element.getBoundingClientRect().toJSON()),
+        focusCard.evaluate((element) =>
+          element.getBoundingClientRect().toJSON(),
+        ),
+        heroGuide.evaluate((element) => element.getBoundingClientRect().toJSON()),
+        heroActions.evaluate((element) =>
+          element.getBoundingClientRect().toJSON(),
+        ),
+        admissionBadge.evaluate((element) =>
+          element.getBoundingClientRect().toJSON(),
+        ),
+        heroWave.evaluate((element) => element.getBoundingClientRect().toJSON()),
+        publicNavigation.evaluate((element) =>
+          element.getBoundingClientRect().toJSON(),
+        ),
+      ]);
+    expect
+      .soft(focusBox.top, `${gradeRoute.route}: focus points below lead`)
+      .toBeGreaterThan(leadBox.bottom);
+    expect
+      .soft(guideBox.top, `${gradeRoute.route}: guide below focus points`)
+      .toBeGreaterThan(focusBox.bottom);
+    expect
+      .soft(focusBox.width, `${gradeRoute.route}: compact focus presentation`)
+      .toBeLessThan(720);
+    expect
+      .soft(badgeBox.top, `${gradeRoute.route}: badge clears navigation`)
+      .toBeGreaterThan(navBox.bottom + 24);
+    expect
+      .soft(waveBox.top, `${gradeRoute.route}: actions clear hero wave`)
+      .toBeGreaterThan(actionsBox.bottom + 32);
   }
 });
 
