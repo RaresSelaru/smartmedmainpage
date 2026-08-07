@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BarChart3,
   Bell,
-  BookOpen,
   CalendarDays,
   Check,
   CheckCircle2,
@@ -33,6 +32,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
 
 import styles from "./grade-program-page.module.css";
+import { SupportBenefitsGrid } from "./support-benefits-grid";
 
 export type GradeProgramConfig = {
   admissionYear: string;
@@ -161,15 +161,6 @@ const protocolSteps = [
     icon: TrendingUp,
     text: "Optimizăm strategia de învățare în funcție de rezultate",
   },
-] as const;
-
-const supportBenefits = [
-  { icon: Users, label: "Mentorat pâna la examen" },
-  { icon: BookOpen, label: "Acces GrileSmart" },
-  { icon: GraduationCap, label: "Cursuri FIZIC la Centru" },
-  { icon: Target, label: "Prgătire personalizată" },
-  { icon: ClipboardCheck, label: "Testare de nivel GRATUITĂ" },
-  { icon: Clock3, label: "Simulare REALĂ" },
 ] as const;
 
 const meetingSteps = [
@@ -587,16 +578,7 @@ function SupportSection() {
           </div>
         </Reveal>
 
-        <div className={styles.supportGrid}>
-          {supportBenefits.map(({ icon: Icon, label }) => (
-            <article className={styles.supportCard} key={label}>
-              <span>
-                <Icon aria-hidden="true" />
-              </span>
-              <p>{label}</p>
-            </article>
-          ))}
-        </div>
+        <SupportBenefitsGrid />
 
         <Reveal>
           <article className={styles.meetingCard}>
@@ -636,39 +618,147 @@ function SupportSection() {
 }
 
 function RoadmapAndProgressSection() {
+  const calendarDays = [
+    null,
+    null,
+    null,
+    null,
+    null,
+    ...Array.from({ length: 31 }, (_, index) => index + 1),
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ];
+  const courseDays = new Set([3, 10, 17, 24, 31]);
+  const reviewDays = new Set([6, 13, 20, 27]);
+
   return (
-    <section className={styles.roadmapSection}>
+    <section className={styles.roadmapSection} data-admission-calendar-section="true">
       <div className={styles.content}>
-        <div className={styles.roadmapGrid}>
+        <div className={styles.roadmapStack}>
           <Reveal>
             <article className={styles.roadmapPanel}>
-              <SectionLabel>Calendarul admiterii tale</SectionLabel>
-              <h2>Traseul tău structurat până la în clasa a XII-a</h2>
-              <div className={styles.timeline} aria-hidden="true">
-                {["SEPT", "IAN", "APR", "IUL"].map((month, index) => (
-                  <div key={month}>
-                    <span>{month}</span>
-                    <i className={index === 3 ? styles.timelineActive : undefined} />
-                  </div>
-                ))}
-              </div>
-              <div className={styles.calendarMock} aria-hidden="true">
-                <span className={styles.calendarIcon}>
-                  <CalendarDays />
-                </span>
+              <div className={styles.calendarHeading}>
                 <div>
-                  <i />
-                  <i />
-                  <i />
+                  <SectionLabel>Calendarul admiterii tale</SectionLabel>
+                  <h2>Traseul tău structurat până la în clasa a XII-a</h2>
                 </div>
+                <p>
+                  Vezi dintr-o privire ritmul cursurilor, testărilor și
+                  recapitulărilor care îți construiesc progresul lună de lună.
+                </p>
+              </div>
+
+              <div className={styles.calendarFilters} aria-label="Filtre calendar">
+                <span>Alege Centru de pregătire</span>
+                <span>Alege Materia</span>
+              </div>
+
+              <div className={styles.admissionCalendarLayout}>
+                <div className={styles.admissionCalendar}>
+                  <div className={styles.calendarMonthBar}>
+                    <span aria-hidden="true">‹</span>
+                    <strong>AUGUST 2026</strong>
+                    <span aria-hidden="true">›</span>
+                  </div>
+
+                  <div className={styles.calendarWeekdays} aria-hidden="true">
+                    {[
+                      "LUN",
+                      "MAR",
+                      "MIE",
+                      "JOI",
+                      "VIN",
+                      "SÂM",
+                      "DUM",
+                    ].map((day) => (
+                      <span key={day}>{day}</span>
+                    ))}
+                  </div>
+
+                  <div className={styles.calendarDays}>
+                    {calendarDays.map((day, index) => {
+                      const isCourse = day !== null && courseDays.has(day);
+                      const isReview = day !== null && reviewDays.has(day);
+
+                      return (
+                        <div
+                          className={styles.calendarDay}
+                          data-calendar-day={day ?? undefined}
+                          key={String(day) + "-" + index}
+                        >
+                          {day ? <span>{day}</span> : null}
+                          {isCourse ? (
+                            <i
+                              aria-label="Curs"
+                              className={styles.courseMarker}
+                            />
+                          ) : null}
+                          {isReview ? (
+                            <i
+                              aria-label="Testare și recapitulare"
+                              className={styles.reviewMarker}
+                            />
+                          ) : null}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className={styles.calendarKey}>
+                    <span>
+                      <i className={styles.courseMarker} /> Curs
+                    </span>
+                    <span>
+                      <i className={styles.reviewMarker} /> Testare +
+                      Recapitulare
+                    </span>
+                  </div>
+                  <p className={styles.calendarNote}>
+                    * Se ține cont de sărbătorile legale, iar orarul se
+                    adaptează după acestea.
+                  </p>
+                </div>
+
+                <aside className={styles.calendarEventGuide}>
+                  <article>
+                    <strong>
+                      <i className={styles.courseMarker} /> Curs
+                    </strong>
+                    <p>
+                      Curs LIVE de predare de la 0 cu profesorul și consolidăm
+                      baza materiei de admitere.
+                    </p>
+                  </article>
+                  <article>
+                    <strong>
+                      <i className={styles.reviewMarker} /> Testare +
+                      Recapitulare
+                    </strong>
+                    <ul>
+                      <li>Testare LIVE pe baza materiei predate.</li>
+                      <li>Recapitulări aplicate alături de profesor.</li>
+                      <li>Clarifici cele mai importante aspecte din curs.</li>
+                    </ul>
+                  </article>
+                </aside>
               </div>
             </article>
           </Reveal>
 
           <Reveal>
             <article className={styles.progressPanel}>
-              <SectionLabel>Pregătire personalizată</SectionLabel>
-              <h2>Progresul tău mai clar ca niciodată</h2>
+              <div className={styles.progressHeading}>
+                <SectionLabel>Pregătire personalizată</SectionLabel>
+                <h2>Progresul tău mai clar ca niciodată</h2>
+                <p>
+                  Monitorizăm, analizăm și optimizăm pregătirea ta pe baza
+                  rezultatelor reale.
+                </p>
+              </div>
               <div className={styles.progressDashboard} aria-hidden="true">
                 <div className={styles.progressStat}>
                   <span>82%</span>

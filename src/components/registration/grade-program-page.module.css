@@ -463,44 +463,304 @@
 .supportGrid {
   display: grid;
   margin-top: 2.5rem;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
 .supportCard {
-  display: flex;
-  min-height: 7rem;
-  align-items: center;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   border: 1px solid rgba(3, 17, 28, 0.1);
-  border-radius: 1.5rem;
-  padding: 1rem;
-  background: rgba(248, 244, 236, 0.48);
-  box-shadow: 0 14px 38px rgba(3, 17, 28, 0.045);
-  gap: 0.9rem;
+  border-radius: 1.75rem;
+  padding: 0;
+  background: rgba(248, 244, 236, 0.64);
+  box-shadow: 0 18px 44px rgba(3, 17, 28, 0.08);
+  color: var(--smart-ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.supportCard > span {
+.supportCard:hover {
+  border-color: rgba(31, 111, 120, 0.28);
+  box-shadow: 0 24px 54px rgba(3, 17, 28, 0.13);
+  transform: translateY(-4px);
+}
+
+.supportCard:focus-visible {
+  outline: 3px solid rgba(31, 111, 120, 0.42);
+  outline-offset: 4px;
+}
+
+.supportCardMedia {
+  position: relative;
+  display: block;
+  min-height: 9rem;
+  overflow: hidden;
+  background: rgba(31, 111, 120, 0.08);
+}
+
+.supportCardMedia img {
+  transition: transform 350ms ease;
+}
+
+.supportCard:hover .supportCardMedia img {
+  transform: scale(1.035);
+}
+
+.supportCardScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 38%, rgba(3, 17, 28, 0.42));
+}
+
+.supportCardDetailBadge {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
   display: flex;
-  width: 3.3rem;
-  height: 3.3rem;
-  flex: 0 0 auto;
+  min-height: 1.7rem;
+  align-items: center;
+  border: 1px solid rgba(248, 244, 236, 0.22);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  background: rgba(3, 17, 28, 0.82);
+  box-shadow: 0 8px 24px rgba(3, 17, 28, 0.2);
+  color: var(--smart-white);
+  font-size: 0.5rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.supportCardIcon {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.9rem;
+  display: flex;
+  width: 2.9rem;
+  height: 2.9rem;
   align-items: center;
   justify-content: center;
-  border-radius: 1rem;
+  border: 1px solid rgba(248, 244, 236, 0.28);
+  border-radius: 0.9rem;
   background: linear-gradient(145deg, var(--smart-teal), #2e7f88);
   box-shadow: 0 12px 26px rgba(31, 111, 120, 0.18);
   color: var(--smart-white);
 }
 
-.supportCard svg {
+.supportCardIcon svg {
   width: 1.4rem;
   height: 1.4rem;
   stroke-width: 1.8;
 }
 
-.supportCard p {
-  font-size: 0.88rem;
+.supportCardBody {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem 1.15rem;
+  gap: 1rem;
+}
+
+.supportCardBody > strong {
+  font-size: 0.86rem;
   font-weight: 800;
   line-height: 1.4;
+}
+
+.supportCardAction {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  color: var(--smart-teal);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  gap: 0.35rem;
+}
+
+.supportCardAction svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.supportDialog {
+  width: min(58rem, calc(100% - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  overflow: auto;
+  border: 1px solid rgba(156, 206, 208, 0.2);
+  border-radius: 2rem;
+  padding: 0;
+  background: var(--smart-cream);
+  box-shadow: 0 38px 120px rgba(0, 0, 0, 0.48);
+  color: var(--smart-ink);
+}
+
+.supportDialog::backdrop {
+  background: rgba(3, 17, 28, 0.76);
+  backdrop-filter: blur(14px);
+}
+
+.supportDialogShell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+}
+
+.supportDialogVisual {
+  position: relative;
+  min-height: 15rem;
+  overflow: hidden;
+  background: var(--smart-deep);
+}
+
+.supportDialogVisual > span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 42%, rgba(3, 17, 28, 0.5));
+}
+
+.supportDialogVisual > span::after {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: flex;
+  width: 2.2rem;
+  height: 2.2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(248, 244, 236, 0.28);
+  border-radius: 50%;
+  background: rgba(3, 17, 28, 0.82);
+  color: var(--smart-gold-light);
+  content: "SM";
+  font-size: 0.48rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.supportDialogContent {
+  position: relative;
+  padding: 1.55rem;
+}
+
+.supportDialogClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  width: 2.65rem;
+  height: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(3, 17, 28, 0.13);
+  border-radius: 50%;
+  background: rgba(248, 244, 236, 0.92);
+  box-shadow: 0 10px 30px rgba(3, 17, 28, 0.12);
+  color: var(--smart-ink);
+  cursor: pointer;
+}
+
+.supportDialogClose:focus-visible {
+  outline: 3px solid rgba(31, 111, 120, 0.38);
+  outline-offset: 3px;
+}
+
+.supportDialogClose svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.supportDialogEyebrow {
+  padding-right: 3.5rem;
+  color: var(--smart-teal);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.supportDialogContent h3 {
+  max-width: 44rem;
+  margin-top: 0.65rem;
+  padding-right: 2.5rem;
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.35rem, 5vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.supportDialogSubtitle {
+  max-width: 42rem;
+  margin-top: 0.8rem;
+  color: rgba(10, 21, 32, 0.58);
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.supportDialogIncludes {
+  margin-top: 1.35rem;
+  border-top: 1px solid rgba(3, 17, 28, 0.1);
+  padding-top: 1.15rem;
+}
+
+.supportDialogIncludes > strong,
+.supportDialogFooter > strong {
+  color: var(--smart-teal);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.supportDialogIncludes ul {
+  display: grid;
+  margin-top: 0.9rem;
+  gap: 0.7rem;
+}
+
+.supportDialogIncludes li {
+  display: flex;
+  align-items: flex-start;
+  color: rgba(10, 21, 32, 0.75);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.5;
+  gap: 0.65rem;
+}
+
+.supportDialogIncludes li svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  margin-top: 0.18rem;
+  color: var(--smart-teal);
+}
+
+.supportDialogFooter {
+  margin-top: 1.25rem;
+  border: 1px solid rgba(31, 111, 120, 0.13);
+  border-radius: 1.15rem;
+  padding: 1rem;
+  background: rgba(156, 206, 208, 0.1);
+}
+
+.supportDialogFooter p {
+  margin-top: 0.4rem;
+  color: rgba(10, 21, 32, 0.7);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.55;
 }
 
 .meetingCard {
@@ -578,7 +838,7 @@
   padding-block: 5.5rem 11.75rem;
 }
 
-.roadmapGrid {
+.roadmapStack {
   display: grid;
   gap: 1.25rem;
 }
@@ -600,102 +860,216 @@
   font-size: clamp(2.2rem, 4.5vw, 3.35rem);
 }
 
-.timeline {
-  position: relative;
+.calendarHeading {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 2rem;
-  gap: 0;
+  gap: 1rem;
 }
 
-.timeline::before {
-  position: absolute;
-  top: 2.25rem;
-  right: 8%;
-  left: 8%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--smart-teal), var(--smart-gold));
-  content: "";
+.calendarHeading > p,
+.progressHeading > p {
+  max-width: 35rem;
+  color: rgba(10, 21, 32, 0.6);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.65;
 }
 
-.timeline div {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 0.65rem;
+.calendarFilters {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.6rem;
+  gap: 0.6rem;
 }
 
-.timeline span {
-  color: rgba(10, 21, 32, 0.5);
+.calendarFilters span {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  border: 1px solid rgba(31, 111, 120, 0.14);
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.32);
+  color: rgba(10, 21, 32, 0.58);
   font-size: 0.62rem;
   font-weight: 800;
+  letter-spacing: 0.07em;
+}
+
+.admissionCalendarLayout {
+  display: grid;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.admissionCalendar {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(31, 111, 120, 0.14);
+  border-radius: 1.5rem;
+  padding: 0.9rem;
+  background: rgba(239, 249, 249, 0.58);
+}
+
+.calendarMonthBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem 0.15rem 0.8rem;
+}
+
+.calendarMonthBar > span {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(31, 111, 120, 0.15);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--smart-teal);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.calendarMonthBar strong {
+  color: rgba(10, 21, 32, 0.68);
+  font-size: 0.7rem;
+  font-weight: 850;
   letter-spacing: 0.12em;
 }
 
-.timeline i {
-  z-index: 1;
-  width: 1rem;
-  height: 1rem;
-  border: 3px solid var(--smart-cream-surface);
-  border-radius: 50%;
-  background: var(--smart-teal);
-  box-shadow: 0 0 0 1px rgba(31, 111, 120, 0.22);
-}
-
-.timeline .timelineActive {
-  background: var(--smart-gold);
-  box-shadow: 0 0 0 5px rgba(200, 168, 117, 0.15);
-}
-
-.calendarMock {
-  display: flex;
-  align-items: center;
-  margin-top: 2rem;
-  border: 1px solid rgba(31, 111, 120, 0.13);
-  border-radius: 1.2rem;
-  padding: 0.85rem;
-  background: rgba(255, 255, 255, 0.26);
-  gap: 0.9rem;
-}
-
-.calendarIcon {
-  display: flex;
-  width: 3.2rem;
-  height: 3.2rem;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1rem;
-  background: var(--smart-teal);
-  color: var(--smart-white);
-}
-
-.calendarIcon svg {
-  width: 1.4rem;
-}
-
-.calendarMock > div {
+.calendarWeekdays,
+.calendarDays {
   display: grid;
-  flex: 1;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendarWeekdays {
+  border-block: 1px solid rgba(31, 111, 120, 0.09);
+  padding-block: 0.55rem;
+}
+
+.calendarWeekdays span {
+  color: rgba(10, 21, 32, 0.42);
+  font-size: 0.48rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.calendarDays {
+  padding-top: 0.35rem;
+}
+
+.calendarDay {
+  position: relative;
+  display: flex;
+  min-height: 2.75rem;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: 0.65rem;
+  padding-top: 0.5rem;
+  color: rgba(10, 21, 32, 0.62);
+  font-size: 0.62rem;
+  font-weight: 750;
+}
+
+.calendarDay[data-calendar-day]:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.calendarDay > i {
+  position: absolute;
+  bottom: 0.38rem;
+}
+
+.courseMarker,
+.reviewMarker {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: 0 0 auto;
+  border-radius: 0.14rem;
+  background: #58ba72;
+}
+
+.reviewMarker {
+  background: #56aee8;
+}
+
+.calendarKey {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.55rem;
+  border-top: 1px solid rgba(31, 111, 120, 0.09);
+  padding-top: 0.75rem;
+  gap: 0.8rem;
+}
+
+.calendarKey span {
+  display: flex;
+  align-items: center;
+  color: rgba(10, 21, 32, 0.5);
+  font-size: 0.56rem;
+  font-weight: 750;
+  gap: 0.35rem;
+}
+
+.calendarNote {
+  margin-top: 0.65rem;
+  color: rgba(10, 21, 32, 0.36);
+  font-size: 0.48rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.calendarEventGuide {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.calendarEventGuide article {
+  border: 1px solid rgba(31, 111, 120, 0.11);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.calendarEventGuide strong {
+  display: flex;
+  align-items: center;
+  color: var(--smart-teal);
+  font-size: 0.72rem;
+  font-weight: 850;
   gap: 0.45rem;
 }
 
-.calendarMock i {
-  display: block;
-  width: 100%;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: rgba(10, 21, 32, 0.08);
+.calendarEventGuide p,
+.calendarEventGuide li {
+  color: rgba(10, 21, 32, 0.58);
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.55;
 }
 
-.calendarMock i:nth-child(2) {
-  width: 76%;
-  background: rgba(31, 111, 120, 0.2);
+.calendarEventGuide p,
+.calendarEventGuide ul {
+  margin-top: 0.65rem;
 }
 
-.calendarMock i:nth-child(3) {
-  width: 46%;
-  background: rgba(200, 168, 117, 0.28);
+.calendarEventGuide ul {
+  display: grid;
+  padding-left: 1rem;
+  list-style: disc;
+  gap: 0.4rem;
+}
+
+.progressHeading h2 {
+  max-width: 40rem;
+}
+
+.progressHeading > p {
+  margin-top: 0.9rem;
 }
 
 .progressDashboard {
@@ -1644,9 +2018,31 @@
   }
 
   .advantageGrid,
-  .roadmapGrid,
   .subjectGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .supportDialogShell {
+    grid-template-columns: minmax(17rem, 0.76fr) minmax(0, 1.24fr);
+  }
+
+  .supportDialogVisual {
+    min-height: 100%;
+  }
+
+  .calendarHeading {
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    align-items: end;
+  }
+
+  .admissionCalendarLayout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.72fr);
+  }
+
+  .progressPanel {
+    grid-template-columns: minmax(0, 0.86fr) minmax(20rem, 1.14fr);
+    align-items: center;
+    gap: 2rem;
   }
 
   .teamGrid {
@@ -1762,8 +2158,8 @@
   }
 
   .supportCard {
-    min-height: 8rem;
-    padding: 1.2rem;
+    min-height: 0;
+    padding: 0;
   }
 
   .meetingCard {

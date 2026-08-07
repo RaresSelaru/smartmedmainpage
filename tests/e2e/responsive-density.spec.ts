@@ -541,6 +541,56 @@ test("the longer class XII hero remains complete on a compact mobile viewport", 
   );
 });
 
+test("support details and the admission calendar are available on every grade route", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  for (const gradeRoute of gradeEnrollmentRoutes) {
+    const response = await page.goto(gradeRoute.route);
+    expect(response?.ok(), `${gradeRoute.route}: successful response`).toBe(true);
+
+    const supportGrid = page.locator("[data-support-benefits-grid='true']");
+    const calendarSection = page.locator(
+      "[data-admission-calendar-section='true']",
+    );
+    await expect(supportGrid).toBeVisible();
+    await expect(supportGrid.locator("[data-support-card]")).toHaveCount(6);
+    await expect(calendarSection).toBeVisible();
+    await expect(
+      calendarSection.getByRole("heading", {
+        name: "Traseul tău structurat până la în clasa a XII-a",
+      }),
+    ).toBeVisible();
+    await expect(calendarSection.locator("[data-calendar-day='31']")).toBeVisible();
+
+    const widthSample = await measurePageWidth(page);
+    expect.soft(
+      widthSample.pageWidth,
+      `${gradeRoute.route}: support and calendar horizontal overflow`,
+    ).toBeLessThanOrEqual(widthSample.viewportWidth + 1);
+  }
+
+  await page.goto(gradeEnrollmentRoutes[0].route);
+
+  for (const title of [
+    "Mentorat până la examen",
+    "Acces GrileSmart",
+    "Cursuri FIZIC la Centru",
+    "Pregătirea ta personalizată",
+    "Testare de nivel GRATUITĂ",
+    "Simulare REALĂ",
+  ]) {
+    await page.getByRole("button", { name: new RegExp(title) }).click();
+    const dialog = page.locator("[data-support-dialog='true']");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: title })).toBeVisible();
+    await expect(dialog.getByText("Ce include:")).toBeVisible();
+    await dialog.getByRole("button", { name: "Închide detaliile" }).click();
+    await expect(dialog).not.toBeVisible();
+  }
+});
+
 test("the events catalog is available on its dedicated route", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
 
