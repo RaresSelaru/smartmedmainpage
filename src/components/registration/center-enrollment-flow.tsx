@@ -475,6 +475,13 @@ export function CenterEnrollmentFlow({
   selectedPlan,
 }: CenterEnrollmentFlowProps) {
   const contextualGrade = gradeFromContext(context.grade);
+  const plansHref = context.grade
+    ? "/inscriere/clasa-a-" +
+      context.grade +
+      "-a" +
+      (context.source ? "?source=" + encodeURIComponent(context.source) : "") +
+      "#abonamente"
+    : "/inscriere";
   const initialGrade = prefill.currentGrade ?? contextualGrade;
   const initialName = splitFullName(prefill.fullName);
   const initialLocation = splitLocalityCounty(prefill.localityCounty);
@@ -1048,6 +1055,12 @@ export function CenterEnrollmentFlow({
               <p className="mt-1 text-sm font-extrabold text-white">
                 {selectedPlan.label}
               </p>
+              <Link
+                className="mt-2 inline-flex min-h-9 items-center text-xs font-bold text-white/70 transition hover:text-white"
+                href={plansHref}
+              >
+                Schimbă abonamentul
+              </Link>
             </div>
 
             <ol className="mt-6 grid gap-2">

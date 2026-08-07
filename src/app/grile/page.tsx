@@ -5,7 +5,7 @@ import { GrileReferralPage } from "@/components/pages/grile-referral-page";
 export const metadata: Metadata = {
   title: "Grile SmartMed",
   description:
-    "Pagină de trimitere către platforma externă de grile SmartMed, configurabilă prin NEXT_PUBLIC_GRILE_URL.",
+    "Exersează pentru admitere cu grile SmartMed organizate pe discipline, capitole și niveluri de pregătire.",
 };
 
 export default function GrilePage() {

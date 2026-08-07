@@ -356,7 +356,7 @@ export function Navbar() {
             <Link
               aria-label="Înscrie-te la Centrul SmartMed"
               className="group inline-flex size-11 shrink-0 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold md:w-auto md:px-4 lg:hidden"
-              href="/#abonamente"
+              href="/inscriere"
             >
               <GraduationCap
                 aria-hidden="true"
@@ -376,7 +376,7 @@ export function Navbar() {
                 ? "max-w-[150px] border-smart-gold-light/55 px-4 opacity-100 shadow-[0_12px_30px_rgba(213,173,107,0.2),inset_0_1px_0_rgba(255,255,255,0.58)] hover:shadow-[0_16px_38px_rgba(213,173,107,0.3),inset_0_1px_0_rgba(255,255,255,0.68)]"
                 : "pointer-events-none max-w-0 border-transparent px-0 opacity-0 shadow-none",
             )}
-            href="/#abonamente"
+            href="/inscriere"
             tabIndex={showRegistrationCta ? undefined : -1}
           >
             <GraduationCap
@@ -505,7 +505,7 @@ export function Navbar() {
             {showRegistrationCta ? (
               <Link
                 className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-full border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-4 text-sm font-extrabold text-smart-abyss shadow-[0_12px_30px_rgba(213,173,107,0.18),inset_0_1px_0_rgba(255,255,255,0.58)]"
-                href="/#abonamente"
+                href="/inscriere"
                 onClick={() => setOpen(false)}
               >
                 <GraduationCap aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />

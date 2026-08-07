@@ -62,7 +62,22 @@ const staticRoutes = [
   { path: "/contact", changeFrequency: "monthly", priority: 0.6 },
   { path: "/evaluare", changeFrequency: "weekly", priority: 0.95 },
   { path: "/inscriere", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/inscriere/centru", changeFrequency: "monthly", priority: 0.85 },
+  {
+    path: "/inscriere/clasa-a-10-a",
+    changeFrequency: "weekly",
+    priority: 0.9,
+  },
+  {
+    path: "/inscriere/clasa-a-11-a",
+    changeFrequency: "weekly",
+    priority: 0.9,
+  },
+  {
+    path: "/inscriere/clasa-a-12-a",
+    changeFrequency: "weekly",
+    priority: 0.9,
+  },
+  { path: "/evenimente", changeFrequency: "weekly", priority: 0.9 },
   { path: "/ajutor", changeFrequency: "monthly", priority: 0.5 },
   { path: "/termeni", changeFrequency: "yearly", priority: 0.3 },
   { path: "/confidentialitate", changeFrequency: "yearly", priority: 0.3 },

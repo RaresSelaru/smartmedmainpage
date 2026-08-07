@@ -20,7 +20,11 @@ export type AppRoute =
   | "/despre"
   | "/contact"
   | "/evaluare"
+  | "/evenimente"
   | "/inscriere"
+  | "/inscriere/clasa-a-10-a"
+  | "/inscriere/clasa-a-11-a"
+  | "/inscriere/clasa-a-12-a"
   | "/inscriere/centru"
   | "/cont"
   | "/cautare"
@@ -28,7 +32,9 @@ export type AppRoute =
   | "/confidentialitate"
   | "/ajutor";
 
-export type RouteHref = AppRoute | `/#${string}`;
+export type AppRouteHref = AppRoute | "/evenimente?flow=simulare";
+
+export type RouteHref = AppRouteHref | `/#${string}`;
 
 export type RouteItem = {
   label: string;
@@ -111,7 +117,8 @@ export const footerRoutes: RouteItem[] = [
   ...primaryRoutes,
   { label: "Programează o evaluare", href: "/evaluare" },
   { label: "Simulări Smart", href: "/simulari-smart" },
-  { label: "Înscrieri și evenimente", href: "/inscriere" },
+  { label: "Înscriere", href: "/inscriere" },
+  { label: "Evenimente", href: "/evenimente" },
   { label: "Shop", href: "/shop" },
   ...utilityRoutes,
   { label: "Termeni și condiții", href: "/termeni" },

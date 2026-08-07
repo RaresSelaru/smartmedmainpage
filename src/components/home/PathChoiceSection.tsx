@@ -76,7 +76,7 @@ const smartTrainingChoices = [
   },
   {
     title: pathChoiceGroup2[1].title,
-    href: "/inscriere?flow=simulare&source=homepage-exerseaza",
+    href: "/evenimente?flow=simulare&source=homepage-exerseaza",
     cta: pathChoiceGroup2[1].cta,
     benefits: pathChoiceGroup2[1].benefits,
     icon: MonitorCheck,

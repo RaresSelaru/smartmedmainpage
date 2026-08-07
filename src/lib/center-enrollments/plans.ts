@@ -1,7 +1,21 @@
-export const CENTER_ENROLLMENT_PLAN_SLUGS = [
+export const LEGACY_CENTER_ENROLLMENT_PLAN_SLUGS = [
   "online-esential",
   "centru-plus",
   "module-signature",
+] as const;
+
+export const CURRENT_CENTER_ENROLLMENT_PLAN_SLUGS = [
+  "esential-1-materie",
+  "esential-2-materii",
+  "avansat-1-materie",
+  "avansat-2-materii",
+  "performanta-1-materie",
+  "performanta-2-materii",
+] as const;
+
+export const CENTER_ENROLLMENT_PLAN_SLUGS = [
+  ...LEGACY_CENTER_ENROLLMENT_PLAN_SLUGS,
+  ...CURRENT_CENTER_ENROLLMENT_PLAN_SLUGS,
 ] as const;
 
 export type CenterEnrollmentPlanSlug =
@@ -38,6 +52,48 @@ export const CENTER_ENROLLMENT_PLANS: Record<
       "Un parcurs concentrat pe module SmartMed speciale, fără includerea cursurilor standard.",
     label: "Module Signature",
     slug: "module-signature",
+  },
+  "esential-1-materie": {
+    accent: "Plan Esențial",
+    description:
+      "Pregătire SmartMed Esențial pentru o singură materie, cu un parcurs clar și consecvent.",
+    label: "Esențial · 1 materie",
+    slug: "esential-1-materie",
+  },
+  "esential-2-materii": {
+    accent: "Plan Esențial",
+    description:
+      "Pregătire SmartMed Esențial pentru două materii, organizate într-un ritm coerent.",
+    label: "Esențial · 2 materii",
+    slug: "esential-2-materii",
+  },
+  "avansat-1-materie": {
+    accent: "Plan Avansat",
+    description:
+      "Pregătire SmartMed Avansat pentru o singură materie, cu aprofundare și exercițiu susținut.",
+    label: "Avansat · 1 materie",
+    slug: "avansat-1-materie",
+  },
+  "avansat-2-materii": {
+    accent: "Plan Avansat",
+    description:
+      "Pregătire SmartMed Avansat pentru două materii, cu progres coordonat și aprofundare.",
+    label: "Avansat · 2 materii",
+    slug: "avansat-2-materii",
+  },
+  "performanta-1-materie": {
+    accent: "Plan Performanță",
+    description:
+      "Pregătire SmartMed Performanță pentru o singură materie, orientată spre obiective ambițioase.",
+    label: "Performanță · 1 materie",
+    slug: "performanta-1-materie",
+  },
+  "performanta-2-materii": {
+    accent: "Plan Performanță",
+    description:
+      "Pregătire SmartMed Performanță pentru două materii, cu strategie completă pentru admitere.",
+    label: "Performanță · 2 materii",
+    slug: "performanta-2-materii",
   },
 };
 

@@ -127,3 +127,40 @@ test("applicant confirmation names the selected plan", async () => {
   assert.match(body.html, /Centru Plus/u);
   assert.match(body.text, /Ai ales abonamentul Centru Plus/u);
 });
+
+test("notification rendering resolves a current plan slug without a name snapshot", async () => {
+  let request: RequestInit | undefined;
+  const sender = createCenterEnrollmentNotificationSender({
+    environment: {
+      RESEND_API_KEY: "re_test",
+      RESEND_FROM_EMAIL: "SmartMed <mail@smartmed.ro>",
+    },
+    fetchImpl: async (_input, init) => {
+      request = init;
+      return new Response(JSON.stringify({ id: "msg_current_plan" }), {
+        headers: { "content-type": "application/json" },
+        status: 200,
+      });
+    },
+  });
+
+  const result = await sender({
+    idempotencyKey: "center:confirmation:current-plan",
+    notificationType: "center_enrollment_confirmation",
+    payload: {
+      ...payload,
+      selectedPlanName: null,
+      selectedPlanSlug: "performanta-2-materii",
+    },
+    recipientEmail: payload.email,
+    recipientKind: "applicant",
+  });
+  const body = JSON.parse(String(request?.body)) as {
+    html: string;
+    text: string;
+  };
+
+  assert.equal(result.ok, true);
+  assert.match(body.html, /Performanță · 2 materii/u);
+  assert.match(body.text, /Ai ales abonamentul Performanță · 2 materii/u);
+});

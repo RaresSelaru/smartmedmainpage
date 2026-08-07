@@ -222,7 +222,7 @@ export async function createRegistrationEventAction(
 
   revalidatePath("/admin");
   revalidatePath("/admin/events");
-  revalidatePath("/inscriere");
+  revalidatePath("/evenimente");
 
   return { data: { eventId: data.id }, ok: true };
 }
@@ -307,7 +307,7 @@ export async function updateRegistrationEventAction(
 
   revalidatePath("/admin/events");
   revalidatePath(`/admin/events/${parsedId.data}`);
-  revalidatePath("/inscriere");
+  revalidatePath("/evenimente");
 
   return { data: { eventId: parsedId.data }, ok: true };
 }
@@ -367,7 +367,7 @@ export async function updateEventRegistrationStatusAction(
   revalidatePath(`/admin/events/${parsed.data.eventId}`);
   revalidatePath(`/admin/events/${parsed.data.eventId}/registrations`);
   revalidatePath("/admin/events");
-  revalidatePath("/inscriere");
+  revalidatePath("/evenimente");
 
   return { data: parsed.data, ok: true };
 }

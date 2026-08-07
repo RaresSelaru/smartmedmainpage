@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+import { CURRENT_CENTER_ENROLLMENT_PLAN_SLUGS } from "./plans.ts";
 import { centerEnrollmentInputSchema } from "./schema.ts";
 
 function validInput() {
@@ -39,6 +40,18 @@ function validInput() {
 test("center enrolment accepts the complete adult path", () => {
   assert.equal(centerEnrollmentInputSchema.safeParse(validInput()).success, true);
 });
+
+for (const selectedPlanSlug of CURRENT_CENTER_ENROLLMENT_PLAN_SLUGS) {
+  test(`center enrolment accepts the current plan ${selectedPlanSlug}`, () => {
+    assert.equal(
+      centerEnrollmentInputSchema.safeParse({
+        ...validInput(),
+        selectedPlanSlug,
+      }).success,
+      true,
+    );
+  });
+}
 
 test("minor enrolments require guardian details", () => {
   const result = centerEnrollmentInputSchema.safeParse({

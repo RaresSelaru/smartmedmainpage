@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "/inscriere/centru" },
+  robots: {
+    follow: false,
+    index: false,
+  },
 };
 
 type CenterRegistrationPageProps = {
@@ -110,7 +114,7 @@ export default async function CenterRegistrationPage({
           </p>
           <Link
             className="group mt-8 inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-smart-dark px-7 text-sm font-extrabold text-white shadow-[0_16px_38px_rgba(3,17,28,0.2)] transition duration-300 hover:bg-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
-            href="/#abonamente"
+            href="/inscriere"
           >
             <ArrowLeft aria-hidden="true" className="size-4 transition-transform group-hover:-translate-x-1" />
             Vezi abonamentele

@@ -442,7 +442,7 @@ export function EventForm({ event, initialValues }: EventFormProps) {
             {event.status !== "draft" && event.status !== "archived" ? (
               <Link
                 className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-smart-abyss/12 bg-white px-4 text-sm font-bold text-smart-ink transition hover:border-smart-teal/35"
-                href={`/inscriere#event-${event.slug}`}
+                href={`/evenimente#event-${event.slug}`}
                 target="_blank"
               >
                 <ExternalLink aria-hidden="true" className="size-4" />

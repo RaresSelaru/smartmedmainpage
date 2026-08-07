@@ -1,4 +1,4 @@
-import type { AppRoute } from "@/lib/routes";
+import type { AppRoute, AppRouteHref } from "@/lib/routes";
 
 const fallbackSiteUrl = "https://smartmedmainpage.vercel.app";
 
@@ -73,11 +73,11 @@ export type PageScaffold = {
   description: string;
   primaryCta: {
     label: string;
-    href: AppRoute;
+    href: AppRouteHref;
   };
   secondaryCta?: {
     label: string;
-    href: AppRoute;
+    href: AppRouteHref;
   };
   highlights: Array<{
     title: string;
@@ -678,7 +678,10 @@ export const pageScaffolds: Record<PageKey, PageScaffold> = {
     title: "Simulări Smart",
     description:
       "O zonă gândită pentru sesiuni de simulare, scoruri, leaderboard-uri controlate și feedback pe capitole.",
-    primaryCta: { label: "Înscrie-te la simulare", href: "/cont" },
+    primaryCta: {
+      label: "Înscrie-te la simulare",
+      href: "/evenimente?flow=simulare",
+    },
     secondaryCta: { label: "Exersează grile", href: "/grile" },
     highlights: [
       {

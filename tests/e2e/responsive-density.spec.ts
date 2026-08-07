@@ -13,6 +13,27 @@ const homeViewports = [
 ] as const;
 
 const atlasViewports = homeViewports;
+const registrationViewports = homeViewports;
+
+const gradeEnrollmentRoutes = [
+  {
+    grade: "10",
+    heading:
+      "Începi Clasa a 10-a din septembrie și te pregătești pentru Admiterea din 2029 ?",
+    route: "/inscriere/clasa-a-10-a",
+  },
+  {
+    grade: "11",
+    heading:
+      "Începi Clasa a 11-a din septembrie și te pregătești pentru Admiterea din 2028 ?",
+    route: "/inscriere/clasa-a-11-a",
+  },
+  {
+    grade: "12",
+    heading: "Începe pregătirea pentru Admiterea 2027",
+    route: "/inscriere/clasa-a-12-a",
+  },
+] as const;
 
 const atlasChapterTitles = [
   "Baze solide",
@@ -340,6 +361,184 @@ for (const viewport of homeViewports) {
     );
   });
 }
+
+for (const viewport of registrationViewports) {
+  test(`the enrollment journey stays bounded at ${viewport.label} (${viewport.width}x${viewport.height})`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+
+    const selectorResponse = await page.goto("/inscriere");
+    expect(selectorResponse?.ok(), `${viewport.label}: successful selector response`).toBe(
+      true,
+    );
+
+    const selector = page.locator("[data-registration-selector='true']");
+    const selectorCards = page.locator("main article").filter({
+      has: page.getByRole("link", { name: /Vezi programul/u }),
+    });
+
+    await expect(selector, `${viewport.label}: enrollment selector`).toBeVisible();
+    await expect(selector.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(selectorCards, `${viewport.label}: three grade choices`).toHaveCount(3);
+    await waitForFonts(page);
+    await waitForLayout(page);
+
+    let selectorWidth = await measurePageWidth(page);
+    const selectorSections = page.locator("main > section");
+
+    for (let index = 0; index < (await selectorSections.count()); index += 1) {
+      await selectorSections.nth(index).scrollIntoViewIfNeeded();
+      await waitForLayout(page);
+      const widthSample = await measurePageWidth(page);
+      selectorWidth = {
+        pageWidth: Math.max(selectorWidth.pageWidth, widthSample.pageWidth),
+        viewportWidth: widthSample.viewportWidth,
+      };
+    }
+
+    expect.soft(
+      selectorWidth.pageWidth,
+      `${viewport.label}: selector horizontal overflow`,
+    ).toBeLessThanOrEqual(selectorWidth.viewportWidth + 1);
+
+    const gradeResponse = await page.goto("/inscriere/clasa-a-10-a");
+    expect(gradeResponse?.ok(), `${viewport.label}: successful grade response`).toBe(true);
+
+    const gradeHero = page.locator("[data-registration-hero='true']");
+    const planGrid = page.locator("[data-plan-grid='true']");
+    const planCards = planGrid.locator("article");
+
+    await expect(gradeHero, `${viewport.label}: grade hero`).toBeVisible();
+    await expect(gradeHero.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(planCards, `${viewport.label}: all six enrollment plans`).toHaveCount(6);
+    await waitForFonts(page);
+    await waitForLayout(page);
+
+    const planColumns = await planGrid.evaluate((element) =>
+      getComputedStyle(element).gridTemplateColumns
+        .split(" ")
+        .filter(Boolean).length,
+    );
+    expect.soft(planColumns, `${viewport.label}: plan column count`).toBe(
+      viewport.width >= 900 ? 2 : 1,
+    );
+
+    let gradeWidth = await measurePageWidth(page);
+    const gradeSections = page.locator("main > section");
+    expect(await gradeSections.count(), `${viewport.label}: complete grade page`).toBe(10);
+
+    for (let index = 0; index < (await gradeSections.count()); index += 1) {
+      await gradeSections.nth(index).scrollIntoViewIfNeeded();
+      await waitForLayout(page);
+      const widthSample = await measurePageWidth(page);
+      gradeWidth = {
+        pageWidth: Math.max(gradeWidth.pageWidth, widthSample.pageWidth),
+        viewportWidth: widthSample.viewportWidth,
+      };
+    }
+
+    expect.soft(
+      gradeWidth.pageWidth,
+      `${viewport.label}: grade page horizontal overflow`,
+    ).toBeLessThanOrEqual(gradeWidth.viewportWidth + 1);
+  });
+}
+
+test("the three enrollment routes keep their own hero identity", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  for (const gradeRoute of gradeEnrollmentRoutes) {
+    const response = await page.goto(gradeRoute.route);
+    expect(response?.ok(), `${gradeRoute.route}: successful response`).toBe(true);
+
+    const hero = page.locator(
+      `[data-registration-hero='true'][data-registration-grade='${gradeRoute.grade}']`,
+    );
+    await expect(hero).toBeVisible();
+    await expect(hero.getByRole("heading", { level: 1 })).toHaveText(
+      gradeRoute.heading,
+    );
+  }
+});
+
+test("the longer class XII hero remains complete on a compact mobile viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  const response = await page.goto("/inscriere/clasa-a-12-a");
+  expect(response?.ok(), "successful class XII response").toBe(true);
+
+  const hero = page.locator(
+    "[data-registration-hero='true'][data-registration-grade='12']",
+  );
+  const closingCopy = hero.locator("[data-registration-closing-copy='true']");
+
+  await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(closingCopy).toBeVisible();
+  await expect(closingCopy).toContainText(
+    "Asigură-ți succesul cu Pregătirile Intensive SmartMed 2027",
+  );
+  await waitForFonts(page);
+  await waitForLayout(page);
+
+  const widthSample = await measurePageWidth(page);
+  expect.soft(widthSample.pageWidth, "class XII mobile horizontal overflow").toBeLessThanOrEqual(
+    widthSample.viewportWidth + 1,
+  );
+});
+
+test("the events catalog is available on its dedicated route", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+
+  const response = await page.goto("/evenimente");
+  expect(response?.ok(), "successful events response").toBe(true);
+  await expect(
+    page.getByRole("heading", { name: /Experiențe care te apropie de/u }),
+  ).toBeVisible();
+
+  const width = await measurePageWidth(page);
+  expect.soft(width.pageWidth, "events horizontal overflow").toBeLessThanOrEqual(
+    width.viewportWidth + 1,
+  );
+});
+
+test("the enrollment route preserves source through the plan and back link", async ({
+  page,
+}) => {
+  const source = "routing-contract";
+  const selectorResponse = await page.goto(`/inscriere?source=${source}`);
+  expect(selectorResponse?.ok(), "successful enrollment selector response").toBe(true);
+
+  const gradeLink = page.getByRole("link", {
+    name: "Vezi programul — Clasa a X-a",
+  });
+  await expect(gradeLink).toHaveAttribute(
+    "href",
+    `/inscriere/clasa-a-10-a?source=${source}`,
+  );
+
+  await gradeLink.click();
+  await expect(page).toHaveURL(
+    new RegExp(`/inscriere/clasa-a-10-a\\?source=${source}$`, "u"),
+  );
+
+  const planLink = page
+    .locator("[data-plan-grid='true']")
+    .locator("a[href*='plan=esential-1-materie']")
+    .first();
+  const planHref =
+    `/inscriere/centru?plan=esential-1-materie&clasa=10&source=${source}`;
+  await expect(planLink).toHaveAttribute("href", planHref);
+
+  const planResponse = await page.goto(planHref);
+  expect(planResponse?.ok(), "successful center enrollment response").toBe(true);
+  await expect(page.getByRole("link", { name: "Schimbă abonamentul" }).first()).toHaveAttribute(
+    "href",
+    `/inscriere/clasa-a-10-a?source=${source}#abonamente`,
+  );
+});
 
 for (const viewport of atlasViewports) {
   test(`the parchment story stays centered and bounded at ${viewport.label}`, async ({ page }) => {

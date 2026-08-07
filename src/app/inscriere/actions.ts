@@ -646,7 +646,7 @@ export async function registerForEventAction(
     };
   }
 
-  revalidatePath("/inscriere");
+  revalidatePath("/evenimente");
   revalidatePath("/admin/events");
   revalidatePath(`/admin/events/${parsed.data.eventId}/registrations`);
 

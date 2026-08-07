@@ -9,17 +9,17 @@ import { WaveSeparator } from "@/components/ui/WaveSeparator";
 import { newsCarousel, siteConfig, type PageScaffold } from "@/lib/site-config";
 
 const grilePage = {
-  eyebrow: "Platformă separată",
+  eyebrow: "Platforma de antrenament",
   title: "Grile SmartMed",
   description:
-    "Această pagină trimite către platforma externă de grile, păstrând experiența vizuală SmartMed și configurarea prin variabilă de mediu.",
+    "Exersează organizat, verifică ce ai înțeles și transformă fiecare răspuns într-un pas clar spre admitere.",
   primaryCta: { label: "Intră în platforma de grile", href: "/grile" },
   secondaryCta: { label: "Vezi Centrul Online", href: "/centru-online" },
   highlights: [],
   roadmap: [
-    "URL extern configurabil prin NEXT_PUBLIC_GRILE_URL",
-    "Fallback temporar până setezi domeniul final",
-    "Rută internă /grile păstrată pentru navbar, carduri și footer",
+    "Grile organizate pe discipline și capitole",
+    "Explicații clare pentru consolidarea noțiunilor",
+    "Antrenament constant, în ritmul tău",
   ],
 } satisfies PageScaffold;
 
@@ -39,8 +39,8 @@ export function GrileReferralPage() {
                 Acces rapid la grile
               </h2>
               <p className="mt-4 text-sm leading-7 text-smart-ink/68">
-                CTA-ul principal deschide platforma externă într-un tab nou, iar
-                ruta internă rămâne curată pentru navigația site-ului.
+                Deschide platforma SmartMed, alege materia și continuă pregătirea
+                cu seturi de grile potrivite obiectivului tău.
               </p>
               <div className="mt-8">
                 <PremiumButton href={grileUrl}>Intră în platforma de grile</PremiumButton>
@@ -51,11 +51,11 @@ export function GrileReferralPage() {
             <GlassCard className="h-full border-smart-abyss/10 bg-white/58 p-8 text-smart-ink shadow-[0_20px_58px_rgba(3,17,28,0.12)]">
               <SmartIcon className="size-9 text-smart-teal" name="shield" />
               <h2 className="mt-6 font-serif text-4xl font-semibold leading-none">
-                Pregătit pentru Vercel
+                Progres construit prin practică
               </h2>
               <p className="mt-4 text-sm leading-7 text-smart-ink/68">
-                Setează variabila publică în Vercel fără să modifici codul. Fallback
-                actual: <span className="font-semibold text-smart-teal">{grileUrl}</span>
+                Folosește fiecare sesiune ca diagnostic: observă tiparele
+                greșelilor, revino la noțiunile dificile și măsoară-ți evoluția.
               </p>
               <div className="mt-8">
                 <PremiumButton href="/centru-online" variant="cream">

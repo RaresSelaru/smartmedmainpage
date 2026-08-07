@@ -160,7 +160,7 @@ export function PreparationSystemSection() {
           </div>
           <Link
             className={`${styles.enrollmentButton} group relative mx-auto mt-8 inline-flex min-h-16 w-full max-w-[380px] shrink-0 items-center justify-center gap-4 rounded-full border border-smart-gold-light/65 bg-[linear-gradient(180deg,#f3daa3_0%,#d8ae69_100%)] px-9 text-base font-extrabold text-smart-abyss shadow-[0_18px_42px_rgba(213,173,107,0.30),inset_0_1px_0_rgba(255,255,255,0.68)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(213,173,107,0.42),inset_0_1px_0_rgba(255,255,255,0.76)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold lg:mx-0 lg:mt-0 lg:w-auto lg:min-w-[320px]`}
-            href="/#abonamente"
+            href="/inscriere"
           >
             <GraduationCap aria-hidden="true" className="size-6" strokeWidth={1.8} />
             Înscrie-te la centru

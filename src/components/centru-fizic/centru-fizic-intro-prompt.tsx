@@ -100,9 +100,11 @@ export function CentruFizicIntroPrompt({ source }: CentruFizicIntroPromptProps) 
 
   if (!open) return null;
 
-  const registrationHref = `/?source=${encodeURIComponent(
-    source === "homepage-centru" ? "centru-fizic-intro" : "centru-fizic",
-  )}#abonamente`;
+  const registrationHref =
+    "/inscriere?source=" +
+    encodeURIComponent(
+      source === "homepage-centru" ? "centru-fizic-intro" : "centru-fizic",
+    );
 
   return (
     <div

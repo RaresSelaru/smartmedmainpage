@@ -105,15 +105,31 @@ select results_eq(
   $$
     select slug, name, status
     from public.access_plans
-    where slug in ('online-esential', 'centru-plus', 'module-signature')
+    where slug in (
+      'online-esential',
+      'centru-plus',
+      'module-signature',
+      'esential-1-materie',
+      'esential-2-materii',
+      'avansat-1-materie',
+      'avansat-2-materii',
+      'performanta-1-materie',
+      'performanta-2-materii'
+    )
     order by (metadata ->> 'displayOrder')::integer
   $$,
   $$ values
     ('online-esential'::text, 'Online Esențial'::text, 'active'::text),
     ('centru-plus'::text, 'Centru Plus'::text, 'active'::text),
-    ('module-signature'::text, 'Module Signature'::text, 'active'::text)
+    ('module-signature'::text, 'Module Signature'::text, 'active'::text),
+    ('esential-1-materie'::text, 'Esențial · 1 materie'::text, 'active'::text),
+    ('esential-2-materii'::text, 'Esențial · 2 materii'::text, 'active'::text),
+    ('avansat-1-materie'::text, 'Avansat · 1 materie'::text, 'active'::text),
+    ('avansat-2-materii'::text, 'Avansat · 2 materii'::text, 'active'::text),
+    ('performanta-1-materie'::text, 'Performanță · 1 materie'::text, 'active'::text),
+    ('performanta-2-materii'::text, 'Performanță · 2 materii'::text, 'active'::text)
   $$,
-  'the three centre-enrolment plans are seeded and active'
+  'legacy and current centre-enrolment plans are seeded and active'
 );
 select ok(
   not has_function_privilege(
@@ -229,7 +245,7 @@ where slug = 'module-signature';
 select is(
   public.submit_center_enrollment_server(
     null,
-    'centru-plus',
+    'avansat-2-materii',
     '41000000-0000-4000-8000-000000000001',
     'adult',
     'Student Centru',
@@ -268,7 +284,7 @@ select results_eq(
     select
       public.submit_center_enrollment_server(
         null,
-        'centru-plus',
+        'avansat-2-materii',
         '41000000-0000-4000-8000-000000000001',
         'adult',
         'Student Centru',
@@ -399,7 +415,7 @@ select results_eq(
       on plan.id = enrollment.selected_access_plan_id
     where enrollment.idempotency_key = '41000000-0000-4000-8000-000000000001'
   $$,
-  $$ values ('centru-plus'::text) $$,
+  $$ values ('avansat-2-materii'::text) $$,
   'the selected plan is persisted through its access-plans foreign key'
 );
 select is(
@@ -409,8 +425,8 @@ select is(
     join public.center_enrollments as enrollment
       on enrollment.id = notification.enrollment_id
     where enrollment.idempotency_key = '41000000-0000-4000-8000-000000000001'
-      and notification.payload ->> 'selectedPlanSlug' = 'centru-plus'
-      and notification.payload ->> 'selectedPlanName' = 'Centru Plus'
+      and notification.payload ->> 'selectedPlanSlug' = 'avansat-2-materii'
+      and notification.payload ->> 'selectedPlanName' = 'Avansat · 2 materii'
   ),
   2::bigint,
   'both transactional email payloads include the selected plan snapshot'

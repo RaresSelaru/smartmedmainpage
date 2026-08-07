@@ -232,6 +232,15 @@ export function DedicatedCenterEnrollment({
     grade: registrationContext.grade,
     source: registrationContext.source ?? `plan-${plan.slug}`,
   };
+  const plansHref = registrationContext.grade
+    ? "/inscriere/clasa-a-" +
+      registrationContext.grade +
+      "-a" +
+      (registrationContext.source
+        ? "?source=" + encodeURIComponent(registrationContext.source)
+        : "") +
+      "#abonamente"
+    : "/inscriere";
   const prefill = useMemo<CenterEnrollmentPrefill>(
     () => ({
       ...basePrefill,
@@ -375,7 +384,7 @@ export function DedicatedCenterEnrollment({
               </p>
               <Link
                 className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-white/76 transition hover:text-white"
-                href="/#abonamente"
+                href={plansHref}
               >
                 <ArrowLeft aria-hidden="true" className="size-3.5" />
                 Schimbă abonamentul

@@ -1,157 +1,139 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  CalendarDays,
-  CheckCircle2,
-  MapPinned,
-  MonitorPlay,
-} from "lucide-react";
+import { redirect } from "next/navigation";
+import { ArrowRight, CalendarDays, GraduationCap, Sparkles } from "lucide-react";
 
 import { Reveal } from "@/components/animations/reveal";
-import { EventExplorer } from "@/components/events/event-explorer";
+import { AdmissionParchmentCard } from "@/components/home/admission-parchment-card";
+import parchmentStyles from "@/components/home/admission-parchment-card.module.css";
+import { OrnamentalDivider } from "@/components/ui/OrnamentalDivider";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { WaveSeparator } from "@/components/ui/WaveSeparator";
-import { getCurrentSmartMedSession } from "@/lib/auth/session";
-import { getPublicRegistrationEvents } from "@/lib/events/repository";
-import type {
-  RegistrationEventRow,
-  RegistrationPrefill,
-} from "@/lib/events/types";
 import { parseRegistrationContext } from "@/lib/registration-context";
 import { siteConfig } from "@/lib/site-config";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 const description =
-  "Descoperă simulările, testele, webinariile și experiențele SmartMed cu înscrieri deschise.";
+  "Alege programul SmartMed pentru clasa a X-a, a XI-a sau a XII-a și descoperă planul de pregătire potrivit pentru admiterea la Medicină.";
 
 export const metadata: Metadata = {
-  title: "Înscrieri și evenimente SmartMed",
+  title: "Înscriere la SmartMed",
   description,
   alternates: { canonical: "/inscriere" },
   openGraph: {
-    title: `Înscrieri și evenimente | ${siteConfig.name}`,
+    title: "Înscriere la SmartMed | " + siteConfig.name,
     description,
     siteName: siteConfig.fullName,
     type: "website",
   },
 };
 
-type InscrierePageProps = {
+const gradeChoices = [
+  {
+    grade: "Clasa a X-a",
+    title: "Începi devreme",
+    description:
+      "Începe din clasa a X-a și construiește fundația pentru performanță. Parcurgem împreună bazele solide ale materiei și formăm obiceiuri corecte de învățare care te vor susține în anii următori.",
+    ctaLabel: "Vezi programul",
+    href: "/inscriere/clasa-a-10-a",
+  },
+  {
+    grade: "Clasa a XI-a",
+    title: "Accelerezi progresul",
+    description:
+      "În clasa a XI-a aprofundăm și consolidăm cunoștințele, dezvoltăm gândirea analitică și învățăm să organizăm eficient studiul pentru a face pasul spre performanță în mod constant.",
+    ctaLabel: "Vezi programul",
+    href: "/inscriere/clasa-a-11-a",
+  },
+  {
+    grade: "Clasa a XII-a",
+    title: "Te pregătești pentru examen",
+    description:
+      "În clasa a XII-a ne concentrăm 100% pe obiectivul final. Îți oferim strategia, exercițiul și încrederea necesare pentru a aborda examenul cu claritate, calm și rezultate care te reprezintă.",
+    ctaLabel: "Vezi programul",
+    href: "/inscriere/clasa-a-12-a",
+  },
+] as const;
+
+type EnrollmentLandingPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-function isOpenEvent(event: RegistrationEventRow, now: number) {
-  return (
-    event.status === "published" &&
-    new Date(event.registration_opens_at).getTime() <= now &&
-    new Date(event.registration_closes_at).getTime() > now &&
-    new Date(event.starts_at).getTime() > now
-  );
-}
+export default async function EnrollmentLandingPage({
+  searchParams,
+}: EnrollmentLandingPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const registrationContext = parseRegistrationContext(resolvedSearchParams);
 
-async function getEventPrefill(): Promise<RegistrationPrefill> {
-  const session = await getCurrentSmartMedSession();
+  if (registrationContext.flow === "simulare") {
+    redirect(
+      "/evenimente?flow=simulare" +
+        (registrationContext.source
+          ? "&source=" + encodeURIComponent(registrationContext.source)
+          : ""),
+    );
+  }
 
-  return {
-    email: session?.email ?? "",
-    fullName: session?.fullName ?? "",
-    phone: session?.profile.phone ?? "",
-  };
-}
-
-export default async function InscrierePage({ searchParams }: InscrierePageProps) {
-  const context = parseRegistrationContext(await searchParams);
-  const referenceDateTime = new Date();
-  const referenceNow = referenceDateTime.toISOString();
-  const [eventResult, prefill] = await Promise.all([
-    getPublicRegistrationEvents(),
-    getEventPrefill(),
-  ]);
-  const events = eventResult.data ?? [];
-  const openEvents = events.filter((event) =>
-    isOpenEvent(event, referenceDateTime.getTime()),
-  );
-  const contextualSimulation =
-    context.flow === "simulare"
-      ? openEvents.find((event) => event.event_type === "simulation") ?? null
-      : null;
+  const trackedGradeChoices = gradeChoices.map((choice) => ({
+    ...choice,
+    href: registrationContext.source
+      ? choice.href + "?source=" + encodeURIComponent(registrationContext.source)
+      : choice.href,
+  }));
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-smart-dark px-5 pb-44 pt-32 text-smart-white sm:px-7 sm:pt-36 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(200,168,117,0.17),transparent_29%),radial-gradient(circle_at_82%_32%,rgba(156,206,208,0.2),transparent_34%),linear-gradient(135deg,#03111c_0%,#071b29_56%,#061622_100%)]" />
-        <div className="absolute -left-36 top-40 size-[420px] rounded-full border border-smart-aqua/10" />
+      <section
+        className="relative isolate min-h-[720px] overflow-hidden bg-smart-dark px-5 pb-44 pt-32 text-smart-white sm:min-h-[760px] sm:px-7 sm:pt-36 lg:min-h-[780px] lg:px-8 lg:pb-[var(--smart-desktop-hero-bottom)] lg:pt-[var(--smart-desktop-hero-top)]"
+        data-registration-selector="true"
+      >
+        <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_78%_24%,rgba(156,206,208,0.22),transparent_34%),radial-gradient(circle_at_14%_28%,rgba(200,168,117,0.14),transparent_28%),linear-gradient(125deg,#03111c_0%,#071b29_55%,#0b303a_100%)]" />
+        <div className="absolute inset-y-0 right-[-8%] -z-10 w-[72%] max-w-[42rem] opacity-20 sm:right-[-2%] sm:w-[58%] sm:opacity-30 lg:right-[4%] lg:w-[44%] lg:opacity-45">
+          <Image
+            alt=""
+            className="object-contain object-bottom"
+            fill
+            loading="eager"
+            sizes="(max-width: 1023px) 70vw, 672px"
+            src="/assets/generated/smartmed-account-statue.png"
+          />
+        </div>
         <div className="grain-overlay" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="relative z-10 mx-auto flex min-h-[450px] max-w-[var(--smart-content-max)] items-center py-10 lg:min-h-[560px]">
           <Reveal>
-            <SectionLabel>Calendar SmartMed</SectionLabel>
-            <h1 className="mt-5 max-w-3xl font-serif text-6xl font-semibold leading-[0.9] tracking-[-0.04em] sm:text-7xl lg:text-[5.3rem]">
-              Experiențe care te apropie de
-              <span className="mt-2 block text-smart-aqua">Medicină</span>
-            </h1>
-            <p className="mt-7 max-w-xl text-base leading-8 text-smart-muted sm:text-lg">
-              Simulări, teste, webinarii și întâlniri la centru. Alegi experiența,
-              verifici locurile și te înscrii simplu, fără să amestecăm acest proces cu
-              programul de meditații.
-            </p>
-            <Link
-              className="group mt-8 inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-7 py-3 text-sm font-extrabold text-smart-abyss shadow-[0_18px_42px_rgba(213,173,107,0.22),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_52px_rgba(213,173,107,0.3),inset_0_1px_0_rgba(255,255,255,0.68)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold"
-              href="#evenimente"
-            >
-              Vezi evenimentele
-              <ArrowRight
-                aria-hidden="true"
-                className="size-4 transition-transform group-hover:translate-x-1"
-              />
-            </Link>
-
-            <div className="mt-9 grid max-w-xl gap-3 sm:grid-cols-3">
-              {[
-                { icon: MonitorPlay, label: "Online și fizic" },
-                { icon: MapPinned, label: "Locuri actualizate" },
-                { icon: CheckCircle2, label: "Confirmare imediată" },
-              ].map((item) => (
-                <span
-                  className="flex items-center gap-2 rounded-xl border border-white/9 bg-white/4 px-3 py-3 text-xs font-semibold text-smart-white/68"
-                  key={item.label}
+            <div className="max-w-3xl">
+              <SectionLabel>Înscriere SmartMed</SectionLabel>
+              <h1 className="mt-5 max-w-3xl font-serif text-[48px] font-semibold leading-[0.92] tracking-[-0.04em] sm:text-[60px] lg:text-[68px]">
+                Alege clasa.
+                <span className="mt-2 block text-smart-aqua">
+                  Noi construim traseul.
+                </span>
+              </h1>
+              <p className="mt-7 max-w-2xl text-base leading-8 text-smart-white/70 sm:text-lg">
+                Fiecare an are alt ritm, altă miză și alt punct de plecare.
+                Selectează clasa în care intri și descoperă programul, nivelurile
+                de sprijin și cele șase planuri SmartMed.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  className="group inline-flex min-h-[60px] items-center justify-center gap-3 rounded-xl border border-smart-gold-light/55 bg-[linear-gradient(180deg,#efd39b_0%,#d4aa68_100%)] px-7 text-sm font-extrabold text-smart-abyss shadow-[0_18px_42px_rgba(213,173,107,0.24),inset_0_1px_0_rgba(255,255,255,0.58)] transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-gold sm:text-base"
+                  href="#alege-clasa"
                 >
-                  <item.icon aria-hidden="true" className="size-4 shrink-0 text-smart-aqua" />
-                  {item.label}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal className="lg:pl-6">
-            <div className="relative min-h-[440px] overflow-hidden rounded-[2.75rem] border border-white/14 bg-[#e7ddcc] shadow-[0_34px_100px_rgba(0,0,0,0.42)] sm:min-h-[560px]">
-              <Image
-                alt="Inimă anatomică SmartMed și stetoscop"
-                className="object-cover"
-                fill
-                priority
-                sizes="(max-width: 1023px) 100vw, 55vw"
-                src="/assets/generated/cta-heart-stethoscope.png"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,17,28,0.01)_45%,rgba(3,17,28,0.78)_100%)]" />
-              <div className="absolute inset-x-5 bottom-5 flex items-center gap-4 rounded-2xl border border-white/14 bg-smart-abyss/76 px-5 py-4 backdrop-blur-xl sm:inset-x-7 sm:bottom-7">
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-smart-gold/18 text-smart-gold-light">
-                  <CalendarDays aria-hidden="true" className="size-5" strokeWidth={1.8} />
-                </span>
-                <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-smart-aqua">
-                    Calendar actualizat
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-smart-white/82">
-                    {openEvents.length === 1
-                      ? "1 experiență cu înscrieri deschise"
-                      : `${openEvents.length} experiențe cu înscrieri deschise`}
-                  </p>
-                </div>
+                  <GraduationCap aria-hidden="true" className="size-5" />
+                  Alege clasa
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="size-5 transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+                <Link
+                  className="inline-flex min-h-[60px] items-center justify-center gap-3 rounded-xl border border-smart-aqua/35 bg-white/5 px-7 text-sm font-bold text-smart-aqua backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:bg-white/9 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-aqua sm:text-base"
+                  href="/evenimente"
+                >
+                  <CalendarDays aria-hidden="true" className="size-5" />
+                  Simulări și webinarii
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -161,65 +143,58 @@ export default async function InscrierePage({ searchParams }: InscrierePageProps
       </section>
 
       <section
-        className="relative scroll-mt-24 overflow-hidden bg-smart-cream px-5 pb-44 pt-20 text-smart-ink sm:px-7 sm:pt-24 lg:px-8"
-        id="evenimente"
+        className="relative scroll-mt-24 overflow-hidden bg-smart-cream px-5 pb-24 pt-20 text-smart-ink sm:px-7 sm:pb-28 sm:pt-24 lg:px-8 lg:py-[var(--smart-desktop-section-space)]"
+        id="alege-clasa"
       >
-        <div className="absolute right-[-8%] top-12 size-[360px] rounded-full border border-smart-teal/10" />
-        <div className="absolute -left-48 bottom-40 size-[420px] rounded-full bg-smart-gold/8 blur-3xl" />
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <Reveal className="flex flex-wrap items-end justify-between gap-7">
-            <div>
-              <SectionLabel tone="cream">Înscrieri deschise</SectionLabel>
-              <h2 className="mt-5 max-w-4xl font-serif text-5xl font-semibold leading-[0.96] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
-                Alege următoarea experiență SmartMed
+        <div className="pointer-events-none absolute -left-48 top-24 size-[420px] rounded-full bg-smart-aqua/16 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 bottom-20 size-[360px] rounded-full border border-smart-gold/12" />
+
+        <div className="relative z-10 mx-auto max-w-[var(--smart-content-max)]">
+          <Reveal>
+            <div className="mx-auto max-w-4xl text-center">
+              <SectionLabel tone="cream">Programul tău începe aici</SectionLabel>
+              <h2 className="mt-5 font-serif text-[44px] font-semibold leading-[0.95] tracking-[-0.035em] sm:text-[58px] lg:text-[64px]">
+                În ce clasă intri din septembrie?
               </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-smart-ink/62 sm:text-base">
+                Alege etapa în care ești acum și descoperă programul construit
+                pentru ritmul, obiectivele și anul admiterii tale.
+              </p>
             </div>
-            <p className="max-w-md text-sm leading-7 text-smart-ink/62 sm:text-base">
-              Filtrează după tip sau format și vezi în timp real locurile rămase.
-              Înscrierea la fiecare eveniment rămâne independentă.
-            </p>
           </Reveal>
 
-          {context.flow === "simulare" && !contextualSimulation ? (
-            <div className="mt-8 rounded-[1.75rem] border border-smart-gold/30 bg-smart-gold/10 px-5 py-4 text-sm font-semibold text-smart-ink/72">
-              Următoarea simulare nu are încă înscrierile deschise. Poți vedea mai jos
-              toate experiențele disponibile sau reveni când publicăm data nouă.
-            </div>
-          ) : null}
+          <OrnamentalDivider className="my-12 sm:my-14" />
 
-          {eventResult.error ? (
-            <div className="mt-9 rounded-[2rem] border border-red-200 bg-red-50 p-6 text-sm font-semibold text-red-800">
-              {eventResult.error}
-            </div>
-          ) : events.length ? (
-            <EventExplorer
-              events={events}
-              initialSelectedEventId={contextualSimulation?.id ?? null}
-              initialTypeFilter={context.flow === "simulare" ? "simulation" : undefined}
-              prefill={prefill}
-              referenceNow={referenceNow}
-            />
-          ) : (
-            <div className="mt-10 rounded-[2.25rem] border border-dashed border-smart-teal/28 bg-white/52 px-6 py-16 text-center shadow-[0_20px_60px_rgba(3,17,28,0.05)]">
-              <CalendarDays aria-hidden="true" className="mx-auto size-10 text-smart-teal" />
-              <h3 className="mt-5 font-serif text-4xl font-semibold sm:text-5xl">
-                Pregătim următoarele date
-              </h3>
-              <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-smart-ink/60">
-                Calendarul va fi completat cu noile simulări, teste și webinarii.
-              </p>
+          <div className={parchmentStyles.grid}>
+            {trackedGradeChoices.map((choice) => (
+              <AdmissionParchmentCard {...choice} key={choice.grade} />
+            ))}
+          </div>
+
+          <Reveal>
+            <div className="mx-auto mt-14 flex max-w-4xl flex-col items-center justify-between gap-6 rounded-[2rem] border border-smart-teal/18 bg-white/32 px-6 py-7 text-center shadow-[0_24px_64px_rgba(31,111,120,0.07)] sm:px-9 lg:flex-row lg:text-left">
+              <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-smart-teal text-smart-white shadow-[0_14px_34px_rgba(31,111,120,0.18)]">
+                <Sparkles aria-hidden="true" className="size-6" />
+              </span>
+              <div className="flex-1">
+                <h2 className="font-serif text-3xl font-semibold sm:text-4xl">
+                  Nu știi încă ce program ți se potrivește?
+                </h2>
+                <p className="mt-2 text-sm leading-7 text-smart-ink/60">
+                  O întâlnire de orientare clarifică nivelul, obiectivul și
+                  următorul pas.
+                </p>
+              </div>
               <Link
-                className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-2xl bg-smart-dark px-6 text-sm font-bold text-smart-white transition hover:bg-smart-teal"
-                href="/contact"
+                className="inline-flex min-h-13 shrink-0 items-center gap-2 rounded-xl bg-smart-dark px-6 text-sm font-extrabold text-smart-gold-light transition hover:-translate-y-0.5 hover:bg-smart-teal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-smart-teal"
+                href="/evaluare"
               >
-                Vorbește cu echipa
+                Programează o întâlnire
                 <ArrowRight aria-hidden="true" className="size-4" />
               </Link>
             </div>
-          )}
+          </Reveal>
         </div>
-
-        <WaveSeparator fill="dark" />
       </section>
     </>
   );
